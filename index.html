@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" type="text/css" href="./style/style.css">
+		<script type="text/javascript" src="./lib/zip.js"></script>
+		<script type="text/javascript" src="./lib/zip-ext.js"></script>
+		<script type="text/javascript" src="./lib/ga.js"></script>
+		<script type="text/javascript" src="./script/main.js"></script>
+		<script type="text/javascript" src="./lib/stats.min.js"></script>
+		<script type="text/javascript" src="./lib/three.js"></script>
+		<script type="text/javascript" src="./lib/MTLLoader.js"></script>
+		<script type="text/javascript" src="./lib/OBJLoader.js"></script>
+		<script type="text/javascript" src="./lib/OrbitControls.js"></script>
+	</head>
+	<body>
+		<div class="main">
+			<div class="header">
+				<div class="cont"></div>
+			</div>
+			<div class="body">
+				<div class="cont">
+					<div class="title">DESIGN REVIEW - VISUALISATION</div>
+					<div class="info">
+						
+						<div class="info_text"></div>
+						<div class="graphics">
+							<div class="cont_button top">
+								<div class="btn">isometric</div>
+								<div class="btn">right</div>
+								<div class="btn">front</div>
+								<div class="btn">top</div>
+								<div class="btn_help">?</div>
+							</div>
+							<div class="word">
+								<div id='parent'>
+									<div class="preload"></div>
+									
+								</div>
+							</div>
+							<div class="cont_button bottom">
+								<div class="btn screen">screen capture</div>
+								<div class="btn_help">?</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var parent = document.getElementById('parent');
+			var main = new Main(parent);
+			var modelUrl = './data/mpanel.zip';
+			main.loadData(modelUrl);
+		</script>
+	</body>
+</html>
