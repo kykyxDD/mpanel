@@ -1,10 +1,11 @@
 body {
 	padding: 0;
 	margin: 0;
-	background-image: url(../image/review.jpg);
+	/*background-image: url(../image/review.jpg);*/
 	background-repeat: no-repeat;
 	background-position: center top;
 	font-family: Arial;
+	min-width: 1280px;
 }
 
 
@@ -147,6 +148,11 @@ body {
 	content: '';
 	top: 50%;
 	background-color: #a7a7a7;
+
+}
+.model_1,
+.model_2 {
+	width: 50px;
 
 }
 

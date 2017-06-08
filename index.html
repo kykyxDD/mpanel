@@ -37,11 +37,14 @@
 						<div class="info_text"></div>
 						<div class="graphics">
 							<div class="cont_button top">
-								<div class="btn">isometric</div>
-								<div class="btn">right</div>
-								<div class="btn">front</div>
-								<div class="btn">top</div>
+								<div class="btn isometric">isometric</div>
+								<div class="btn right">right</div>
+								<div class="btn front">front</div>
+								<div class="btn top">top</div>
+								<div class="btn model_1">1</div>
+								<div class="btn model_2">2</div>
 								<div class="btn_help">?</div>
+
 							</div>
 							<div class="word">
 								<div id='parent'></div>
@@ -68,6 +71,37 @@
 			var main = new Main(parent);
 			var modelUrl = './data/mpanel.zip';
 			main.loadData(modelUrl);
+			var model_1 = document.querySelector('.model_1');
+			var model_2 = document.querySelector('.model_2');
+
+			model_1.addEventListener('click', function(){
+				main.switchObj(0)
+			});
+			model_2.addEventListener('click', function(){
+				main.switchObj(1)
+			});
+
+
+			var btn_isometric = document.querySelector('.graphics .btn.isometric');
+			var btn_right = document.querySelector('.graphics .btn.right');
+			var btn_front = document.querySelector('.graphics .btn.front');
+			var btn_top = document.querySelector('.graphics .btn.top');
+
+			console.log(btn_isometric, btn_right, btn_front, btn_top)
+
+			btn_isometric.addEventListener('click', function(){
+				main.orientationIsometric();
+			})
+			btn_right.addEventListener('click', function(){
+				main.orientationRight();
+			})
+			btn_front.addEventListener('click', function(){
+				main.orientationFront();
+			})
+			btn_top.addEventListener('click', function(){
+				main.orientationTop();
+			})
+
 		</script>
 	</body>
 </html>

@@ -10,7 +10,7 @@ function Main(parent){
 	 aspect = this.width/this.height, 
 	   near = 1,
 		far = 1000;
-	var camera, scene, renderer, controls, light, light_1, shadowMapViewer;
+	var camera, camera_1, scene, scene_1, renderer, controls, light, light_1, shadowMapViewer;
 	var stats;
 	var self = this;
 
@@ -30,6 +30,110 @@ function Main(parent){
 		container.classList.add('threejs');
 		this.createCanvas();
 		this.createBtn()
+	};
+
+	this.createCanvas = function(){
+		this.preloadOpen();
+		this.width = this.parent.offsetWidth,
+		this.height = this.parent.offsetHeight
+		
+		aspect = this.width/this.height;
+		
+		renderer = new THREE.WebGLRenderer({antialias: true  });// antialias: true , preserveDrawingBuffer: true,, logarithmicDepthBuffer : true 
+		renderer.setPixelRatio( window.devicePixelRatio );
+		renderer.setClearColor(new THREE.Color(0xffffff));
+		renderer.setSize( this.width, this.height );
+		renderer.autoClear = false;
+		renderer.shadowMap.enabled = true;
+		renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+		container.appendChild( renderer.domElement );
+		renderer.domElement.id = 'canvas';
+
+		stats = new Stats();
+		// container.appendChild( stats.dom );
+
+		camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
+		camera.position.z = 30;
+
+		camera_1 = new THREE.PerspectiveCamera( fov, aspect, near, far );
+		camera_1.position.z = 30;
+
+		scene = new THREE.Scene();
+		scene_1 = new THREE.Scene();
+		var light_0 = new THREE.AmbientLight( 0xffffff, 0.5);
+		light_0.position.set(0, 1, 0)
+		scene.add(light_0)
+		// scene.add(new THREE.AmbientLight( 0xffffff, 0));//0.5
+		light = new THREE.DirectionalLight( 0xffffff, 1); //0.5
+		light.castShadow = true;
+		light.position.set(50,200,50);
+		light.shadow.bias = 0.006
+		//light.target.position.set(1,1,1)
+		light.target.position.set(0, 0, 0);
+
+		light.shadow.mapSize.width = 512; 
+		light.shadow.mapSize.height = 512; 
+		// light.shadow.radius = 10
+
+		light.shadow.camera.top = 30;
+		light.shadow.camera.bottom = -30;
+		light.shadow.camera.left = -30;
+		light.shadow.camera.right = 30;
+
+
+		light.shadow.camera.near = 180;
+		light.shadow.camera.far = 230;
+		light.shadow.darkness = 1;
+
+		light.shadow.radius = 1.5;
+
+
+		light.helper = new THREE.CameraHelper(light.shadow.camera)
+		light.helper.material.side = THREE.DoubleSide
+		// scene.add(light.helper)
+
+
+		scene.add(light);
+
+		controls = new THREE.OrbitControls( camera, renderer.domElement );
+		controls.addEventListener( 'change', this.render.bind(this) ); // remove when using animation loop
+		controls.maxPolarAngle = Math.PI/2 // - Math.PI/20;
+		controls.noPan = true;
+
+
+		window.addEventListener('resize', self.onWindowResize.bind(self));
+
+		this.createEnvironment();
+		this.preloadClose()
+
+		this.animate();
+	};
+
+	this.createBtn = function(){
+		var self = this;
+		var par = this.parent;
+		var cont_btn = createElem('div', par, 'navigation');
+
+		var cont_top = createElem('div', cont_btn, 'cont_btn_top');
+		var cont_bottom = createElem('div', cont_btn, 'cont_btn_bottom'); 
+
+		var btn_top = createElem('div', cont_top, 'nav top');
+		btn_top.addEventListener('click', function(){
+			self.rotateUp(-1);
+		})
+
+		var btn_left = createElem('div', cont_bottom, 'nav left');
+		btn_left.addEventListener('click', function(){
+			self.rotateLeft(-1);
+		})
+		var btn_bottom = createElem('div', cont_bottom, 'nav bottom');
+		btn_bottom.addEventListener('click', function(){
+			self.rotateUp(1);
+		})
+		var btn_right = createElem('div', cont_bottom, 'nav right');
+		btn_right.addEventListener('click', function(){
+			self.rotateLeft(1);
+		})
 	};
 
 	this.loadData = function(url){
@@ -60,33 +164,46 @@ function Main(parent){
 	this.getObjMtl = function(entries){
 		if(!this.obj_data) {
 			this.obj_data = new THREE.Object3D();
+			// light.target = targetObject;
 			scene.add(this.obj_data);
 		}
 
 		if(this.obj_data.children){
-			// console.log('child')
 			this.removePrevData()
 		}
 
 		var self = this;
 		this.num_load_text = 0;
 		this.allBoxObj = [];
+		this.arr_obj = [];
+		self.res_obj = false
 		entries.forEach(function(entry){
+			// if(self.res_obj) return
 			if(entry.filename.indexOf('.obj') > -1 ){
 				var path = entry.filename.split('/');
 				var name = path[path.length-1].split('.');
 				var mtl = getMtl(name[0]);
 				if(mtl){
+					
 					self.num_load_text++;
 					entry.getData(new zip.TextWriter("text/html"), function(text_entry){
 						mtl.getData(new zip.TextWriter("text/html"), function(text_mtl){
+
 							var obj = {
 								obj: text_entry,
 								mtl: text_mtl
 							};
-							self.loadObjScane(obj);
+							if(!self.res_obj){
+								self.item_obj = obj;
+								self.loadObjScane(obj);
+								
+							}
+							self.arr_obj.push(obj)
+							
+							self.res_obj = true
 						});
 					})
+
 				}
 			}
 		});
@@ -103,6 +220,22 @@ function Main(parent){
 		}
 	};
 
+	this.switchObj = function(index){
+		var obj = this.arr_obj[index];
+		if(obj){
+			this.clearObj(obj);
+		}
+	};
+	
+	this.clearObj = function(obj){
+		if(this.item_obj != obj){
+			this.preloadOpen()
+			this.removePrevData();
+			this.loadObjScane(obj)
+			this.item_obj = obj;
+		}
+	}
+
 	this.loadObjScane = function(info){
 		var loader = new THREE.OBJLoader();
 		var mtlLoader = new THREE.MTLLoader();
@@ -113,45 +246,49 @@ function Main(parent){
 		loader.setMaterials( materials );
 
 		var object = loader.parse( info.obj);
-		// console.log(object.position)
 
 		var box = new THREE.Box3().setFromObject(object);
-		// console.log('box', box);
+
 		this.allBoxObj.push(box)
-		object.castShadow = true;
-		// this.obj_data.castShadow = true;
-		object.castShadow = true;
+
+		object.castShadow = true; 
+		object.receiveShadow = true;
+		object.traverse( function(child){
+			if(child instanceof THREE.Mesh){
+				child.castShadow = true;
+				child.reciveShadow = true;
+			}
+		});
 		this.obj_data.add( object );
 		this.preloadClose();
-		this.updateCenterObj()
+		this.updateCenterObj(box, object)
 	};
-	this.updateCenterObj = function(){
-		var arr = this.allBoxObj
-		// console.log(arr)
+	this.updateCenterObj = function(box, root){
 		
-		var min = arr[0].min;
-		var max = arr[0].max;
-
-		if(arr.length > 1){
-			for(var i = 1; i < arr.length; i++){
-				min.x = Math.min(min.x,  arr[i].min.x);
-				min.y = Math.min(min.y,  arr[i].min.y);
-				min.z = Math.min(min.z,  arr[i].min.z);
-
-				max.x = Math.max(max.x,  arr[i].max.x);
-				max.y = Math.max(max.y,  arr[i].max.y);
-				max.z = Math.max(max.z,  arr[i].max.z);
-			}
-		}
-		this.obj_data.position.y = -(max.y - min.y)/2;
-
-		// console.log(min, max)
+		var min = box.min;
+		var max = box.max;
 		var dis_x = (min.x + max.x)/2;
 		var dis_z = (min.z + max.z)/2;
-		this.obj_plane.position.y = min.y + this.obj_data.position.y;
-		this.obj_plane.position.x = -dis_x;
-		this.obj_plane.position.z = -dis_z;
-		console.log(this.obj_plane.position)
+
+		var box = new THREE.Box3
+		root.traverse(function(object) {
+			if(!object.geometry) return
+
+			if(!object.geometry.boundingBox) {
+				object.geometry.computeBoundingBox()
+			}
+
+			box.union(object.geometry.boundingBox)
+		})
+
+		var center = box.getCenter()
+
+		this.render();
+
+		controls.target.y = center.y;
+		root.position.x = -center.x
+		root.position.z = -center.z
+
 	};
 	this.removePrevData = function(){
 		var group = this.obj_data;
@@ -161,119 +298,155 @@ function Main(parent){
 		}
 	};
 
-	this.createCanvas = function(){
-		this.preloadOpen();
-		this.width = this.parent.offsetWidth,
-		this.height = this.parent.offsetHeight
-		
-		aspect = this.width/this.height;
-		
-		renderer = new THREE.WebGLRenderer({antialias: true  });// antialias: true , preserveDrawingBuffer: true,, logarithmicDepthBuffer : true 
-		renderer.setPixelRatio( window.devicePixelRatio );
-		renderer.setClearColor(new THREE.Color(0xffffff));
-		renderer.setSize( this.width, this.height );
-		renderer.autoClear = false;
-		// renderer.shadowMap = true;
-		renderer.shadowMap.enabled = true;
-		renderer.shadowMap.type = THREE.PCFShadowMap;
-		container.appendChild( renderer.domElement );
-		renderer.domElement.id = 'canvas';
-
-		stats = new Stats();
-		container.appendChild( stats.dom );
-
-		camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
-		camera.position.z = 100;
-
-		scene = new THREE.Scene();
-		// scene.add(new THREE.AmbientLight( 0xffffff, 0));//0.5
-		light = new THREE.DirectionalLight( 0xffffff, 1 ); //0.5
 
 
-		light.shadow = new THREE.LightShadow( new THREE.PerspectiveCamera( 50, 1, 10, 2500 ) );
-		light.shadow.bias = 0.0001;
-		light.shadow.mapSize.width = 2048;
-		light.shadow.mapSize.height = 1024;
-		// light.target.position.set(0.3, -0.7, 0.2);
-		light.position.set(0, 100, 0);
-		// light_1.position.set(300, 300, 300);
-		// light_1.castShadow = true;
-		// light_1.shadow = new THREE.LightShadow( new THREE.PerspectiveCamera( 50, 1, 10, 2500 ) );
-		// light_1.shadow.bias = 0.0001;
-		// light_1.shadow.mapSize.width = 2048;
-		// light_1.shadow.mapSize.height = 1024;
+	this.skyBox = function(){
+		var materials = [];
+		var path = './image/skybox/';
+		var images =  ['nx', 'px', 'py', 'ny', 'pz', 'nz'];
+		for (var i=0; i<6; i++) {
+			var img = new Image();
+			img.src = path + images[i] + '.jpg';
+			var tex = new THREE.Texture(img);
+			img.tex = tex;
+			img.onload = function() {
+				this.tex.needsUpdate = true;
+			};
+			var mat = new THREE.MeshBasicMaterial({map: tex , side : THREE.BackSide});
+			materials.push(mat);
+		}
+		var cubeGeo = new THREE.CubeGeometry(400,400,400,1,1,1);
+		var cube = new THREE.Mesh(cubeGeo, new THREE.MeshFaceMaterial(materials));
 
+		scene_1.add(cube);
+	}
 
-// 		shadowMapViewer = new THREE.ShadowMapViewer( light );  
-// shadowMapViewer.position.x = 10;
-// shadowMapViewer.position.y = 10;
-// shadowMapViewer.size.width = 2048 / 4;
-// shadowMapViewer.size.height = 1024 / 4;
-// shadowMapViewer.update();
+	this.createRoundTexture = function() {
+		var color = '#778eba'
+		var r = 10000
+		var s = 512
 
-//Note: this goes inside render loop
-// shadowMapViewer.render(renderer);
+		var canvas = document.createElement('canvas')
+		var context = canvas.getContext('2d')
 
-		// scene.add(light);
-		scene.add(light);
+		canvas.width = s
+		canvas.height = s
+		context.fillStyle = color
+		context.fillRect(0, 0, s, s)
 
-		controls = new THREE.OrbitControls( camera, renderer.domElement );
-		controls.addEventListener( 'change', this.render.bind(this) ); // remove when using animation loop
-		// controls.maxPolarAngle = Math.PI/2 // - Math.PI/20;
-		controls.noPan = true;
+		var pix = context.getImageData(0, 0, s, s)
+		var d = pix.data
 
-		window.addEventListener('resize', self.onWindowResize.bind(self));
+		for(var y = 0; y < s; y++)
+		for(var x = 0; x < s; x++) {
+			var i = (y * s + x) * 4
 
-		this.createEnvironment();
-		this.preloadClose()
+			var cx = x - s/2
+			var cy = y - s/2
 
-		this.animate();
-	};
+			d[i+3] = 255 * Math.min(1, Math.max(0, r / (cx * cx + cy * cy)))
+		}
+
+		context.putImageData(pix, 0, 0)
+
+		var texture = new THREE.Texture(canvas)
+		texture.minFilter = THREE.LinearFilter
+		texture.magFilter = THREE.LinearFilter
+		texture.needsUpdate = true
+
+		return texture
+	}
 
 	this.createEnvironment = function(){
-		console.log("createEnvironment")
-		var obj = new THREE.Object3D();
-		scene.add(obj);
-		obj.receiveShadow = true;
-		// this.obj_plane = obj;
-		var size = 500,
-		segments = 60;
+		// console.log("createEnvironment")
 
-		var geometry = new THREE.PlaneGeometry( size, size, segments, segments );
-		var materials = [
-			new THREE.MeshLambertMaterial( { opacity:0.6,
-				color: 0x44ff44,transparent:true } ),
-			new THREE.MeshBasicMaterial( { color: 0x808080,
-				wireframe: true } )
-		];
-		var plane = THREE.SceneUtils.createMultiMaterialObject(geometry,materials);
+		var size = 50,
+		segments = 30;
+
+		var sphereGeometry = new THREE.SphereBufferGeometry( 5, 32, 32 );
+		var sphereMaterial = new THREE.MeshStandardMaterial( { color: 0xff0000 } );
+		var sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
+		sphere.castShadow = true; 
+		sphere.receiveShadow = false; 
+
+		// var texture = this.createRoundTexture()
+
+		var planeGeometry = new THREE.PlaneBufferGeometry( size, size, 32, 32 );
+		var planeMaterial = new THREE.MeshStandardMaterial( { color: 0x8EADC9, transparent: true, opacity: 0.3 } )
+		planeMaterial.metalness = 0
+
+
+		var plane = new THREE.Mesh( planeGeometry, planeMaterial );
+		plane.receiveShadow = true;
+		// plane.material.transparent
+		scene.add( plane );
 
 		plane.rotation.x = -Math.PI/2;
-		plane.receiveShadow = true
-
-		// obj.add( plane );
-		// this.obj_data = new THREE.Object3D();
-		this.obj_plane = plane//obj;
-		scene.add( plane );
-		this.obj_data = new THREE.Object3D();
-		// this.obj_data.castShadow = true
 		plane.receiveShadow = true;
+		this.obj_plane = plane;
+		scene.add( plane );
+
+
+		this.obj_data = new THREE.Object3D();
 		this.obj_data.castShadow = true;
 		scene.add(this.obj_data);
+
+
+		this.skyBox()
 	};
-	this.createBtn = function(){
-		var par = this.parent;
-		var cont_btn = createElem('div', par, 'navigation');
 
-		var cont_top = createElem('div', cont_btn, 'cont_btn_top');
-		var cont_bottom = createElem('div', cont_btn, 'cont_btn_bottom'); 
-
-		var btn_top = createElem('div', cont_top, 'nav top');
-
-		var btn_left = createElem('div', cont_bottom, 'nav left');
-		var btn_bottom = createElem('div', cont_bottom, 'nav bottom');
-		var btn_right = createElem('div', cont_bottom, 'nav right');
+	this.rotateUp = function(index){
+		scaleTween.stop();
+		var top = index*Math.PI/8;
+		scaleTween.target.up += top
+		scaleTween.start()
 	}
+	this.rotateLeft = function(index){
+		scaleTween.stop();
+		var left = index*Math.PI/4;
+		scaleTween.target.left += left
+		scaleTween.start()
+	}
+	this.orientationIsometric = function(){
+		console.log('orientationIsometric', this)
+	};
+	this.orientationRight = function(){
+		console.log('orientationRight', this)
+	};
+	this.orientationFront = function(){
+		console.log('orientationFront', this)
+	};
+	this.orientationTop = function(){
+		console.log('orientationTop', this)
+	};
+
+/*   ----   ----  */
+
+	var scaleTween = new TWEEN.Tween({ left: 0, up: 0 })
+		.to({ left: 0, up: 0 }, 300)
+		.easing(TWEEN.Easing.Cubic.Out)
+		.onUpdate(scaleTweenUpdate)
+
+	this.rotate = {
+		left: 0, up: 0
+	}
+
+	function scaleTweenUpdate() {
+		
+		var dist_up = scaleTween.source.up - self.rotate.up   //- scaleTween.target.left
+		var dist_left = scaleTween.source.left - self.rotate.left   //- scaleTween.target.left
+		self.rotate.up = scaleTween.source.up;
+		self.rotate.left = scaleTween.source.left;
+		controls.rotateUp(dist_up)
+		controls.rotateLeft(dist_left)
+	}
+
+	function scaleTweenComplete() {
+
+	}
+
+
+
 	function createElem(tag, par, class_name){
 		var elem = document.createElement(tag);
 		if(class_name){
@@ -306,14 +479,19 @@ function Main(parent){
 	this.onWindowResize = onWindowResize;
 
 	this.animate = function() {
-		stats.update();
+		// stats.update();
 		controls.update();
 
 		self.render();
 		requestAnimationFrame( self.animate );
 	};
 	this.render = function() {
+		TWEEN.update();
 		renderer.clear();
+
+		camera_1.rotation.copy(camera.rotation);
+		renderer.render(scene_1, camera_1)
+		renderer.clearDepth();
 		renderer.render(scene, camera)
 	};
 
