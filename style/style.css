@@ -102,6 +102,15 @@ body {
 	color: #848484;
 	margin-left: 5px;
 }
+.graphics .btn.isometric label {
+	display: block;
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+}
+.graphics .btn.isometric input {
+	display: none;
+}
 
 .graphics .word {
 	
@@ -130,7 +139,7 @@ body {
 .footer .btn.next {
 	text-indent: 48px;
 }
-.footer .btn.active {
+.btn.active {
 	color: white;
 	border-color: #f28310;
 	background: #f6890a;
@@ -153,7 +162,7 @@ body {
 .model_1,
 .model_2 {
 	width: 50px;
-
+	/*transition: background 1s ease;*/
 }
 
 .footer .btn.back:before,

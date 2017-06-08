@@ -21,6 +21,8 @@
 		<script type="text/javascript" src="./lib/tween.js"></script>
 		<script type="text/javascript" src="./lib/EventEmitter.js"></script>
 		<script type="text/javascript" src="./lib/Momentum.js"></script>
+		<script type="text/javascript" src="./lib/CombinedCamera.js"></script>
+		
 		<!-- <script type="text/javascript" src="./lib/THREE.OrbitControls.js"></script> -->
 
 	</head>
@@ -37,7 +39,12 @@
 						<div class="info_text"></div>
 						<div class="graphics">
 							<div class="cont_button top">
-								<div class="btn isometric">isometric</div>
+								<div class="btn isometric">
+									<label for="isometric" > 
+										<input type="checkbox" value="1" id='isometric'> 
+										isometric
+									</label>
+								</div>
 								<div class="btn right">right</div>
 								<div class="btn front">front</div>
 								<div class="btn top">top</div>
@@ -68,38 +75,57 @@
 		</div>
 		<script type="text/javascript">
 			var parent = document.getElementById('parent');
-			var main = new Main(parent);
-			var modelUrl = './data/mpanel.zip';
-			main.loadData(modelUrl);
+			var mpanel = new MpanelViewer(parent);
+			// var modelUrl = './data/mpanel.zip';
+			var url_img = './image/texture.jpg';
+			var arr_url = [ './data/MPSD2.obj', './data/as2.obj' ];
+			//main.loadObj(modelUrl);
+			mpanel.loadObj(arr_url[0])
+
 			var model_1 = document.querySelector('.model_1');
 			var model_2 = document.querySelector('.model_2');
+			model_1.classList.add('active');
 
 			model_1.addEventListener('click', function(){
-				main.switchObj(0)
+				//main.switchObj(0)
+				model_1.classList.add('active');
+				model_2.classList.remove('active');
+				mpanel.loadObj( arr_url[0] )
 			});
 			model_2.addEventListener('click', function(){
-				main.switchObj(1)
+				//main.switchObj(1)
+				model_2.classList.add('active');
+				model_1.classList.remove('active');
+				mpanel.loadObj( arr_url[1], url_img )
 			});
 
-
 			var btn_isometric = document.querySelector('.graphics .btn.isometric');
+			var input_isometric = document.getElementById('isometric'); // document.querySelector('.graphics .btn.isometric');
 			var btn_right = document.querySelector('.graphics .btn.right');
 			var btn_front = document.querySelector('.graphics .btn.front');
 			var btn_top = document.querySelector('.graphics .btn.top');
 
-			console.log(btn_isometric, btn_right, btn_front, btn_top)
+			// console.log(btn_isometric, btn_right, btn_front, btn_top)
 
-			btn_isometric.addEventListener('click', function(){
-				main.orientationIsometric();
-			})
+			// btn_isometric.addEventListener('click', function(){
+			// 	mpanel.perspective();
+			// })
+			input_isometric.addEventListener('change', function(){
+				if(this.checked){
+					btn_isometric.classList.add('active');
+				} else {
+					btn_isometric.classList.remove('active');
+				}
+				mpanel.perspective(this.checked);
+			});
 			btn_right.addEventListener('click', function(){
-				main.orientationRight();
+				mpanel.viewRight();
 			})
 			btn_front.addEventListener('click', function(){
-				main.orientationFront();
+				mpanel.viewFront();
 			})
 			btn_top.addEventListener('click', function(){
-				main.orientationTop();
+				mpanel.viewTop();
 			})
 
 		</script>

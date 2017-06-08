@@ -1,4 +1,4 @@
-function Main(parent){
+function MpanelViewer(parent){
 	
 	var container;
 	var preload;
@@ -8,38 +8,43 @@ function Main(parent){
 	this.height = parent.offsetHeight
 	var fov = 50, 
 	 aspect = this.width/this.height, 
+		orthoNear = -500,
+		orthoFar = 1000,
 	   near = 1,
 		far = 1000;
 	var camera, camera_1, scene, scene_1, renderer, controls, light, light_1, shadowMapViewer;
 	var stats;
 	var self = this;
 
+
 	this.init = function(div){
+		// this.preloadOpen();
 		
 		if(div) {
 			container = div;
 			preload = container.querySelector('.preload');
 			if(!preload) {
 				preload = document.createElement('div');
-				preload.className = 'preload';
+				preload.className = 'preload show';
 				container.appendChild(preload);
 			}
 		}
-		this.preloadOpen();
-		
+		// this.preloadOpen();
+
 		container.classList.add('threejs');
 		this.createCanvas();
 		this.createBtn()
 	};
 
 	this.createCanvas = function(){
-		this.preloadOpen();
+		
 		this.width = this.parent.offsetWidth,
 		this.height = this.parent.offsetHeight
 		
 		aspect = this.width/this.height;
 		
 		renderer = new THREE.WebGLRenderer({antialias: true  });// antialias: true , preserveDrawingBuffer: true,, logarithmicDepthBuffer : true 
+		renderer.domElement.style.backgroundColor = '#fff';
 		renderer.setPixelRatio( window.devicePixelRatio );
 		renderer.setClearColor(new THREE.Color(0xffffff));
 		renderer.setSize( this.width, this.height );
@@ -52,10 +57,11 @@ function Main(parent){
 		stats = new Stats();
 		// container.appendChild( stats.dom );
 
-		camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
+		camera = new THREE.CombinedCamera(this.width, this.height, fov, near, far, orthoNear, orthoFar )// ( fov, aspect, near, far );
 		camera.position.z = 30;
+		camera.zoom = 20
 
-		camera_1 = new THREE.PerspectiveCamera( fov, aspect, near, far );
+		camera_1 = new THREE.CombinedCamera(this.width, this.height, fov, near, far, orthoNear, orthoFar )// ( fov, aspect, near, far );
 		camera_1.position.z = 30;
 
 		scene = new THREE.Scene();
@@ -64,7 +70,31 @@ function Main(parent){
 		light_0.position.set(0, 1, 0)
 		scene.add(light_0)
 		// scene.add(new THREE.AmbientLight( 0xffffff, 0));//0.5
+		
+
+
+		// light.helper = new THREE.CameraHelper(light.shadow.camera)
+		// light.helper.material.side = THREE.DoubleSide
+		// scene.add(light.helper)
+
+
+		
+
+		controls = new THREE.OrbitControls( camera, renderer.domElement );
+		controls.addEventListener( 'change', this.render.bind(this) ); // remove when using animation loop
+		controls.maxPolarAngle = Math.PI/2 // - Math.PI/20;
+		controls.noPan = true;
+
+
+		window.addEventListener('resize', self.onWindowResize.bind(self));
+
+		this.createEnvironment();
+		
+
+		this.animate();
+
 		light = new THREE.DirectionalLight( 0xffffff, 1); //0.5
+		scene.add(light);
 		light.castShadow = true;
 		light.position.set(50,200,50);
 		light.shadow.bias = 0.006
@@ -87,26 +117,6 @@ function Main(parent){
 
 		light.shadow.radius = 1.5;
 
-
-		light.helper = new THREE.CameraHelper(light.shadow.camera)
-		light.helper.material.side = THREE.DoubleSide
-		// scene.add(light.helper)
-
-
-		scene.add(light);
-
-		controls = new THREE.OrbitControls( camera, renderer.domElement );
-		controls.addEventListener( 'change', this.render.bind(this) ); // remove when using animation loop
-		controls.maxPolarAngle = Math.PI/2 // - Math.PI/20;
-		controls.noPan = true;
-
-
-		window.addEventListener('resize', self.onWindowResize.bind(self));
-
-		this.createEnvironment();
-		this.preloadClose()
-
-		this.animate();
 	};
 
 	this.createBtn = function(){
@@ -136,12 +146,14 @@ function Main(parent){
 		})
 	};
 
-	this.loadData = function(url){
+	/*this.loadObj = function(url, fabricexture){
 		this.preloadOpen()
 		var self = this;
 
+		this.fabricexture = fabricexture ? fabricexture : false;
+
 		var arr = [];
-		var files = []
+		var files = [];
 		
 		var request = new XMLHttpRequest();
 		request.open("GET", url, true);
@@ -160,8 +172,78 @@ function Main(parent){
 		request.responseType = 'arraybuffer';
 
 		request.send();
+	};*/
+	this.loadObj = function(url_obj, url_img ){
+
+		//this.preloadOpen();
+		var self = this
+		var loader_obj = new THREE.OBJLoader();
+
+		if(url_img){
+			var textureLoader = new THREE.TextureLoader();
+			textureLoader.load(url_img, function(texture){
+				// self.map_texture = texture;
+				load_file_obj(texture)
+			});
+		} else {
+			var mtlLoader = new THREE.MTLLoader();
+			// mtlLoader.setPath('obj/male02/');
+			var path = url_obj.split('/');
+			var url_path = path.slice(0, path.length-1).join('/');
+			// console.log('url_path', url_path)
+			var file_name_obj = path[path.length-1];
+			var name = file_name_obj.split('.');
+			var file_name_mtl = name.slice(0, path.length-2).join('.') + '.mtl';
+			var url_mtl = [url_path, file_name_mtl].join('/');
+
+
+			mtlLoader.load(url_mtl, function(materials) {
+				materials.preload();
+				loader_obj.setMaterials(materials);
+				load_file_obj()
+			});
+		}
+
+		function load_file_obj(texture){
+			loader_obj.load(url_obj, function(object){
+				// console.log('obj:',object)
+				self.createObj(object, texture);
+			})
+		}
+		
+
 	};
-	this.getObjMtl = function(entries){
+
+
+	this.createObj = function(object, texture){
+		this.render()
+		this.removePrevData();
+
+		var box = new THREE.Box3().setFromObject(object);
+
+		object.castShadow = true; 
+		object.receiveShadow = true;
+		object.traverse( function(child){
+			if(child instanceof THREE.Mesh){
+
+				if(texture && (child.name == 'membrane_top' || child.name == 'membrane_bottom') ){
+
+					child.material.map = texture;
+					child.material.map.wrapS = child.material.map.wrapT = THREE.RepeatWrapping; 
+					child.material.map.repeat.set( 5, 4 );
+					child.material.map.needsUpdate = true;
+					child.material.needsUpdate = true;
+
+				}
+				child.castShadow = true;
+				child.reciveShadow = true;
+			}
+		});
+		this.obj_data.add( object );
+		this.preloadClose();
+		this.updateCenterObj(box, object)
+	}
+	/*this.getObjMtl = function(entries){
 		if(!this.obj_data) {
 			this.obj_data = new THREE.Object3D();
 			// light.target = targetObject;
@@ -176,6 +258,7 @@ function Main(parent){
 		this.num_load_text = 0;
 		this.allBoxObj = [];
 		this.arr_obj = [];
+		this.arr_img_obj = [];
 		self.res_obj = false
 		entries.forEach(function(entry){
 			// if(self.res_obj) return
@@ -186,16 +269,17 @@ function Main(parent){
 				if(mtl){
 					
 					self.num_load_text++;
-					entry.getData(new zip.TextWriter("text/html"), function(text_entry){
-						mtl.getData(new zip.TextWriter("text/html"), function(text_mtl){
+					entry.getData(new zip.TextWriter(), function(text_entry){
+						mtl.getData(new zip.TextWriter(), function(text_mtl){
 
 							var obj = {
 								obj: text_entry,
-								mtl: text_mtl
+								mtl: text_mtl,
+								id: name[0]
 							};
 							if(!self.res_obj){
 								self.item_obj = obj;
-								self.loadObjScane(obj);
+								self.loadObjScene(obj);
 								
 							}
 							self.arr_obj.push(obj)
@@ -205,6 +289,23 @@ function Main(parent){
 					})
 
 				}
+			} else if(entry.filename.indexOf('.jpg') > -1 || entry.filename.indexOf('.png') > -1){
+
+				entry.getData(new zip.BlobWriter(), function(blob){
+					//var url = entry.filename
+					var url = URL.createObjectURL(blob);
+					console.log('url',url)
+					var image = new Image();
+					image.src = url;
+
+					var obj_img = {
+						img: image,
+						file_name: entry.filename
+					}
+					self.arr_img_obj.push(obj_img)
+					// console.log(self.arr_img_obj)
+				})
+				
 			}
 		});
 		this.preloadClose()
@@ -218,7 +319,7 @@ function Main(parent){
 			});
 			return res
 		}
-	};
+	};*/
 
 	this.switchObj = function(index){
 		var obj = this.arr_obj[index];
@@ -228,15 +329,16 @@ function Main(parent){
 	};
 	
 	this.clearObj = function(obj){
-		if(this.item_obj != obj){
-			this.preloadOpen()
+		// if(this.item_obj != obj){
+			// this.preloadOpen()
 			this.removePrevData();
-			this.loadObjScane(obj)
-			this.item_obj = obj;
-		}
+			// this.loadObjScene(obj)
+			// this.item_obj = obj;
+		// }
 	}
 
-	this.loadObjScane = function(info){
+	this.loadObjScene = function(info){
+		this.viewFront()
 		var loader = new THREE.OBJLoader();
 		var mtlLoader = new THREE.MTLLoader();
 		var self = this;
@@ -255,6 +357,31 @@ function Main(parent){
 		object.receiveShadow = true;
 		object.traverse( function(child){
 			if(child instanceof THREE.Mesh){
+				// console.log('child',child)
+				/*if(child.name == 'membrane_top'){
+					console.log('membrane_top')
+				} else if(child.name == 'membrane_bottom'){
+					console.log('membrane_bottom')
+				}*/
+//self.fabricexture &&
+				if(self.fabricexture && child.name == 'membrane_top' ){// || child.name == 'membrane_bottom'
+					/*child.material.map = new THREE.TextureLoader.load( "./image/ShadeDesigner_Logo.jpg" ); 
+					child.material.map.needsUpdate = true;*/
+					/*var textureLoader = new THREE.TextureLoader();
+
+        			textureLoader.load( "./image/ShadeDesigner_Logo.jpg" , function(texture){
+        				child.material.map = texture;//new THREE.TextureLoader.load( "./image/ShadeDesigner_Logo.jpg" ); 
+						child.material.map.needsUpdate = true;
+        			})*/
+					var texture = THREE.ImageUtils.loadTexture("./image/texture.jpg");
+					child.material.color.setRGB(1,1,1)
+					// console.log(child.material.transparent)
+
+					child.material.map = texture;
+					child.material.map.needsUpdate = true;
+					child.material.needsUpdate = true;
+
+				}
 				child.castShadow = true;
 				child.reciveShadow = true;
 			}
@@ -286,8 +413,11 @@ function Main(parent){
 		this.render();
 
 		controls.target.y = center.y;
-		root.position.x = -center.x
-		root.position.z = -center.z
+		root.position.x = -center.x;
+		root.position.z = -center.z;
+
+		//this.cube.position.x = box.width //center.x;
+		//this.cube.position.z = box.height//center.z;
 
 	};
 	this.removePrevData = function(){
@@ -301,6 +431,7 @@ function Main(parent){
 
 
 	this.skyBox = function(){
+		var self = this
 		var materials = [];
 		var path = './image/skybox/';
 		var images =  ['nx', 'px', 'py', 'ny', 'pz', 'nz'];
@@ -311,12 +442,14 @@ function Main(parent){
 			img.tex = tex;
 			img.onload = function() {
 				this.tex.needsUpdate = true;
+				self.preloadClose()
 			};
 			var mat = new THREE.MeshBasicMaterial({map: tex , side : THREE.BackSide});
 			materials.push(mat);
 		}
 		var cubeGeo = new THREE.CubeGeometry(400,400,400,1,1,1);
 		var cube = new THREE.Mesh(cubeGeo, new THREE.MeshFaceMaterial(materials));
+		this.cube = cube
 
 		scene_1.add(cube);
 	}
@@ -386,38 +519,127 @@ function Main(parent){
 		this.obj_plane = plane;
 		scene.add( plane );
 
-
 		this.obj_data = new THREE.Object3D();
 		this.obj_data.castShadow = true;
 		scene.add(this.obj_data);
 
-
 		this.skyBox()
 	};
+	var step_up = Math.PI/6;
+	var step_left = Math.PI/4;
 
 	this.rotateUp = function(index){
 		scaleTween.stop();
-		var top = index*Math.PI/8;
+		var top = index*step_up;
 		scaleTween.target.up += top
 		scaleTween.start()
 	}
 	this.rotateLeft = function(index){
 		scaleTween.stop();
-		var left = index*Math.PI/4;
+		var left = index*step_left;
 		scaleTween.target.left += left
 		scaleTween.start()
 	}
-	this.orientationIsometric = function(){
-		console.log('orientationIsometric', this)
+	function valUpFrontObj(){
+		var phi = controls.spherical.phi;
+		var diff = Math.floor((  phi - controls.maxPolarAngle)/step_up);
+		// console.log('diff',diff)
+		return diff 
+	}
+
+	function valLeftFrontObj(){
+		var theta = controls.spherical.theta;
+		var diff = theta%(Math.PI*2);
+		var delta;
+
+		if(diff < Math.PI) {
+			delta = diff;
+		} else {
+			delta = diff - Math.PI*2;
+		}
+		var diff = delta/step_left;
+
+		return diff
+
+	}
+
+	function valUpTopObj(){
+		var phi = controls.spherical.phi;
+		var diff = Math.floor((phi - controls.minPolarAngle)/step_up);
+		// console.log('diff',diff)
+		return diff 
+
+	}
+
+	function valPerspectiveUpObj(){
+		var phi = controls.spherical.phi;
+		var diff = ((phi - (Math.PI/4) - controls.minPolarAngle)/step_up);
+		return diff
+	}
+	function valPerspectiveLeftObj(){
+		var theta = controls.spherical.theta;
+		var delta = theta - Math.PI/4;		
+		var diff = checkDelta(delta)/step_left;
+		// console.log('diff',diff)
+		return diff
+	}
+
+	function valRightObj(){
+
+		var theta = controls.spherical.theta;
+		var delta = theta - Math.PI/2;
+		
+		var diff = checkDelta(delta)/step_left;
+
+		return diff
+	}
+	function checkDelta(delta){
+		return Math.abs(delta) > Math.PI ? delta - 2*Math.PI*(delta / Math.abs(delta)) : delta;
+	}
+	this.perspective = function(camera_perspective){
+
+		if(camera_perspective){
+			
+			camera.toOrthographic();
+			camera_1.toOrthographic();
+		} else { 
+			camera.toPerspective();
+			camera_1.toPerspective();
+		}
+
+
+		/*if(camera_perspective){
+			camera.toPerspective();
+			camera_1.toPerspective();
+		} else { 
+			camera.toOrthographic();
+			camera_1.toOrthographic();
+		}*/
+
 	};
-	this.orientationRight = function(){
-		console.log('orientationRight', this)
+	this.viewRight = function(){
+
+		var diff = valRightObj()
+		this.rotateLeft(diff)
+
+		var diff_up = valUpFrontObj()
+		this.rotateUp(diff_up)
 	};
-	this.orientationFront = function(){
-		console.log('orientationFront', this)
+	this.viewFront = function(){
+
+		if(controls.spherical.theta != 0){
+			var diff_left = valLeftFrontObj()
+			this.rotateLeft(diff_left)		
+		}
+
+		var diff_up = valUpFrontObj()
+		this.rotateUp(diff_up)
 	};
-	this.orientationTop = function(){
-		console.log('orientationTop', this)
+	this.viewTop = function(){
+
+		var diff = valUpTopObj()
+		this.rotateUp(diff)
+
 	};
 
 /*   ----   ----  */
@@ -433,8 +655,8 @@ function Main(parent){
 
 	function scaleTweenUpdate() {
 		
-		var dist_up = scaleTween.source.up - self.rotate.up   //- scaleTween.target.left
-		var dist_left = scaleTween.source.left - self.rotate.left   //- scaleTween.target.left
+		var dist_up = scaleTween.source.up - self.rotate.up;
+		var dist_left = scaleTween.source.left - self.rotate.left;
 		self.rotate.up = scaleTween.source.up;
 		self.rotate.left = scaleTween.source.left;
 		controls.rotateUp(dist_up)
@@ -468,10 +690,10 @@ function Main(parent){
 	};
 
 	function onWindowResize() {
-		this.width = parent.offsetWidth,
-		this.height = parent.offsetHeight
+		this.width = parent.offsetWidth;
+		this.height = parent.offsetHeight;
 
-		camera.aspect = this.width / this.height;
+		camera.setSize(this.width, this.height);
 		camera.updateProjectionMatrix();
 
 		renderer.setSize( this.width, this.height );
@@ -489,8 +711,12 @@ function Main(parent){
 		TWEEN.update();
 		renderer.clear();
 
-		camera_1.rotation.copy(camera.rotation);
-		renderer.render(scene_1, camera_1)
+		if(camera.inPerspectiveMode){
+			camera_1.rotation.copy(camera.rotation);
+			renderer.render(scene_1, camera_1)	
+		}
+
+		
 		renderer.clearDepth();
 		renderer.render(scene, camera)
 	};
