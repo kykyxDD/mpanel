@@ -18,8 +18,7 @@ function MpanelViewer(parent){
 
 
 	this.init = function(div){
-		// this.preloadOpen();
-		
+
 		if(div) {
 			container = div;
 			preload = container.querySelector('.preload');
@@ -29,7 +28,6 @@ function MpanelViewer(parent){
 				container.appendChild(preload);
 			}
 		}
-		// this.preloadOpen();
 
 		container.classList.add('threejs');
 		this.createCanvas();
@@ -43,7 +41,7 @@ function MpanelViewer(parent){
 		
 		aspect = this.width/this.height;
 		
-		renderer = new THREE.WebGLRenderer({antialias: true  });// antialias: true , preserveDrawingBuffer: true,, logarithmicDepthBuffer : true 
+		renderer = new THREE.WebGLRenderer({antialias: true, preserveDrawingBuffer: true });// antialias: true , preserveDrawingBuffer: true,, logarithmicDepthBuffer : true 
 		renderer.domElement.style.backgroundColor = '#fff';
 		renderer.setPixelRatio( window.devicePixelRatio );
 		renderer.setClearColor(new THREE.Color(0xffffff));
@@ -54,31 +52,25 @@ function MpanelViewer(parent){
 		container.appendChild( renderer.domElement );
 		renderer.domElement.id = 'canvas';
 
-		stats = new Stats();
+		// stats = new Stats();
 		// container.appendChild( stats.dom );
 
-		camera = new THREE.CombinedCamera(this.width, this.height, fov, near, far, orthoNear, orthoFar )// ( fov, aspect, near, far );
+		camera = new THREE.CombinedCamera(this.width, this.height, fov, near, far, orthoNear, orthoFar );// ( fov, aspect, near, far );
 		camera.position.z = 30;
-		camera.zoom = 20
+		camera.zoom = 20;
 
-		camera_1 = new THREE.CombinedCamera(this.width, this.height, fov, near, far, orthoNear, orthoFar )// ( fov, aspect, near, far );
+		camera_1 = new THREE.CombinedCamera(this.width, this.height, fov, near, far, orthoNear, orthoFar );// ( fov, aspect, near, far );
 		camera_1.position.z = 30;
 
 		scene = new THREE.Scene();
 		scene_1 = new THREE.Scene();
 		var light_0 = new THREE.AmbientLight( 0xffffff, 0.5);
-		light_0.position.set(0, 1, 0)
-		scene.add(light_0)
-		// scene.add(new THREE.AmbientLight( 0xffffff, 0));//0.5
-		
-
+		light_0.position.set(0, 1, 0);
+		scene.add(light_0);
 
 		// light.helper = new THREE.CameraHelper(light.shadow.camera)
 		// light.helper.material.side = THREE.DoubleSide
 		// scene.add(light.helper)
-
-
-		
 
 		controls = new THREE.OrbitControls( camera, renderer.domElement );
 		controls.addEventListener( 'change', this.render.bind(this) ); // remove when using animation loop
@@ -89,7 +81,7 @@ function MpanelViewer(parent){
 		window.addEventListener('resize', self.onWindowResize.bind(self));
 
 		this.createEnvironment();
-		
+
 
 		this.animate();
 
@@ -97,13 +89,11 @@ function MpanelViewer(parent){
 		scene.add(light);
 		light.castShadow = true;
 		light.position.set(50,200,50);
-		light.shadow.bias = 0.006
-		//light.target.position.set(1,1,1)
+		light.shadow.bias = 0.006;
 		light.target.position.set(0, 0, 0);
 
 		light.shadow.mapSize.width = 512; 
 		light.shadow.mapSize.height = 512; 
-		// light.shadow.radius = 10
 
 		light.shadow.camera.top = 30;
 		light.shadow.camera.bottom = -30;
@@ -182,15 +172,12 @@ function MpanelViewer(parent){
 		if(url_img){
 			var textureLoader = new THREE.TextureLoader();
 			textureLoader.load(url_img, function(texture){
-				// self.map_texture = texture;
 				load_file_obj(texture)
 			});
 		} else {
 			var mtlLoader = new THREE.MTLLoader();
-			// mtlLoader.setPath('obj/male02/');
 			var path = url_obj.split('/');
 			var url_path = path.slice(0, path.length-1).join('/');
-			// console.log('url_path', url_path)
 			var file_name_obj = path[path.length-1];
 			var name = file_name_obj.split('.');
 			var file_name_mtl = name.slice(0, path.length-2).join('.') + '.mtl';
@@ -206,7 +193,6 @@ function MpanelViewer(parent){
 
 		function load_file_obj(texture){
 			loader_obj.load(url_obj, function(object){
-				// console.log('obj:',object)
 				self.createObj(object, texture);
 			})
 		}
@@ -241,7 +227,7 @@ function MpanelViewer(parent){
 		});
 		this.obj_data.add( object );
 		this.preloadClose();
-		this.updateCenterObj(box, object)
+		this.updateCenterObj(object)
 	}
 	/*this.getObjMtl = function(entries){
 		if(!this.obj_data) {
@@ -321,7 +307,7 @@ function MpanelViewer(parent){
 		}
 	};*/
 
-	this.switchObj = function(index){
+	/*this.switchObj = function(index){
 		var obj = this.arr_obj[index];
 		if(obj){
 			this.clearObj(obj);
@@ -335,9 +321,9 @@ function MpanelViewer(parent){
 			// this.loadObjScene(obj)
 			// this.item_obj = obj;
 		// }
-	}
+	};*/
 
-	this.loadObjScene = function(info){
+	/*this.loadObjScene = function(info){
 		this.viewFront()
 		var loader = new THREE.OBJLoader();
 		var mtlLoader = new THREE.MTLLoader();
@@ -358,21 +344,21 @@ function MpanelViewer(parent){
 		object.traverse( function(child){
 			if(child instanceof THREE.Mesh){
 				// console.log('child',child)
-				/*if(child.name == 'membrane_top'){
+				if(child.name == 'membrane_top'){
 					console.log('membrane_top')
 				} else if(child.name == 'membrane_bottom'){
 					console.log('membrane_bottom')
-				}*/
-//self.fabricexture &&
-				if(self.fabricexture && child.name == 'membrane_top' ){// || child.name == 'membrane_bottom'
-					/*child.material.map = new THREE.TextureLoader.load( "./image/ShadeDesigner_Logo.jpg" ); 
-					child.material.map.needsUpdate = true;*/
-					/*var textureLoader = new THREE.TextureLoader();
+				}
 
-        			textureLoader.load( "./image/ShadeDesigner_Logo.jpg" , function(texture){
-        				child.material.map = texture;//new THREE.TextureLoader.load( "./image/ShadeDesigner_Logo.jpg" ); 
-						child.material.map.needsUpdate = true;
-        			})*/
+				if(self.fabricexture && child.name == 'membrane_top' ){// || child.name == 'membrane_bottom'
+					// child.material.map = new THREE.TextureLoader.load( "./image/ShadeDesigner_Logo.jpg" ); 
+					// child.material.map.needsUpdate = true;
+					// var textureLoader = new THREE.TextureLoader();
+
+					// textureLoader.load( "./image/ShadeDesigner_Logo.jpg" , function(texture){
+					// 	child.material.map = texture;//new THREE.TextureLoader.load( "./image/ShadeDesigner_Logo.jpg" ); 
+					// 	child.material.map.needsUpdate = true;
+					// })
 					var texture = THREE.ImageUtils.loadTexture("./image/texture.jpg");
 					child.material.color.setRGB(1,1,1)
 					// console.log(child.material.transparent)
@@ -388,17 +374,17 @@ function MpanelViewer(parent){
 		});
 		this.obj_data.add( object );
 		this.preloadClose();
-		this.updateCenterObj(box, object)
-	};
-	this.updateCenterObj = function(box, root){
-		
+		this.updateCenterObj(object)
+	};*/
+	this.updateCenterObj = function(object){
+		var box = new THREE.Box3().setFromObject(object);
 		var min = box.min;
 		var max = box.max;
 		var dis_x = (min.x + max.x)/2;
 		var dis_z = (min.z + max.z)/2;
 
 		var box = new THREE.Box3
-		root.traverse(function(object) {
+		object.traverse(function(object) {
 			if(!object.geometry) return
 
 			if(!object.geometry.boundingBox) {
@@ -413,8 +399,8 @@ function MpanelViewer(parent){
 		this.render();
 
 		controls.target.y = center.y;
-		root.position.x = -center.x;
-		root.position.z = -center.z;
+		object.position.x = -center.x;
+		object.position.z = -center.z;
 
 		//this.cube.position.x = box.width //center.x;
 		//this.cube.position.z = box.height//center.z;
@@ -454,41 +440,41 @@ function MpanelViewer(parent){
 		scene_1.add(cube);
 	}
 
-	this.createRoundTexture = function() {
-		var color = '#778eba'
-		var r = 10000
-		var s = 512
+	/*this.createRoundTexture = function() {
+		var color = '#778eba';
+		var r = 10000;
+		var s = 512;
 
-		var canvas = document.createElement('canvas')
-		var context = canvas.getContext('2d')
+		var canvas = document.createElement('canvas');
+		var context = canvas.getContext('2d');
 
-		canvas.width = s
-		canvas.height = s
-		context.fillStyle = color
-		context.fillRect(0, 0, s, s)
+		canvas.width = s;
+		canvas.height = s;
+		context.fillStyle = color;
+		context.fillRect(0, 0, s, s);
 
-		var pix = context.getImageData(0, 0, s, s)
-		var d = pix.data
+		var pix = context.getImageData(0, 0, s, s);
+		var d = pix.data;
 
 		for(var y = 0; y < s; y++)
 		for(var x = 0; x < s; x++) {
-			var i = (y * s + x) * 4
+			var i = (y * s + x) * 4;
 
-			var cx = x - s/2
-			var cy = y - s/2
+			var cx = x - s/2;
+			var cy = y - s/2;
 
-			d[i+3] = 255 * Math.min(1, Math.max(0, r / (cx * cx + cy * cy)))
+			d[i+3] = 255 * Math.min(1, Math.max(0, r / (cx * cx + cy * cy)));
 		}
 
-		context.putImageData(pix, 0, 0)
+		context.putImageData(pix, 0, 0);
 
-		var texture = new THREE.Texture(canvas)
-		texture.minFilter = THREE.LinearFilter
-		texture.magFilter = THREE.LinearFilter
-		texture.needsUpdate = true
+		var texture = new THREE.Texture(canvas);
+		texture.minFilter = THREE.LinearFilter;
+		texture.magFilter = THREE.LinearFilter;
+		texture.needsUpdate = true;
 
 		return texture
-	}
+	}*/
 
 	this.createEnvironment = function(){
 		// console.log("createEnvironment")
@@ -505,8 +491,8 @@ function MpanelViewer(parent){
 		// var texture = this.createRoundTexture()
 
 		var planeGeometry = new THREE.PlaneBufferGeometry( size, size, 32, 32 );
-		var planeMaterial = new THREE.MeshStandardMaterial( { color: 0x8EADC9, transparent: true, opacity: 0.3 } )
-		planeMaterial.metalness = 0
+		var planeMaterial = new THREE.MeshStandardMaterial( { color: 0x8EADC9, transparent: true, opacity: 0.3 } );
+		planeMaterial.metalness = 0;
 
 
 		var plane = new THREE.Mesh( planeGeometry, planeMaterial );
@@ -525,6 +511,20 @@ function MpanelViewer(parent){
 
 		this.skyBox()
 	};
+
+	this.getScreen = function(){
+
+		var canvas = renderer.getContext().canvas;
+		var format_image = "image/jpeg";
+		var format = "jpg";
+
+
+		var a = document.createElement('a');
+		a.href = canvas.toDataURL(format_image);//.replace("image/png", "image/octet-stream");
+		a.download = 'screen_mpanel.' + format;
+		a.click();
+	};
+
 	var step_up = Math.PI/6;
 	var step_left = Math.PI/4;
 
@@ -543,7 +543,6 @@ function MpanelViewer(parent){
 	function valUpFrontObj(){
 		var phi = controls.spherical.phi;
 		var diff = Math.floor((  phi - controls.maxPolarAngle)/step_up);
-		// console.log('diff',diff)
 		return diff 
 	}
 
@@ -566,9 +565,7 @@ function MpanelViewer(parent){
 	function valUpTopObj(){
 		var phi = controls.spherical.phi;
 		var diff = Math.floor((phi - controls.minPolarAngle)/step_up);
-		// console.log('diff',diff)
 		return diff 
-
 	}
 
 	function valPerspectiveUpObj(){
@@ -578,9 +575,8 @@ function MpanelViewer(parent){
 	}
 	function valPerspectiveLeftObj(){
 		var theta = controls.spherical.theta;
-		var delta = theta - Math.PI/4;		
+		var delta = theta - Math.PI/4;
 		var diff = checkDelta(delta)/step_left;
-		// console.log('diff',diff)
 		return diff
 	}
 
@@ -588,7 +584,6 @@ function MpanelViewer(parent){
 
 		var theta = controls.spherical.theta;
 		var delta = theta - Math.PI/2;
-		
 		var diff = checkDelta(delta)/step_left;
 
 		return diff
@@ -599,22 +594,12 @@ function MpanelViewer(parent){
 	this.perspective = function(camera_perspective){
 
 		if(camera_perspective){
-			
 			camera.toOrthographic();
 			camera_1.toOrthographic();
 		} else { 
 			camera.toPerspective();
 			camera_1.toPerspective();
 		}
-
-
-		/*if(camera_perspective){
-			camera.toPerspective();
-			camera_1.toPerspective();
-		} else { 
-			camera.toOrthographic();
-			camera_1.toOrthographic();
-		}*/
 
 	};
 	this.viewRight = function(){
@@ -713,10 +698,9 @@ function MpanelViewer(parent){
 
 		if(camera.inPerspectiveMode){
 			camera_1.rotation.copy(camera.rotation);
-			renderer.render(scene_1, camera_1)	
+			renderer.render(scene_1, camera_1);
 		}
 
-		
 		renderer.clearDepth();
 		renderer.render(scene, camera)
 	};
