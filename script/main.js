@@ -15,6 +15,8 @@ function MpanelViewer(parent){
 	var camera, camera_1, scene, scene_1, renderer, controls, light, light_1, shadowMapViewer;
 	var stats;
 	var self = this;
+	var view_orthog = true;
+	var zoom = 20
 
 
 	this.init = function(div){
@@ -55,11 +57,11 @@ function MpanelViewer(parent){
 		// stats = new Stats();
 		// container.appendChild( stats.dom );
 
-		camera = new THREE.CombinedCamera(this.width, this.height, fov, near, far, orthoNear, orthoFar );// ( fov, aspect, near, far );
-		camera.position.z = 30;
-		camera.zoom = 20;
 
-		camera_1 = new THREE.CombinedCamera(this.width, this.height, fov, near, far, orthoNear, orthoFar );// ( fov, aspect, near, far );
+		camera = new THREE.CombinedCamera(this.width, this.height, fov, near, far, orthoNear, orthoFar, view_orthog, zoom );// ( fov, aspect, near, far );
+		camera.position.z = 30;
+
+		camera_1 = new THREE.CombinedCamera(this.width, this.height, fov, near, far, orthoNear, orthoFar, view_orthog, zoom );// ( fov, aspect, near, far );
 		camera_1.position.z = 30;
 
 		scene = new THREE.Scene();
@@ -164,6 +166,7 @@ function MpanelViewer(parent){
 		request.send();
 	};*/
 	this.loadObj = function(url_obj, url_img ){
+		this.viewTop()
 
 		//this.preloadOpen();
 		var self = this
@@ -228,6 +231,7 @@ function MpanelViewer(parent){
 		this.obj_data.add( object );
 		this.preloadClose();
 		this.updateCenterObj(object)
+
 	}
 	/*this.getObjMtl = function(entries){
 		if(!this.obj_data) {
@@ -402,8 +406,10 @@ function MpanelViewer(parent){
 		object.position.x = -center.x;
 		object.position.z = -center.z;
 
-		//this.cube.position.x = box.width //center.x;
-		//this.cube.position.z = box.height//center.z;
+		if(this.sky){
+			// this.sky.position.x = -center.x;
+			// this.sky.position.z = center.z;
+		}
 
 	};
 	this.removePrevData = function(){
@@ -419,25 +425,28 @@ function MpanelViewer(parent){
 	this.skyBox = function(){
 		var self = this
 		var materials = [];
-		var path = './image/skybox/';
-		var images =  ['nx', 'px', 'py', 'ny', 'pz', 'nz'];
-		for (var i=0; i<6; i++) {
-			var img = new Image();
-			img.src = path + images[i] + '.jpg';
-			var tex = new THREE.Texture(img);
-			img.tex = tex;
-			img.onload = function() {
-				this.tex.needsUpdate = true;
-				self.preloadClose()
-			};
-			var mat = new THREE.MeshBasicMaterial({map: tex , side : THREE.BackSide});
-			materials.push(mat);
-		}
-		var cubeGeo = new THREE.CubeGeometry(400,400,400,1,1,1);
-		var cube = new THREE.Mesh(cubeGeo, new THREE.MeshFaceMaterial(materials));
-		this.cube = cube
 
-		scene_1.add(cube);
+		var url_img = './image/' + 'sky_2.jpg';//"sky_1.png";
+		var geometry = new THREE.SphereGeometry(53, 50, 50 );
+		
+		var textureLoader = new THREE.TextureLoader();
+		textureLoader.load(url_img, function(texture){
+			var material = new THREE.MeshBasicMaterial( {color: 0xffffff, map: texture,side : THREE.BackSide} );
+			// child.material.map.wrapS = child.material.map.wrapT = THREE.RepeatWrapping; 
+			// child.material.map.repeat.set( 5, 4 );
+
+			// var repeatX, repeatY;
+			material.map.wrapS = THREE.ClampToEdgeWrapping;
+			material.map.wrapT = THREE.RepeatWrapping;
+			
+			material.map.repeat.set(1, 1);
+
+			var sphere = new THREE.Mesh( geometry, material );
+			sphere.overdraw = true;
+			scene_1.add( sphere );
+			self.sky = sphere
+			self.preloadClose()
+		});
 	}
 
 	/*this.createRoundTexture = function() {
@@ -542,7 +551,7 @@ function MpanelViewer(parent){
 	}
 	function valUpFrontObj(){
 		var phi = controls.spherical.phi;
-		var diff = Math.floor((  phi - controls.maxPolarAngle)/step_up);
+		var diff = (phi - controls.maxPolarAngle)/step_up;
 		return diff 
 	}
 
@@ -559,26 +568,37 @@ function MpanelViewer(parent){
 		var diff = delta/step_left;
 
 		return diff
-
 	}
 
 	function valUpTopObj(){
 		var phi = controls.spherical.phi;
-		var diff = Math.floor((phi - controls.minPolarAngle)/step_up);
+		var diff = (phi - controls.minPolarAngle)/step_up;
 		return diff 
 	}
 
-	function valPerspectiveUpObj(){
-		var phi = controls.spherical.phi;
-		var diff = ((phi - (Math.PI/4) - controls.minPolarAngle)/step_up);
-		return diff
-	}
-	function valPerspectiveLeftObj(){
+	function valLeftIsomObj(){
 		var theta = controls.spherical.theta;
 		var delta = theta - Math.PI/4;
 		var diff = checkDelta(delta)/step_left;
 		return diff
 	}
+	function valUpIsomObj(){
+		var phi = controls.spherical.phi;
+		var diff = ((phi - (Math.PI/4) - controls.minPolarAngle)/step_up);
+		return diff
+	}
+	/*function valPerspectiveLeftObj(){
+		var theta = controls.spherical.theta;
+		var delta = theta - Math.PI/4;
+		var diff = checkDelta(delta)/step_left;
+		return diff
+	}*/
+
+	/*function valPerspectiveUpObj(){
+		var phi = controls.spherical.phi;
+		var diff = ((phi - (Math.PI/4) - controls.minPolarAngle)/step_up);
+		return diff
+	}*/
 
 	function valRightObj(){
 
@@ -602,6 +622,14 @@ function MpanelViewer(parent){
 		}
 
 	};
+
+	this.viewIsometric = function(){
+		var diff_left = valLeftIsomObj()
+		this.rotateLeft(diff_left)
+
+		var diff_up = valUpIsomObj()
+		this.rotateUp(diff_up)
+	};
 	this.viewRight = function(){
 
 		var diff = valRightObj()
@@ -614,15 +642,21 @@ function MpanelViewer(parent){
 
 		if(controls.spherical.theta != 0){
 			var diff_left = valLeftFrontObj()
-			this.rotateLeft(diff_left)		
+			this.rotateLeft(diff_left)
 		}
 
 		var diff_up = valUpFrontObj()
 		this.rotateUp(diff_up)
 	};
 	this.viewTop = function(){
+		if(controls.spherical.theta != 0){
+			var diff_left = valLeftFrontObj()
+			this.rotateLeft(diff_left)
+		}
+
 
 		var diff = valUpTopObj()
+		console.log('top diff',diff)
 		this.rotateUp(diff)
 
 	};
@@ -696,10 +730,12 @@ function MpanelViewer(parent){
 		TWEEN.update();
 		renderer.clear();
 
-		if(camera.inPerspectiveMode){
-			camera_1.rotation.copy(camera.rotation);
-			renderer.render(scene_1, camera_1);
-		}
+		
+		//camera_1.rotation.copy(camera.rotation);
+		// camera_1.zoom = camera.zoom
+		// console.log('camera',camera.zoom)
+		camera_1.rotation.copy(camera.rotation);
+		renderer.render(scene_1, camera_1);
 
 		renderer.clearDepth();
 		renderer.render(scene, camera)

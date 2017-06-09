@@ -29,12 +29,7 @@
 						<div class="info_text"></div>
 						<div class="graphics">
 							<div class="cont_button top">
-								<div class="btn isometric">
-									<label for="isometric" > 
-										<input type="checkbox" value="1" id='isometric'> 
-										isometric
-									</label>
-								</div>
+								<div class="btn isometric">isometric</div>
 								<div class="btn right">right</div>
 								<div class="btn front">front</div>
 								<div class="btn top">top</div>
@@ -90,13 +85,16 @@
 			var btn_front = document.querySelector('.graphics .btn.front');
 			var btn_top = document.querySelector('.graphics .btn.top');
 
-			input_isometric.addEventListener('change', function(){
+			/*input_isometric.addEventListener('change', function(){
 				if(this.checked){
 					btn_isometric.classList.add('active');
 				} else {
 					btn_isometric.classList.remove('active');
 				}
 				mpanel.perspective(this.checked);
+			});*/
+			btn_isometric.addEventListener('click', function(){
+				mpanel.viewIsometric();
 			});
 			btn_right.addEventListener('click', function(){
 				mpanel.viewRight();
