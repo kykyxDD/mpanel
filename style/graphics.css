@@ -25,12 +25,13 @@
 	height: 100%;
 	background-color: #fff; /*rgba(0, 255, 196, 0.5);*/
 	z-index: 10;
-	transition: all 0.5s;
+	transition: all 0.3s;
 	opacity: 0;
 	pointer-events: none;
 }
 .threejs .preload.show{
 	opacity: 1;	
+	transition: all 0s;
 } 
 
 .threejs .preload:before {
@@ -175,3 +176,13 @@
 	}
 }
 
+.threejs input {
+	position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: initial;
+    display: none;
+}

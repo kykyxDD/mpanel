@@ -69,14 +69,20 @@
 			model_1.classList.add('active');
 
 			model_1.addEventListener('click', function(){
+				if( model_1.classList.contains('active'))  return
+
 				model_1.classList.add('active');
 				model_2.classList.remove('active');
 				mpanel.loadObj( arr_url[0] );
+				
 			});
 			model_2.addEventListener('click', function(){
+				if( model_2.classList.contains('active'))  return
+
 				model_2.classList.add('active');
 				model_1.classList.remove('active');
 				mpanel.loadObj( arr_url[1], url_img );
+				
 			});
 
 			var btn_isometric = document.querySelector('.graphics .btn.isometric');

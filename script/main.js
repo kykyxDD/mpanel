@@ -8,7 +8,7 @@ function MpanelViewer(parent){
 	this.height = parent.offsetHeight
 	var fov = 50, 
 	 aspect = this.width/this.height, 
-		orthoNear = -500,
+		orthoNear = -1000,
 		orthoFar = 1000,
 	   near = 1,
 		far = 1000;
@@ -16,7 +16,8 @@ function MpanelViewer(parent){
 	var stats;
 	var self = this;
 	var view_orthog = true;
-	var zoom = 20
+	var start_zoom = 20;
+	var maxPolarAngle = Math.PI/2;
 
 
 	this.init = function(div){
@@ -29,6 +30,7 @@ function MpanelViewer(parent){
 				preload.className = 'preload show';
 				container.appendChild(preload);
 			}
+			this.preload = preload;
 		}
 
 		container.classList.add('threejs');
@@ -58,10 +60,10 @@ function MpanelViewer(parent){
 		// container.appendChild( stats.dom );
 
 
-		camera = new THREE.CombinedCamera(this.width, this.height, fov, near, far, orthoNear, orthoFar, view_orthog, zoom );// ( fov, aspect, near, far );
+		camera = new THREE.CombinedCamera(this.width, this.height, fov, near, far, orthoNear, orthoFar, view_orthog, start_zoom );// ( fov, aspect, near, far );
 		camera.position.z = 30;
 
-		camera_1 = new THREE.CombinedCamera(this.width, this.height, fov, near, far, orthoNear, orthoFar, view_orthog, zoom );// ( fov, aspect, near, far );
+		camera_1 = new THREE.CombinedCamera(this.width, this.height, fov, near, far, orthoNear, orthoFar, view_orthog, start_zoom );// ( fov, aspect, near, far );
 		camera_1.position.z = 30;
 
 		scene = new THREE.Scene();
@@ -76,7 +78,8 @@ function MpanelViewer(parent){
 
 		controls = new THREE.OrbitControls( camera, renderer.domElement );
 		controls.addEventListener( 'change', this.render.bind(this) ); // remove when using animation loop
-		controls.maxPolarAngle = Math.PI/2 // - Math.PI/20;
+		controls.maxPolarAngle = maxPolarAngle; // - Math.PI/20;
+		controls.minZoom = 3;
 		controls.noPan = true;
 
 
@@ -136,6 +139,13 @@ function MpanelViewer(parent){
 		btn_right.addEventListener('click', function(){
 			self.rotateLeft(1);
 		})
+
+		var input = createElem('input', par, 'set_color');
+		input.setAttribute('type', 'color')
+		input.addEventListener('input', function(){
+			//console.log('')
+		})
+		console.log(input)
 	};
 
 	/*this.loadObj = function(url, fabricexture){
@@ -166,9 +176,8 @@ function MpanelViewer(parent){
 		request.send();
 	};*/
 	this.loadObj = function(url_obj, url_img ){
-		this.viewTop()
 
-		//this.preloadOpen();
+		this.preloadOpen();
 		var self = this
 		var loader_obj = new THREE.OBJLoader();
 
@@ -205,8 +214,10 @@ function MpanelViewer(parent){
 
 
 	this.createObj = function(object, texture){
-		this.render()
+		//this.render()
 		this.removePrevData();
+
+
 
 		var box = new THREE.Box3().setFromObject(object);
 
@@ -219,7 +230,7 @@ function MpanelViewer(parent){
 
 					child.material.map = texture;
 					child.material.map.wrapS = child.material.map.wrapT = THREE.RepeatWrapping; 
-					child.material.map.repeat.set( 5, 4 );
+					child.material.map.repeat.set( 15, 20 );
 					child.material.map.needsUpdate = true;
 					child.material.needsUpdate = true;
 
@@ -229,8 +240,11 @@ function MpanelViewer(parent){
 			}
 		});
 		this.obj_data.add( object );
-		this.preloadClose();
 		this.updateCenterObj(object)
+
+
+		this.viewTop(true);
+			
 
 	}
 	/*this.getObjMtl = function(entries){
@@ -406,13 +420,14 @@ function MpanelViewer(parent){
 		object.position.x = -center.x;
 		object.position.z = -center.z;
 
-		if(this.sky){
-			// this.sky.position.x = -center.x;
-			// this.sky.position.z = center.z;
-		}
+		this.preloadClose();
 
 	};
 	this.removePrevData = function(){
+		camera.zoom = start_zoom;
+		controls
+		.spherical.radius = start_zoom
+		camera.updateProjectionMatrix();
 		var group = this.obj_data;
 		for (var i = group.children.length - 1; i >= 0; i--) {
 			// scene.remove(group.children[i]);
@@ -432,20 +447,11 @@ function MpanelViewer(parent){
 		var textureLoader = new THREE.TextureLoader();
 		textureLoader.load(url_img, function(texture){
 			var material = new THREE.MeshBasicMaterial( {color: 0xffffff, map: texture,side : THREE.BackSide} );
-			// child.material.map.wrapS = child.material.map.wrapT = THREE.RepeatWrapping; 
-			// child.material.map.repeat.set( 5, 4 );
-
-			// var repeatX, repeatY;
-			material.map.wrapS = THREE.ClampToEdgeWrapping;
-			material.map.wrapT = THREE.RepeatWrapping;
-			
-			material.map.repeat.set(1, 1);
-
 			var sphere = new THREE.Mesh( geometry, material );
 			sphere.overdraw = true;
 			scene_1.add( sphere );
-			self.sky = sphere
-			self.preloadClose()
+			self.sky = sphere;
+			self.preloadClose();
 		});
 	}
 
@@ -534,18 +540,20 @@ function MpanelViewer(parent){
 		a.click();
 	};
 
-	var step_up = Math.PI/6;
+	var step_up = maxPolarAngle/3; //Math.PI/6;
 	var step_left = Math.PI/4;
 
-	this.rotateUp = function(index){
+	this.rotateUp = function(index, no_duration){
 		scaleTween.stop();
 		var top = index*step_up;
+		scaleTween.durationTime = no_duration ? 0 : 300;
 		scaleTween.target.up += top
 		scaleTween.start()
 	}
-	this.rotateLeft = function(index){
+	this.rotateLeft = function(index, no_duration){
 		scaleTween.stop();
 		var left = index*step_left;
+		scaleTween.durationTime = no_duration ? 0 : 300;
 		scaleTween.target.left += left
 		scaleTween.start()
 	}
@@ -572,7 +580,8 @@ function MpanelViewer(parent){
 
 	function valUpTopObj(){
 		var phi = controls.spherical.phi;
-		var diff = (phi - controls.minPolarAngle)/step_up;
+		var diff = phi/step_up;
+
 		return diff 
 	}
 
@@ -648,16 +657,16 @@ function MpanelViewer(parent){
 		var diff_up = valUpFrontObj()
 		this.rotateUp(diff_up)
 	};
-	this.viewTop = function(){
+	this.viewTop = function(no_duration){
+		// console.log('viewTop', no_duration)
 		if(controls.spherical.theta != 0){
 			var diff_left = valLeftFrontObj()
-			this.rotateLeft(diff_left)
+			this.rotateLeft(diff_left, no_duration)
 		}
 
-
-		var diff = valUpTopObj()
-		console.log('top diff',diff)
-		this.rotateUp(diff)
+		var diff = valUpTopObj();
+		this.rotateUp(Math.ceil(diff), no_duration);
+		// console.log('top',controls.spherical.phi, diff)
 
 	};
 
@@ -667,23 +676,30 @@ function MpanelViewer(parent){
 		.to({ left: 0, up: 0 }, 300)
 		.easing(TWEEN.Easing.Cubic.Out)
 		.onUpdate(scaleTweenUpdate)
+		.onComplete(scaleTweenComplete)
 
 	this.rotate = {
 		left: 0, up: 0
 	}
 
 	function scaleTweenUpdate() {
-		
+
 		var dist_up = scaleTween.source.up - self.rotate.up;
 		var dist_left = scaleTween.source.left - self.rotate.left;
 		self.rotate.up = scaleTween.source.up;
 		self.rotate.left = scaleTween.source.left;
-		controls.rotateUp(dist_up)
-		controls.rotateLeft(dist_left)
+		controls.rotateUp(dist_up);
+		controls.rotateLeft(dist_left);
 	}
 
 	function scaleTweenComplete() {
+		var dist_up = scaleTween.target.up - scaleTween.source.up;
+		var dist_left = scaleTween.target.left - scaleTween.source.left; 
 
+		self.rotate.up = scaleTween.target.up;
+		self.rotate.left = scaleTween.target.left;
+		controls.rotateUp(dist_up);
+		controls.rotateLeft(dist_left);
 	}
 
 
@@ -702,9 +718,16 @@ function MpanelViewer(parent){
 	}
 
 	this.preloadClose = function(){
-		preload.classList.remove('show');
+		var self = this;
+
+		clearTimeout(self.classRemove)
+		this.classRemove = setTimeout(function(){
+			self.preload.classList.remove('show');	
+		}, 50);
+		
 	};
 	this.preloadOpen = function(){
+		clearTimeout(self.classRemove)
 		preload.classList.add('show');
 	};
 
@@ -730,10 +753,6 @@ function MpanelViewer(parent){
 		TWEEN.update();
 		renderer.clear();
 
-		
-		//camera_1.rotation.copy(camera.rotation);
-		// camera_1.zoom = camera.zoom
-		// console.log('camera',camera.zoom)
 		camera_1.rotation.copy(camera.rotation);
 		renderer.render(scene_1, camera_1);
 
