@@ -175,14 +175,39 @@
 		transform: rotate(360deg);
 	}
 }
+.threejs .elem_color{
+	position: absolute;
+    bottom: 7px;
+    left: 9px;
+}
+.threejs .elem_color .elem_cont_color,
+.threejs .elem_color .text {
+	display: table-cell;
+	vertical-align: middle;
+}
 
 .threejs input {
-	position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 40px;
-    height: 40px;
+	-webkit-appearance: none;
+	/*position: absolute;
+    bottom: 7px;
+    left: 9px;*/
+    width: 41px;
+    height: 45px;
+    padding: 0;
     border: none;
     background: initial;
-    display: none;
+
+    /*display: none;*/
+}
+.threejs .elem_color .text{
+    padding-left: 5px;
+    font-size: 15px;
+    color: #3A3A3A;
+}
+
+.threejs input:active, 
+.threejs input:hover, 
+.threejs input:focus {
+    outline: 0 !important;
+    outline-offset: 0 !important;
 }
