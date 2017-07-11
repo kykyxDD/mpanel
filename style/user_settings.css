@@ -1,0 +1,111 @@
+.user_set {
+	background-image: url(../image/bg_set.jpg);
+	background-position: center -5px;
+}
+
+.body .cont .title {
+	padding-top: 18px;
+	letter-spacing: -1.9px;
+}
+.body .cont .btn.set{
+    float: right;
+    margin-right: 4px;
+    text-transform: capitalize;
+    letter-spacing: 0;
+    text-align: left;
+    text-indent: 52px;
+    position: relative;
+}
+.body .cont .btn.set:before {
+	position: absolute;
+	content: '';
+	top: 50%;
+	left: 35px;
+	width: 18px;
+	height: 18px;
+	margin-left: -9px;
+	margin-top: -9px;
+	background-image: url(../image/icon/setting.png);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.footer .btn.btn_start {
+	text-align: center;
+}
+.footer .btn.btn_start:before,
+.footer .btn.btn_start:after {
+	display: none;
+}
+
+.user_set .cont_info{
+	padding-top: 22px;
+}
+.user_set .cont_info .left_path {
+	width: 250px;
+}
+.user_set input[type='text']{
+	width: 237px;
+    height: 29px;
+    border: 1px solid #DFDFDF;
+    border-radius: 3px;
+    padding-left: 10px;
+}
+.user_set .elem_name{
+	margin-bottom: 9px;
+}
+.user_set .drag {
+	width: 240px;
+	height: 115px;
+	background-image: url(../image/icon/load_image.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	margin-bottom: 7px;
+}
+.user_set .set_image {
+	margin-bottom: 74px;
+}
+.user_set .set_image .text {
+	width: 110px;
+	display: inline-block;
+	font-size: 13px;
+	padding-top: 3px;
+	line-height: 14px;
+	color: #636363;
+}
+.user_set .set_image .text,
+.user_set .set_image .label_img {
+	vertical-align: top;
+}
+.user_set .set_image .label_img {
+	text-align: left;
+	text-indent: 50px;
+	text-transform: capitalize;
+	border: 1px solid #dbdbdb;
+}
+.user_set .set_image .label_img:before {
+	content: '';
+	width: 14px;
+	height: 14px;
+	background: url(../image/icon/plus_grey.png) no-repeat center;
+	position: absolute;
+	top: 50%;
+	margin-top: -7px;
+	left: 26px;
+}
+.user_set .set_image input[type="file"]{
+	display: none;
+}
+
+.user_set .small_title{
+	color: #858585;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+.user_set .change{
+	width: 250px;
+    height: 33px;
+    margin-bottom: 21px;
+}
+.set_file_name{
+	margin-left: 2px;
+}

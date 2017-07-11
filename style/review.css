@@ -1,0 +1,144 @@
+.body .cont .info > div {
+	display: table-cell;
+	vertical-align:  top;
+}
+.body .info .info_text {
+	width: 425px;
+	/*background-image: url(../image/info_text.jpg);*/
+	background-repeat: no-repeat;
+	background-position: left top;
+}
+
+.graphics {
+	width: 745px;
+}
+.graphics .cont_button {
+	margin: 0 auto;
+	text-align: center;
+	/*margin-bottom: 10px;*/
+}
+.graphics .cont_button.top{
+	margin-bottom: 10px;
+} 
+.graphics .cont_button.top .btn {
+	margin-right: 5px;
+}
+.graphics .cont_button.bottom {
+	margin-top: 15px;
+}
+.graphics .cont_button.bottom .btn.screen{
+	width: 165px;
+	height: 40px;
+	line-height: 40px;
+	color: white;
+	font-size: 14px;
+}
+.graphics .btn.isometric label {
+	display: block;
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+}
+.graphics .btn.isometric input {
+	display: none;
+}
+
+.graphics .word {
+	
+}
+.model_1,
+.model_2 {
+	width: 50px;
+	/*transition: background 1s ease;*/
+}
+
+
+.info_text .top_btn .btn_help {
+	margin-left: 13px;
+}
+.info_text .top_btn {
+	margin-bottom: 5px;
+}
+.info_text .cont_result {
+	width: 390px;
+	height: 363px;
+	border: 1px solid #EAEAEA;
+	border-radius: 5px;
+	margin-bottom: 41px;
+	color: #0B0B0B;
+	position: relative;
+	background-color: #F1F1F1;
+}
+.info_text .cont_result p {
+	margin: 15px 0;
+	pointer-events: none;
+}
+.info_text .cont_result .text {
+	padding-left: 17px;
+	color: #5D5D5D;
+	font-size: 12px;
+	line-height: 16px;
+	-moz-user-select: -moz-none;
+	-o-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+	width: 345px;
+}
+.info_text .cont_color_key {
+	-moz-user-select: -moz-none;
+	-o-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+.info_text .title_color_key{
+	text-transform: uppercase;
+	font-size: 14px;
+	letter-spacing: -0.5px;
+	margin-bottom: 8px;
+}
+.info .cont_color_key .text{
+	text-indent: 20px;
+	position: relative;
+	color: #5C5C5C;
+	font-size: 13px;
+	margin-bottom: 5px;
+}
+.info .cont_color_key .text.green:before {
+	content: '';
+	position: absolute;
+	top: 4px;
+	left: 0;
+	width: 9px;
+	height: 9px;
+	background-color: #43B668;
+}
+.info .cont_color_key .text.green .name {
+	color: #43B668;
+}
+.info .cont_color_key .text.orange:before {
+	content: '';
+	position: absolute;
+	top: 4px;
+	left: 0;
+	width: 9px;
+	height: 9px;
+	background-color: #FF7A00;
+}
+.info .cont_color_key .text.orange .name {
+	color: #FF7A00;
+}
+.info .cont_color_key .text.red:before {
+	content: '';
+	position: absolute;
+	top: 4px;
+	left: 0;
+	width: 9px;
+	height: 9px;
+	background-color: #FC0000;
+}
+.info .cont_color_key .text.red .name {
+	color: #FC0000;
+}
