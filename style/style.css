@@ -435,7 +435,7 @@ body {
 	vertical-align: middle;
 }
 .iscroll_barV {
-	height: 349px;
+	height: 315px;
 	/*height: 100%;*/
 	/*margin-top: 4px;*/
 	width: 12px;
@@ -455,6 +455,7 @@ body {
 	width: 100%;
 	height: 18px;
 	position: relative;
+	cursor: pointer;
 }
 
 .btn_top:before,
@@ -464,6 +465,7 @@ body {
 	left: 3px;
 	border-left: 5px solid transparent;
 	border-right: 5px solid transparent;
+	pointer-events: none;
 }
 .btn_top:before {
 	top: 6px;
@@ -474,9 +476,12 @@ body {
 	border-top: 5px solid #a9a9a9;
 }
 
-.home {
-	background: url(../image/home.jpg) no-repeat;
+.body_home {
+	background: url(../image/home_bg.jpg) no-repeat;
 	background-position: top center;
+	background-size: cover;
+	min-height: 100vh;
+	min-width: 780px;
 }
 
 .home .body {
@@ -485,6 +490,7 @@ body {
 }
 .home .body .cont {
     padding-top: 200px;
+    width: 780px;
 }
 .home .body .cont > div {
 	margin: 0 auto
@@ -494,19 +500,21 @@ body {
 	height: 185px;
 	/*background-color: rgba(0,0,0,0.5);*/
 	margin: 0 auto;
-	background: url(../image/mpanel_logo.png) no-repeat center;
+	background: url(../image/mpanel_logo_big.png) no-repeat center;
 }
 .home .body .cont .form {
 	    width: 675px;
     height: 160px;
     border-radius: 3px;
     border: 1px solid #D2D2D2;
-    /* background-color: #F9F9F9; */
-    margin-top: 57px;
-    margin-bottom: 73px;
+     background-color: #F9F9F9; 
+    /*margin-top: 57px;*/
+    /*margin-bottom: 73px;*/
     padding: 20px 29px 15px 37px;
-    margin-left: 218px;
+    /*margin-left: 218px;*/
     text-align: left;
+
+    margin: 57px auto 73px;
 }
 
 .home .body .btn_start {
@@ -539,6 +547,7 @@ body {
     color: #686868;
     text-align: left;
     margin-bottom: 20px;
+    text-transform: inherit;
 }
 .home .form .left{
 	width: 310px;

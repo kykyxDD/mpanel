@@ -58,12 +58,35 @@ function Review(){
 		var word = createElem('div', 'word', graphics);
 		var parent = createElem('div', false, word)
 		parent.id = 'parent';
+		this.elem_view = parent;
+		this.updateSizeView()
 
 		this.cont_btn_bottom = createElem('div', 'cont_button bottom', graphics);
 		this.createInfoDesign()
+		var self = this;
+
+		window.addEventListener('resize', function(){
+			self.updateSizeView()
+		});
 
 		this.loadMpanelViewer(parent)
 
+	}
+	this.updateSizeView = function(argument) {
+
+		var all_h = document.documentElement.clientHeight;
+		var h_head = document.querySelector('.header').clientHeight + 5;
+		var h_bottom = document.querySelector('.footer').clientHeight ;
+		var h_title = document.querySelector('.body .cont > .title').clientHeight;
+		var h_btn = document.querySelector('.graphics .cont_button.top').clientHeight
+		
+		var h = all_h  - h_head - h_bottom - h_title - (h_btn ?  h_btn + 10 : 45 ) - 50
+		// console.log(h_head, h_bottom, h_title, h_btn)
+		this.elem_view.style.height = Math.max(430, h) + 'px';
+		if(mpanel){
+			mpanel.onWindowResize()	
+		}
+		
 	}
 
 	this.createInfoDesign = function(){

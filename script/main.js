@@ -106,6 +106,7 @@ function Main (argument) {
 		link.href = '?page=project'
 
 		this.main.classList.add('home')
+		document.body.classList.add('body_home')
 	};
 
 	this.createPage = function(){
@@ -282,9 +283,9 @@ function loadAllFiles(scripts, styles, fun){
 		link.type = 'text/css';
 		link.href = styles[c];
 		link.onload = function () {
-			num--
+			num--;
 			if(!num) {
-				fun()
+				fun();
 			}
 		};
 		head.appendChild(link);
@@ -294,12 +295,12 @@ function loadAllFiles(scripts, styles, fun){
 		script.src = scripts[s];
 		script.type ="text/javascript";
 		script.onload = function () {
-			num--
+			num--;
 			if(!num) {
 				fun();
 			} else {
 				s++;
-				loadFile()
+				loadFile();
 			}
 		};
 

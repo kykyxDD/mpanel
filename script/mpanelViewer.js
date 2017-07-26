@@ -82,8 +82,7 @@ function MpanelViewer(parent){
 		controls.minZoom = 3;
 		controls.noPan = true;
 
-
-		window.addEventListener('resize', self.onWindowResize.bind(self));
+		// window.addEventListener('resize', self.onWindowResize.bind(self));
 
 		this.createEnvironment();
 
@@ -217,8 +216,6 @@ function MpanelViewer(parent){
 				self.createObj(object, texture);
 			})
 		}
-		
-
 	};
 
 
@@ -271,7 +268,6 @@ function MpanelViewer(parent){
 		}
 
 		this.viewTop(true);
-
 	};
 	this.setInputColor = function(){
 		var r = (this.pole_color.r*255).toString(16);
@@ -504,8 +500,7 @@ function MpanelViewer(parent){
 	};
 	this.removePrevData = function(){
 		camera.zoom = start_zoom;
-		controls
-		.spherical.radius = start_zoom
+		controls.spherical.radius = start_zoom
 		camera.updateProjectionMatrix();
 		var group = this.obj_data;
 		for (var i = group.children.length - 1; i >= 0; i--) {
@@ -813,11 +808,12 @@ function MpanelViewer(parent){
 	function onWindowResize() {
 		this.width = parent.offsetWidth;
 		this.height = parent.offsetHeight;
+		// console.log(this.width, this.height)
 
 		camera.setSize(this.width, this.height);
-		camera.updateProjectionMatrix();
 
 		renderer.setSize( this.width, this.height );
+		camera.updateProjectionMatrix();
 	};
 	this.onWindowResize = onWindowResize;
 
