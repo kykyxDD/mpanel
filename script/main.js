@@ -33,6 +33,15 @@ function Main (argument) {
 	}
 	];
 
+	this.units = {
+		"m"  :"<span class='name'>meters</span> <span class='val'>1.234</span>",	//метр
+		"cm" : "<span class='name'>centimetre</span> <span class='val'>123.4</span>", // сантиметр 
+		'mm' : "<span class='name'>millimeters</span> <span class='val'>1234</span>", // милиметр
+		"in" :"<span class='name'>inches</span> <span class='val'>123.4	&Prime;</span>", //дюйм	//
+		"ft_in" : "<span class='name'>feet and inches</span> <span class='val'>12 &Prime; 3.4</span>",	//фут	
+		"ft_in_fr" : "<span class='name'>feet, inches, fractions</span> <span class='val'>12 &Prime; 3.5/16</span>"	//фатом	1 f, fm	
+	}
+
 	this.init = function(){
 
 		this.params = parseQueryString();
@@ -70,10 +79,10 @@ function Main (argument) {
 		title.innerHTML = 'Get started with';
 
 		var cont_btn = createElem('div', 'cont_btn', left_path)
-		var btn_home = createElem('div', 'btn btn_home grad_orange', cont_btn);
+		var btn_home = createElem('div', 'my_btn btn_home grad_orange', cont_btn);
 		var link_home = createElem('a' , 'link', btn_home);
 		link_home.href = 'http://mpanel.com/'
-		var btn_open = createElem('div', 'btn btn_open grad_blue', cont_btn);
+		var btn_open = createElem('div', 'my_btn btn_open grad_blue', cont_btn);
 		var link_open = createElem('a' , 'link', btn_open);
 		link_open.innerHTML = 'Open'
 
@@ -82,20 +91,20 @@ function Main (argument) {
 		var line_2 = createElem('div', 'cont_btn', right_path)
 
 
-		var btn_learn = createElem('div', 'btn learn grad_blue', line_1)
+		var btn_learn = createElem('div', 'my_btn learn grad_blue', line_1)
 		var link_learn = createElem('a' , 'link', btn_learn);
 		link_learn.innerHTML = 'Learn';
 		link_learn.href = 'https://www.youtube.com/playlist?list=PLlFQftmRED8vTFU01XcvMzOGieBj-IGWJ'
-		var btn_set = createElem('div', 'btn setting', line_1)
+		var btn_set = createElem('div', 'my_btn setting', line_1)
 		var link_set = createElem('a' , 'link', btn_set);
 		link_set.href = '?page=project&section=settings';
 
 
-		var btn_news = createElem('div', 'btn news grad_blue', line_2)
+		var btn_news = createElem('div', 'my_btn news grad_blue', line_2)
 		var link_news = createElem('a' , 'link', btn_news);
 		link_news.innerHTML = 'news';
 		link_news.href = 'http://mpanel.com/news/'
-		var btn_help = createElem('div', 'btn help', line_2)
+		var btn_help = createElem('div', 'my_btn help', line_2)
 		var link_help = createElem('a' , 'link', btn_help);
 		btn_help.href = '?page=project';
 		link_help.href = 'http://demo.stagingmonster.com/mpanel_help/source/html/hs10.htm'
@@ -128,10 +137,10 @@ function Main (argument) {
 
 		var cont_footer = createElem('div', 'cont_bottom', cont_elemfooter)
 		this.cont_footer = cont_footer;
-		var cont_btn_back = createElem('div', 'btn back', cont_footer)
+		var cont_btn_back = createElem('div', 'my_btn back', cont_footer)
 		var link_btn_back = createElem('a', 'link',cont_btn_back)
 		var btn_text_prompt = createElem('div', 'text_prompt hide', cont_footer)
-		var cont_btn_next = createElem('div', 'btn next active', cont_footer)
+		var cont_btn_next = createElem('div', 'my_btn next active', cont_footer)
 		var link_btn_next = createElem('a', 'link',cont_btn_next)
 		this.btn_next = cont_btn_next;
 		this.link_next = link_btn_next;
@@ -149,6 +158,19 @@ function Main (argument) {
 
 		
 	};
+
+	this.createBtnSetting = function(disabled){
+		var set = createElem('div', 'set my_btn' );
+		if(disabled) {
+			set.classList.add('disabled');
+		}
+		var link = createElem('a', 'link', set);
+		link.innerHTML = 'Settings';
+		link.href = '?page=project&section=settings';
+
+		this.cont_left_btn.insertBefore(set, this.btn_help)
+
+	}
 	this.createMenu = function(){
 		var w = this.menu.clientWidth;
 		// console.log(w)
@@ -177,6 +199,7 @@ function Main (argument) {
 		}
 		var line = createElem('div', 'line', this.menu)
 		line.style.width = (id/(list_menu.length-1))*w + 'px';
+		var html = ''
 
 
 		if(id>=0){
@@ -193,9 +216,10 @@ function Main (argument) {
 						title = 'user settings'
 						var project = new UserSettings()
 					} else {
-						// var project = new Project()
 						title = this.itm_page.title
-						this.emptyPage();
+						var project = new Project();
+						html = 'hs30.htm';
+						// this.emptyPage();
 					}
 					break
 				default: 
@@ -214,7 +238,7 @@ function Main (argument) {
 				this.btn_back.style.display = 'none';
 				this.btn_next.style.display = 'none';
 
-				var btn_start = createElem('div','btn btn_start active', this.cont_footer);
+				var btn_start = createElem('div','my_btn btn_start active', this.cont_footer);
 				var link = createElem('a', 'link', btn_start)
 				link.innerHTML = 'start';
 				link.href = '?page=project'
@@ -222,18 +246,30 @@ function Main (argument) {
 				this.link_next.href = '?page='+list_menu[next_id].id;
 			}
 
-			this.createBigTitle(title)
+			this.createBigTitle(title, html)
 			
 		}
 	}
 
-	this.createBigTitle = function(tlt){
+	this.createBigTitle = function(tlt, html){
 		// 
 		var title = this.big_title
 		title.innerHTML = tlt;
 
-		var btn_help = createElem('div', 'btn_help', title);
-		btn_help.innerHTML = 'Help';
+		this.cont_left_btn = createElem('div', 'cont_left_btn', title)
+
+		var btn_help = createElem('div', 'my_btn btn_help', this.cont_left_btn);
+		if(html){
+			var link = createElem('a', 'link', btn_help);
+			link.href = 'http://demo.stagingmonster.com/mpanel_help/source/html/' + html
+			link.innerHTML = 'Help';
+			link.target = "_blank";
+		} else {
+			btn_help.innerHTML = 'Help';
+			btn_help.classList.add('disabled')
+		}
+		this.btn_help = btn_help;
+
 	};
 	this.emptyPage = function(){
 		var elem = createElem('div', 'development', this.cont_body)

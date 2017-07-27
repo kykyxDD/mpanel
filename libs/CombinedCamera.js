@@ -34,7 +34,7 @@ THREE.CombinedCamera = function ( width, height, fov, near, far, orthoNear, orth
 	if(ortho){
 		this.toOrthographic();
 	} else {
-		this.toPerspective();	
+		this.toPerspective();
 	}
 
 	
@@ -166,7 +166,6 @@ THREE.CombinedCamera.prototype.setSize = function( width, height ) {
 	this.right = width / 2;
 	this.top = height / 2;
 	this.bottom = - height / 2;
-	console.log('setSize')
 
 };
 
@@ -176,8 +175,10 @@ THREE.CombinedCamera.prototype.setFov = function( fov ) {
 	this.fov = fov;
 
 	if ( this.inPerspectiveMode ) {
+
 		this.toPerspective();
 	} else {
+
 		this.toOrthographic();
 	}
 
@@ -190,7 +191,7 @@ THREE.CombinedCamera.prototype.updateProjectionMatrix = function() {
 	if ( this.inPerspectiveMode ) {
 		this.toPerspective();
 	} else {
-		this.toPerspective();
+		// this.toPerspective();
 		this.toOrthographic();
 	}
 

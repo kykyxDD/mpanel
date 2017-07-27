@@ -20,26 +20,26 @@
 .graphics .cont_button.top{
 	margin-bottom: 10px;
 } 
-.graphics .cont_button.top .btn {
+.graphics .cont_button.top .my_btn {
 	margin-right: 5px;
 }
 .graphics .cont_button.bottom {
 	margin-top: 15px;
 }
-.graphics .cont_button.bottom .btn.screen{
+.graphics .cont_button.bottom .my_btn.screen{
 	width: 165px;
 	height: 40px;
 	line-height: 40px;
 	color: white;
 	font-size: 14px;
 }
-.graphics .btn.isometric label {
+.graphics .my_btn.isometric label {
 	display: block;
 	width: 100%;
 	height: 100%;
 	cursor: pointer;
 }
-.graphics .btn.isometric input {
+.graphics .my_btn.isometric input {
 	display: none;
 }
 
@@ -78,21 +78,17 @@
 	color: #5D5D5D;
 	font-size: 12px;
 	line-height: 16px;
-	-moz-user-select: -moz-none;
-	-o-user-select: none;
-	-khtml-user-select: none;
-	-webkit-user-select: none;
-	user-select: none;
+	
 	width: 345px;
 }
-.info_text .cont_color_key {
+.info_text .cont_result.scroll,
+.info_text .cont_color_key{
 	-moz-user-select: -moz-none;
 	-o-user-select: none;
 	-khtml-user-select: none;
 	-webkit-user-select: none;
 	user-select: none;
 }
-
 .info_text .title_color_key{
 	text-transform: uppercase;
 	font-size: 14px;

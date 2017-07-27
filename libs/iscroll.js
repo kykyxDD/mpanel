@@ -400,6 +400,8 @@ iScroll.prototype = {
 		that.dirX = 0;
 		that.dirY = 0;
 
+		that.start_event = true
+
 		// Gesture start
 		if (that.options.zoom && hasTouch && e.touches.length > 1) {
 			c1 = m.abs(e.touches[0].pageX-e.touches[1].pageX);
@@ -431,6 +433,7 @@ iScroll.prototype = {
 			}
 		}
 		that.event_scrollbar = that.vScrollbarIndicator == e.target 
+
 		that.absStartX = that.x;	// Needed by snap threshold
 		that.absStartY = that.y;
 
@@ -449,12 +452,14 @@ iScroll.prototype = {
 	},
 	
 	_move: function (e) {
+
 		var that = this,
+			index = that.event_scrollbar ? -1 : 1,
 			point = hasTouch ? e.touches[0] : e,
 			deltaX = point.pageX - that.pointX,
 			deltaY = point.pageY - that.pointY,
-			newX = that.x + deltaX,
-			newY = that.y + deltaY,
+			newX = that.x + deltaX*index,
+			newY = that.y + deltaY*index,
 			c1, c2, scale,
 			timestamp = e.timeStamp || Date.now();
 
@@ -494,7 +499,7 @@ iScroll.prototype = {
 		if (newY > that.minScrollY || newY < that.maxScrollY) {
 			newY = that.options.bounce ? that.y + (deltaY / 2) : newY >= that.minScrollY || that.maxScrollY >= 0 ? that.minScrollY : that.maxScrollY;
 		}
-		var index = that.event_scrollbar ? -1 : 1;
+
 
 		that.distX += deltaX;
 		that.distY += deltaY;
@@ -550,6 +555,9 @@ iScroll.prototype = {
 		that._unbind(MOVE_EV, window);
 		that._unbind(END_EV, window);
 		that._unbind(CANCEL_EV, window);
+
+		that.event_scrollbar = false;
+		that.start_event = false;
 
 		if (that.options.onBeforeScrollEnd) {
 			that.options.onBeforeScrollEnd.call(that, e);
@@ -663,6 +671,8 @@ iScroll.prototype = {
 
 		that._resetPos(200);
 		if (that.options.onTouchEnd) that.options.onTouchEnd.call(that, e);
+
+
 	},
 	
 	_resetPos: function (time) {

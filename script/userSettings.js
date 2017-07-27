@@ -5,19 +5,30 @@ function UserSettings(){
 	var scripts = [];
 	var styles = [
 		'./style/user_settings.css'
-	]
+	];
+	
+
+
+	this.styles = {
+		'standard':'standard',
+		'single'  :'single Poly cut',
+		'aeronaut':'aeronaut',
+		'autometrix':'autometrix',
+		'prosail':'prosail',
+		'smre':'smre'
+	}
 
 
 	this.init = function (argument) {
+		this.units = main.units;
 		// var title = createElem('div', 'title', par);
 		// title.innerHTML = 'USER SETTINGS';
 
+		main.createBtnSetting(true)
 
 
-		var set = createElem('div', 'set btn disabled', main.big_title );
-		set.innerHTML = 'Settings';
 
-		main.big_title.removeChild(main.big_title.querySelector('.btn_help'))
+		main.cont_left_btn.removeChild(main.cont_left_btn.querySelector('.btn_help'))
 
 		var cont_info = createElem('form', 'cont_info', par);
 		var left_path = createElem('div', 'left_path', cont_info);
@@ -48,7 +59,7 @@ function UserSettings(){
 
 		var text = createElem('span', 'text', bottom_view);
 		text.innerHTML = 'Add your Company Logo';
-		var label_img = createElem('label', 'btn label_img', bottom_view)
+		var label_img = createElem('label', 'my_btn label_img', bottom_view)
 		label_img.innerHTML = 'Browse';
 		var input_img = createElem('input', 'browse', label_img)
 		input_img.type = 'file';
@@ -58,13 +69,44 @@ function UserSettings(){
 		var text = createElem('div', 'small_title', left_path);
 		text.innerHTML = 'UNITS';
 
-		var select = createElem('div','change', left_path);
+		var cont_select_units = createElem('div','change_units', left_path);
+
+		var select = createElem('select', 'select_units', cont_select_units)
+		select.id = 'select_units ';
+
+		for(var key in this.units) {
+			var elem = createElem('option', key, select)
+			elem.value = key
+			elem.innerHTML = this.units[key];
+		}
+		
+
+
 
 		var file_name = createElem('div', 'set_file_name', left_path);
 		var input_file_name = createElem('input', 'file_name',  file_name);
 		input_file_name.type = 'text';
 		input_file_name.name = 'file_name';
 		input_file_name.placeholder = 'FILE NAME';
+
+		var cont_btn_save = createElem('div','cont_save', left_path)
+
+		var input_save = createElem('input', 'my_btn btn_save', cont_btn_save)
+		input_save.type = 'submit';
+		input_save.value = 'Save';
+
+
+		var cont_select_units = createElem('div','change_units', right_path);
+
+		var select = createElem('select', 'select_units', cont_select_units)
+		select.id = 'select_units ';
+
+		for(var key in this.styles) {
+			var elem = createElem('option', key, select)
+			elem.value = key
+			elem.innerHTML = this.styles[key];
+		}
+		$("select").selectBoxIt();
 
 	}
 	this.changeImg = function(e){

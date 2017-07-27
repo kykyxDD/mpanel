@@ -1,0 +1,103 @@
+.page_project {
+	/*background-image: url(../image/bg_project.jpg);*/
+	background-position: center -5px;
+}
+
+.page_project .cont_form {
+	display: table;
+}
+.page_project .cont_form > div {
+	display: table-cell;
+	vertical-align: top;
+}
+
+.page_project .cont_form .left_path{
+	padding-right: 68px;
+}
+
+.cont_val_input {
+	width: 405px;
+    margin-bottom: 11px;
+}
+
+.right_path .cont_val_input  {
+	width: 190px;
+}
+.cont_val_textarea .txt,
+.cont_val_input .txt {
+	color: #6a6a6a;
+	text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    margin-bottom: 5px;
+}
+.cont_input input{
+	margin-bottom: 0;
+	height: 23px;
+    
+    border-color: #E1E1E1;
+    width: 90%;
+}
+.cont_input input,
+.cont_textarea textarea {
+	border-radius: 3px;
+	margin-bottom: 0;
+}
+
+.client .cont_input input,
+.project .cont_input input{
+	width: 390px;
+
+}
+.cont_val_input.project,
+.cont_val_input.date_entered{
+	margin-bottom: 18px;
+}
+
+.cont_list_input .cont_val_input {
+	width: 125px;
+	display: inline-block;
+    margin-right: 13px;
+}
+.cont_val_input.sail {
+	margin-right: 0;
+}
+.cont_val_input.sail .cont_input {
+	width: 36px;
+
+}
+.cont_val_input.sail .cont_list_val > div {
+	display: inline-block;
+}
+.cont_val_input.sail .cont_list_val input {
+	text-align: center;
+}
+.cont_val_input.sail .cont_list_val .text {
+	margin-left: 10px;
+    width: 34px;
+    text-align: center;
+    color: #6B6B6B;
+    line-height: 33px;
+}
+
+.cont_form_bottom {
+    width: 660px;
+	margin-top: 35px;
+}
+.cont_textarea textarea {
+	width: 642px;
+	height: 153px;
+}
+
+.cont_val_textarea {
+	margin-bottom: 25px;
+}
+
+.select_units {
+	width: 320px !important;
+
+}
+.selectboxit-container span, .selectboxit-container .selectboxit-options a {
+	height: 31px !important;
+	line-height: 31px !important;
+}
