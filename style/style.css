@@ -247,6 +247,7 @@ body {
 	border: 1px solid #6E6E6E;
 	color: #848484;
 	margin-left: 5px;
+	line-height: 14px;
 	text-align: center;
 }
 
@@ -760,4 +761,27 @@ body {
 
 .selectboxit-container .selectboxit-options {
 	border-radius: 0px !important;
+}
+
+
+.cont_check input[type="checkbox"] {
+	display:none;
+}
+
+.cont_check input[type="checkbox"] + label {
+	/*color:#f2f2f2;*/
+	width: 16px;
+	height: 16px;
+	border-radius: 3px;
+	border: 1px solid #d0d0d0;
+	margin: 0;
+	background-color: #fff;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+
+
+.cont_check input[type="checkbox"]:checked + label {
+	background-image:  url(../image/icon/ok.png);
 }

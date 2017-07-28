@@ -222,6 +222,16 @@ function Main (argument) {
 						// this.emptyPage();
 					}
 					break
+				case 'fabric':
+						title = this.itm_page.title
+						var fabric = new Fabric();
+						html = 'hs40.htm';
+					break
+				case 'shape':
+					title = this.itm_page.title
+					var shape_size = new ShapeSize();
+					html = 'hs50.htm';
+				break
 				default: 
 					title = this.itm_page.title
 					this.emptyPage();

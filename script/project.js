@@ -6,8 +6,6 @@ function Project(){
 	var styles = [
 		'./style/project.css'
 	]
-	
-
 
 	this.init = function(){
 		this.units = main.units
@@ -83,7 +81,9 @@ function Project(){
 		}
 
 
-		$("select").selectBoxIt();
+		$("select").selectBoxIt({
+			defaultText: "units"
+		});
 	}
 	this.createInputVal = function(text, name){
 		var elem = createElem('div', 'cont_val_input ' + name)

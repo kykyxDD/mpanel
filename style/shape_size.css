@@ -1,0 +1,187 @@
+.page_shape {
+	/*background-image: url(../image/bg_shape.jpg);*/
+	background-position: 0px -5px;
+}
+
+.cont_left_btn .my_btn{
+	height: 31px;
+	margin-left: 8px;
+	text-transform: initial;
+	position: relative;
+	line-height: 31px !important;
+	font-weight: bold;
+}
+.my_btn.reset{
+	text-align: left;
+	text-indent: 57px;
+	line-height: 33px;
+	letter-spacing: -0.4px;
+	color: #fff;
+	background: #1d96e5;
+	background: -moz-linear-gradient(top,  #1d96e5 0%, #1189d5 100%); 
+	background: -webkit-linear-gradient(top,  #1d96e5 0%,#1189d5 100%); 
+	background: linear-gradient(to bottom,  #1d96e5 0%,#1189d5 100%); 
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1d96e5', endColorstr='#1189d5',GradientType=0 ); 
+
+}
+.my_btn.reset:before{
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 35px;
+	width: 12px;
+	height: 20px;
+	margin-top: -10px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-image: url(../image/icon/reset_white.png);
+}
+.my_btn.reset.disable {
+	color: #939393;
+	pointer-events: none;
+	background: #d4d4d4; 
+	background: -moz-linear-gradient(top,  #d4d4d4 0%, #c0c0c0 100%);
+	background: -webkit-linear-gradient(top,  #d4d4d4 0%,#c0c0c0 100%);
+	background: linear-gradient(to bottom,  #d4d4d4 0%,#c0c0c0 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d4d4d4', endColorstr='#c0c0c0',GradientType=0 ); 
+}
+.my_btn.reset.disable:before{
+	background-image: url(../image/icon/reset_grey.png);
+}
+
+.my_btn.load_exam{
+	text-align: left;
+	text-indent: 35px;
+	letter-spacing: 0.1px;
+}
+.my_btn.load_exam:before {
+	position: absolute;
+	content: '';
+	top: 50%;
+	margin-top: -7px;
+	left: 9px;
+	width: 20px;
+	height: 15px;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-image: url(../image/icon/load.png);
+}
+
+
+
+.cont_info{
+	padding-top: 3px;
+	padding-left: 3px;
+	padding-bottom: 15px;
+}
+.cont_info > div {
+	display: inline-block;
+	vertical-align: top;
+}
+.cont_info .left_path{
+
+	    width: 430px;
+	    padding-right: 33px;
+}
+.cont_info .cont_check{
+	/*margin-top: 2px;*/
+}
+.cont_text_hind {
+	padding-top: 2px;
+}
+.cont_info .cont_text_hind > div {
+	display: inline-block;
+	vertical-align: top
+}
+.cont_info .txt_tension{
+	text-indent: 9px;
+	font-size: 12px;
+	letter-spacing: 0.1px;
+	color:#868686;
+	line-height: 16px;
+}
+.cont_info .cont_figure{
+	border: 1px solid #E2E2E2;
+	margin-top: 11px;
+	/* margin-left: 0px; */
+	width: 428px;
+	height: 428px;
+	border-radius: 5px;
+	background-color: #fff;
+	box-shadow: 2px 2px 5px grey;
+}
+.cont_info .cont_count {
+	padding-top: 10px;
+	text-align: center;
+}
+
+.cont_info .cont_count .text{
+	text-transform: uppercase;
+	line-height: 17px;
+	color: dimgrey;
+
+}
+
+
+.cont_info .cont_count .elem_count {
+	width: 152px;
+	height: 40px;
+	margin: 5px auto 0;
+	border-radius: 5px;
+	overflow: hidden;
+	background-color: #fff;
+	box-shadow: 2px 2px 7px #8E8E8E;
+}
+.cont_info .cont_count .elem_count > div {
+	display: inline-block;
+	height: 100%;
+	vertical-align: top;
+}
+.cont_info .cont_count .elem_count .btn_minus {
+	float: left;
+}
+.cont_info .cont_count .elem_count .btn_plus  {
+	float: right;
+}
+.cont_info .cont_count .elem_count .btn_minus,
+.cont_info .cont_count .elem_count .btn_plus  {
+	width: 43px;
+	height: 100%;
+	color: #fff;
+	background-color: #1189d5;
+	position: relative;
+	cursor: pointer;
+}
+
+.cont_info .cont_count .elem_count .val_num{
+	width: 65px;
+	color: #1994e1;
+
+	font-size: 27px;
+	line-height: 40px;
+	font-weight: bold;
+		cursor: default;
+}
+
+.cont_info .cont_count .elem_count .btn_plus:before,
+.cont_info .cont_count .elem_count .btn_minus:before,
+.cont_info .cont_count .elem_count .btn_plus:after {
+	position: absolute;
+	content: '';
+	background-color: #fff;
+	top: 50%;
+	left: 50%;
+	pointer-events: none;
+}
+
+.cont_info .cont_count .elem_count .btn_minus:before,
+.cont_info .cont_count .elem_count .btn_plus:before {
+	height: 2px;
+	width: 17px;
+	margin-left: -7px;
+}
+.cont_info .cont_count .elem_count .btn_plus:after {
+	width: 2px;
+	height: 17px;
+	margin-top: -7px;
+}

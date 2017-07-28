@@ -79,6 +79,10 @@ function UserSettings(){
 			elem.value = key
 			elem.innerHTML = this.units[key];
 		}
+
+		$("select").selectBoxIt({
+			defaultText: "units"
+		});
 		
 
 
@@ -106,7 +110,9 @@ function UserSettings(){
 			elem.value = key
 			elem.innerHTML = this.styles[key];
 		}
-		$("select").selectBoxIt();
+		$("select").selectBoxIt({
+			//defaultText: "units"
+		});
 
 	}
 	this.changeImg = function(e){
