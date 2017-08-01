@@ -59,7 +59,9 @@ function ShapeSize (argument) {
 	this.createInfoRight = function(right_path){
 		var num_edge = 3;
 
-		var cont_sides = dom.div('cont_sides', right_path);
+		var cont_sides_diagonals = dom.div('cont_sides_diagonals',right_path )
+
+		var cont_sides = dom.div('cont_sides', cont_sides_diagonals);
 		var title = dom.div('title_cont', cont_sides);
 		dom.text(title, 'sides');
 
@@ -107,6 +109,30 @@ function ShapeSize (argument) {
 			}
 		}
 
+		var cont_diagonals = dom.div('cont_diagonals', cont_sides_diagonals);
+		var title = dom.div('title_cont', cont_diagonals);
+		dom.text(title, 'diagonals');
+		this.cont_diagonals = cont_diagonals;
+
+		var cont_table_diagonals = dom.div('cont_table_diagonals', cont_diagonals);
+		var table_diagonals = dom.elem('table', 'table_diagonals', cont_table_diagonals);
+		var thead_diagonals = dom.elem('thead', 'thead_diagonals', table_diagonals);
+		var tbody_diagonals = dom.elem('tbody', 'tbody_diagonals', table_diagonals);
+		this.tbody_diagonals = tbody_diagonals;
+
+		var tr_head_diagonals = dom.elem('tr', '', thead_diagonals);
+		var arr_diagonals = [{
+			'text':'Diagonal',
+			'id': 'diagonal'
+		}, {
+			'text':'Measurement',
+			'id': 'measurement'
+		}];
+
+		for(var i = 0; i < arr_diagonals.length; i++){
+			var td = dom.elem('td' , arr_diagonals[i].id, tr_head_diagonals);
+			dom.text(td, arr_diagonals[i].text);
+		};
 
 		var cont_corners = dom.div('cont_corners', right_path);
 		var title = dom.div('title_cont', cont_corners);
@@ -153,6 +179,7 @@ function ShapeSize (argument) {
 		dom.addclass(this.cont_figure_tension, 't_'+num)
 
 		this.createSides(num);
+		this.createDiagonals(num);
 		this.createCorners(num);
 
 	};
@@ -162,6 +189,13 @@ function ShapeSize (argument) {
 		while(tbody_sides.children.length){
 			tbody_sides.removeChild(tbody_sides.children[0])
 		}
+
+		var tbody_diagonals = this.tbody_diagonals;
+
+		while(tbody_diagonals.children.length){
+			tbody_diagonals.removeChild(tbody_diagonals.children[0])
+		}
+		
 		var tbody_corners = this.tbody_corners;
 
 		while(tbody_corners.children.length){
@@ -209,6 +243,50 @@ function ShapeSize (argument) {
 			input_mid.id= "mid_"+id;
 			label_mid.setAttribute('for', "mid_"+id)
 		}
+	};
+
+	this.createDiagonals = function(num){
+		var tbody_diagonals = this.tbody_diagonals;
+		var alf = lang.substr(0, num).split("");
+		if(num < 4){
+			dom.visible(this.cont_diagonals, false)
+			return
+		}
+
+		dom.visible(this.cont_diagonals, true)
+		var num_diag = num == 4 ? 2 : 5;
+		var arr = [];
+		if(num == 4){
+			arr.push(['A', 'C']);
+			arr.push(['B', 'D']);
+		} else if(num == 5){
+			arr.push(['A', 'E']);
+			arr.push(['A', 'D']);
+			arr.push(['B', 'D']);
+			arr.push(['B', 'E']);
+			arr.push(['C', 'E']);
+		} else if(num == 6){
+			arr.push(['A', 'E']);
+			arr.push(['B', 'D']);
+			arr.push(['B', 'E']);
+			arr.push(['B', 'F']);
+			arr.push(['C', 'E']);
+		};
+
+		for(var i = 0; i < num_diag; i++){
+			var txt = arr[i];
+			var tr = dom.elem('tr', '', tbody_diagonals);
+			
+			var td_corner = dom.elem('td', 'td_diag', tr);
+			dom.text(td_corner, txt.join('-'));
+
+			var td_meas = dom.elem('td', 'td_meas', tr);
+			var div_m_val = dom.div('div_m_val', td_meas);
+			var div_m_red = dom.div('div_m_red', td_meas);
+			dom.text(div_m_red, 'mm');
+		}
+
+
 	};
 	this.createCorners = function(num){
 		var tbody_corners = this.tbody_corners;

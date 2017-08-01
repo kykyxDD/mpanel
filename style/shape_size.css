@@ -1,6 +1,6 @@
 .page_shape {
 	/*background-image: url(../image/bg_shape.jpg);*/
-    background-position: -1px -4px;
+	background-position: 1px -5px;
 }
 
 .cont_left_btn .my_btn{
@@ -189,6 +189,11 @@
 }
 
 
+.cont_sides_diagonals > div{
+	display: inline-block;
+	vertical-align: top;
+}
+
 .title_cont {
 	font-size: 14px;
 	text-transform: uppercase;
@@ -205,31 +210,47 @@
     overflow: hidden;
     box-shadow: 2px 2px 5px grey;
 }
+.cont_table_sides {
+	margin-right: 19px;
+}
+.cont_table_diagonals {
+	margin-top: 2px;
+	width: 178px;
+	border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 2px 2px 5px grey;
+}
 .table_sides,
+.table_diagonals,
 .table_corners {
 	width: 100%;
 
 }
 
 .thead_sides,
+.thead_diagonals,
 .thead_corners{
 	color: #929292;
 	background-color: #e5e5e5;
 }
 
 .tbody_sides,
+.tbody_diagonals,
 .tbody_corners{
 		color: #717171 !important;
 }
 
 .thead_sides td,
+.thead_diagonals td,
 .thead_corners td{
 
 	border-right: 1px solid #CECECE;
 	height: 35px;
 	font-size: 12px;
 }
-.thead_sides td:last-child{
+.thead_sides td:last-child,
+.thead_diagonals td:last-child,
+.thead_corners td:last-child{
 	border-right:  none;
 	text-indent: 7px;
 }
@@ -270,12 +291,14 @@
 }
 
 .table_sides .td_meas > div,
+.table_diagonals .td_meas > div,
 .table_corners .td_height > div {
 	display: table-cell;
 	vertical-align: middle;
 }
 
 .table_sides tbody tr td,
+.table_diagonals tbody tr td,
 .table_corners tbody tr td {
 	border-right: 1px solid #e1e1e1;
 	color:#8b8b8b;
@@ -285,6 +308,7 @@
 	border-right: none;
 }
 .table_corners .td_height .div_h_val,
+.table_diagonals .td_meas .div_m_val,
 .table_sides .td_meas .cont_meas{
 	padding-left: 16px;
 }
@@ -299,14 +323,19 @@
 	box-shadow: none;
 }
 .table_sides .td_side,
+.table_diagonals .td_diag,
 .table_corners .td_corner {
 	font-weight: bold;
 	color: #696969;
 	text-align: center;
 }
 .table_corners .td_height .div_h_red,
+.table_diagonals .td_meas .div_m_red,
 .table_sides .td_meas .val_red{
 	padding-left: 3px;
+}
+.table_diagonals tr {
+	height: 32px;
 }
 
 
@@ -323,10 +352,12 @@
 }
 
 .table_sides tbody tr:nth-child(odd),
+.table_diagonals tbody tr:nth-child(odd),
 .table_corners tbody tr:nth-child(odd) {
 	background-color: #fafafa;
 }
 .table_sides tbody tr:nth-child(even),
+.table_diagonals tbody tr:nth-child(even),
 .table_corners tbody tr:nth-child(even) {
 	background-color: #fff;
 }
@@ -361,6 +392,9 @@
 .table_corners .td_height .div_h_val {
 	width: 50px;
 }
+.table_diagonals .td_meas .div_m_val {
+	width: 48px;
+}
 
 .table_corners .td_finish{
 	text-indent: 15px;
@@ -386,4 +420,14 @@
 }
 .cont_figure.t_6 {
 	background-image: url(../image/triangle/t_6.jpg);
+}
+
+
+.thead_diagonals td.diagonal{
+    width: 76px;
+    text-indent: 15px;
+}
+
+.thead_diagonals td.measurement{
+	text-indent: 10px;
 }
