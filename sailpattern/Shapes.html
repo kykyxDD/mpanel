@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Shapes</title>
+
+
+<script src="libs/easeljs-0.8.1.min.js"></script>
+<script src="libs/tweenjs-0.6.1.min.js"></script>
+
+<script src="libs/movieclip-0.8.1.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+<script src="Shapes.js"></script>
+
+<script>
+var canvas, stage, exportRoot;
+
+function init() {
+	canvas = document.getElementById("canvas");
+	exportRoot = new lib.Shapes();
+
+	stage = new createjs.Stage(canvas);
+	stage.addChild(exportRoot);
+	stage.update();
+
+	createjs.Ticker.setFPS(lib.properties.fps);
+	createjs.Ticker.addEventListener("tick", stage);
+
+
+}
+
+//////////////
+
+function clone(obj) {
+    var copy;
+
+    // Handle the 3 simple types, and null or undefined
+    if (null == obj || "object" != typeof obj) return obj;
+
+    // Handle Date
+    if (obj instanceof Date) {
+        copy = new Date();
+        copy.setTime(obj.getTime());
+        return copy;
+    }
+
+    // Handle Array
+    if (obj instanceof Array) {
+        copy = [];
+        for (var i = 0, len = obj.length; i < len; i++) {
+            copy[i] = clone(obj[i]);
+        }
+        return copy;
+    }
+
+    // Handle Object
+    if (obj instanceof Object) {
+        copy = {};
+        for (var attr in obj) {
+            if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
+        }
+        return copy;
+    }
+
+    throw new Error("Unable to copy obj! Its type isn't supported.");
+}
+
+/////////////
+var defaultTriangle = [{name:"AB",val:100,fin:false,indexes:[0,1],curved:0.3},
+					   {name:"BC",val:100,fin:false,indexes:[1,2],curved:0.3},
+					   {name:"CA",val:100,fin:false,indexes:[2,0],curved:0.3}];
+
+var defaultQuadrilateral = [{name:"AB",val:100,fin:false,indexes:[0,1],curved:0.3},
+							{name:"BC",val:100,fin:false,indexes:[1,2],curved:0.3},
+							{name:"CD",val:100,fin:false,indexes:[2,3],curved:0.3},
+							{name:"DA",val:100,fin:false,indexes:[3,0],curved:0.3},
+							{name:"AC",val:Math.sqrt(20000),fin:false,indexes:[0,2],diag:true},
+							{name:"BD",val:Math.sqrt(20000),fin:false,indexes:[1,3],diag:true}
+							];
+var pentaK = (1+Math.sqrt(5))/2;
+var defaultPentagon = [{name:"AB",val:100,fin:false,indexes:[0,1],curved:0.3},
+					   {name:"BC",val:100,fin:false,indexes:[1,2],curved:0.3},
+					   {name:"CD",val:100,fin:false,indexes:[2,3],curved:0.3},
+					   {name:"DE",val:100,fin:false,indexes:[3,4],curved:0.3},
+					   {name:"EA",val:100,fin:false,indexes:[4,0],curved:0.3},
+					   {name:"AC",val:100*pentaK,fin:false,indexes:[0,2],diag:true},
+					   {name:"AD",val:100*pentaK,fin:false,indexes:[0,3],diag:true},
+					   {name:"BE",val:100*pentaK,fin:false,indexes:[1,4],diag:true},
+					   {name:"BD",val:100*pentaK,fin:false,indexes:[1,3],diag:true},
+					   {name:"CE",val:100*pentaK,fin:false,indexes:[2,4],diag:true}
+					];
+var side = 100;
+var khex = Math.sqrt(2) ;///Math.sqrt(3/4)*2;
+var defaultHexagon = [{name:"AB",val:side,fin:false,indexes:[0,1],curved:0.3},
+					   {name:"BC",val:side,fin:false,indexes:[1,2],curved:0.3},
+					   {name:"CD",val:side,fin:false,indexes:[2,3],curved:0.3},
+					   {name:"DE",val:side,fin:false,indexes:[3,4],curved:0.3},
+					   {name:"EF",val:side,fin:false,indexes:[4,5],curved:0.3},
+					   {name:"FA",val:side,fin:false,indexes:[5,0],curved:0.3},
+					   {name:"AE",val:side*khex,fin:false,indexes:[0,4],diag:true},
+					   {name:"BD",val:side*khex,fin:false,indexes:[1,3],diag:true},
+					   {name:"BE",val:side,fin:false,indexes:[1,4],diag:true},
+					   {name:"BF",val:side*khex,fin:false,indexes:[1,5],diag:true},
+					   {name:"CE",val:side*khex,fin:false,indexes:[2,4],diag:true}
+					];
+var curentObject;
+
+var objects =  [clone(defaultTriangle),  clone(defaultQuadrilateral), clone(defaultPentagon), clone(defaultHexagon)];
+function clearMasure(){
+	if(shape == 0){
+		objects[shape] = clone(defaultTriangle);
+	}
+	if(shape == 1){
+		objects[shape] = clone(defaultQuadrilateral);
+	}
+	if(shape == 2){
+		objects[shape] = clone(defaultPentagon);
+	}
+	if(shape == 3){
+		objects[shape] = clone(defaultHexagon);
+	}
+	curentObject = objects[shape];
+
+	setFormStatus();
+	exportRoot.updateShape(curentObject,true);
+
+}
+function setFormStatus(){
+	for(i=0;i<curentObject.length;i++){
+		var n = curentObject[i].name;
+		var obj = $("input[name="+ n+"]");
+	//	obj.val(Math.round(curentObject[i].val*10)/10);
+		if(!curentObject[i].fin){
+			obj.val("");
+			obj.css("background-color", "#CCCCCC");
+		}else{
+			obj.val(Math.round(curentObject[i].val*10)/10);
+			obj.css("background-color", "#FFFFFF");
+		}
+		
+	}
+}
+function inputTextUnFocused(e){
+	exportRoot.setSelection("");
+}
+function inputTextFocused(e){
+
+	console.log(e.target.name);
+	exportRoot.setSelection(e.target.name);
+
+}
+function restoreDiagonals(oldVal,newVal){
+	var k = newVal/oldVal;
+	for(var i=0;i<curentObject.length;i++){
+		if(!curentObject[i].fin && curentObject[i].diag){
+			curentObject[i].val/=k;
+		}
+	}
+}
+//
+function tryToResolveMeasures(oldVal,newVal){
+	var k = newVal/oldVal;
+	for(var i=0;i<curentObject.length;i++){
+		if(!curentObject[i].fin){
+			curentObject[i].val*=k;
+		}
+	}
+}
+
+function inputTextChanged(e){
+	var cobj ;
+	var oldval,newval;
+
+	for(var i=0;i<curentObject.length;i++){
+		if(curentObject[i].name == e.target.name){
+			cobj = curentObject[i];
+			
+			oldval = curentObject[i].val;
+			newval = parseFloat(e.target.value);
+			curentObject[i].val = newval; 
+		}
+	}
+	cobj.fin = true;
+	tryToResolveMeasures(oldval,newval );
+	setFormStatus();
+	var res = exportRoot.updateShape(curentObject,true);
+	if(!res){
+		restoreDiagonals(oldval,newval);
+		setFormStatus();
+		res = exportRoot.updateShape(curentObject,true);
+		
+	
+	}
+	//if(true;!res){
+		
+		//res = exportRoot.updateShape(curentObject,true);
+		
+	//}
+	
+	console.log("res=",res);
+	
+	var obj = $("input[name="+ e.target.name+"]");
+	obj.css("background-color", "#FFFFFF");
+	if(res){
+		$( "form input:text" ).css("border","1px solid grey");
+		
+	}else{
+		obj.css("border","2px solid #f00");
+	}
+
+}
+function setLabelValue(shape){
+	var lbl = document.getElementById("lblShapeType");
+	console.log(lbl);
+	lbl.firstChild.nodeValue = shape+3;
+}
+function nextShape(){
+
+	shape = Math.min(objects.length-1, shape+1);
+	console.log("nshape",shape);
+	setShape(shape);
+}
+
+function prevShape(){
+	console.log("nshape");
+	shape = Math.max(0, shape-1);
+	console.log("nshape",shape);
+	setShape(shape);
+}
+function buildForm(){
+	//var obj = document.getElementById("measures");
+	var obj = $("#measures");
+	obj.empty();
+
+	obj.append($("<p></p>").text("Sides."));
+	var diagonals = false;
+	for(var i=0;i<curentObject.length;i++){
+		if(curentObject[i].diag && !diagonals){
+			diagonals = true;
+			obj.append($("<p></p>").text("Diagonals."));
+		}
+
+		var line = $("<p></p>");
+		line.text(curentObject[i].name[0]+"-"+curentObject[i].name[1] + " ");
+		var input = document.createElement("input");
+		input.name = curentObject[i].name;
+		input.size = 4;
+		input.type = "text";
+		input.value = curentObject[i].val;
+		line.append(input);
+
+		obj.append(line);	
+	}
+	$("form input:text").change(inputTextChanged);
+	$("form input:text").focus(inputTextFocused);
+	$("form input:text").blur(inputTextUnFocused);
+	$( "form input:text" ).css({
+		background: "#CCCCCC",
+		border: "1px grey solid"
+	})		
+	setFormStatus();
+}
+function setShape(shape){
+	curentObject = objects[shape];
+	buildForm();
+	setFormStatus();
+	exportRoot.buildShape(curentObject);
+	setLabelValue(shape);
+}
+
+var shape = 0;
+
+
+////////init intercase
+$(document).ready(function(){
+	init();
+	setShape(shape);
+});
+
+
+
+</script>
+</head>
+<style>
+	button{
+		height:50px;
+	}
+	p{
+		padding-left:10px
+	}
+    div{
+       display:inline-block;
+	   }
+	label {
+		width:50px;
+		padding-right:10px;
+		padding-left:10px;
+	}
+</style>
+
+<body style="background-color:#D4D4D4">
+	<div>
+		<h1 style="font-family:'Arial Black', Gadget, sans-serif"  style="font-size:18px">Sail pattern</h1>
+		<h3>Demonstration of the measurement input module</h3>
+		<div style="float: left;">
+			<canvas id="canvas" width="500" height="500" style="background-color:#FFFFFF"></canvas>
+			<p align = "center">Number of sides</p>
+			<p align = "center"><button style="width:50px" onclick="prevShape()">-</button><label id="lblShapeType">3</label><button style="width:50px" onclick="nextShape()">+</button></p>
+		</div>
+		<div style="float: right;">
+			<p><button style="width:150px" onclick="clearMasure()">Reset</button></p>
+			<form  id="measures"></form>
+		</div> 
+		
+	</div>
+</body>
+</html>

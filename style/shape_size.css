@@ -22,7 +22,7 @@
 	background: -webkit-linear-gradient(top,  #1d96e5 0%,#1189d5 100%); 
 	background: linear-gradient(to bottom,  #1d96e5 0%,#1189d5 100%); 
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1d96e5', endColorstr='#1189d5',GradientType=0 ); 
-
+	border-color: #1d96e5;
 }
 .my_btn.reset:before{
 	content: '';
@@ -31,7 +31,7 @@
 	left: 35px;
 	width: 12px;
 	height: 20px;
-	margin-top: -10px;
+	margin-top: -12px;
 	background-repeat: no-repeat;
 	background-position: center;
 	background-image: url(../image/icon/reset_white.png);
@@ -44,6 +44,7 @@
 	background: -webkit-linear-gradient(top,  #d4d4d4 0%,#c0c0c0 100%);
 	background: linear-gradient(to bottom,  #d4d4d4 0%,#c0c0c0 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d4d4d4', endColorstr='#c0c0c0',GradientType=0 ); 
+	border-color: #d4d4d4;
 }
 .my_btn.reset.disable:before{
 	background-image: url(../image/icon/reset_grey.png);
@@ -205,10 +206,19 @@
 .cont_table_sides,
 .cont_table_corners {
 	border-radius: 5px;
-    width: 500px;
-    margin: 3px 0 16px;
-    overflow: hidden;
-    box-shadow: 2px 2px 5px grey;
+	width: 500px;
+	margin: 3px 0 16px;
+	overflow: hidden;
+	box-shadow: 2px 2px 5px grey;
+}
+.cont_table_sides,
+.cont_table_diagonals,
+.cont_table_corners {
+	padding-bottom: 2px;
+}
+.cont_table_corners.disable {
+	opacity: 0.4;
+	pointer-events: none;
 }
 .cont_table_sides {
 	margin-right: 19px;
@@ -217,8 +227,8 @@
 	margin-top: 2px;
 	width: 178px;
 	border-radius: 5px;
-    overflow: hidden;
-    box-shadow: 2px 2px 5px grey;
+	overflow: hidden;
+	box-shadow: 2px 2px 5px grey;
 }
 .table_sides,
 .table_diagonals,
@@ -237,7 +247,8 @@
 .tbody_sides,
 .tbody_diagonals,
 .tbody_corners{
-		color: #717171 !important;
+	color: #717171 !important;
+	border-right: 5px solid rgba(255,255,255,0);
 }
 
 .thead_sides td,
@@ -254,9 +265,15 @@
 	border-right:  none;
 	text-indent: 7px;
 }
-.thead_sides td.side{
+/*.thead_sides td.side{
 	width: 70px;
 	text-indent: 21px;
+}*/
+.thead_sides td.side,
+.thead_diagonals td.diagonal,
+.thead_corners .corner{
+	text-align: center;
+	width: 70px;
 }
 
 .thead_sides td.measurement{
@@ -301,7 +318,8 @@
 .table_diagonals tbody tr td,
 .table_corners tbody tr td {
 	border-right: 1px solid #e1e1e1;
-	color:#8b8b8b;
+	color: #8b8b8b;
+	position: relative;
 }
 .table_sides tbody tr td:last-child,
 .table_corners tbody tr td:last-child {
@@ -322,6 +340,28 @@
 	font-size: 12px;
 	box-shadow: none;
 }
+.table_sides tbody tr td input[type='text'] + label ,
+.table_diagonals tbody tr td input[type='text'] + label {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: block;
+	background-color: rgba(255,255,255,0);
+	pointer-events: none;
+	padding: 0;
+	border-radius: 0;
+}
+.table_sides tbody tr td input[type='text']:focus + label,
+.table_diagonals tbody tr td input[type='text']:focus + label{
+	box-shadow: 0 0 5px #1296FF !important;
+}
+.table_sides tbody tr td input[type='text'] + label.error ,
+.table_diagonals tbody tr td input[type='text'] + label.error {
+	box-shadow: 0 0 5px #ff0000;
+}
+
 .table_sides .td_side,
 .table_diagonals .td_diag,
 .table_corners .td_corner {
@@ -363,10 +403,6 @@
 }
 
 
-.thead_corners .corner{
-	text-indent: 22px;
-	width: 70px;
-}
 .thead_corners .height{
 	    text-indent: 9px;
     width: 96px;
@@ -394,6 +430,17 @@
 }
 .table_diagonals .td_meas .div_m_val {
 	width: 48px;
+	padding-left: 10px;
+}
+.table_diagonals .td_meas .div_m_val  input{
+	width: 100%;
+	padding: 0;
+	border: none;
+	height: 100%;
+	margin: auto 0;
+	background-color: initial;
+	box-shadow: none;
+	font-size: 12px;
 }
 
 .table_corners .td_finish{
@@ -425,7 +472,6 @@
 
 .thead_diagonals td.diagonal{
     width: 76px;
-    text-indent: 15px;
 }
 
 .thead_diagonals td.measurement{

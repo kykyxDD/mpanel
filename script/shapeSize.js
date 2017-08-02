@@ -2,6 +2,9 @@ function ShapeSize (argument) {
 	
 
 	var scripts = [];
+	this.arr_sides = [];
+	this.arr_diagonals = [];
+	this.arr_corners = [];
 	var styles = [
 		'./style/shape_size.css'
 	];
@@ -10,6 +13,19 @@ function ShapeSize (argument) {
 	this.item_num = min_edge ;
 	var lang = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+	this.obj_info = {};
+	this.reset = false;
+	this.list_error = {
+		sides: {},
+		corners: {},
+		diag: {}
+
+	};
+
+	this.kod_error = {
+		'<0': 1
+	}
+
 	this.init = function(){
 		var par = document.querySelector('.body .cont');
 
@@ -17,9 +33,7 @@ function ShapeSize (argument) {
 		var elem_title = document.querySelector('.body .title .cont_left_btn')
 		var btn_help = elem_title.querySelector('.btn_help');
 
-
 		this.createBtnHead(elem_title, btn_help);
-
 
 		var cont_info = dom.div('cont_info', par);
 
@@ -36,12 +50,12 @@ function ShapeSize (argument) {
 		var cont_checkbox = dom.div('cont_check', cont_text_hind);
 
 		var input_tension = dom.input('checkbox', 'tension', cont_checkbox);
-		console.log('input_tension',input_tension)
+		// console.log('input_tension',input_tension)
 		input_tension.checked = true;
 		input_tension.id = 'tension';
 
 		var label_tension = dom.elem('label', 'tension', cont_checkbox);
-		console.log('label_tension',label_tension);
+		// console.log('label_tension',label_tension);
 		label_tension.setAttribute('for', 'tension');
 
 		var text_tension = dom.div('txt_tension', cont_text_hind);
@@ -51,9 +65,16 @@ function ShapeSize (argument) {
 
 		var cont_figure_tension = dom.div('cont_figure', left_path);
 		this.cont_figure_tension = cont_figure_tension;
+		var self = this;
 
-
+		input_tension.addEventListener('change', function(){
+			self.checkTension(this.checked)
+		})
 		this.createCount(left_path)
+	};
+	this.checkTension = function(checked){
+		console.log('checkTension', checked);
+
 	};
 
 	this.createInfoRight = function(right_path){
@@ -100,10 +121,10 @@ function ShapeSize (argument) {
 
 			if(arr_sides[i].id == 'dip'){
 				var text = dom.div('txt', td);
-				dom.text(text, arr_sides[i].text)
+				dom.text(text, arr_sides[i].text);
 				var cont_hint = dom.div('cont_btn_help', td);
-				var hint = dom.div('btn_help', cont_hint)
-				dom.text(hint, '?')
+				var hint = dom.div('btn_help', cont_hint);
+				dom.text(hint, '?');
 			} else {
 				dom.text(td, arr_sides[i].text);
 			}
@@ -122,10 +143,10 @@ function ShapeSize (argument) {
 
 		var tr_head_diagonals = dom.elem('tr', '', thead_diagonals);
 		var arr_diagonals = [{
-			'text':'Diagonal',
+			'text' : 'Diagonal',
 			'id': 'diagonal'
 		}, {
-			'text':'Measurement',
+			'text' : 'Measurement',
 			'id': 'measurement'
 		}];
 
@@ -142,6 +163,7 @@ function ShapeSize (argument) {
 		var table_corners = dom.elem('table', 'table_corners', cont_table_corners);
 		var thead_corners = dom.elem('thead', 'thead_corners', table_corners);
 		var tbody_corners = dom.elem('tbody', 'tbody_corners', table_corners);
+		this.cont_table_corners = cont_table_corners;
 		this.tbody_corners = tbody_corners;
 
 		var tr_head_corners = dom.elem('tr', '', thead_corners);
@@ -165,7 +187,7 @@ function ShapeSize (argument) {
 		for(var i = 0; i < arr_corners.length; i++){
 			var td = dom.elem('td' , arr_corners[i].id, tr_head_corners);
 			dom.text(td, arr_corners[i].text);
-		}
+		};
 
 		this.createNewInfo();
 
@@ -176,40 +198,131 @@ function ShapeSize (argument) {
 		this.remPrevInfo();
 		var num = this.item_num;
 
-		dom.addclass(this.cont_figure_tension, 't_'+num)
+		dom.addclass(this.cont_figure_tension, 't_'+num);
+
+		this.list_error.sides = {};
+		this.list_error.corners = {};
+		this.list_error.diag = {};
 
 		this.createSides(num);
 		this.createDiagonals(num);
 		this.createCorners(num);
 
+		this.reset = false
+
 	};
 	this.remPrevInfo = function(){
+		var self = this
+		var obj = {};
+		for(var i = 0; i < this.arr_sides.length; i++ ){
+			if(!obj.sides) obj.sides = {}
+			var itm = this.arr_sides[i];
+			this.arr_sides[i].elem_meas.removeEventListener('input', self.updateValSides.bind(self));
+			this.arr_sides[i].elem_meas.removeEventListener('change', self.checkValSides.bind(self));
+			var id = this.arr_sides[i].id
+			obj.sides[id] = {
+				meas: itm.elem_meas.value,
+				type: itm.elem_type.innerText,
+				dip: itm.elem_dip.value,
+				fixed: itm.elem_fixed.checked,
+				mid: itm.elem_mid.checked
+			}
+
+		}
+
+		for(var i = 0; i < this.arr_diagonals.length; i++ ){
+			if(!obj.diag) obj.diag = {}
+			var itm = this.arr_diagonals[i];
+			var id = itm.id;
+			obj.diag[id] = {
+				meas: itm.elem_meas.value
+			}
+		}
+
+		for(var i = 0; i < this.arr_corners.length; i++ ){
+			if(!obj.corners) obj.corners = {}
+			var itm = this.arr_corners[i];
+			var id = itm.id;
+			obj.corners[id] = {
+				h: itm.elem_h.innerText,
+				finish: itm.elem_finish.innerText,
+				link: itm.elem_link.innerText,
+				length: itm.elem_length.innerText
+			}
+		}
+		console.log(obj)
+
+		var num_sides = this.arr_sides.length;
+		if(num_sides > 0){
+			if(this.reset){
+				this.obj_info[num_sides] = obj;	
+			} else if(this.obj_info[num_sides]) {
+				this.obj_info[num_sides] = false
+			}
+			
+		}
+		
+		console.log('obj_info',this.obj_info)
+
 		var tbody_sides = this.tbody_sides;
 
 		while(tbody_sides.children.length){
-			tbody_sides.removeChild(tbody_sides.children[0])
+			tbody_sides.removeChild(tbody_sides.children[0]);
 		}
 
 		var tbody_diagonals = this.tbody_diagonals;
 
 		while(tbody_diagonals.children.length){
-			tbody_diagonals.removeChild(tbody_diagonals.children[0])
+			tbody_diagonals.removeChild(tbody_diagonals.children[0]);
 		}
-		
+		//this.remCorners()
 		var tbody_corners = this.tbody_corners;
 
 		while(tbody_corners.children.length){
-			tbody_corners.removeChild(tbody_corners.children[0])
+			tbody_corners.removeChild(tbody_corners.children[0]);
 		}
+
 	};
+	this.checkError = function(){
+		var all_list_error = this.list_error;
+		var error = 0;
+		var val_true = false
+		var list_error = [];
+
+		for(var key in list_error){
+			var table = list_error[key]
+			for(var val in table){
+				if(table[val] >= 1){
+					error++;
+					list_error.push([val, table[val]])
+				} else if(table[val] === true){
+					val_true = true
+				}
+			}
+		}
+		if(val_true && !list_error.length) {
+			
+		}
+	}
+	this.remCorners = function(){
+		var arr = this.arr_corners;
+		for(var i = 0; i < arr.length; i++){
+			dom.elem(arr[i].elem_h, '');
+		}
+	}
 
 	this.createSides = function(num){
+		this.arr_sides = [];
+		var self = this;
 		var tbody_sides = this.tbody_sides;
 		var alf = lang.substr(0, num).split("");
-		// console.log(alf)
+		var prev_values = this.obj_info[num] && this.obj_info[num].sides;
+		console.log(prev_values)
+
 		for(var i = 0; i < num; i++){
 			var arr_txt = [alf[i] , alf[(i+1)%num]];
 			var txt = arr_txt.join('-');
+			var id_obj = arr_txt.join('')
 			var id = arr_txt.join('_').toLowerCase();
 
 			var tr = dom.elem('tr', '', tbody_sides);
@@ -219,13 +332,22 @@ function ShapeSize (argument) {
 			var td_meas = dom.elem('td', 'td_meas', tr);
 			var cont_input_meas = dom.div('cont_meas', td_meas);
 			var input_meas = dom.input('text', 'input_meas', cont_input_meas);
+			var label_meas = dom.elem('label', 'label', cont_input_meas); //dom.input('text', 'input_meas', cont_input_meas);
 			var cont_val_red = dom.div('val_red', td_meas);
-			dom.text(cont_val_red, 'mm')
+			dom.text(cont_val_red, 'mm');
+
+			input_meas.addEventListener('input', self.updateValSides.bind(self));
+			input_meas.addEventListener('change', self.checkValSides.bind(self));
+			input_meas.side = id_obj;
+			if(i == 0) {
+				input_meas.setAttribute('autofocus', true)
+			}
 
 			var td_type = dom.elem('td', 'td_type', tr);
 			dom.text(td_type, 'Webbing');
 			var td_dip = dom.elem('td', 'td_dip', tr);
 			var input_dip = dom.input('text', 'dip_'+id, td_dip)
+			var label_meas = dom.elem('label', 'label', td_dip)
 
 			var td_fixed = dom.elem('td', 'td_fixed', tr);
 			var cont_check_fixed = dom.div('cont_check', td_fixed) ;
@@ -242,55 +364,260 @@ function ShapeSize (argument) {
 			var label_mid = dom.elem('label', '', cont_check_mid);
 			input_mid.id= "mid_"+id;
 			label_mid.setAttribute('for', "mid_"+id)
+
+
+			this.list_error.sides[id_obj] = undefined;
+
+			this.arr_sides.push({
+				id: id_obj,
+				id_sides: arr_txt,
+				elem_meas: input_meas,
+				elem_type: td_type,
+				elem_dip : input_dip,
+				elem_fixed: input_fixed,
+				elem_mid : input_mid
+			});
+			if(prev_values) {
+				var obj_val = prev_values[id_obj]
+				if(obj_val){
+					input_meas.value = obj_val.meas;
+					dom.text(td_type, obj_val.type);
+					input_dip.value = obj_val.dip;
+					input_fixed.checked = obj_val.fixed;
+					input_mid.checked = obj_val.mid;
+				}
+			}
 		}
 	};
+	this.checkValSides = function(e){
+		var target = e.target || e.srcElement;
+
+		if(target.value.substr(-1) == '.'){
+			target.value = parseFloat(target.value).toFixed(1);
+		}
+		var label = target.nextElementSibling;
+		if(parseFloat(target.value) < 0) {
+			this.list_error.sides[target.side] = this.kod_error['<0'];
+			
+			if(label && label.tagName.toLowerCase() == 'label'){
+				dom.addclass(label, 'error');
+			}
+		} else {
+			this.list_error.sides[target.side] = true
+			if(label && label.tagName.toLowerCase() == 'label'){
+				dom.remclass(label, 'error');
+			}
+		}
+		console.log(this.list_error)
+
+		// this.calcDiag();
+	}
+
+	this.updateValSides = function(){
+		var arr_sides = this.arr_sides;
+		var arr_diag = this.arr_diagonals;
+		var all_val = true
+		var num_val = 0;
+
+		for(var i = 0; i < arr_sides.length; i++){
+			var side = arr_sides[i].elem_meas;
+			// if(parseFloat(side.value) >= 0){
+				var str_num = side.value.replace(/[^0-9.\-]/gi, '');
+				arr_sides[i].elem_meas.value = str_num // first + parseFloat(side.value)+last
+				if(arr_sides[i].elem_meas.hasAttribute('autofocus')){
+					arr_sides[i].elem_meas.removeAttribute('autofocus')
+				}
+
+				if(!isNaN(parseFloat(str_num))){
+					num_val++;	
+				}
+
+				
+			// } else {
+			// 	all_val = false
+			// 	arr_sides[i].elem_meas.value = '';
+			// }
+		}
+
+		for(var i = 0; i < arr_diag.length; i++){
+			var side = arr_diag[i].elem_meas;
+			if(parseFloat(side.value) >= 0){
+				var last = side.value.substr(-1) == '.'  ? '.' : '';
+				arr_diag[i].elem_meas.value = parseFloat(side.value)+last
+				num_val++;
+			} else {
+				// all_val = false
+				arr_diag[i].elem_meas.value = '';
+			}
+		}
+		this.reset = num_val > 0 ; 
+		if(all_val){
+			dom.remclass(this.cont_table_corners, 'disable');
+		} else {
+			dom.addclass(this.cont_table_corners, 'disable');
+			// this.remCorners();
+
+			
+		}
+		if(num_val){
+			dom.remclass(this.btn_reset, 'disable');
+		} else {
+			dom.addclass(this.btn_reset, 'disable');
+		}
+	};
+	
 
 	this.createDiagonals = function(num){
 		var tbody_diagonals = this.tbody_diagonals;
 		var alf = lang.substr(0, num).split("");
+		var prev_values = this.obj_info[num] && this.obj_info[num].diag
+		console.log(prev_values)
+
+		this.arr_diagonals = [];
 		if(num < 4){
-			dom.visible(this.cont_diagonals, false)
+			dom.visible(this.cont_diagonals, false);
 			return
 		}
 
-		dom.visible(this.cont_diagonals, true)
+		dom.visible(this.cont_diagonals, true);
 		var num_diag = num == 4 ? 2 : 5;
 		var arr = [];
 		if(num == 4){
-			arr.push(['A', 'C']);
-			arr.push(['B', 'D']);
+			arr.push({	
+				val: 'AC'
+			});
+			arr.push({
+				val: 'BD'
+			});
 		} else if(num == 5){
-			arr.push(['A', 'E']);
-			arr.push(['A', 'D']);
-			arr.push(['B', 'D']);
-			arr.push(['B', 'E']);
-			arr.push(['C', 'E']);
+			arr.push({
+				val: 'AC'
+			});
+			arr.push({
+				val: 'AD'
+			});
+			arr.push({
+				val: 'BD'
+			});
+			arr.push({
+				val: 'BE'
+			});
+			arr.push({
+				val: 'CE'
+			});
 		} else if(num == 6){
-			arr.push(['A', 'E']);
-			arr.push(['B', 'D']);
-			arr.push(['B', 'E']);
-			arr.push(['B', 'F']);
-			arr.push(['C', 'E']);
+			arr.push({
+				val: 'AE'
+			});
+			arr.push({
+				val: 'BD'
+			});
+			arr.push({
+				val: 'BE'
+			});
+			arr.push({
+				val: 'BF'
+			});
+			arr.push({
+				val: 'CE'
+			});
 		};
+		this.arr_diagonals = [];
+		var self = this
 
 		for(var i = 0; i < num_diag; i++){
-			var txt = arr[i];
+			// var arr_val = arr[i].val.split("");
+			var txt = arr[i].val.split("");// arr[i].val;
 			var tr = dom.elem('tr', '', tbody_diagonals);
-			
+			var id_obj = arr[i].val
+
 			var td_corner = dom.elem('td', 'td_diag', tr);
 			dom.text(td_corner, txt.join('-'));
 
 			var td_meas = dom.elem('td', 'td_meas', tr);
 			var div_m_val = dom.div('div_m_val', td_meas);
+
+			var input_meas = dom.input('text', 'input_meas_diag', div_m_val);
+			var label_meas = dom.elem('label', 'label', div_m_val)
+			input_meas.addEventListener('input', self.updateValSides.bind(self));
 			var div_m_red = dom.div('div_m_red', td_meas);
 			dom.text(div_m_red, 'mm');
+
+			this.arr_diagonals.push({
+				id: id_obj,
+				elem_meas : input_meas,
+				id_str: txt.join('-')
+			});
+
+			this.list_error.diag[id_obj] = undefined;
+
+			if(prev_values) {
+				var obj_val = prev_values[id_obj]
+				if(obj_val){
+					input_meas.value = obj_val.meas;
+				}
+			}
 		}
+	};
+
+	this.getDiagonal = function(values){
+		return Math.sqrt((Math.pow(values[0], 2) + Math.pow(values[1], 2)))
+	};
+
+	/*this.calcDiag = function(){
+		console.log('calcDiag');
+		var arr_diag = this.arr_diagonals;
+		var arr_sides = this.arr_sides;
 
 
+		for(var i = 0; i < arr_diag.length; i++){
+			var corners = arr_diag[i].corners[0];
+			var diag = 0;
+			console.log(arr_diag[i].id)
+			if(arr_diag[i].corners) {
+				var sides = this.putValForDiag(arr_diag[i].corners[0]);
+
+				if(!sides.length && arr_diag[i].corners.length > 1){
+					var other_sides = this.putValForDiag(arr_diag[i].corners[1])	
+					console.log('side')
+					if(other_sides.length){
+						diag = this.getDiagonal(sides)
+					}
+				} else {
+					console.log('sides' , sides)
+					diag = this.getDiagonal(sides)
+				}
+				if(diag > 0){
+					var num = diag%Math.floor(diag) > 0 ? diag.toFixed(1) : diag; 
+
+					dom.text(arr_diag[i].elem_meas, num)
+				} else {
+					console.log('no diag')
+				}
+			
+
+			}
+		}
+	};*/
+	this.putValForDiag = function(sides){
+		var res = [];
+		var arr_sides = this.arr_sides; 
+		for(var i = 0; i < arr_sides.length; i++ ){
+			if(arr_sides[i].id == sides[0] || arr_sides[i].id == sides[1])  {
+				res.push(parseFloat(arr_sides[i].elem_meas.value));
+			}
+		}
+		return res
 	};
 	this.createCorners = function(num){
+
+		dom.addclass(this.cont_table_corners, 'disable')
+
+		this.arr_corners = [];
 		var tbody_corners = this.tbody_corners;
 		var alf = lang.substr(0, num).split("");
+		var prev_values = this.obj_info[num] && this.obj_info[num].corners
+		console.log(prev_values)
 		// console.log(alf)
 
 		for(var i = 0; i < num; i++){
@@ -313,6 +640,25 @@ function ShapeSize (argument) {
 
 			var td_length = dom.elem('td', 'td_length', tr)
 			dom.text(td_length, '100');
+
+			this.arr_corners.push({
+				id: txt, 
+				elem_h: div_h_val,
+				elem_finish: td_finish,
+				elem_link: td_link,
+				elem_length: td_length
+			});
+			this.list_error.corners[txt] = undefined;
+
+			if(prev_values) {
+				var obj_val = prev_values[txt]
+				if(obj_val){
+					dom.text(div_h_val, obj_val.h)
+					dom.text(td_finish, obj_val.finish)
+					dom.text(td_link, obj_val.link)
+					dom.text(td_length, obj_val.length)
+				}
+			}
 		}
 	};
 
@@ -365,13 +711,31 @@ function ShapeSize (argument) {
 		dom.text(reset, 'Reset');
 		parent.insertBefore(reset, btn_help);
 		dom.on('click', reset, this.resetData.bind(this));
+		this.btn_reset = reset;
 	}
 	this.loadExample = function(){
 		console.log('loadExample')
 
 	};
 	this.resetData = function(){
-		console.log('resetData')
+
+		var arr_sides = this.arr_sides;
+		for(var i = 0; i < arr_sides.length; i++){
+			arr_sides[i].elem_meas.value = '';
+		}
+
+		var arr_corners = this.arr_corners;
+
+		for(var i = 0; i < arr_corners.length; i++){
+			dom.text(arr_corners[i].elem_h, '');
+		}
+
+		var arr_diag = this.arr_diagonals;
+		for(var i = 0; i < arr_diag.length; i++) {
+			arr_diag[i].elem_meas.value = '';
+		}
+
+		dom.addclass(this.btn_reset, 'disable');
 
 	};
 

@@ -69,6 +69,8 @@ function Main (argument) {
 		var cont = createElem('div', 'cont', body);
 
 		var logo = createElem('div', 'logo', cont);
+		// var link_logo = createElem('a', )
+
 		var form = createElem('div', 'form', cont);
 
 
@@ -145,11 +147,19 @@ function Main (argument) {
 		this.btn_next = cont_btn_next;
 		this.link_next = link_btn_next;
 
+
 		this.btn_back = cont_btn_back;
 		this.link_back = link_btn_back;
 
-		btn_text_prompt.innerHTML = 'Preliminary data check passed';
+		var cont_error = dom.div('cont_error', btn_text_prompt);
+		var icon_error = dom.div('icon', cont_error);
+		var cont_text_error = dom.div('cont_text_error', cont_error);
+		var cont_ok = dom.div('text_ok', btn_text_prompt);
 
+		this.text_prompt = btn_text_prompt;
+		this.cont_error = cont_text_error
+
+		cont_ok.innerHTML = 'Preliminary data check passed.';
 
 		link_btn_back.innerHTML = 'back';
 		link_btn_next.innerHTML = 'next';
@@ -219,7 +229,6 @@ function Main (argument) {
 						title = this.itm_page.title
 						var project = new Project();
 						html = 'hs30.htm';
-						// this.emptyPage();
 					}
 					break
 				case 'fabric':
