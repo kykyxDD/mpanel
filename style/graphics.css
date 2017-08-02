@@ -69,6 +69,8 @@
 }
 .cont_btn_bottom .nav{
 	display: inline-block;
+	vertical-align: top;
+	margin-bottom: 0;
 }
 .navigation .nav {
 	width: 33px;
@@ -196,6 +198,7 @@
     padding: 0;
     border: none;
     background: initial;
+    margin-bottom: 0;
 
     /*display: none;*/
 }

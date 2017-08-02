@@ -271,10 +271,10 @@ lib.properties = {
 		}
 		function changeBasis(p, p1, v1){
 			var ang = Math.atan2(v1.y, v1.x);
-			console.log(ang);
+			// console.log(ang);
 			var rx = p.x*Math.cos(ang) - p.y*Math.sin(ang) + p1.x;
 			var ry = p.x*Math.sin(ang) + p.y*Math.cos(ang) + p1.y;
-			console.log(rx,ry);
+			// console.log(rx,ry);
 			return {x:rx,y:ry};
 			
 		}

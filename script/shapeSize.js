@@ -50,12 +50,10 @@ function ShapeSize (argument) {
 		var cont_checkbox = dom.div('cont_check', cont_text_hind);
 
 		var input_tension = dom.input('checkbox', 'tension', cont_checkbox);
-		// console.log('input_tension',input_tension)
 		input_tension.checked = true;
 		input_tension.id = 'tension';
 
 		var label_tension = dom.elem('label', 'tension', cont_checkbox);
-		// console.log('label_tension',label_tension);
 		label_tension.setAttribute('for', 'tension');
 
 		var text_tension = dom.div('txt_tension', cont_text_hind);
@@ -76,6 +74,8 @@ function ShapeSize (argument) {
 		console.log('checkTension', checked);
 
 	};
+
+
 
 	this.createInfoRight = function(right_path){
 		var num_edge = 3;
@@ -208,7 +208,8 @@ function ShapeSize (argument) {
 		this.createDiagonals(num);
 		this.createCorners(num);
 
-		this.reset = false
+		this.updateAllVal();
+		this.checkError();
 
 	};
 	this.remPrevInfo = function(){
@@ -217,8 +218,8 @@ function ShapeSize (argument) {
 		for(var i = 0; i < this.arr_sides.length; i++ ){
 			if(!obj.sides) obj.sides = {}
 			var itm = this.arr_sides[i];
-			this.arr_sides[i].elem_meas.removeEventListener('input', self.updateValSides.bind(self));
-			this.arr_sides[i].elem_meas.removeEventListener('change', self.checkValSides.bind(self));
+			this.arr_sides[i].elem_meas.removeEventListener('input', self.updateAllVal.bind(self));
+			this.arr_sides[i].elem_meas.removeEventListener('change', self.checkSides.bind(self));
 			var id = this.arr_sides[i].id
 			obj.sides[id] = {
 				meas: itm.elem_meas.value,
@@ -234,6 +235,9 @@ function ShapeSize (argument) {
 			if(!obj.diag) obj.diag = {}
 			var itm = this.arr_diagonals[i];
 			var id = itm.id;
+
+			itm.elem_meas.removeEventListener('input', self.updateAllVal.bind(self));
+			itm.elem_meas.removeEventListener('change', self.checkDiag.bind(self));
 			obj.diag[id] = {
 				meas: itm.elem_meas.value
 			}
@@ -243,8 +247,10 @@ function ShapeSize (argument) {
 			if(!obj.corners) obj.corners = {}
 			var itm = this.arr_corners[i];
 			var id = itm.id;
+			itm.elem_h.removeEventListener('input', self.updateAllVal.bind(self));
+			itm.elem_h.removeEventListener('change', self.checkCorners.bind(self));
 			obj.corners[id] = {
-				h: itm.elem_h.innerText,
+				h: itm.elem_h.value,//itm.elem_h.innerText,
 				finish: itm.elem_finish.innerText,
 				link: itm.elem_link.innerText,
 				length: itm.elem_length.innerText
@@ -286,21 +292,44 @@ function ShapeSize (argument) {
 	this.checkError = function(){
 		var all_list_error = this.list_error;
 		var error = 0;
-		var val_true = false
+		var val_true = true
 		var list_error = [];
+		var val_und = true
 
-		for(var key in list_error){
-			var table = list_error[key]
+		for(var key in all_list_error){
+			var table = all_list_error[key]
 			for(var val in table){
-				if(table[val] >= 1){
+				if(parseFloat(table[val]) && table[val] >= 1){
 					error++;
 					list_error.push([val, table[val]])
+					// val_und = false
 				} else if(table[val] === true){
-					val_true = true
+					
+					// val_und = false
+				}
+				if((parseFloat(table[val]) && parseFloat(table[val]) >= 1) || 
+					typeof table[val] === "undefined"){
+					val_true = false;
 				}
 			}
 		}
 		if(val_true && !list_error.length) {
+			dom.remclass(main.text_prompt, "hide")
+			dom.addclass(main.text_prompt, "ok")
+			dom.remclass(main.text_prompt, "error")
+			dom.remclass(main.text_prompt, "itm")
+			dom.remclass(main.text_prompt, "fill")
+		} else {
+			dom.remclass(main.text_prompt, "hide")
+			dom.addclass(main.text_prompt, "error")
+			if(error){
+				dom.addclass(main.text_prompt, "itm")
+				dom.remclass(main.text_prompt, "fill")
+			} else {
+				dom.addclass(main.text_prompt, "fill")
+				dom.remclass(main.text_prompt, "itm")
+			}
+			
 			
 		}
 	}
@@ -336,8 +365,8 @@ function ShapeSize (argument) {
 			var cont_val_red = dom.div('val_red', td_meas);
 			dom.text(cont_val_red, 'mm');
 
-			input_meas.addEventListener('input', self.updateValSides.bind(self));
-			input_meas.addEventListener('change', self.checkValSides.bind(self));
+			input_meas.addEventListener('input', self.updateAllVal.bind(self));
+			input_meas.addEventListener('change', self.checkSides.bind(self));
 			input_meas.side = id_obj;
 			if(i == 0) {
 				input_meas.setAttribute('autofocus', true)
@@ -385,79 +414,160 @@ function ShapeSize (argument) {
 					input_dip.value = obj_val.dip;
 					input_fixed.checked = obj_val.fixed;
 					input_mid.checked = obj_val.mid;
+					this.checkValSides(input_meas)
 				}
 			}
 		}
 	};
-	this.checkValSides = function(e){
+	this.checkSides = function(e){
+
 		var target = e.target || e.srcElement;
 
-		if(target.value.substr(-1) == '.'){
-			target.value = parseFloat(target.value).toFixed(1);
+		this.checkValSides(target)
+
+		this.checkError()
+
+		// this.calcDiag();
+	}
+	this.checkValSides = function(elem){
+
+		if(elem.value.substr(-1) == '.'){
+			elem.value = parseFloat(elem.value).toFixed(1);
 		}
-		var label = target.nextElementSibling;
-		if(parseFloat(target.value) < 0) {
-			this.list_error.sides[target.side] = this.kod_error['<0'];
+		var label = elem.nextElementSibling;
+		if(parseFloat(elem.value) < 0) {
+			this.list_error.sides[elem.side] = this.kod_error['<0'];
 			
 			if(label && label.tagName.toLowerCase() == 'label'){
 				dom.addclass(label, 'error');
 			}
 		} else {
-			this.list_error.sides[target.side] = true
+			this.list_error.sides[elem.side] = true
 			if(label && label.tagName.toLowerCase() == 'label'){
 				dom.remclass(label, 'error');
 			}
 		}
-		console.log(this.list_error)
+
+		this.checkError()
 
 		// this.calcDiag();
 	}
+	// this.checkVal
+	this.checkCorners = function(e){
 
-	this.updateValSides = function(){
+		var target = e.target || e.srcElement;
+
+		this.checkValCorners(target)
+
+		this.checkError();
+	}
+	this.checkValCorners = function(elem){
+
+		if(elem.value.substr(-1) == '.'){
+			elem.value = parseFloat(elem.value).toFixed(1);
+		}
+		var label = elem.nextElementSibling;
+		if(parseFloat(elem.value) < 0) {
+			this.list_error.corners[elem.side] = this.kod_error['<0'];
+			
+			if(label && label.tagName.toLowerCase() == 'label'){
+				dom.addclass(label, 'error');
+			}
+		} else {
+			this.list_error.corners[elem.side] = true
+			if(label && label.tagName.toLowerCase() == 'label'){
+				dom.remclass(label, 'error');
+			}
+		}
+	}
+
+	this.checkDiag = function(e){
+
+		var target = e.target || e.srcElement;
+		this.checkValDiag(target);
+		this.checkError();
+	}
+	this.checkValDiag = function(elem){
+
+		if(elem.value.substr(-1) == '.'){
+			elem.value = parseFloat(elem.value).toFixed(1);
+		}
+		var label = elem.nextElementSibling;
+		if(parseFloat(elem.value) < 0) {
+			this.list_error.diag[elem.side] = this.kod_error['<0'];
+			
+			if(label && label.tagName.toLowerCase() == 'label'){
+				dom.addclass(label, 'error');
+			}
+		} else {
+			this.list_error.diag[elem.side] = true
+			if(label && label.tagName.toLowerCase() == 'label'){
+				dom.remclass(label, 'error');
+			}
+		}
+
+		this.checkError();
+	}
+
+	this.updateAllVal = function(){
+		console.log('updateAllVal')
 		var arr_sides = this.arr_sides;
+		var arr_corners = this.arr_corners;
 		var arr_diag = this.arr_diagonals;
 		var all_val = true
 		var num_val = 0;
 
 		for(var i = 0; i < arr_sides.length; i++){
+			var itm = arr_sides[i];
 			var side = arr_sides[i].elem_meas;
-			// if(parseFloat(side.value) >= 0){
-				var str_num = side.value.replace(/[^0-9.\-]/gi, '');
-				arr_sides[i].elem_meas.value = str_num // first + parseFloat(side.value)+last
-				if(arr_sides[i].elem_meas.hasAttribute('autofocus')){
-					arr_sides[i].elem_meas.removeAttribute('autofocus')
-				}
-
-				if(!isNaN(parseFloat(str_num))){
-					num_val++;	
-				}
-
-				
-			// } else {
-			// 	all_val = false
-			// 	arr_sides[i].elem_meas.value = '';
+			var str_num = this.checkValNum(side.value)
+			arr_sides[i].elem_meas.value = str_num // first + parseFloat(side.value)+last
+			var has_at = itm.elem_meas.hasAttribute('autofocus')
+			// if(itm.elem_meas.hasAttribute('autofocus')){
+			// 	itm.elem_meas.removeAttribute('autofocus')
 			// }
+
+			if(!isNaN(parseFloat(str_num))){
+				num_val++;
+			} else {
+				all_val = false
+			}
+
 		}
 
 		for(var i = 0; i < arr_diag.length; i++){
+			var itm = arr_diag[i];
 			var side = arr_diag[i].elem_meas;
-			if(parseFloat(side.value) >= 0){
-				var last = side.value.substr(-1) == '.'  ? '.' : '';
-				arr_diag[i].elem_meas.value = parseFloat(side.value)+last
+			var str_num = this.checkValNum(side.value)
+			arr_diag[i].elem_meas.value = str_num; // first + parseFloat(side.value)+last
+			if(itm.elem_meas.hasAttribute('autofocus')){
+				itm.elem_meas.removeAttribute('autofocus')
+			}
+
+			if(!isNaN(parseFloat(str_num))){
 				num_val++;
 			} else {
-				// all_val = false
-				arr_diag[i].elem_meas.value = '';
+				all_val = false
 			}
 		}
+
+		this.validData()
+
+		for(var i = 0; i < arr_corners.length; i++){
+			var itm = arr_corners[i];
+			var side = arr_corners[i].elem_h;
+			var str_num = this.checkValNum(side.value)
+			arr_corners[i].elem_h.value = str_num; // first + parseFloat(side.value)+last
+			if(itm.elem_h.hasAttribute('autofocus')){
+				itm.elem_h.removeAttribute('autofocus')
+			}
+		}
+
 		this.reset = num_val > 0 ; 
 		if(all_val){
 			dom.remclass(this.cont_table_corners, 'disable');
 		} else {
 			dom.addclass(this.cont_table_corners, 'disable');
-			// this.remCorners();
-
-			
 		}
 		if(num_val){
 			dom.remclass(this.btn_reset, 'disable');
@@ -465,6 +575,53 @@ function ShapeSize (argument) {
 			dom.addclass(this.btn_reset, 'disable');
 		}
 	};
+
+	this.validData = function(){
+		return false
+		if(this.item_num == 3){
+			res = this.validateTriangle();
+			// if(res){
+			// 	buildTriangle(currentObject)
+			// }
+		}else if(this.item_num == 4){
+			res = this.validateQuadrangle();
+			// if(res){
+			// 	buildQuadrangle(currentObject);
+			// }
+		}
+		/*if(currentObject.length == 10){
+			buildPentagone(currentObject);
+		}
+		if(currentObject.length == 11){
+			buildHexagone(currentObject);
+		}*/
+	}
+	this.buildTriangle = function(obj,selected){
+			var AB = obj[0].val;
+		var BC = obj[1].val;
+		var CA = obj[2].val;
+	
+		var p1 = {x:0,y:0};
+		var p2 = {x:AB,y:0};
+		var p3 = getCoordinateBy2sides(AB,BC,CA);
+		var points = [p1,p2,p3];
+		rotatePoints(points, Math.PI/3);
+		var bbox = getBoungingBox(points);
+		resetPivot(points,bbox);
+		//setSelection(obj,selected);
+		var scale = getFitScale(bbox);
+		calculateAngles(points);
+		drawShape(points,scale, obj);
+		
+		
+	//	x1 = 0;
+	//	x2 = 0;
+	//	y1 = -AB/2;
+	//	y2 = AB/2;
+	}
+	this.checkValNum = function(str_num){
+		return str_num.replace(/[^0-9.\-]/gi, '');
+	}
 	
 
 	this.createDiagonals = function(num){
@@ -539,7 +696,9 @@ function ShapeSize (argument) {
 
 			var input_meas = dom.input('text', 'input_meas_diag', div_m_val);
 			var label_meas = dom.elem('label', 'label', div_m_val)
-			input_meas.addEventListener('input', self.updateValSides.bind(self));
+			input_meas.addEventListener('input', self.updateAllVal.bind(self));
+			input_meas.addEventListener('change', self.checkDiag.bind(self));
+			input_meas.side = id_obj
 			var div_m_red = dom.div('div_m_red', td_meas);
 			dom.text(div_m_red, 'mm');
 
@@ -610,15 +769,15 @@ function ShapeSize (argument) {
 		return res
 	};
 	this.createCorners = function(num){
+		var self = this
 
-		dom.addclass(this.cont_table_corners, 'disable')
+		dom.addclass(this.cont_table_corners, 'disable');
 
 		this.arr_corners = [];
 		var tbody_corners = this.tbody_corners;
 		var alf = lang.substr(0, num).split("");
-		var prev_values = this.obj_info[num] && this.obj_info[num].corners
+		var prev_values = this.obj_info[num] && this.obj_info[num].corners;
 		console.log(prev_values)
-		// console.log(alf)
 
 		for(var i = 0; i < num; i++){
 			var txt = alf[i]
@@ -629,7 +788,16 @@ function ShapeSize (argument) {
 
 			var td_height = dom.elem('td', 'td_height', tr);
 			var div_h_val = dom.div('div_h_val', td_height)
-			var div_h_red = dom.div('div_h_red', td_height)
+
+			var input_l = dom.input('text', 'input_h', div_h_val);
+			var label_l = dom.elem('label', 'label', div_h_val);
+
+
+			dom.on('input', input_l, this.updateAllVal.bind(this));
+			dom.on('change', input_l, this.checkCorners.bind(this));
+			input_l.side = txt;
+			
+			var div_h_red = dom.div('div_h_red', td_height);
 			dom.text(div_h_red, 'mm')
 
 			var td_finish = dom.elem('td', 'td_finish', tr);
@@ -643,7 +811,7 @@ function ShapeSize (argument) {
 
 			this.arr_corners.push({
 				id: txt, 
-				elem_h: div_h_val,
+				elem_h: input_l,
 				elem_finish: td_finish,
 				elem_link: td_link,
 				elem_length: td_length
@@ -653,10 +821,12 @@ function ShapeSize (argument) {
 			if(prev_values) {
 				var obj_val = prev_values[txt]
 				if(obj_val){
-					dom.text(div_h_val, obj_val.h)
+					//dom.text(div_h_val, obj_val.h)
+					input_l.value = obj_val.h;
 					dom.text(td_finish, obj_val.finish)
 					dom.text(td_link, obj_val.link)
 					dom.text(td_length, obj_val.length)
+					this.checkValCorners(input_l)
 				}
 			}
 		}
@@ -682,21 +852,19 @@ function ShapeSize (argument) {
 	this.minusNum = function(){
 		var new_num = this.item_num-1;
 		if(new_num >= min_edge ){
-			dom.remclass(this.cont_figure_tension, 't_'+this.item_num)
-			this.item_num = new_num
-			dom.text(this.elem_val_num, this.item_num)
-			this.createNewInfo()
+			dom.remclass(this.cont_figure_tension, 't_'+this.item_num);
+			this.item_num = new_num;
+			dom.text(this.elem_val_num, this.item_num);
+			this.createNewInfo();
 		}
-
-
 	};
 	this.plusNum = function(){
 		var new_num = this.item_num+1;
 		if(new_num <= max_edge ){
-			dom.remclass(this.cont_figure_tension, 't_'+this.item_num)
-			this.item_num = new_num
-			dom.text(this.elem_val_num, this.item_num)
-			this.createNewInfo()
+			dom.remclass(this.cont_figure_tension, 't_'+this.item_num);
+			this.item_num = new_num;
+			dom.text(this.elem_val_num, this.item_num);
+			this.createNewInfo();
 		}
 	};
 
@@ -734,10 +902,147 @@ function ShapeSize (argument) {
 		for(var i = 0; i < arr_diag.length; i++) {
 			arr_diag[i].elem_meas.value = '';
 		}
+		var arr_corners = this.arr_corners //arr_diagonals;
+		for(var i = 0; i < arr_corners.length; i++) {
+			arr_corners[i].elem_h.value = '';
+		}
+		dom.addclass(this.cont_table_corners, 'disable');
 
 		dom.addclass(this.btn_reset, 'disable');
 
 	};
+	this.validateTriangle = function(obj){
+		if(!obj) return false
+		var AB = obj[0];
+		var BC = obj[1];
+		var CA = obj[2];
+
+		var res = [];
+		if(AB > BC+CA){
+			res.push(["AB", "BC+CA"]);
+		}
+		if(BC > AB+CA){
+			res.push(['BC', 'AB+CA']);
+		}
+		if(CA > AB+BC){
+			res.push(['CA', 'AB+BC']);
+		}
+		return  res;
+	}
+	
+	this.validateQuadrangle = function(obj){
+		if(!obj) return false
+		var res = true;
+		var AB = obj[0];
+		var BC = obj[1];
+		var CD = obj[2];
+		var DA = obj[3];
+
+		var AC = obj[4];
+
+		res =  validateTriangle([obj[4],obj[0],obj[1]]).concat(validateTriangle([obj[4],obj[2],obj[3]]));
+		return res;
+	}
+	this.buildHexagone = function(obj){
+		var AB = obj[0].val;
+		var BC = obj[1].val;
+		var CD = obj[2].val;
+		var DE = obj[3].val;
+		var EF = obj[4].val;
+		var FA = obj[5].val;
+		
+		var diagAE = obj[6].val;
+		var diagBD = obj[7].val;
+		var diagBE = obj[8].val;
+		
+		var pA =  {x:0,y:0};
+		var pB =  {x:AB,y:0};
+		var pE = getCoordinateBy2sides(AB,diagBE,diagAE);
+		
+		var vAE = {x:pE.x - pA.x, y:pE.y - pA.y};
+		var pF_ = getCoordinateBy2sides(diagAE,EF,FA);
+		var pF = changeBasis(pF_ , pA, vAE);
+		
+		
+		var vBE = {x:pB.x - pE.x, y:pB.y - pE.y};
+		var pD_ =  getCoordinateBy2sides(diagBE,diagBD,DE);	
+		var pD = changeBasis(pD_ , pE, vBE);
+		
+		
+		var vBD = {x:pB.x - pD.x, y:pB.y - pD.y};
+		var pC_ =  getCoordinateBy2sides(diagBD,BC,CD);	
+		var pC =  changeBasis(pC_ , pD, vBD);
+		
+		
+		
+			
+		var points = [pA,pB,pC,pD,pE,pF];
+		
+		//rotatePoints(points, Math.PI/5*4.5);
+		var bbox = getBoungingBox(points);
+		resetPivot(points,bbox);
+		var scale = getFitScale(bbox);
+		calculateAngles(points);
+		drawShape(points,scale, obj);
+		
+	}
+
+	this.buildPentagone = function(obj){
+		var AB = obj[0].val;
+		var BC = obj[1].val;
+		var CD = obj[2].val;
+		var DE = obj[3].val;
+		var EA = obj[4].val;
+		
+		var diagAC = obj[5].val;
+		var diagAB = obj[6].val;
+		var pC = {x:0,y:0};
+		var pD = {x:CD,y:0};
+		var pA = getCoordinateBy2sides(CD,diagAB,diagAC);
+		
+		var vCA={x:pA.x - pC.x, y:pA.y - pC.y};
+		
+		var pB_ = getCoordinateBy2sides(diagAC,AB,BC);
+		var pB = changeBasis(pB_ , pC, vCA);
+		
+		var vDA={x:-(pA.x - pD.x), y:-(pA.y - pD.y)};
+		var pE_ = getCoordinateBy2sides(diagAC,DE,EA);
+		var pE = changeBasis(pE_ , pA, vDA);
+		
+		
+		var points = [pA,pB,pC,pD,pE];
+		
+		rotatePoints(points, Math.PI/5*4.5);
+		var bbox = getBoungingBox(points);
+		resetPivot(points,bbox);
+		var scale = getFitScale(bbox);
+		calculateAngles(points);
+		drawShape(points,scale, obj);
+	
+	}
+	
+	this.buildQuadrangle = function(obj){
+		var AB = obj[0].val;
+		var BC = obj[1].val;
+		var CD = obj[2].val;	
+		var DA = obj[3].val;
+	
+		var diagAC = obj[4].val;
+		
+		var p1 = {x:0,y:0};
+		var p2 = {x:diagAC,y:0};
+		var p3 = getCoordinateBy2sides(diagAC,BC,AB);
+		var p4 = getCoordinateBy2sides(diagAC,CD,DA);
+		p3.y *=-1;
+		var points = [p1,p3,p2,p4];
+		
+		rotatePoints(points, Math.PI/4);
+		var bbox = getBoungingBox(points);
+		resetPivot(points,bbox);
+		var scale = getFitScale(bbox);
+		calculateAngles(points);
+		drawShape(points,scale, obj);
+	}
 
 	loadAllFiles(scripts, styles, this.init.bind(this));
 

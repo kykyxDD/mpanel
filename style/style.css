@@ -286,6 +286,7 @@ body {
 
 .footer .cont_bottom > div {
 	display: inline-block;
+	    vertical-align: top;
 }
 .footer .cont_bottom .link {
 	display: block;
@@ -295,8 +296,58 @@ body {
 }
 .footer .text_prompt {
 	margin: 0 25px;
-	text-indent: 35px;
+	text-indent: 0;
+	text-align: left;
 	height: 42px;
+}
+.footer .text_prompt.ok .text_ok{
+	display: block;
+}
+.footer .text_prompt.ok .cont_error {
+	display: none;
+}
+.footer .text_prompt.error .text_ok{
+	display: none
+}
+.footer .text_prompt.error.fill .cont_itm_error{
+	display: none;
+} 
+.footer .text_prompt.error.fill .fill_data{
+	display: block;
+} 
+.footer .text_prompt.error.itm .cont_itm_error{
+	display: block;
+} 
+.footer .text_prompt.error.itm .fill_data{
+	
+	display: none;
+} 
+.footer .text_prompt .cont_error {
+	    position: relative;
+    /*background: url(../image/bg_text_error.jpg) no-repeat;*/
+    background-position: left 2px;
+    padding-left: 42px;
+    color: #FF5756;
+    display: table;
+    /* vertical-align: middle; */
+    height: 43px;
+}
+.footer .text_prompt .cont_text_error{
+	line-height: 15px;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    font-weight: bold;
+    display: table-cell;
+    vertical-align: middle;
+}
+.footer .text_prompt .cont_error:before {
+	position: absolute;
+	content: '';
+	width: 30px;
+	height: 27px;
+	top: 8px;
+	left: 0;
+	background: url(../image/icon/error_triangle.png) no-repeat center;
 }
 .footer .text_prompt .text_ok {
 	position: relative;
@@ -308,6 +359,9 @@ body {
 	line-height: 23px;
 	font-weight: bold;
 	letter-spacing: -0.2px;
+	display: block;
+	height: 43px;
+	line-height: 43px;
 } 
 .footer .text_prompt .text_ok:before{
 	position: absolute;

@@ -330,7 +330,8 @@
 .table_sides .td_meas .cont_meas{
 	padding-left: 16px;
 }
-.table_sides tbody tr td input[type='text']{
+.table_sides tbody tr td input[type='text'],
+.table_corners tbody tr td input[type='text']{
 	border: none;
 	background-color: inherit;
 	margin: 0;
@@ -341,6 +342,7 @@
 	box-shadow: none;
 }
 .table_sides tbody tr td input[type='text'] + label ,
+.table_corners tbody tr td input[type='text'] + label ,
 .table_diagonals tbody tr td input[type='text'] + label {
 	position: absolute;
 	top: 0;
@@ -354,10 +356,12 @@
 	border-radius: 0;
 }
 .table_sides tbody tr td input[type='text']:focus + label,
+.table_corners tbody tr td input[type='text']:focus + label ,
 .table_diagonals tbody tr td input[type='text']:focus + label{
 	box-shadow: 0 0 5px #1296FF !important;
 }
 .table_sides tbody tr td input[type='text'] + label.error ,
+.table_corners tbody tr td input[type='text'] + label.error ,
 .table_diagonals tbody tr td input[type='text'] + label.error {
 	box-shadow: 0 0 5px #ff0000;
 }

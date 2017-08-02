@@ -121,43 +121,53 @@ function Main (argument) {
 	};
 
 	this.createPage = function(){
-		var head = createElem('div', 'header', this.main);//document.querySelector('.header');\
+		var head = dom.div('header', this.main);//document.querySelector('.header');
 
-		var cont_head = createElem('div', 'cont', head);
-		var logo = createElem('div', 'logo', cont_head);
-		var cont_menu = createElem('div', 'cont_menu', cont_head);
-		var menu = createElem('div', 'menu', cont_menu);
+		var cont_head = dom.div('cont', head);
+		var logo = dom.div('logo', cont_head);
+		var cont_menu = dom.div('cont_menu', cont_head);
+		var menu = dom.div('menu', cont_menu);
 		this.menu = menu
 
-		var body = createElem('div', 'body', this.main)
-		var cont_body = createElem('div', 'cont', body);
-		this.big_title = createElem('div', 'title', cont_body)
-		this.cont_body = cont_body
+		var body = dom.div('body', this.main);
+		var cont_body = dom.div('cont', body);
+		this.big_title = dom.div('title', cont_body);
+		this.cont_body = cont_body;
 
-		var footer = createElem('div', 'footer', this.main);
-		var cont_elemfooter = createElem('div', 'cont', footer)
+		var footer = dom.div('footer', this.main);
+		var cont_elemfooter = dom.div('cont', footer);
 
-		var cont_footer = createElem('div', 'cont_bottom', cont_elemfooter)
+		var cont_footer = dom.div('cont_bottom', cont_elemfooter);
 		this.cont_footer = cont_footer;
-		var cont_btn_back = createElem('div', 'my_btn back', cont_footer)
-		var link_btn_back = createElem('a', 'link',cont_btn_back)
-		var btn_text_prompt = createElem('div', 'text_prompt hide', cont_footer)
-		var cont_btn_next = createElem('div', 'my_btn next active', cont_footer)
-		var link_btn_next = createElem('a', 'link',cont_btn_next)
+		var cont_btn_back = dom.div('my_btn back', cont_footer);
+		var link_btn_back = createElem('a', 'link',cont_btn_back);
+		var btn_text_prompt = dom.div('text_prompt hide', cont_footer);
+		var cont_btn_next = dom.div('my_btn next active', cont_footer);
+		var link_btn_next = createElem('a', 'link',cont_btn_next);
 		this.btn_next = cont_btn_next;
 		this.link_next = link_btn_next;
-
 
 		this.btn_back = cont_btn_back;
 		this.link_back = link_btn_back;
 
 		var cont_error = dom.div('cont_error', btn_text_prompt);
-		var icon_error = dom.div('icon', cont_error);
 		var cont_text_error = dom.div('cont_text_error', cont_error);
 		var cont_ok = dom.div('text_ok', btn_text_prompt);
 
+
+		var cont_fill = dom.div('fill_data', cont_text_error);
+		dom.text(cont_fill, 'Please fill your measurement data.')
+		
+		var cont_itm_error = dom.div('cont_itm_error', cont_text_error);
+		var text = dom.div('txt_before', cont_itm_error);
+		dom.text(text, 'It looks like there is an error in your measurements.');
+		var cont_text = dom.div('cont_txt', cont_itm_error);
+		dom.text(cont_text, '');
+
+
 		this.text_prompt = btn_text_prompt;
-		this.cont_error = cont_text_error
+		this.cont_error = cont_text_error;
+		this.cont_text = cont_text
 
 		cont_ok.innerHTML = 'Preliminary data check passed.';
 
