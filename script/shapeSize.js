@@ -540,9 +540,9 @@ function ShapeSize (argument) {
 			var side = arr_diag[i].elem_meas;
 			var str_num = this.checkValNum(side.value)
 			arr_diag[i].elem_meas.value = str_num; // first + parseFloat(side.value)+last
-			if(itm.elem_meas.hasAttribute('autofocus')){
-				itm.elem_meas.removeAttribute('autofocus')
-			}
+			// if(itm.elem_meas.hasAttribute('autofocus')){
+			// 	itm.elem_meas.removeAttribute('autofocus')
+			// }
 
 			if(!isNaN(parseFloat(str_num))){
 				num_val++;
@@ -558,9 +558,9 @@ function ShapeSize (argument) {
 			var side = arr_corners[i].elem_h;
 			var str_num = this.checkValNum(side.value)
 			arr_corners[i].elem_h.value = str_num; // first + parseFloat(side.value)+last
-			if(itm.elem_h.hasAttribute('autofocus')){
-				itm.elem_h.removeAttribute('autofocus')
-			}
+			// if(itm.elem_h.hasAttribute('autofocus')){
+			// 	itm.elem_h.removeAttribute('autofocus')
+			// }
 		}
 
 		this.reset = num_val > 0 ; 
