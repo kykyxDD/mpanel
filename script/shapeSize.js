@@ -30,7 +30,7 @@ function ShapeSize (argument) {
 		var par = document.querySelector('.body .cont');
 
 		par.classList.add('page_shape');
-		var elem_title = document.querySelector('.body .title .cont_left_btn')
+		var elem_title = document.querySelector('.body .title .cont_left_btn');
 		var btn_help = elem_title.querySelector('.btn_help');
 
 		this.createBtnHead(elem_title, btn_help);
@@ -90,7 +90,7 @@ function ShapeSize (argument) {
 		dom.text(title_hind, '?');
 
 		var cont_table_sides = dom.div('cont_table_sides', cont_sides);
-		var table_sides = dom.elem('table', 'table_sides', cont_table_sides);
+		var table_sides = dom.elem('table', 'table_info table_sides', cont_table_sides);
 		var thead_sides = dom.elem('thead', 'thead_sides', table_sides);
 		var tbody_sides = dom.elem('tbody', 'tbody_sides', table_sides);
 		this.tbody_sides = tbody_sides;
@@ -136,7 +136,7 @@ function ShapeSize (argument) {
 		this.cont_diagonals = cont_diagonals;
 
 		var cont_table_diagonals = dom.div('cont_table_diagonals', cont_diagonals);
-		var table_diagonals = dom.elem('table', 'table_diagonals', cont_table_diagonals);
+		var table_diagonals = dom.elem('table', 'table_info table_diagonals', cont_table_diagonals);
 		var thead_diagonals = dom.elem('thead', 'thead_diagonals', table_diagonals);
 		var tbody_diagonals = dom.elem('tbody', 'tbody_diagonals', table_diagonals);
 		this.tbody_diagonals = tbody_diagonals;
@@ -160,29 +160,31 @@ function ShapeSize (argument) {
 		dom.text(title, 'corners');
 
 		var cont_table_corners = dom.div('cont_table_corners', cont_corners);
-		var table_corners = dom.elem('table', 'table_corners', cont_table_corners);
+		var table_corners = dom.elem('table', 'table_info table_corners', cont_table_corners);
 		var thead_corners = dom.elem('thead', 'thead_corners', table_corners);
 		var tbody_corners = dom.elem('tbody', 'tbody_corners', table_corners);
 		this.cont_table_corners = cont_table_corners;
 		this.tbody_corners = tbody_corners;
 
 		var tr_head_corners = dom.elem('tr', '', thead_corners);
-		var arr_corners = [{
-			'text':'Corner',
-			'id': 'corner'
-		}, {
-			'text':'Height',
-			'id': 'height'
-		}, {
-			'text':'Finish',
-			'id': 'finish'
-		}, {
-			'text':'Link',
-			'id': 'link'
-		}, {
-			'text':'Link Length',
-			'id': 'length'
-		}];
+		var arr_corners = [
+			{
+				'text':'Corner',
+				'id': 'corner'
+			}, {
+				'text':'Height',
+				'id': 'height'
+			}, {
+				'text':'Finish',
+				'id': 'finish'
+			}, {
+				'text':'Link',
+				'id': 'link'
+			}, {
+				'text':'Link Length',
+				'id': 'length'
+			}
+		];
 
 		for(var i = 0; i < arr_corners.length; i++){
 			var td = dom.elem('td' , arr_corners[i].id, tr_head_corners);
@@ -228,7 +230,6 @@ function ShapeSize (argument) {
 				fixed: itm.elem_fixed.checked,
 				mid: itm.elem_mid.checked
 			}
-
 		}
 
 		for(var i = 0; i < this.arr_diagonals.length; i++ ){
@@ -329,8 +330,6 @@ function ShapeSize (argument) {
 				dom.addclass(main.text_prompt, "fill")
 				dom.remclass(main.text_prompt, "itm")
 			}
-			
-			
 		}
 	}
 	this.remCorners = function(){
@@ -358,10 +357,10 @@ function ShapeSize (argument) {
 
 			var td_side = dom.elem('td', 'td_side', tr);
 			dom.text(td_side, txt);
-			var td_meas = dom.elem('td', 'td_meas', tr);
-			var cont_input_meas = dom.div('cont_meas', td_meas);
-			var input_meas = dom.input('text', 'input_meas', cont_input_meas);
-			var label_meas = dom.elem('label', 'label', cont_input_meas); //dom.input('text', 'input_meas', cont_input_meas);
+			var td_meas = dom.elem('td', 'td_meas td_input_red', tr);
+			// var cont_input_meas = dom.div('cont_meas', td_meas);
+			var input_meas = dom.input('text', 'input_meas', td_meas);
+			var label_meas = dom.elem('label', 'label', td_meas); //dom.input('text', 'input_meas', cont_input_meas);
 			var cont_val_red = dom.div('val_red', td_meas);
 			dom.text(cont_val_red, 'mm');
 
@@ -691,15 +690,16 @@ function ShapeSize (argument) {
 			var td_corner = dom.elem('td', 'td_diag', tr);
 			dom.text(td_corner, txt.join('-'));
 
-			var td_meas = dom.elem('td', 'td_meas', tr);
-			var div_m_val = dom.div('div_m_val', td_meas);
+			var td_meas = dom.elem('td', 'td_meas td_input_red', tr);
+			// var div_m_val = dom.div('div_m_val', td_meas);
 
-			var input_meas = dom.input('text', 'input_meas_diag', div_m_val);
-			var label_meas = dom.elem('label', 'label', div_m_val)
+			var input_meas = dom.input('text', 'input_meas_diag', td_meas);
+			var label_meas = dom.elem('label', 'label', td_meas)
 			input_meas.addEventListener('input', self.updateAllVal.bind(self));
 			input_meas.addEventListener('change', self.checkDiag.bind(self));
 			input_meas.side = id_obj
-			var div_m_red = dom.div('div_m_red', td_meas);
+			var div_m_red = dom.div('div_m_red val_red', td_meas);
+
 			dom.text(div_m_red, 'mm');
 
 			this.arr_diagonals.push({
@@ -786,18 +786,26 @@ function ShapeSize (argument) {
 			var td_corner = dom.elem('td', 'td_corner', tr);
 			dom.text(td_corner, txt);
 
-			var td_height = dom.elem('td', 'td_height', tr);
-			var div_h_val = dom.div('div_h_val', td_height)
+			var td_height = dom.elem('td', 'td_height td_input_red', tr);
+			// var div_h_val = dom.div('div_h_val', td_height)
 
-			var input_l = dom.input('text', 'input_h', div_h_val);
-			var label_l = dom.elem('label', 'label', div_h_val);
+			var input_l = dom.input('text', 'input_h', td_height);
+			var label_l = dom.elem('label', 'label', td_height);
 
 
 			dom.on('input', input_l, this.updateAllVal.bind(this));
 			dom.on('change', input_l, this.checkCorners.bind(this));
 			input_l.side = txt;
+
+
+			// var td_meas = dom.elem('td', 'td_meas td_input_red', tr);
+			// // var cont_input_meas = dom.div('cont_meas', td_meas);
+			// var input_meas = dom.input('text', 'input_meas', td_meas);
+			// var label_meas = dom.elem('label', 'label', td_meas); //dom.input('text', 'input_meas', cont_input_meas);
+			// var cont_val_red = dom.div('val_red', td_meas);
+			// dom.text(cont_val_red, 'mm');
 			
-			var div_h_red = dom.div('div_h_red', td_height);
+			var div_h_red = dom.div('div_h_red val_red', td_height);
 			dom.text(div_h_red, 'mm')
 
 			var td_finish = dom.elem('td', 'td_finish', tr);
@@ -875,7 +883,7 @@ function ShapeSize (argument) {
 
 		dom.on('click', load_example, this.loadExample.bind(this));
 
-		var reset = dom.div('my_btn reset disable');
+		var reset = dom.div('my_btn reset disable grad_blue');
 		dom.text(reset, 'Reset');
 		parent.insertBefore(reset, btn_help);
 		dom.on('click', reset, this.resetData.bind(this));

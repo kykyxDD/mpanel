@@ -2,7 +2,7 @@
 .threejs {
 	position: relative;
     width: 740px;
-    height: 430px;
+    height: 470px;
     box-shadow: 4px 4px 5px #C7C6C6;
     border-radius: 3px;
     overflow: hidden;
@@ -199,8 +199,7 @@
     border: none;
     background: initial;
     margin-bottom: 0;
-
-    /*display: none;*/
+    box-shadow: none;
 }
 .threejs .elem_color .text{
     padding-left: 5px;

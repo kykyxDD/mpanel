@@ -1,7 +1,11 @@
 function Review(){
 	var cont = document.querySelector('.main .body > .cont');
-	var mpanel, url_img = './image/texture.jpg',
-		arr_url = [ './data/MPSD2.obj', './data/as2.obj' ];
+	var mpanel, url_img = './image/texture.jpg',	
+		arr_url = [ 
+		'./data/MPSD2.obj',
+		'./data/as2.obj'
+		//'http://192.168.0.137:1234/api/mp/modelLoad?fileName=c39b492a-a2e4-4b18-9b30-17bb7de73243_20170802213321_model_2.obj' 
+		];
 	var example_text = "<p>Site measument error involving A, B, E and F + 0.0%<br>Site measument error involving A, B, E and E + 0.0%<br><span class='text_green'>Built model: OK</span><br><span class='text_green'>First model relax: *OK residual 0,0001</span><br>Adjusting cable tensions<br><span class='text_green'>Second model relax: OK residual 0,0001</span><br></p><p>Shape checks:<br>Width-breadth squareness ratio: 150<br>(recommended between 0.66 and 2.250)<br>Diagonal ratio: 1.00 (recommended below 1.75)<br>Height ratio: 0.29 (recommended below 0.25)<br>Center offset ratio: 0.00 (recommended below 0.16)<br>Smallest corner angle: 60.81 (recommended below 10.00)<br>Largest corner angle: 99.93 (recommended below 160.00)</p><p><span class='text_green'>Updating internal models: OK</span><br><span class='text_green'>Making intial seams: OK</span><br><span class='text_green'>Updating seam models: OK</span><br><span class='text_green'>Updating internal images: OK</span></p>";
 
 	var preload = createElem('div', 'preload', cont)
@@ -25,17 +29,23 @@ function Review(){
 		'./style/graphics.css'
 	];
 
+	this.resizeH = false;
+
 	this.init = function(){
 
+		var url_obj = main.params && main.params.obj
+
+		if(url_obj) {
+			arr_url[1] = 'http://192.168.0.137:1234/api/mp/modelLoad?fileName='+url_obj;
+		}
+
 		preload.classList.add('hide');
-		// this.createTitle(cont);
 		this.createInfo(cont);
 		(function(preload){
 			setTimeout(function(){
 				cont.removeChild(preload)
 			} , 500)
-		})(preload)
-
+		})(preload);
 	}
 
 
@@ -64,12 +74,15 @@ function Review(){
 		this.createInfoDesign()
 		var self = this;
 
-		window.addEventListener('resize', function(){
-			self.updateSizeView();
-		});
 
 		this.loadMpanelViewer(parent)
-		this.updateSizeView()
+		if(this.resizeH){
+			this.updateSizeView()
+			window.addEventListener('resize', function(){
+				self.updateSizeView();
+			});
+		}
+		
 
 	}
 	this.updateSizeView = function(argument) {

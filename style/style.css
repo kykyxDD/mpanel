@@ -121,7 +121,7 @@ body {
 .body .cont > .preload {
 	/*background: url(../image/mpanel_logo.png) no-repeat center;*/
 	width: 100%;
-	height: 400px;
+	height: 550px;
 	position: relative;
 	opacity: 1;
 	transition: opacity 0.5s;
@@ -185,11 +185,11 @@ body {
 	letter-spacing: 0.5px;
 	line-height: 30px;
 	text-indent: 61px;
-	background: #fefefe;
+	/*background: #fefefe;
 	background: -moz-linear-gradient(top, #fefefe 0%, #f0f0f0 100%);
 	background: -webkit-linear-gradient(top, #fefefe 0%,#f0f0f0 100%);
 	background: linear-gradient(to bottom, #fefefe 0%,#f0f0f0 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#f0f0f0',GradientType=0 );
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#f0f0f0',GradientType=0 );*/
 	
 }
 .body .cont .title .btn_help .link {
@@ -239,6 +239,17 @@ body {
 	background: linear-gradient(to bottom,  rgba(220,220,220,1) 0%,rgba(193,193,193,1) 100%); 
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dcdcdc', endColorstr='#c1c1c1',GradientType=0 ); 
 
+}
+.my_btn:hover {
+
+background: #f4f4f4; /* Old browsers */
+background: -moz-linear-gradient(top,  #f4f4f4 0%, #dbdbdb 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  #f4f4f4 0%,#dbdbdb 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  #f4f4f4 0%,#dbdbdb 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f4f4f4', endColorstr='#dbdbdb',GradientType=0 ); /* IE6-9 */
+
+border-color: #cecece !important;
+    /*box-shadow: 0 0 5px #C5C5C5;*/
 }
 
 .btn_help {
@@ -449,6 +460,15 @@ body {
 	background: linear-gradient(to bottom, #1b96e3 0%,#0e8bdb 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1b96e3', endColorstr='#0e8bdb',GradientType=0 );
 }
+.my_btn.grad_blue:hover {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#20a8ff+0,1f7ff4+100 */
+background: #20a8ff; /* Old browsers */
+background: -moz-linear-gradient(top,  #20a8ff 0%, #1f7ff4 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  #20a8ff 0%,#1f7ff4 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  #20a8ff 0%,#1f7ff4 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#20a8ff', endColorstr='#1f7ff4',GradientType=0 ); /* IE6-9 */
+border-color: #20a8ff !important;
+}
 .my_btn.active {
 	color: white;
 	border-color: #f28310;
@@ -475,6 +495,14 @@ body {
 	background: linear-gradient(to bottom, #f6890a 0%,#e87a01 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6890a', endColorstr='#e87a01',GradientType=0 );
 } 
+.my_btn.active:hover{
+    background: #FBA643;
+	background: -moz-linear-gradient(top, #FBA643 0%, #F38712 100%);
+	background: -webkit-linear-gradient(top, #FBA643 0%,#F38712 100%);
+	background: linear-gradient(to bottom, #FBA643 0%,#F38712 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFAD4E', endColorstr='#F38712',GradientType=0 );
+	border-color: #FBA643 !important;
+}
 
 
 .btn_design {

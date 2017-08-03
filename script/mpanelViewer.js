@@ -209,13 +209,13 @@ function MpanelViewer(parent){
 				loader_obj.setMaterials(materials);
 				load_file_obj()
 			});
-		}
+		};
 
 		function load_file_obj(texture){
 			loader_obj.load(url_obj, function(object){
 				self.createObj(object, texture);
-			})
-		}
+			});
+		};
 	};
 
 
