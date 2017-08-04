@@ -1,5 +1,5 @@
 function Main (argument) {
-	
+	this.host = ' http://192.168.0.119:1234/'
 	console.log('head');
 	var list_menu = [
 	{
@@ -61,6 +61,52 @@ function Main (argument) {
 			this.createPage()
 		} else {
 			this.pageHome();
+		}
+		
+	};
+	this.preload
+	this.text_preload
+	this.loadDataPreload = function(){
+		dom.remclass(this.preload, 'hide');
+
+		var post = dom.div('post_text', this.preload);
+		dom.text(post, "Sending update data");
+		this.text_preload = post
+
+		dom.addclass(this.preload, 'post');
+	},
+	this.createPreload = function(){
+		this.preload = dom.div('preload hide',this.cont_body);
+	};
+	this.hidePreload = function(){
+		dom.addclass(this.preload, 'hide');
+	};
+	this.updateTextPreload = function(txt){
+		dom.text(this.text_preload, txt)
+		dom.addclass(this.preload, 'ready');
+	}
+	this.showPreload = function(){
+		dom.text(this.preload, '');
+		dom.remclass(this.preload, 'error');
+
+		dom.remclass(this.preload, 'hide');
+	};
+	this.remPreload = function(){
+
+	};
+	this.errorTextPreload = function(txt, events){
+		dom.addclass(this.preload, 'error');
+		dom.text(this.preload, '')
+		var elem = dom.div('error_text', this.preload);
+
+		if(events){
+			var title_error = dom.div('title_error', elem)
+			dom.text(title_error, txt)
+			var parse = JSON.parse(events.responseText);
+			var cont_text = dom.div('cont_text', elem);
+			dom.text(cont_text, parse.message +'('+events.status+')')
+		} else {
+			dom.text(elem, txt);
 		}
 		
 	};
@@ -195,10 +241,12 @@ function Main (argument) {
 		var w = this.menu.clientWidth;
 		// console.log(w)
 		var id = list_menu.indexOf(this.itm_page)
+		this.link_page = {};
 
 		var l_w = Math.floor(w/(list_menu.length-1));
 
 		for(var l = 0; l < list_menu.length; l++){
+			var link = list_menu[l]
 			var elem = createElem('div', 'page', this.menu);
 			if(l < id){
 				elem.classList.add('prev')
@@ -208,14 +256,14 @@ function Main (argument) {
 			elem.style.left = (Math.floor(l*l_w) - 7) + 'px';
 			var point = createElem('div','point', elem);
 			var text = createElem('a', 'text', elem);
-			text.innerHTML = list_menu[l].text;
-			text.href = '?page='+list_menu[l].id;
-			(function(data){
+			text.innerHTML = link.text;
+			text.href = '?page='+link.id;
+			this.link_page[link.id] = text
+			/*(function(data){
 				point.addEventListener('click', function(){
 					window.location.href = '?page='+data.id;
-
 				})
-			})(list_menu[l]);
+			})(link);*/
 		}
 		var line = createElem('div', 'line', this.menu)
 		line.style.width = (id/(list_menu.length-1))*w + 'px';
@@ -305,6 +353,106 @@ function Main (argument) {
 		elem.innerHTML = 'Page in development';
 	}
 
+	this.createDataId = function(callback){
+
+		var data = {
+			"ClientName": "Dimka",
+			"ProjectName": "Dimka Save2",
+			"ProjectNumber": 3,
+			"Quantity": 4,
+			"RequestDate": "2017-07-31T14:29:42.3012892+03:00",
+			"SailNumber": 6,
+			"SailOf": 7,
+			"Description": "sample string 8",
+			"PorjectNumber": 9,
+			"EnteredDate": "2017-07-31T14:29:42.3022891+03:00",
+			"EnteredBy": "sample string 10",
+			"UnitIndex": 1
+		}
+		var url =  this.host+dataUrl.project.new_project;
+		console.log(url)
+		var self = this;
+		return $.ajax({
+			url: url,
+			type: "POST",
+			contentType: 'application/json',
+			dataType: 'json',
+			data: JSON.stringify(data),
+			success: function(data){
+				if(data.data){
+					window.localStorage.setItem('mpanel_id', data.data)
+					return self.createMaterial(data.data, callback);	
+				} else {
+					var text = data.error || data.message;
+					self.errorTextPreload(text)
+				}
+				
+			}, 
+			error: function(e){
+				self.errorTextPreload('Problem loading data!', e)
+			}
+		})
+	};
+	this.createMaterial = function(id, callback){
+		var data = {
+			"fabricSelectedIndex": 0,
+			"fabricTypeSelectedIndex": 0,
+			"fabricColorSelectedIndex": 1,
+			"rollWidthText": "1",
+			"override": false,
+			"warpStretch": 1,
+			"weftStretch": 1,
+			"warpStretchOverride": 1,
+			"weftStretchOverride": 1,
+			"hardwareSelectedIndex": 0,
+			"hardEdgeTypeSelectedIndex": 1,
+			"hardColorSelectedIndex": 0,
+			"hemText": "1",
+			"hardCornorSelectedIndex": 0,
+			"cornerLengthText": "1",
+			"cornerWidthText": "1",
+			"fitCorner": false,
+			"hardLinkSelectedIndex": 0,
+			"linkLengthText": "1",
+			"thread": "1",
+			"accessories": "1",
+			"seamText": "1",
+			"reoText": "1",
+			"poleDiameterText": "1",
+			"poleAngle": 1,
+			"poleExtraHeight": "1",
+			"exampleImageSelectedIndex": 0
+		}
+		var self = this;
+		var url = main.host + dataUrl.material.post.commit + id;
+
+		return $.ajax({
+			url: url,
+			type: "POST",
+			contentType: 'application/json',
+			dataType: 'json',
+			data: JSON.stringify(data),
+			success: function(data){
+				if(data.data){
+					window.localStorage.setItem('mpanel_id', data.data);
+					callback(data.data);
+				} else {
+					//this.errorTextPreload(data.error);
+					var text = data.error || data.message
+					self.errorTextPreload(text)
+				}
+			},
+			error: function(e){
+				console.log('error')
+				self.errorTextPreload('Problem loading data!', e)
+			}
+		})
+
+	}
+	this.getDataId = function(){
+		return window.localStorage.getItem('mpanel_id')
+	}
+
 	this.init()
 	
 }
@@ -377,3 +525,36 @@ function loadAllFiles(scripts, styles, fun){
 	}
 
 }
+
+function getXmlHttp(){
+  var xmlhttp;
+  try {
+    xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+  } catch (e) {
+    try {
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    } catch (E) {
+      xmlhttp = false;
+    }
+  }
+  if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
+    xmlhttp = new XMLHttpRequest();
+  }
+  return xmlhttp;
+}
+
+
+
+function loadDoc(url, cFunction, eFunction) {
+  var xhttp = getXmlHttp();//XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+    	cFunction(this);
+    } else {
+    	eFunction(this)
+    }
+ };
+  xhttp.open("GET", url, true);
+  xhttp.send();
+}
+

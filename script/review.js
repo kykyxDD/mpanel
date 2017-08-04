@@ -251,7 +251,6 @@ function Review(){
 		btn_help.innerHTML = '?'
 	};
 
-	// this.init()
 	loadAllFiles(scripts, styles, this.init.bind(this));
 
 }

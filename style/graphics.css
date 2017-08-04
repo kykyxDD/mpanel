@@ -151,32 +151,7 @@
 	transform: rotate(-135deg);
 	margin-top: -1px;
 }
-@-moz-keyframes animaciya {
-	from {
-		transform: rotate(0deg);
-	}  
-	to {
-		transform: rotate(360deg);
-	} 
-}
 
-@-webkit-keyframes animaciya {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
-}
-
-@-ms-keyframes animaciya {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
-}
 .threejs .elem_color{
 	position: absolute;
     bottom: 7px;

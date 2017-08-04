@@ -27,6 +27,10 @@ function ShapeSize (argument) {
 	}
 
 	this.init = function(){
+		var self = this
+
+		main.createPreload();
+		main.showPreload();
 		var par = document.querySelector('.body .cont');
 
 		par.classList.add('page_shape');
@@ -42,7 +46,215 @@ function ShapeSize (argument) {
 
 		this.createInfoLeft(left_path);
 		this.createInfoRight(right_path);
-		
+
+		//loadDoc(main.host+url, this.loadObj.bind(this), this.errorObj.bind(this))
+		var mpanel_id = main.getDataId();
+		if(mpanel_id) {
+			this.getDataObj(mpanel_id);
+		} else {
+			main.createDataId(this.getDataObj.bind(this))
+			
+		}
+
+		this.addEventNextBtn()
+
+		// window.onbeforeunload = function(e){
+		// 	return self.postNewData();
+		// }
+	}
+	this.addEventNextBtn = function(){
+		var self = this;
+		var btn_link_next = main.link_next;
+		btn_link_next.removeAttribute('href');
+
+		var btn_next = main.btn_next;
+		console.log(btn_link_next, btn_next);
+
+		btn_next.addEventListener('click', function(){
+			self.postNewData();
+		});
+		var btn_menu = main.link_page['review']
+		btn_menu.removeAttribute('href');
+		// btn_menu.addEventListener('click', function(){
+		// 	self.postNewData();
+		// })
+	}
+
+	this.getNewData = function(){
+		var data = {
+			"sideCount": this.item_num,
+			"loftingSelected": 0,
+			"measureBetween": 0,
+			"sideParameters": [],
+			"cornerParameters": [],
+			"diagonalParameters": []
+		}
+		var sides = [];
+		var diagonals = [];
+		var corners = [];
+
+		for(var i = 0; i < this.arr_sides.length; i++){
+			var itm = {};
+			var side = this.arr_sides[i];
+
+			itm.index = side.index;
+			itm.name = side.name;
+
+			var fun_dip = side.sel_dip.data("selectBox-selectBoxIt");
+			var fun_type = side.sel_type.data("selectBox-selectBoxIt");
+			var val = side.elem_meas.value;
+
+			itm.pointToPointSize = val != '' ? parseFloat(val) : '';//parseFloat(side.elem_meas.value)
+			itm.selectedHemType = fun_type.textArray[fun_type.currentIndex];
+			itm.selectedDip = fun_dip.textArray[fun_dip.currentIndex];
+			itm.isFixed = side.elem_fixed.checked;
+			itm.isMidSupport = side.elem_mid.checked;
+			sides[i] = itm;
+		}
+
+		for(var i = 0; i < this.arr_diagonals.length; i++){
+			var itm = {};
+			var diag = this.arr_diagonals[i];
+
+			itm.index = diag.index;
+			itm.name = diag.name;
+			var val = diag.elem_meas.value
+			itm.value = val != '' ? parseFloat(diag.elem_meas.value) : '';
+
+			diagonals[i] = itm;
+		}
+
+		for(var i = 0; i < this.arr_corners.length;i++){
+			var itm = {};
+			var corn = this.arr_corners[i];
+
+			itm.index = corn.index;
+			itm.name = corn.name;
+			var height = corn.elem_h.value;
+			itm.height = height != '' ? parseFloat(corn.elem_h.value) : '';
+			var linkLength = corn.elem_length.value;
+			itm.linkLength = linkLength != '' ? parseFloat(corn.elem_length.value) : '';
+
+			var fun_finish = corn.elem_finish.data("selectBox-selectBoxIt");
+			var fun_link = corn.elem_link.data("selectBox-selectBoxIt");
+			itm.selectedLink = fun_link.textArray[fun_link.currentIndex];
+			itm.selectedHardware = fun_finish.textArray[fun_finish.currentIndex];
+
+			corners[i] = itm;
+		}
+
+		data.sideParameters = sides
+		data.cornerParameters = corners
+		data.diagonalParameters = diagonals
+
+		return data
+	};
+
+	this.postNewData = function(){
+
+		main.loadDataPreload();
+		var id = main.getDataId();
+		var url = main.host + dataUrl.meas.post.commit+id
+		var data = this.getNewData()
+
+		var str_data = JSON.stringify(data);
+
+		console.log("str_data", str_data)
+
+		return $.ajax({
+			url: url,
+			type: "POST",
+			contentType: 'application/json',
+			dataType: 'json',
+			data: JSON.stringify(data),
+			success: function(data){
+				console.log('data', data)
+				if(!data.error){
+					//self.parseDataObj(data.data);
+					console.log('update',true)
+
+					window.localStorage.setItem('mpanel_id', data.data);
+					main.updateTextPreload('Ready. A few seconds later, the page loads.');
+					setTimeout(function(){
+						window.location.href = '?page=review';	
+					}, 3000);
+				} else {
+					console.log('update',false)
+					
+					//window.location.href = '?page=review';
+					main.updateTextPreload('Problem loading data! ' + data.error );
+					setTimeout(function(){
+						window.location.href = '?page=review';	
+					}, 3000);
+				}
+			}, 
+			error: function(e){
+				console.log('error', false,e);
+			}
+		});
+	}
+
+	this.postDataPolyNum = function(num){
+		var id = main.getDataId();
+
+		main.showPreload();
+
+		var url = main.host + dataUrl.meas.post.newSide+id+'&polyNum='+num;
+		var self = this;
+		console.log(url)
+
+		$.ajax({
+			type: "GET",
+			url: url,
+			success: function(data){
+				console.log('data', data)
+				if(data.data){
+					self.parseDataObj(data.data);
+				} else {
+					console.log('error')
+					var text = data.error
+					main.errorTextPreload(text)
+				}
+			}, 
+			error: function(e){
+				console.log('error',e)
+				// if(e.statusText){
+				// 	main.errorTextPreload('Problem loading data')
+				// }
+				main.errorTextPreload('Problem loading data!', e)
+			}
+		})
+
+	}
+
+	this.getDataObj = function(){
+		var id = main.getDataId();
+		console.log('id',id)
+		var url = main.host + dataUrl.meas.get+id
+		var self = this;
+		if(!id) {
+			console.log('error')
+			return
+		}
+
+		$.ajax({
+			type: "GET",
+			url: url,
+			success: function(data){
+				console.log('data', data)
+				if(data.data){
+					self.parseDataObj(data.data);
+				} else {
+					console.log('error')
+					var text = data.error || data.message
+					main.errorTextPreload(text)
+				}
+			}, 
+			error: function(e){
+				console.log('error',e)
+				main.errorTextPreload('Problem loading data!', e)
+			}
+		})
 	}
 
 	this.createInfoLeft = function(left_path){
@@ -191,14 +403,28 @@ function ShapeSize (argument) {
 			dom.text(td, arr_corners[i].text);
 		};
 
+	};
+
+	this.parseDataObj = function(data){
+
+		dom.remclass(this.cont_figure_tension, 't_'+this.item_num);
+
+		
+		this.item_num = data.sideCount;
+
+		this.data_obj = data
 		this.createNewInfo();
 
+
+		
 	};
 
 	this.createNewInfo = function(){
 
 		this.remPrevInfo();
 		var num = this.item_num;
+
+		dom.text(this.elem_val_num, this.item_num);
 
 		dom.addclass(this.cont_figure_tension, 't_'+num);
 
@@ -213,23 +439,35 @@ function ShapeSize (argument) {
 		this.updateAllVal();
 		this.checkError();
 
+		main.hidePreload()
+
 	};
 	this.remPrevInfo = function(){
 		var self = this
-		var obj = {};
+		var obj = {
+			sides: [],
+			diag: [],
+			corners: []
+		};
 		for(var i = 0; i < this.arr_sides.length; i++ ){
 			if(!obj.sides) obj.sides = {}
 			var itm = this.arr_sides[i];
 			this.arr_sides[i].elem_meas.removeEventListener('input', self.updateAllVal.bind(self));
 			this.arr_sides[i].elem_meas.removeEventListener('change', self.checkSides.bind(self));
-			var id = this.arr_sides[i].id
-			obj.sides[id] = {
-				meas: itm.elem_meas.value,
-				type: itm.elem_type.innerText,
-				dip: itm.elem_dip.value,
-				fixed: itm.elem_fixed.checked,
-				mid: itm.elem_mid.checked
-			}
+			var id = this.arr_sides[i].id;
+
+			var fun_dip = itm.sel_dip.data("selectBox-selectBoxIt")
+			var fun_type = itm.sel_type.data("selectBox-selectBoxIt")
+
+			itm.pointToPointSize = itm.elem_meas.value;
+			itm.selectedHemType = fun_type.currentIndex; //itm.sel_type[0].selectedIndex;
+			itm.selectedDip = fun_dip.currentIndex; //itm.sel_dip[0].selectedIndex;
+
+			itm.isFixed = itm.elem_fixed.checked;
+			itm.isMidSupport = itm.elem_mid.checked;
+			obj.sides[i] = itm;
+			fun_dip.destroy();
+			fun_type.destroy();
 		}
 
 		for(var i = 0; i < this.arr_diagonals.length; i++ ){
@@ -239,9 +477,8 @@ function ShapeSize (argument) {
 
 			itm.elem_meas.removeEventListener('input', self.updateAllVal.bind(self));
 			itm.elem_meas.removeEventListener('change', self.checkDiag.bind(self));
-			obj.diag[id] = {
-				meas: itm.elem_meas.value
-			}
+			itm.value = itm.elem_meas.value;
+			obj.diag[i] = itm
 		}
 
 		for(var i = 0; i < this.arr_corners.length; i++ ){
@@ -250,12 +487,26 @@ function ShapeSize (argument) {
 			var id = itm.id;
 			itm.elem_h.removeEventListener('input', self.updateAllVal.bind(self));
 			itm.elem_h.removeEventListener('change', self.checkCorners.bind(self));
-			obj.corners[id] = {
+
+			var fun_link = itm.elem_link.data("selectBox-selectBoxIt");
+			var fun_finish = itm.elem_finish.data("selectBox-selectBoxIt");
+
+			itm.height = itm.elem_h.value;
+			itm.linkLength = itm.elem_length.value;
+			itm.selectedLink = fun_link.currentIndex;
+			itm.selectedHardware = fun_finish.currentIndex;
+
+			obj.corners[i] = itm;
+
+			fun_link.destroy();
+			fun_finish.destroy();
+
+			/*obj.corners[id] = {
 				h: itm.elem_h.value,//itm.elem_h.innerText,
 				finish: itm.elem_finish.innerText,
 				link: itm.elem_link.innerText,
 				length: itm.elem_length.innerText
-			}
+			}*/
 		}
 		console.log(obj)
 
@@ -266,7 +517,6 @@ function ShapeSize (argument) {
 			} else if(this.obj_info[num_sides]) {
 				this.obj_info[num_sides] = false
 			}
-			
 		}
 		
 		console.log('obj_info',this.obj_info)
@@ -346,10 +596,13 @@ function ShapeSize (argument) {
 		var alf = lang.substr(0, num).split("");
 		var prev_values = this.obj_info[num] && this.obj_info[num].sides;
 		console.log(prev_values)
+		var sides = prev_values ? prev_values : this.data_obj.sideParameters
 
-		for(var i = 0; i < num; i++){
-			var arr_txt = [alf[i] , alf[(i+1)%num]];
-			var txt = arr_txt.join('-');
+		//for(var i = 0; i < num; i++){
+		for(var i = 0; i < sides.length; i++){
+			var itm = sides[i];
+			var arr_txt = itm.name.split('-');//[alf[i] , alf[(i+1)%num]];
+			var txt = itm.name//arr_txt.join('-');
 			var id_obj = arr_txt.join('')
 			var id = arr_txt.join('_').toLowerCase();
 
@@ -360,6 +613,7 @@ function ShapeSize (argument) {
 			var td_meas = dom.elem('td', 'td_meas td_input_red', tr);
 			// var cont_input_meas = dom.div('cont_meas', td_meas);
 			var input_meas = dom.input('text', 'input_meas', td_meas);
+			input_meas.value = itm.pointToPointSize
 			var label_meas = dom.elem('label', 'label', td_meas); //dom.input('text', 'input_meas', cont_input_meas);
 			var cont_val_red = dom.div('val_red', td_meas);
 			dom.text(cont_val_red, 'mm');
@@ -372,15 +626,29 @@ function ShapeSize (argument) {
 			}
 
 			var td_type = dom.elem('td', 'td_type', tr);
-			dom.text(td_type, 'Webbing');
+			// dom.text(td_type, 'Webbing');
+
+			var sel_type_id = 'side_sel_type_'+id_obj;
+			var select_type = this.createSelType(sel_type_id, td_type);
+			select_type.selectedIndex = itm.selectedHemType;
+			var fun_select_type = this.createSelFun(sel_type_id);
+
+
 			var td_dip = dom.elem('td', 'td_dip', tr);
-			var input_dip = dom.input('text', 'dip_'+id, td_dip)
-			var label_meas = dom.elem('label', 'label', td_dip)
+
+			/*var input_dip = dom.input('text', 'dip_'+id, td_dip)
+			var label_meas = dom.elem('label', 'label', td_dip)*/
+			var sel_dip_id = 'side_sel_dip_'+id_obj;
+			var select_dip = this.createSelDip(sel_dip_id, td_dip);
+			select_dip.selectedIndex = itm.selectedDip;
+			var fun_select_dip = this.createSelFun(sel_dip_id)
+
+			// var select_dip = this.createSelDip(td_dip);
 
 			var td_fixed = dom.elem('td', 'td_fixed', tr);
 			var cont_check_fixed = dom.div('cont_check', td_fixed) ;
 			var input_fixed = dom.input('checkbox', 'fixed', cont_check_fixed);
-
+			input_fixed.checked = itm.isFixed;
 			var label_fixed = dom.elem('label', '', cont_check_fixed);
 			
 			input_fixed.id= "fixed_"+id;
@@ -390,34 +658,91 @@ function ShapeSize (argument) {
 			var cont_check_mid = dom.div('cont_check', td_mid) ;
 			var input_mid = dom.input('checkbox', 'mid', cont_check_mid);
 			var label_mid = dom.elem('label', '', cont_check_mid);
+			input_mid.checked = itm.isMidSupport;
 			input_mid.id= "mid_"+id;
 			label_mid.setAttribute('for', "mid_"+id)
 
 
 			this.list_error.sides[id_obj] = undefined;
 
-			this.arr_sides.push({
-				id: id_obj,
-				id_sides: arr_txt,
-				elem_meas: input_meas,
-				elem_type: td_type,
-				elem_dip : input_dip,
-				elem_fixed: input_fixed,
-				elem_mid : input_mid
-			});
+			itm.id = id_obj
+			itm.id_sides = arr_txt
+			itm.elem_meas = input_meas
+			itm.sel_type = fun_select_type
+			itm.sel_dip = fun_select_dip
+			itm.elem_fixed = input_fixed
+			itm.elem_mid = input_mid
+
+			this.arr_sides.push(itm);
 			if(prev_values) {
-				var obj_val = prev_values[id_obj]
-				if(obj_val){
+				this.checkValSides(input_meas)
+				//var obj_val = prev_values[id_obj]
+				/*if(obj_val){
 					input_meas.value = obj_val.meas;
 					dom.text(td_type, obj_val.type);
-					input_dip.value = obj_val.dip;
+					// input_dip.value = obj_val.dip;
 					input_fixed.checked = obj_val.fixed;
-					input_mid.checked = obj_val.mid;
-					this.checkValSides(input_meas)
-				}
+					input_mid.checked = obj_val.mid;					
+				}*/
 			}
 		}
 	};
+	this.createSelDip=function(id, par){
+		var select = dom.elem('select', 'td_select select_dip', par);
+		select.id = id;
+
+		var list = this.data_obj.dipItems;
+		for(var i = 0; i < list.length; i++){
+
+			var opt = dom.elem('option', 'opt', select);
+			opt.value = 'opt_'+i
+			dom.text(opt, list[i]);
+		}
+		return select
+	};
+
+	this.createSelType=function(id, par){
+		var select = dom.elem('select', 'td_select select_type', par);
+		select.id = id;
+
+		var list = this.data_obj.hemItems;
+		for(var i = 0; i < list.length; i++){
+
+			var opt = dom.elem('option', 'opt', select);
+			opt.value = 'opt_'+i
+			dom.text(opt, list[i]);
+		}
+		return select
+	};
+	this.createSelLink=function(id, par){
+		var select = dom.elem('select', 'td_select select_link', par);
+		select.id = id;
+
+		var list = this.data_obj.linkItems;
+		for(var i = 0; i < list.length; i++){
+
+			var opt = dom.elem('option', 'opt', select);
+			opt.value = 'opt_'+i
+			dom.text(opt, list[i]);
+		}
+		return select
+	};
+	this.createSelFinish=function(id, par){
+		var select = dom.elem('select', 'td_select select_finish', par);
+		select.id = id;
+
+		var list = this.data_obj.hardwareItems;
+		for(var i = 0; i < list.length; i++){
+
+			var opt = dom.elem('option', 'opt', select);
+			opt.value = 'opt_'+i
+			dom.text(opt, list[i]);
+		}
+		return select
+	};
+	this.createSelFun = function(id){		
+		return $("select#"+id).selectBoxIt({});
+	}
 	this.checkSides = function(e){
 
 		var target = e.target || e.srcElement;
@@ -520,8 +845,11 @@ function ShapeSize (argument) {
 			var itm = arr_sides[i];
 			var side = arr_sides[i].elem_meas;
 			var str_num = this.checkValNum(side.value)
-			arr_sides[i].elem_meas.value = str_num // first + parseFloat(side.value)+last
-			var has_at = itm.elem_meas.hasAttribute('autofocus')
+			if((''+str_num) != arr_sides[i].elem_meas.value){
+				arr_sides[i].elem_meas.value = str_num 	
+			}
+			// first + parseFloat(side.value)+last
+			// var has_at = itm.elem_meas.hasAttribute('autofocus')
 			// if(itm.elem_meas.hasAttribute('autofocus')){
 			// 	itm.elem_meas.removeAttribute('autofocus')
 			// }
@@ -538,7 +866,11 @@ function ShapeSize (argument) {
 			var itm = arr_diag[i];
 			var side = arr_diag[i].elem_meas;
 			var str_num = this.checkValNum(side.value)
-			arr_diag[i].elem_meas.value = str_num; // first + parseFloat(side.value)+last
+
+			if((''+str_num) != arr_diag[i].elem_meas.value){
+				arr_diag[i].elem_meas.value = str_num 	
+			}
+			// arr_diag[i].elem_meas.value = str_num; // first + parseFloat(side.value)+last
 			// if(itm.elem_meas.hasAttribute('autofocus')){
 			// 	itm.elem_meas.removeAttribute('autofocus')
 			// }
@@ -556,10 +888,11 @@ function ShapeSize (argument) {
 			var itm = arr_corners[i];
 			var side = arr_corners[i].elem_h;
 			var str_num = this.checkValNum(side.value)
-			arr_corners[i].elem_h.value = str_num; // first + parseFloat(side.value)+last
-			// if(itm.elem_h.hasAttribute('autofocus')){
-			// 	itm.elem_h.removeAttribute('autofocus')
-			// }
+			if((''+str_num) != arr_corners[i].elem_h.value){
+				arr_corners[i].elem_h.value = str_num 	
+			}
+			// arr_corners[i].elem_h.value = str_num; 
+
 		}
 
 		this.reset = num_val > 0 ; 
@@ -596,10 +929,10 @@ function ShapeSize (argument) {
 		}*/
 	}
 	this.buildTriangle = function(obj,selected){
-			var AB = obj[0].val;
+		var AB = obj[0].val;
 		var BC = obj[1].val;
 		var CA = obj[2].val;
-	
+
 		var p1 = {x:0,y:0};
 		var p2 = {x:AB,y:0};
 		var p3 = getCoordinateBy2sides(AB,BC,CA);
@@ -611,8 +944,7 @@ function ShapeSize (argument) {
 		var scale = getFitScale(bbox);
 		calculateAngles(points);
 		drawShape(points,scale, obj);
-		
-		
+
 	//	x1 = 0;
 	//	x2 = 0;
 	//	y1 = -AB/2;
@@ -630,65 +962,27 @@ function ShapeSize (argument) {
 		console.log(prev_values)
 
 		this.arr_diagonals = [];
-		if(num < 4){
+		// var diagonals = this.data_obj.diagonalParameters
+		var diagonals = prev_values ? prev_values : this.data_obj.diagonalParameters
+		if(!diagonals.length){
 			dom.visible(this.cont_diagonals, false);
 			return
 		}
 
 		dom.visible(this.cont_diagonals, true);
-		var num_diag = num == 4 ? 2 : 5;
-		var arr = [];
-		if(num == 4){
-			arr.push({	
-				val: 'AC'
-			});
-			arr.push({
-				val: 'BD'
-			});
-		} else if(num == 5){
-			arr.push({
-				val: 'AC'
-			});
-			arr.push({
-				val: 'AD'
-			});
-			arr.push({
-				val: 'BD'
-			});
-			arr.push({
-				val: 'BE'
-			});
-			arr.push({
-				val: 'CE'
-			});
-		} else if(num == 6){
-			arr.push({
-				val: 'AE'
-			});
-			arr.push({
-				val: 'BD'
-			});
-			arr.push({
-				val: 'BE'
-			});
-			arr.push({
-				val: 'BF'
-			});
-			arr.push({
-				val: 'CE'
-			});
-		};
-		this.arr_diagonals = [];
-		var self = this
+		var self = this;
 
-		for(var i = 0; i < num_diag; i++){
+		//for(var i = 0; i < num_diag; i++){
+		for(var i = 0; i < diagonals.length; i++){
 			// var arr_val = arr[i].val.split("");
-			var txt = arr[i].val.split("");// arr[i].val;
+			var itm = diagonals[i];
+			var arr_val = itm.name.split("-")
+			var txt = arr_val.join('');// arr[i].val;
 			var tr = dom.elem('tr', '', tbody_diagonals);
-			var id_obj = arr[i].val
+			var id_obj = txt//arr[i].val
 
 			var td_corner = dom.elem('td', 'td_diag', tr);
-			dom.text(td_corner, txt.join('-'));
+			dom.text(td_corner, itm.name);
 
 			var td_meas = dom.elem('td', 'td_meas td_input_red', tr);
 			// var div_m_val = dom.div('div_m_val', td_meas);
@@ -698,24 +992,23 @@ function ShapeSize (argument) {
 			input_meas.addEventListener('input', self.updateAllVal.bind(self));
 			input_meas.addEventListener('change', self.checkDiag.bind(self));
 			input_meas.side = id_obj
+			input_meas.value = itm.value;
 			var div_m_red = dom.div('div_m_red val_red', td_meas);
 
 			dom.text(div_m_red, 'mm');
+			itm.id = id_obj;
+			itm.elem_meas = input_meas;
 
-			this.arr_diagonals.push({
-				id: id_obj,
-				elem_meas : input_meas,
-				id_str: txt.join('-')
-			});
+			this.arr_diagonals.push(itm);
 
 			this.list_error.diag[id_obj] = undefined;
 
-			if(prev_values) {
+			/*if(prev_values) {
 				var obj_val = prev_values[id_obj]
 				if(obj_val){
 					input_meas.value = obj_val.meas;
 				}
-			}
+			}*/
 		}
 	};
 
@@ -779,8 +1072,12 @@ function ShapeSize (argument) {
 		var prev_values = this.obj_info[num] && this.obj_info[num].corners;
 		console.log(prev_values)
 
-		for(var i = 0; i < num; i++){
-			var txt = alf[i]
+		var corners = prev_values ? prev_values : this.data_obj.cornerParameters;
+
+		//for(var i = 0; i < num; i++){
+		for(var i = 0; i < corners.length; i++){
+			var itm = corners[i];
+			var txt = itm.name;
 			var tr = dom.elem('tr', '', tbody_corners);
 			
 			var td_corner = dom.elem('td', 'td_corner', tr);
@@ -789,44 +1086,56 @@ function ShapeSize (argument) {
 			var td_height = dom.elem('td', 'td_height td_input_red', tr);
 			// var div_h_val = dom.div('div_h_val', td_height)
 
-			var input_l = dom.input('text', 'input_h', td_height);
-			var label_l = dom.elem('label', 'label', td_height);
+			var input_h = dom.input('text', 'input_h', td_height);
+			var label_h = dom.elem('label', 'label', td_height);
+			input_h.value = itm.height;
+
+			dom.on('input', input_h, this.updateAllVal.bind(this));
+			dom.on('change', input_h, this.checkCorners.bind(this));
+			input_h.side = txt;
 
 
-			dom.on('input', input_l, this.updateAllVal.bind(this));
-			dom.on('change', input_l, this.checkCorners.bind(this));
-			input_l.side = txt;
-
-
-			// var td_meas = dom.elem('td', 'td_meas td_input_red', tr);
-			// // var cont_input_meas = dom.div('cont_meas', td_meas);
-			// var input_meas = dom.input('text', 'input_meas', td_meas);
-			// var label_meas = dom.elem('label', 'label', td_meas); //dom.input('text', 'input_meas', cont_input_meas);
-			// var cont_val_red = dom.div('val_red', td_meas);
-			// dom.text(cont_val_red, 'mm');
-			
 			var div_h_red = dom.div('div_h_red val_red', td_height);
 			dom.text(div_h_red, 'mm')
 
 			var td_finish = dom.elem('td', 'td_finish', tr);
-			dom.text(td_finish, 'D Ring');
+			var sel_finish_id = 'side_sel_finish_'+txt;
+			var select_finish = this.createSelFinish(sel_finish_id, td_finish);
+			select_finish.selectedIndex = itm.selectedHardware;
+			var fun_select_finish = this.createSelFun(sel_finish_id)
+			// dom.text(td_finish, 'D Ring');
 
 			var td_link = dom.elem('td', 'td_link', tr)
-			dom.text(td_link, 'SHACKLE');
+			var sel_link_id = 'side_sel_link_'+txt;
+			var select_link = this.createSelLink(sel_link_id, td_link);
+			select_link.selectedIndex = itm.selectedLink;
+			var fun_select_link = this.createSelFun(sel_link_id)
 
-			var td_length = dom.elem('td', 'td_length', tr)
-			dom.text(td_length, '100');
 
-			this.arr_corners.push({
+			var td_length = dom.elem('td', 'td_length td_input_red', tr);
+
+			var input_l = dom.input('text', 'input_h', td_length);
+			var label_l = dom.elem('label', 'label', td_length);
+			input_l.value = itm.linkLength;
+
+			itm.id = txt
+			itm.elem_h = input_h
+			itm.elem_finish = fun_select_finish
+			itm.elem_link = fun_select_link
+			itm.elem_length = input_l
+
+			this.arr_corners.push(itm)
+
+			/*this.arr_corners.push({
 				id: txt, 
-				elem_h: input_l,
+				elem_h: input_h,
 				elem_finish: td_finish,
 				elem_link: td_link,
 				elem_length: td_length
-			});
+			});*/
 			this.list_error.corners[txt] = undefined;
 
-			if(prev_values) {
+			/*if(prev_values) {
 				var obj_val = prev_values[txt]
 				if(obj_val){
 					//dom.text(div_h_val, obj_val.h)
@@ -836,7 +1145,7 @@ function ShapeSize (argument) {
 					dom.text(td_length, obj_val.length)
 					this.checkValCorners(input_l)
 				}
-			}
+			}*/
 		}
 	};
 
@@ -860,21 +1169,25 @@ function ShapeSize (argument) {
 	this.minusNum = function(){
 		var new_num = this.item_num-1;
 		if(new_num >= min_edge ){
-			dom.remclass(this.cont_figure_tension, 't_'+this.item_num);
-			this.item_num = new_num;
-			dom.text(this.elem_val_num, this.item_num);
-			this.createNewInfo();
+			this.checkData(new_num);
 		}
 	};
 	this.plusNum = function(){
 		var new_num = this.item_num+1;
 		if(new_num <= max_edge ){
-			dom.remclass(this.cont_figure_tension, 't_'+this.item_num);
-			this.item_num = new_num;
-			dom.text(this.elem_val_num, this.item_num);
-			this.createNewInfo();
+			this.checkData(new_num);
 		}
 	};
+	this.checkData = function(num){
+
+		if(this.obj_info[num]){
+			dom.remclass(this.cont_figure_tension, 't_'+this.item_num);
+			this.item_num = num;
+			this.createNewInfo();
+		} else {
+			this.postDataPolyNum(num)
+		}
+	}
 
 	this.createBtnHead = function(parent, btn_help){
 		var load_example = dom.div('my_btn load_exam');

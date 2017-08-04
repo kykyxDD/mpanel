@@ -218,6 +218,15 @@ function MpanelViewer(parent){
 		};
 	};
 
+	this.checkNameMembraneOr = function(name){
+		return name == 'membrane_top' || name == 'membrane_bottom' || 
+				name == 'membrane top' || name == 'membrane bottom'
+	}
+	this.checkNameMembraneAnd = function(name){
+		return name == 'membrane_top' || name == 'membrane_bottom' || 
+				name == 'membrane top' || name == 'membrane bottom'
+	}
+
 
 	this.createObj = function(object, texture){
 		var self = this;
@@ -231,28 +240,26 @@ function MpanelViewer(parent){
 		object.receiveShadow = true;
 		object.traverse( function(child){
 			if(child instanceof THREE.Mesh){
-				if(child.name == 'membrane_top' || child.name == 'membrane_bottom'){
+				if(self.checkNameMembraneOr(child.name)){
 					if(texture){
 						child.material.map = texture;
 						child.material.map.wrapS = child.material.map.wrapT = THREE.RepeatWrapping; 
 						child.material.map.repeat.set( 15, 20 );
 						child.material.map.needsUpdate = true;
 						child.material.needsUpdate = true;
+					//} else {
+					//	child.material.color.setRGB(1,1,1) //(color.r, color.g, color.b)
 					}
 				} else {
 					child.receiveShadow = true;
 				}
 
 				if(!self.pole_color && child.name.indexOf('pole') >= 0){
-					// console.log('name', child.name)
 					self.pole_color = {
 						r : child.material.color.r,
 						g : child.material.color.g,
 						b : child.material.color.b
 					}
-					// console.log('pole',self.pole_color)
-
-					//self.setValColor(self.pole_color);
 				}
 				child.castShadow = true;
 				
@@ -293,34 +300,15 @@ function MpanelViewer(parent){
 	this.setValColor = function(val_color){
 		
 		var color = this.getInputColor(val_color);
-		// console.log('color',val_color, color)
 		this.item_object.traverse(function(child){
 			if(child instanceof THREE.Mesh){
-				//console.log('name', child.name)
-				if(child.name != 'membrane_top' && child.name != 'membrane_bottom'){
-					// console.log('name', child.name)
+				if(!self.checkNameMembraneOr(child.name)){
 					child.material.color.setRGB(color.r, color.g, color.b);
 				}
-
-				/*if(!self.pole_color && child.name.indexOf('pole') >= 0){
-					console.log('name', child.name)
-					self.pole_color = {
-						r : (child.material.color.r*255).toString(16),
-						g : (child.material.color.g*255).toString(16),
-						b : (child.material.color.b*255).toString(16)
-					}
-					console.log('pole',self.pole_color)
-
-					self.setValColor(self.pole_color);
-				}
-				child.castShadow = true;*/
-				
 			}
-		})
+		});
 	};
-	this.getColor = function(val){
-		
-	};
+
 	/*this.getObjMtl = function(entries){
 		if(!this.obj_data) {
 			this.obj_data = new THREE.Object3D();

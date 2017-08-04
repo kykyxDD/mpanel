@@ -212,7 +212,7 @@
 	border-radius: 5px;
 	width: 500px;
 	margin: 3px 0 16px;
-	overflow: hidden;
+	/*overflow: hidden;*/
 	box-shadow: 2px 2px 5px grey;
 }
 .cont_table_sides,
@@ -355,6 +355,9 @@
 	font-size: 12px;
 	box-shadow: none;
 }
+.table_info tbody tr td.td_length input[type='text'] {
+	text-align: center;
+}
 .table_info tbody tr td input[type='text'] + label {
 	position: absolute;
 	top: 0;
@@ -482,4 +485,42 @@
 
 .thead_diagonals td.measurement{
 	text-indent: 10px;
+}
+
+.td_select +.selectboxit-container {
+	display: block;
+	margin: 0 auto;
+}
+
+.td_dip .td_select + .selectboxit-container .selectboxit-options {
+	width: 100%;
+	text-align: center;
+}
+.td_select + .selectboxit-container .selectboxit-option-icon-container{
+	width: 0px;
+	margin-left: 0;
+}
+.td_select + .selectboxit-container .selectboxit-arrow-container{
+	width: 20px;
+}
+.td_select + .selectboxit-container .selectboxit-arrow-container:before {
+	display: none;
+}
+.td_select + .selectboxit-container span, 
+.td_select + .selectboxit-container .selectboxit-options a{
+	height: 30px;
+	line-height: 30px;
+
+}
+.td_select + .selectboxit-container .selectboxit-btn {
+	background-color: rgba(255,255,255,0);
+	border: 1px solid rgba(249,249,249,0);
+	width: 100% !important;
+	max-width: 100% !important;
+}
+
+.td_select + .selectboxit-container .select_units, 
+.td_select + .selectboxit-container .selectboxit-option, 
+.td_select + .selectboxit-container .selectboxit-optgroup-header{
+	    text-transform: inherit;
 }

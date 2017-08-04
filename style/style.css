@@ -91,18 +91,19 @@ body {
 }
 .menu .page .text {
 	position: absolute;
-    top: -5px;
-    white-space: nowrap;
-    text-transform: uppercase;
-    font-size: 12px;
-    width: 100px;
-    height: 40px;
-    line-height: 60px;
-    text-align: center;
-    color: #7D7D7D;
-    margin-left: -44px;
-    letter-spacing: -0.3px;
-    text-decoration: blink;
+	top: -5px;
+	white-space: nowrap;
+	text-transform: uppercase;
+	font-size: 12px;
+	width: 100px;
+	height: 40px;
+	line-height: 60px;
+	text-align: center;
+	color: #7D7D7D;
+	margin-left: -44px;
+	letter-spacing: -0.3px;
+	text-decoration: blink;
+	cursor: pointer;
 }
 .menu .page.itm .text {
 	color: #f67e03;
@@ -121,15 +122,35 @@ body {
 .body .cont > .preload {
 	/*background: url(../image/mpanel_logo.png) no-repeat center;*/
 	width: 100%;
-	height: 550px;
+	height: 560px;
 	position: relative;
 	opacity: 1;
 	transition: opacity 0.5s;
 	position: absolute;
-	top: 77px;
+	top: 65px;
 	left: 0;
 	z-index: 10;
 	background-color: #f9f9f9;
+}
+.body .cont > .preload.error:before {
+	margin-top: -100px
+}
+.body .cont > .preload.error:after {
+	display: none;
+}
+.body .cont > .preload .error_text{
+	position: absolute;
+    top: 50%;
+    text-align: center;
+    width: 100%;
+    font-size: 20px;
+    color: red;
+}
+.body .cont > .preload .error_text .cont_text {
+	margin-top: 10px;
+}
+.body .cont.page_shape > .preload  {
+	background-color:  rgba(250, 250, 250, 0.8);
 }
 .body .cont > .preload.hide {
 	opacity: 0;
@@ -162,6 +183,51 @@ body {
 	margin-top: -75px;
 	margin-left: -95px;
 
+}
+
+.body .cont > .preload .post_text{
+	position: absolute;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+    color: green;
+}
+.body .cont > .preload.post:before {
+	margin-top: -100px;
+}
+.body .cont > .preload.post:after {
+	margin-top: 40px;
+}
+.body .cont > .preload.ready:after {
+	display: none
+}
+
+@-moz-keyframes animaciya {
+	from {
+		transform: rotate(0deg);
+	}  
+	to {
+		transform: rotate(360deg);
+	} 
+}
+
+@-webkit-keyframes animaciya {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@-ms-keyframes animaciya {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }
 .body .cont .title {
 	padding: 22px 0;
