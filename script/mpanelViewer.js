@@ -512,7 +512,7 @@ function MpanelViewer(parent){
 			sphere.overdraw = true;
 			scene_1.add( sphere );
 			self.sky = sphere;
-			self.preloadClose();
+//			self.preloadClose();
 		});
 	}
 

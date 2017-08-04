@@ -327,7 +327,7 @@
 }
 .table_info .td_input_red input,
 .table_info .td_input_red .val_red {
-	display: inline-block;
+	display: table-cell;
 	vertical-align: middle;
 }
 .table_info.table_diagonals .td_meas input:focus,
@@ -386,7 +386,9 @@
 }
 
 .table_info .td_input_red .val_red{
-	padding-left: 3px;
+	/*padding-left: 3px;*/
+	float: right;
+    margin-top: 6px;
 }
 .table_diagonals tr {
 	height: 32px;

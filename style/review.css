@@ -78,8 +78,11 @@
 	color: #5D5D5D;
 	font-size: 12px;
 	line-height: 16px;
-	
 	width: 345px;
+}
+.info_text .cont_result .text span {
+	margin-top: 10px;
+	display: block;
 }
 .info_text .cont_result.scroll,
 .info_text .cont_color_key{

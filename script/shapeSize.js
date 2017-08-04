@@ -614,6 +614,21 @@ function ShapeSize (argument) {
 			// var cont_input_meas = dom.div('cont_meas', td_meas);
 			var input_meas = dom.input('text', 'input_meas', td_meas);
 			input_meas.value = itm.pointToPointSize
+			input_meas.setAttribute('tabindex', i+1);
+
+			input_meas.addEventListener('keydown', function(e){
+				if(e.keyCode == 13){
+					if(this.hasAttribute('tabindex')){
+						var tab_index = this.getAttribute('tabindex');
+						console.log('tab_index',tab_index)
+						var next_input = document.querySelector('input[tabindex="'+(parseFloat(tab_index)+1)+'"]')
+						console.log(next_input)
+						if(next_input){
+							next_input.focus();	
+						}
+					}
+				}
+			});
 			var label_meas = dom.elem('label', 'label', td_meas); //dom.input('text', 'input_meas', cont_input_meas);
 			var cont_val_red = dom.div('val_red', td_meas);
 			dom.text(cont_val_red, 'mm');
@@ -960,6 +975,8 @@ function ShapeSize (argument) {
 		var alf = lang.substr(0, num).split("");
 		var prev_values = this.obj_info[num] && this.obj_info[num].diag
 		console.log(prev_values)
+		var prev_index = this.data_obj.sideParameters.length; //diagonalParameters
+
 
 		this.arr_diagonals = [];
 		// var diagonals = this.data_obj.diagonalParameters
@@ -989,11 +1006,26 @@ function ShapeSize (argument) {
 
 			var input_meas = dom.input('text', 'input_meas_diag', td_meas);
 			var label_meas = dom.elem('label', 'label', td_meas)
+			input_meas.setAttribute('tabindex', prev_index+(i+1));
 			input_meas.addEventListener('input', self.updateAllVal.bind(self));
 			input_meas.addEventListener('change', self.checkDiag.bind(self));
 			input_meas.side = id_obj
 			input_meas.value = itm.value;
 			var div_m_red = dom.div('div_m_red val_red', td_meas);
+
+			input_meas.addEventListener('keydown', function(e){
+				if(e.keyCode == 13){
+					if(this.hasAttribute('tabindex')){
+						var tab_index = this.getAttribute('tabindex');
+						console.log('tab_index',tab_index)
+						var next_input = document.querySelector('input[tabindex="'+(parseFloat(tab_index)+1)+'"]')
+						console.log(next_input)
+						if(next_input){
+							next_input.focus();	
+						}
+					}
+				}
+			});
 
 			dom.text(div_m_red, 'mm');
 			itm.id = id_obj;
@@ -1071,6 +1103,7 @@ function ShapeSize (argument) {
 		var alf = lang.substr(0, num).split("");
 		var prev_values = this.obj_info[num] && this.obj_info[num].corners;
 		console.log(prev_values)
+		var prev_index = this.data_obj.sideParameters.length + this.data_obj.diagonalParameters.length ;
 
 		var corners = prev_values ? prev_values : this.data_obj.cornerParameters;
 
@@ -1088,7 +1121,24 @@ function ShapeSize (argument) {
 
 			var input_h = dom.input('text', 'input_h', td_height);
 			var label_h = dom.elem('label', 'label', td_height);
+			input_h.setAttribute('tabindex', prev_index+(i+1));
 			input_h.value = itm.height;
+
+			if(i+1 != corners.length){
+
+				input_h.addEventListener('keydown', function(e){
+					if(e.keyCode == 13){
+						if(this.hasAttribute('tabindex')){
+							var tab_index = this.getAttribute('tabindex');
+							var next_input = document.querySelector('input[tabindex="'+(parseFloat(tab_index)+1)+'"]')
+							console.log(next_input)
+							if(next_input){
+								next_input.focus();
+							}
+						}
+					}
+				});
+			}
 
 			dom.on('input', input_h, this.updateAllVal.bind(this));
 			dom.on('change', input_h, this.checkCorners.bind(this));
