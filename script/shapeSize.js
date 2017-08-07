@@ -68,7 +68,7 @@ function ShapeSize (argument) {
 		btn_link_next.removeAttribute('href');
 
 		var btn_next = main.btn_next;
-		console.log(btn_link_next, btn_next);
+		// console.log(btn_link_next, btn_next);
 
 		btn_next.addEventListener('click', function(){
 			self.postNewData();
@@ -159,8 +159,8 @@ function ShapeSize (argument) {
 
 		var str_data = JSON.stringify(data);
 
-		console.log("str_data", str_data)
-
+		// console.log("str_data", str_data)
+// 
 		return $.ajax({
 			url: url,
 			type: "POST",
@@ -168,7 +168,7 @@ function ShapeSize (argument) {
 			dataType: 'json',
 			data: JSON.stringify(data),
 			success: function(data){
-				console.log('data', data)
+				// console.log('data', data)
 				if(!data.error){
 					//self.parseDataObj(data.data);
 					console.log('update',true)
@@ -917,9 +917,9 @@ function ShapeSize (argument) {
 			dom.addclass(this.cont_table_corners, 'disable');
 		}
 		if(num_val){
-			dom.remclass(this.btn_reset, 'disable');
+			dom.remclass(this.btn_reset, 'disabled');
 		} else {
-			dom.addclass(this.btn_reset, 'disable');
+			dom.addclass(this.btn_reset, 'disabled');
 		}
 	};
 
@@ -1117,7 +1117,6 @@ function ShapeSize (argument) {
 			dom.text(td_corner, txt);
 
 			var td_height = dom.elem('td', 'td_height td_input_red', tr);
-			// var div_h_val = dom.div('div_h_val', td_height)
 
 			var input_h = dom.input('text', 'input_h', td_height);
 			var label_h = dom.elem('label', 'label', td_height);
@@ -1131,7 +1130,7 @@ function ShapeSize (argument) {
 						if(this.hasAttribute('tabindex')){
 							var tab_index = this.getAttribute('tabindex');
 							var next_input = document.querySelector('input[tabindex="'+(parseFloat(tab_index)+1)+'"]')
-							console.log(next_input)
+							// console.log(next_input)
 							if(next_input){
 								next_input.focus();
 							}
@@ -1240,13 +1239,13 @@ function ShapeSize (argument) {
 	}
 
 	this.createBtnHead = function(parent, btn_help){
-		var load_example = dom.div('my_btn load_exam');
+		var load_example = dom.div('my_btn load_exam disabled');
 		dom.text(load_example, 'Load example');
 		parent.insertBefore(load_example, btn_help);
 
 		dom.on('click', load_example, this.loadExample.bind(this));
 
-		var reset = dom.div('my_btn reset disable grad_blue');
+		var reset = dom.div('my_btn reset disabled grad_blue');
 		dom.text(reset, 'Reset');
 		parent.insertBefore(reset, btn_help);
 		dom.on('click', reset, this.resetData.bind(this));
@@ -1279,7 +1278,7 @@ function ShapeSize (argument) {
 		}
 		dom.addclass(this.cont_table_corners, 'disable');
 
-		dom.addclass(this.btn_reset, 'disable');
+		dom.addclass(this.btn_reset, 'disabled');
 
 	};
 	this.validateTriangle = function(obj){

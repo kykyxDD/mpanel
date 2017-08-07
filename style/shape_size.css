@@ -36,17 +36,11 @@
 	background-position: center;
 	background-image: url(../image/icon/reset_white.png);
 }
-.my_btn.reset.disable {
+.my_btn.reset.disabled {
 	color: #939393;
-	pointer-events: none;
-	background: #d4d4d4; 
-	background: -moz-linear-gradient(top,  #d4d4d4 0%, #c0c0c0 100%);
-	background: -webkit-linear-gradient(top,  #d4d4d4 0%,#c0c0c0 100%);
-	background: linear-gradient(to bottom,  #d4d4d4 0%,#c0c0c0 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d4d4d4', endColorstr='#c0c0c0',GradientType=0 ); 
-	border-color: #d4d4d4;
+	
 }
-.my_btn.reset.disable:before{
+.my_btn.reset.disabled:before{
 	background-image: url(../image/icon/reset_grey.png);
 }
 
@@ -298,7 +292,9 @@
 .thead_sides td.dip .btn_help{
 	margin-left: 10px;
 	margin-right: 3px;
+	position: relative;
 }
+.thead_sides td.dip .btn_help
 .thead_sides td.dip > div {
 	display: table-cell;
 	vertical-align: middle;
@@ -322,8 +318,9 @@
 	position: relative;
 }
 .table_info .td_input_red{
-	padding-left: 13px;
-	padding-right: 10px;
+	/*padding-left: 13px;
+	padding-right: 10px;*/
+	padding: 0;
 }
 .table_info .td_input_red input,
 .table_info .td_input_red .val_red {
@@ -351,12 +348,17 @@
 	margin: 0;
 	padding: 0;
 	height: 28px;
-	width: 50px;
+	/*width: 100%; 50px;*/
 	font-size: 12px;
 	box-shadow: none;
+	text-indent: 13px;
+	width: 63px;
+    padding-right: 30px;
 }
 .table_info tbody tr td.td_length input[type='text'] {
 	text-align: center;
+	text-indent: 0;
+	width: 100%;
 }
 .table_info tbody tr td input[type='text'] + label {
 	position: absolute;
@@ -387,8 +389,13 @@
 
 .table_info .td_input_red .val_red{
 	/*padding-left: 3px;*/
-	float: right;
-    margin-top: 6px;
+	/*float: right;*/
+    /*margin-top: 6px;*/
+    position: absolute;
+    pointer-events: none;
+	right: 0px;
+	top: 6px;
+	padding-right: 10px;
 }
 .table_diagonals tr {
 	height: 32px;
@@ -407,6 +414,35 @@
 	margin: 0 auto;
 }
 
+.table_sides .cont_check input + label {
+	width: 100%;
+	height: 34px;
+	border: none;
+	position: relative;
+	background-color: initial;
+}
+.table_sides .cont_check input + label:before {
+	width: 16px;
+	height: 16px;
+	border-radius: 3px;
+	border: 1px solid #d0d0d0;
+	background-color: #fff;
+	background-repeat: no-repeat;
+	background-position: center;
+	position: absolute;
+	content: '';
+	top: 50%;
+	left: 50%;
+	margin-top: -9px;
+	margin-left: -9px;
+} 
+.table_sides .cont_check input:checked + label {
+	background-image: none;
+}
+.table_sides .cont_check input:checked + label:before {
+	background-image: url(../image/icon/ok.png);
+}
+
 .table_info tbody tr:nth-child(odd) {
 	background-color: #fafafa;
 }
@@ -416,8 +452,8 @@
 
 
 .thead_corners .height{
-	    text-indent: 9px;
-    width: 96px;
+	text-indent: 9px;
+	width: 96px;
 }
 
 .thead_corners .finish{
@@ -426,7 +462,7 @@
 }
 .thead_corners .link{
 	width: 104px;
-    text-indent: 26px;
+	text-indent: 26px;
 }
 
 .thead_corners .length{
@@ -441,7 +477,8 @@
 	width: 50px;
 }
 .table_info.table_diagonals .td_meas input {
-	width: 48px;
+	/*width: 48px;*/
+	width: 65px;
 }
 /*.table_diagonals .td_meas  input{
 	width: 100%;
@@ -525,4 +562,11 @@
 .td_select + .selectboxit-container .selectboxit-option, 
 .td_select + .selectboxit-container .selectboxit-optgroup-header{
 	    text-transform: inherit;
+}
+
+
+.td_dip .td_select .selectboxit-text{
+	width: 60px;
+    max-width: none !important;
+    text-indent: 39px;
 }
