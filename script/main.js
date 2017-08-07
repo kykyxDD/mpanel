@@ -80,6 +80,11 @@ function Main (argument) {
 	};
 	this.hidePreload = function(){
 		dom.addclass(this.preload, 'hide');
+		dom.remclass(this.preload, 'error');
+		dom.addclass(this.preload, 'post');
+		if(this.text_preload){
+			this.preload.removeChild(this.text_preload);
+		}
 	};
 	this.updateTextPreload = function(txt){
 		dom.text(this.text_preload, txt)
@@ -452,6 +457,15 @@ function Main (argument) {
 	this.getDataId = function(){
 		return window.localStorage.getItem('mpanel_id')
 	}
+
+
+	this.hintHelp = function(parents, text, w, l){
+		var popup = dom.div('popup', parents);
+
+		var cont_popup = dom.div( 'cont_popup', popup );
+		dom.text(cont_popup, text)
+		return popup
+	};
 
 	this.init()
 	

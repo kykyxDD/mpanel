@@ -74,9 +74,8 @@
 	vertical-align: top;
 }
 .cont_info .left_path{
-
-	    width: 430px;
-	    padding-right: 33px;
+	width: 430px;
+	padding-right: 33px;
 }
 .cont_info .cont_check{
 	/*margin-top: 2px;*/
@@ -87,6 +86,16 @@
 .cont_info .cont_text_hind > div {
 	display: inline-block;
 	vertical-align: top
+}
+.cont_info .cont_text_hind .btn_help {
+	position: relative;
+}
+.cont_info .cont_text_hind .btn_help .popup {
+	width: 527px;
+	margin-left: -330px;
+}
+.cont_info .cont_text_hind .btn_help .popup .cont_popup:before {
+	left: 332px;
 }
 .cont_info .txt_tension{
 	text-indent: 9px;
@@ -294,7 +303,17 @@
 	margin-right: 3px;
 	position: relative;
 }
-.thead_sides td.dip .btn_help
+
+.thead_sides td.dip .btn_help .popup {
+	width: 400px;
+	margin-left: -200px;
+}
+
+.thead_sides td.dip .btn_help .popup .cont_popup {
+	
+}
+
+
 .thead_sides td.dip > div {
 	display: table-cell;
 	vertical-align: middle;

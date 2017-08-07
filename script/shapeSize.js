@@ -21,7 +21,12 @@ function ShapeSize (argument) {
 		diag: {}
 
 	};
-
+	this.text_hint_dip = 'Edge curve depth as % of span e..g for edge length of 10m and d/s of 8% will give a curve depth of approx 800mm. NB this will vary when using very long link lengths.';
+	this.text_hint_same_tension = 'Check this for all cable edge sails with any corner hardware which allows the cable slip around the corner (i.e. one continuous cable)';
+	this.list_text_error = [
+		"", 
+		'Negative meaning'
+	];
 	this.kod_error = {
 		'<0': 1
 	}
@@ -171,20 +176,16 @@ function ShapeSize (argument) {
 				// console.log('data', data)
 				if(!data.error){
 					//self.parseDataObj(data.data);
-					console.log('update',true)
+					console.log('update',true);
 
 					window.localStorage.setItem('mpanel_id', data.data);
-					main.updateTextPreload('Ready. A few seconds later, the page loads.');
-					setTimeout(function(){
-						window.location.href = '?page=review';	
-					}, 3000);
+					window.location.href = '?page=review';
 				} else {
 					console.log('update',false)
-					
-					//window.location.href = '?page=review';
 					main.updateTextPreload('Problem loading data! ' + data.error );
 					setTimeout(function(){
-						window.location.href = '?page=review';	
+						//window.location.href = '?page=review';
+						main.hidePreload()
 					}, 3000);
 				}
 			}, 
@@ -273,6 +274,8 @@ function ShapeSize (argument) {
 		var btn_help = dom.div('btn_help', cont_text_hind);
 		dom.text(btn_help, '?')
 
+		var popup = main.hintHelp(btn_help, this.text_hint_same_tension)
+
 		var cont_figure_tension = dom.div('cont_figure', left_path);
 		this.cont_figure_tension = cont_figure_tension;
 		var self = this;
@@ -337,6 +340,8 @@ function ShapeSize (argument) {
 				var cont_hint = dom.div('cont_btn_help', td);
 				var hint = dom.div('btn_help', cont_hint);
 				dom.text(hint, '?');
+
+				var popup = main.hintHelp(hint,  this.text_hint_dip)				
 			} else {
 				dom.text(td, arr_sides[i].text);
 			}
@@ -414,9 +419,6 @@ function ShapeSize (argument) {
 
 		this.data_obj = data
 		this.createNewInfo();
-
-
-		
 	};
 
 	this.createNewInfo = function(){
@@ -543,11 +545,17 @@ function ShapeSize (argument) {
 	this.checkError = function(){
 		var all_list_error = this.list_error;
 		var error = 0;
-		var val_true = true
+		var text_error = false
 		var list_error = [];
 		var val_und = true
+		var len_values_sides = 0;
+		var len_values_diag = 0;
+		var len_values_corner = 0;
+		var len_valid_sides = 0;
+		var len_valid_diag = 0;
+		var len_valid_corner = 0;
 
-		for(var key in all_list_error){
+		/*for(var key in all_list_error){
 			var table = all_list_error[key]
 			for(var val in table){
 				if(parseFloat(table[val]) && table[val] >= 1){
@@ -563,24 +571,155 @@ function ShapeSize (argument) {
 					val_true = false;
 				}
 			}
-		}
-		if(val_true && !list_error.length) {
-			dom.remclass(main.text_prompt, "hide")
-			dom.addclass(main.text_prompt, "ok")
-			dom.remclass(main.text_prompt, "error")
-			dom.remclass(main.text_prompt, "itm")
-			dom.remclass(main.text_prompt, "fill")
-		} else {
-			dom.remclass(main.text_prompt, "hide")
-			dom.addclass(main.text_prompt, "error")
-			if(error){
-				dom.addclass(main.text_prompt, "itm")
-				dom.remclass(main.text_prompt, "fill")
+		}*/
+
+		for(var i = 0; i < this.arr_sides.length; i++){
+			var side = this.arr_sides[i];
+			var meas = parseFloat(side.elem_meas.value);
+			if(!isNaN(meas)) {
+				len_values_sides++;
+				if(meas < 0){
+					list_error.push({
+						side: side.elem_meas.side,
+						code: this.kod_error['<0'],
+						name: 'side'
+					});
+					text_error = true
+					console.log('text_error <0', meas.side)
+				} else {
+					len_valid_sides++
+				}
 			} else {
-				dom.addclass(main.text_prompt, "fill")
-				dom.remclass(main.text_prompt, "itm")
+				console.log('text_error isNaN', side.elem_meas.side)
+				text_error = true
 			}
 		}
+
+
+
+		for(var i = 0; i < this.arr_diagonals.length; i++){
+			var side = this.arr_diagonals[i];
+			var meas = parseFloat(side.elem_meas.value);
+			if(!isNaN(meas)) {
+				len_values_diag++;
+				if(meas < 0){
+					list_error.push({
+						side: side.elem_meas.side,
+						code: this.kod_error['<0'],
+						name: 'diag'
+					});
+					console.log('text_error <0', meas.side)
+					text_error = true
+				} else {
+					len_valid_diag++
+				}
+			} else {
+				console.log('text_error isNaN', side.elem_meas.side)
+				text_error = true
+			}
+		}
+		if(this.arr_sides.length){
+			if(len_values_sides == this.arr_sides.length){
+
+			}
+		}
+		for(var i = 0; i < this.arr_corners.length; i++){
+			var corn = this.arr_corners[i]
+			var h = parseFloat(corn.elem_h.value);
+
+			if(!isNaN(h)) {
+				len_values_corner++;
+				if(h < 0){
+					list_error.push({
+						side: corn.elem_h.side,
+						code: this.kod_error['<0'],
+						name: 'corner'
+					});
+					console.log('text_error <0', corn.elem_h.side)
+					text_error = true
+				} else {
+					len_valid_corner++
+				}
+			} else {
+				console.log('text_error isNaN',corn.elem_h.side)
+				text_error = true
+			}
+		}
+
+		console.log('list_error:',list_error)
+		var len_values = [];
+
+		if(len_values_sides != this.arr_sides.length || 
+		   len_values_diag != this.arr_diagonals.length ||
+		   len_values_corner != this.arr_corners.length ){
+			
+			if(len_values_sides != this.arr_sides.length) {
+				len_values.push(['sides', 'measurement', 'Not all values in the sides for measurement are entered']);
+			}
+			if(this.arr_diagonals.length && len_values_diag != this.arr_diagonals.length){
+				len_values.push(['diagonals', 'measurement', 'Not all values in the diagonals for the measurement are entered']);
+			}
+			if( len_values_sides == this.arr_sides.length && 
+				len_values_corner != this.arr_corners.length) {
+				len_values.push(['corners', 'height', 'Not all values in the corners for measurement are entered']);
+			}
+			//list_error.unshift(arr[0]);
+		}
+
+
+
+		if(!text_error && !list_error.length) {
+			dom.remclass(main.text_prompt, "hide");
+			dom.addclass(main.text_prompt, "ok");
+			dom.remclass(main.text_prompt, "error");
+			dom.remclass(main.text_prompt, "itm");
+			dom.remclass(main.text_prompt, "fill");
+		} else {
+			dom.remclass(main.text_prompt, "ok");
+			dom.remclass(main.text_prompt, "hide");
+			dom.addclass(main.text_prompt, "error");
+
+			if(len_values.length){
+				dom.addclass(main.text_prompt, "fill");
+				dom.remclass(main.text_prompt, "itm");
+			} else if(text_error){
+				dom.addclass(main.text_prompt, "itm");
+				dom.remclass(main.text_prompt, "fill");
+
+				var get_arr = this.getNegativeValue(list_error) 
+				console.log(get_arr)
+
+				var arr = [];
+				for(var key in get_arr){
+					if(key == 'side') {
+						arr.push('for the side in the sides table')
+					} else if(key == 'diag'){
+						arr.push('for the side in the diagonals table')
+					} else {
+						arr.push('for the height in the corners table')
+					}
+				}
+				if(arr.length){
+					main.cont_text.innerText = 'Negative value ' + arr.join(', ')
+				}
+				
+				// dom.text(, )
+				//Negative value for the side in the sides table
+			}
+		}
+	}
+
+	this.getNegativeValue = function(arr){
+		var res = {};
+		for(var i = 0; i < arr.length; i++){
+			if(arr[i].code == 1){
+				if(!res[arr[i].name]) {
+					res[arr[i].name] = []
+				}
+				res[arr[i].name].push(arr[i].side)
+			}
+		}
+		return res
 	}
 	this.remCorners = function(){
 		var arr = this.arr_corners;
@@ -1281,6 +1420,8 @@ function ShapeSize (argument) {
 		dom.addclass(this.btn_reset, 'disabled');
 
 	};
+
+
 	this.validateTriangle = function(obj){
 		if(!obj) return false
 		var AB = obj[0];
