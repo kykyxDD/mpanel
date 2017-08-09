@@ -87,6 +87,11 @@ function Main (argument) {
 		}
 	};
 	this.updateTextPreload = function(txt){
+		if(!this.text_preload) {
+			var post = dom.div('post_text', this.preload);
+			this.text_preload = post
+			dom.addclass(this.preload, 'post');
+		}
 		dom.text(this.text_preload, txt)
 		dom.addclass(this.preload, 'ready');
 	}

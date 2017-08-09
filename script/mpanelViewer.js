@@ -218,15 +218,10 @@ function MpanelViewer(parent){
 		};
 	};
 
-	this.checkNameMembraneOr = function(name){
+	this.checkNameMembrane = function(name){
 		return name == 'membrane_top' || name == 'membrane_bottom' || 
 				name == 'membrane top' || name == 'membrane bottom'
 	}
-	this.checkNameMembraneAnd = function(name){
-		return name == 'membrane_top' || name == 'membrane_bottom' || 
-				name == 'membrane top' || name == 'membrane bottom'
-	}
-
 
 	this.createObj = function(object, texture){
 		var self = this;
@@ -240,7 +235,8 @@ function MpanelViewer(parent){
 		object.receiveShadow = true;
 		object.traverse( function(child){
 			if(child instanceof THREE.Mesh){
-				if(self.checkNameMembraneOr(child.name)){
+				console.log(child.name)
+				if(self.checkNameMembrane(child.name)){
 					if(texture){
 						child.material.map = texture;
 						child.material.map.wrapS = child.material.map.wrapT = THREE.RepeatWrapping; 
@@ -302,7 +298,7 @@ function MpanelViewer(parent){
 		var color = this.getInputColor(val_color);
 		this.item_object.traverse(function(child){
 			if(child instanceof THREE.Mesh){
-				if(!self.checkNameMembraneOr(child.name)){
+				if(!self.checkNameMembrane(child.name)){
 					child.material.color.setRGB(color.r, color.g, color.b);
 				}
 			}

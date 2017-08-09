@@ -115,6 +115,7 @@
 	box-shadow: 2px 2px 5px grey;
 	background-repeat: no-repeat;
 	background-position: center;
+	overflow: hidden;
 }
 .cont_info .cont_count {
 	padding-top: 10px;
@@ -209,6 +210,12 @@
 }
 .title_cont .btn_help{
 	margin-left: 7px;
+	position: relative;
+}
+
+.title_cont .btn_help .popup{
+	width: 400px;
+	margin-left: -200px;
 }
 .cont_table_sides,
 .cont_table_corners {

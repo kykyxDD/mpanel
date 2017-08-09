@@ -332,6 +332,7 @@ body {
 	margin-left: 5px;
 	line-height: 14px;
 	text-align: center;
+	position: relative;
 }
 
 .btn_help:hover{
@@ -350,6 +351,7 @@ body {
 	pointer-events: none;
 	opacity: 0;
 	transition: opacity 0.3s;
+	text-transform: capitalize;
 }
 .btn_help:hover .popup {
 	opacity: 1;
@@ -357,7 +359,7 @@ body {
 }
 .btn_help .popup .cont_popup {
 	position: relative;	
-	padding: 10px 15px 15px 50px;
+	padding: 15px 15px 15px 50px;
 }
 .btn_help .popup .cont_popup:before {
 	position: absolute;
@@ -447,14 +449,12 @@ body {
 	display: none;
 } 
 .footer .text_prompt .cont_error {
-	    position: relative;
-    /*background: url(../image/bg_text_error.jpg) no-repeat;*/
-    background-position: left 2px;
-    padding-left: 42px;
-    color: #FF5756;
-    display: table;
-    /* vertical-align: middle; */
-    height: 43px;
+	position: relative;
+	background-position: left 2px;
+	padding-left: 42px;
+	color: #FF5756;
+	display: table;
+	height: 43px;
 }
 .footer .text_prompt .cont_text_error{
 	line-height: 15px;
