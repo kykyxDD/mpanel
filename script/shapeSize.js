@@ -32,11 +32,14 @@ function ShapeSize (argument) {
 	this.text_hilp_sides = 'Dimensions takes directly between sail connection points'
 	this.list_text_error = [
 		"", 
-		'Negative meaning'
+		'Negative meaning',
+		''
 	];
 	this.kod_error = {
-		'<0': 1
+		'<0': 1,
+		'big': 2
 	}
+
 
 	this.init = function(){
 		var self = this
@@ -64,7 +67,7 @@ function ShapeSize (argument) {
 		if(mpanel_id) {
 			this.getDataObj(mpanel_id);
 		} else {
-			main.createDataId(this.getDataObj.bind(this))			
+			main.createDataId(this.getDataObj.bind(this));
 		}
 
 		this.addEventNextBtn()
@@ -460,7 +463,7 @@ function ShapeSize (argument) {
 				var hint = dom.div('btn_help', cont_hint);
 				dom.text(hint, '?');
 
-				var popup = main.hintHelp(hint,  this.text_hint_dip)				
+				var popup = main.hintHelp(hint,  this.text_hint_dip)
 			} else {
 				dom.text(td, arr_sides[i].text);
 			}
@@ -566,7 +569,43 @@ function ShapeSize (argument) {
 
 		main.hidePreload();
 
+		this.createFirstFocus();
+	};
 
+	this.createFirstFocus = function(){
+
+		var first_nan = false
+
+		for(var i = 0; i < this.arr_sides.length; i++){
+			var itm = this.arr_sides[i];
+			if(first_nan) continue
+			if(isNaN(parseFloat(itm.elem_meas.value))){
+				first_nan = itm.elem_meas;
+			}
+		}
+
+		for(var i = 0; i < this.arr_diagonals.length; i++){
+			var itm = this.arr_diagonals[i];
+			if(first_nan) continue
+			if(isNaN(parseFloat(itm.elem_meas.value))){
+				first_nan = itm.elem_meas;
+			}
+		}
+		for(var i = 0; i < this.arr_corners.length; i++){
+			var itm = this.arr_corners[i];
+			if(first_nan) continue
+			if(isNaN(parseFloat(itm.elem_h.value))){
+				first_nan = itm.elem_h;
+			}
+		}
+
+		if(first_nan){
+			first_nan.focus();
+			console.log(first_nan)
+		} else {
+			this.arr_sides[0].elem_meas.focus();
+			console.log(this.arr_sides[0].elem_meas)
+		}
 	};
 
 	this.checkAllVal = function(){
@@ -602,22 +641,26 @@ function ShapeSize (argument) {
 			}
 		}
 
-		this.dispatchExportRoot()
+		this.dispatchExportRoot(false)
 	};
 
-	this.dispatchExportRoot = function(){
-		var res = exportRoot.updateShape(this.curentObject,false);
+	this.dispatchExportRoot = function(animation, oldval, newval){
+		var res = exportRoot.updateShape(this.curentObject,animation);
 		console.log('res one', res)
-		if(!res){
-			this.restoreDiagonals(oldval,newval);
-			// setFormStatus();
-			res = exportRoot.updateShape(this.curentObject,animation);
-			console.log('res two', res)
+		if(!res ){
+
+			// this.searchErrorValidData()
+			if(oldval && newval){
+				this.restoreDiagonals(oldval,newval);
+				// setFormStatus();
+				res = exportRoot.updateShape(this.curentObject,animation);
+				console.log('res two', res)
+			}
 		}
 	}
 
 	this.updateValCurObj = function(cobj, val){
-				
+
 		var oldval = cobj.val;
 		var newval = parseFloat(val);
 		cobj.val = newval; 
@@ -670,11 +713,15 @@ function ShapeSize (argument) {
 				this.curentObject[i].val = newval; 
 			}
 		}
+
+		if(!cobj) return
+
 		cobj.fin = true;
 		this.tryToResolveMeasures(oldval,newval );
 		// setFormStatus();
 
-		this.dispatchExportRoot()
+		this.dispatchExportRoot(animation, oldval, newval);
+		
 	}
 	this.remPrevInfo = function(){
 		var self = this
@@ -686,6 +733,7 @@ function ShapeSize (argument) {
 		for(var i = 0; i < this.arr_sides.length; i++ ){
 			if(!obj.sides) obj.sides = {}
 			var itm = this.arr_sides[i];
+			this.arr_sides[i].elem_meas.addEventListener('keydown', self.keydownVal.bind(self));
 			this.arr_sides[i].elem_meas.removeEventListener('input', self.updateAllVal.bind(self));
 			this.arr_sides[i].elem_meas.removeEventListener('change', self.checkSides.bind(self));
 			this.arr_sides[i].elem_meas.removeEventListener('focus', self.focusValue.bind(self));
@@ -719,6 +767,7 @@ function ShapeSize (argument) {
 			itm.elem_meas.removeEventListener('change', self.checkDiag.bind(self));
 			itm.elem_meas.removeEventListener('focus', self.focusValue.bind(self));
 			itm.elem_meas.removeEventListener('blur', self.blurInput.bind(self));
+			itm.elem_meas.addEventListener('keydown', self.keydownVal.bind(self));
 			itm.value = itm.elem_meas.value;
 			obj.diag[i] = itm
 		}
@@ -729,6 +778,7 @@ function ShapeSize (argument) {
 			var id = itm.id;
 			itm.elem_h.removeEventListener('input', self.updateAllVal.bind(self));
 			itm.elem_h.removeEventListener('change', self.checkCorners.bind(self));
+			itm.elem_h.addEventListener('keydown', self.keydownVal.bind(self));
 
 			var fun_link = itm.elem_link.data("selectBox-selectBoxIt");
 			var fun_finish = itm.elem_finish.data("selectBox-selectBoxIt");
@@ -813,6 +863,18 @@ function ShapeSize (argument) {
 			}
 		}*/
 
+		var res = this.searchErrorValidData()//[]
+		/*if(this.item_num == 3){
+			var ab = parseFloat(this.arr_sides[0].elem_meas.value)
+			var bc = parseFloat(this.arr_sides[1].elem_meas.value)
+			var ca = parseFloat(this.arr_sides[2].elem_meas.value)
+			if(isNaN(ab) || isNaN(bc) || isNaN(ca)) return
+			
+			res = this.validateTriangle([ab, bc, ca]);
+
+		}*/
+
+
 		for(var i = 0; i < this.arr_sides.length; i++){
 			var side = this.arr_sides[i];
 			var meas = parseFloat(side.elem_meas.value);
@@ -824,10 +886,26 @@ function ShapeSize (argument) {
 						code: this.kod_error['<0'],
 						name: 'side'
 					});
-					text_error = true
-					console.log('text_error <0', meas.side)
+					text_error = true;
+					console.log('text_error <0', meas.side);
 				} else {
-					len_valid_sides++
+					if(res.length){
+						var item_error = searchVal(res, side.id);
+						if(!item_error) {
+							len_valid_sides++;
+						} else {
+							// dom.elem(side.label_meas,'error');
+
+							list_error.push({
+								side: side.elem_meas.side,
+								code: this.kod_error['big'],
+								sides: item_error,
+								name: 'side'
+							});
+						}
+					} else {
+						len_valid_sides++;
+					}
 				}
 			} else {
 				console.log('text_error isNaN', side.elem_meas.side)
@@ -929,27 +1007,48 @@ function ShapeSize (argument) {
 				var get_arr = this.getNegativeValue(list_error) 
 				console.log(get_arr)
 
-				var arr = [];
-				for(var key in get_arr){
-					if(key == 'side') {
-						arr.push('for the side in the sides table')
-					} else if(key == 'diag'){
-						arr.push('for the side in the diagonals table')
-					} else {
-						arr.push('for the height in the corners table')
+				var arr_negative = [];
+				var arr_big = [];
+				// for(var key in get_arr){
+				for(var i = 0; i < list_error.length; i++){
+					if(list_error[key].code == this.kod_error['<0']){
+						if(key == 'side') {
+							arr_negative.push('for the side in the sides table')
+						} else if(key == 'diag'){
+							arr_negative.push('for the side in the diagonals table')
+						} else {
+							arr_negative.push('for the height in the corners table')
+						}
+					} else if(list_error[key].code == this.kod_error['big']){
+						arr_big.push(list_error[key].sides)
 					}
 				}
-				if(arr.length){
-					main.cont_text.innerText = 'Negative value ' + arr.join(', ')
+
+				if(arr_negative.length){
+					main.cont_text.innerText = 'Negative value ' + arr_negative.join(', ')
+				} else if(arr_big.length){
+
 				}
 			}
+		}
+
+
+		function searchVal(arr, val){
+			var obj = false;
+			for(var i = 0; i < arr.length; i++){
+				if(obj) continue
+				if(arr[i][0] == val){
+					obj = arr[i]
+				}
+			}
+			return obj
 		}
 	}
 
 	this.getNegativeValue = function(arr){
 		var res = {};
 		for(var i = 0; i < arr.length; i++){
-			if(arr[i].code == 1){
+			if(arr[i].code == this.kod_error['<0']){
 				if(!res[arr[i].name]) {
 					res[arr[i].name] = []
 				}
@@ -999,34 +1098,14 @@ function ShapeSize (argument) {
 			input_meas.value = num
 			input_meas.setAttribute('tabindex', i+1);
 
-			input_meas.addEventListener('keydown', function(e){
-				if(e.keyCode == 13){
-					if(this.hasAttribute('tabindex')){
-						var tab_index = this.getAttribute('tabindex');
-						console.log('tab_index',tab_index)
-						var next_input = document.querySelector('input[tabindex="'+(parseFloat(tab_index)+1)+'"]')
-						console.log(next_input)
-						if(next_input){
-							next_input.focus();	
-						}
-					}
-				}
-			});
-			
-
+			input_meas.addEventListener('keydown', self.keydownVal.bind(self));
 			input_meas.addEventListener('input', self.updateAllVal.bind(self));
 			input_meas.addEventListener('change', self.checkSides.bind(self));
 			input_meas.addEventListener('focus', self.focusValue.bind(self));
 			input_meas.addEventListener('blur', self.blurInput.bind(self));
 			input_meas.side = id_obj;
-			if(i == 0) {
-				input_meas.setAttribute('autofocus', true)
-			}
-
-			
 
 			var td_type = dom.elem('td', 'td_type', tr);
-			// dom.text(td_type, 'Webbing');
 
 			var sel_type_id = 'side_sel_type_'+id_obj;
 			var select_type = this.createSelType(sel_type_id, td_type);
@@ -1036,29 +1115,25 @@ function ShapeSize (argument) {
 
 			var td_dip = dom.elem('td', 'td_dip', tr);
 
-			/*var input_dip = dom.input('text', 'dip_'+id, td_dip)
-			var label_meas = dom.elem('label', 'label', td_dip)*/
 			var sel_dip_id = 'side_sel_dip_'+id_obj;
 			var select_dip = this.createSelDip(sel_dip_id, td_dip);
 			select_dip.selectedIndex = itm.selectedDip;
 			var fun_select_dip = this.createSelFun(sel_dip_id)
 
-			// var select_dip = this.createSelDip(td_dip);
 
 			var td_fixed = dom.elem('td', 'td_fixed', tr);
 			var cont_check_fixed = dom.div('cont_check', td_fixed) ;
 			var input_fixed = dom.input('checkbox', 'fixed', cont_check_fixed);
 			input_fixed.checked = itm.isFixed;
-			input_fixed.side = id_obj
+			input_fixed.side = id_obj;
 
-			
 
 			input_fixed.addEventListener('change', self.changeFixed.bind(self))
 
 			var label_fixed = dom.elem('label', '', cont_check_fixed);
 			
 			input_fixed.id= "fixed_"+id;
-			label_fixed.setAttribute('for', "fixed_"+id)
+			label_fixed.setAttribute('for', "fixed_"+id);
 
 			var td_mid = dom.elem('td', 'td_mid', tr);
 			var cont_check_mid = dom.div('cont_check', td_mid) ;
@@ -1066,7 +1141,7 @@ function ShapeSize (argument) {
 			var label_mid = dom.elem('label', '', cont_check_mid);
 			input_mid.checked = itm.isMidSupport;
 			input_mid.id= "mid_"+id;
-			label_mid.setAttribute('for', "mid_"+id)
+			label_mid.setAttribute('for', "mid_"+id);
 
 
 			this.list_error.sides[id_obj] = undefined;
@@ -1074,6 +1149,7 @@ function ShapeSize (argument) {
 			itm.id = id_obj
 			itm.id_sides = arr_txt
 			itm.elem_meas = input_meas
+			itm.label_meas = label_meas
 			itm.sel_type = fun_select_type
 			itm.sel_dip = fun_select_dip
 			itm.elem_fixed = input_fixed
@@ -1085,6 +1161,22 @@ function ShapeSize (argument) {
 			}
 		}
 	};
+
+
+	this.keydownVal = function(e){
+
+		if(e.keyCode != 13) return
+
+		var elem = e.target || e.srcElement;
+		if(elem.hasAttribute('tabindex')){
+			var tab_index = elem.getAttribute('tabindex');
+			var next_input = document.querySelector('input[tabindex="'+(parseFloat(tab_index)+1)+'"]')
+			if(next_input){
+				next_input.focus();	
+			}
+		}
+
+	}
 	this.createSelDip=function(id, par){
 		var select = dom.elem('select', 'td_select select_dip', par);
 		select.id = id;
@@ -1138,7 +1230,7 @@ function ShapeSize (argument) {
 		}
 		return select
 	};
-	this.createSelFun = function(id){		
+	this.createSelFun = function(id){
 		return $("select#"+id).selectBoxIt({});
 	}
 	this.checkSides = function(e){
@@ -1167,7 +1259,7 @@ function ShapeSize (argument) {
 		var label = elem.nextElementSibling;
 		if(parseFloat(elem.value) < 0) {
 			this.list_error.sides[elem.side] = this.kod_error['<0'];
-			
+
 			if(label && label.tagName.toLowerCase() == 'label'){
 				dom.addclass(label, 'error');
 			}
@@ -1242,10 +1334,14 @@ function ShapeSize (argument) {
 		this.checkError();
 	}
 	this.focusValue = function(e){
-		var target = e.target || e.srcElement;
-		var name = target.side
+		var elem = e.target || e.srcElement;
+		var name = elem.side
 		console.log('name', name)
 		exportRoot.setSelection(name);
+		// if(elem.hasAttribute('autofocus')){
+		// 	elem.removeAttribute('autofocus', true)	
+		// }
+		
 	}
 
 	this.changeFixed = function(e){
@@ -1316,8 +1412,6 @@ function ShapeSize (argument) {
 			}
 		}
 
-		this.validData()
-
 		for(var i = 0; i < arr_corners.length; i++){
 			var itm = arr_corners[i];
 			var side = arr_corners[i].elem_h;
@@ -1342,19 +1436,42 @@ function ShapeSize (argument) {
 		}
 	};
 
-	this.validData = function(){
-		return false
+	this.searchErrorValidData = function(){
+		console.log('searchErrorValidData')
+		var res = [];
+
 		if(this.item_num == 3){
-			res = this.validateTriangle();
+
+			var ab = parseFloat(this.arr_sides[0].elem_meas.value)
+			var bc = parseFloat(this.arr_sides[1].elem_meas.value)
+			var ca = parseFloat(this.arr_sides[2].elem_meas.value)
+			if(!isNaN(ab) && !isNaN(bc) && !isNaN(ca)) {
+				var arr = [ab, bc, ca];
+				res = this.validateTriangle(arr);
+			}
+
+			
 			// if(res){
 			// 	buildTriangle(currentObject)
 			// }
-		}else if(this.item_num == 4){
-			res = this.validateQuadrangle();
+		} else if(this.item_num == 4){
+
+			var ab = parseFloat(this.arr_sides[0].elem_meas.value)
+			var bc = parseFloat(this.arr_sides[1].elem_meas.value)
+			var cd = parseFloat(this.arr_sides[2].elem_meas.value)
+			var da = parseFloat(this.arr_sides[3].elem_meas.value)
+
+			if(!isNaN(ab) && !isNaN(bc) && !isNaN(cd) && !isNaN(da)) {
+				var arr = [ab, bc, cd, da];
+				res = this.validateQuadrangle(arr);
+			}
+			//console.log('res', res)
+			
 			// if(res){
 			// 	buildQuadrangle(currentObject);
 			// }
 		}
+		return res
 		/*if(currentObject.length == 10){
 			buildPentagone(currentObject);
 		}
@@ -1362,6 +1479,24 @@ function ShapeSize (argument) {
 			buildHexagone(currentObject);
 		}*/
 	}
+	this.errorSides = function(res){
+		for(var r = 0; r < res.length; res++){
+			var side = this.searchSides(res[r][0])
+			console.log(side)
+		}
+	}
+	this.searchSides = function(name){
+		var cobj
+		for(var i = 0; i < this.arr_sides.length; i++){
+			if(cobj) continue
+			if(this.arr_sides[i].id == name){
+				cobj = this.arr_sides[i]
+			}
+		}
+		return cobj
+
+	}
+
 	this.buildTriangle = function(obj,selected){
 		var AB = obj[0].val;
 		var BC = obj[1].val;
@@ -1432,20 +1567,7 @@ function ShapeSize (argument) {
 			var div_m_red = dom.div('div_m_red val_red', td_meas);
 			var num = itm.value
 
-
-			input_meas.addEventListener('keydown', function(e){
-				if(e.keyCode == 13){
-					if(this.hasAttribute('tabindex')){
-						var tab_index = this.getAttribute('tabindex');
-						console.log('tab_index',tab_index)
-						var next_input = document.querySelector('input[tabindex="'+(parseFloat(tab_index)+1)+'"]')
-						console.log(next_input)
-						if(next_input){
-							next_input.focus();	
-						}
-					}
-				}
-			});
+			input_meas.addEventListener('keydown', self.keydownVal.bind(self));
 
 			dom.text(div_m_red, 'mm');
 			itm.id = id_obj;
@@ -1537,19 +1659,7 @@ function ShapeSize (argument) {
 			input_h.value = itm.height;
 
 			if(i+1 != corners.length){
-
-				input_h.addEventListener('keydown', function(e){
-					if(e.keyCode == 13){
-						if(this.hasAttribute('tabindex')){
-							var tab_index = this.getAttribute('tabindex');
-							var next_input = document.querySelector('input[tabindex="'+(parseFloat(tab_index)+1)+'"]')
-							// console.log(next_input)
-							if(next_input){
-								next_input.focus();
-							}
-						}
-					}
-				});
+				input_h.addEventListener('keydown', self.keydownVal.bind(self));
 			}
 
 			dom.on('input', input_h, this.updateAllVal.bind(this));
@@ -1576,17 +1686,17 @@ function ShapeSize (argument) {
 
 			var td_length = dom.elem('td', 'td_length td_input_red', tr);
 
-			var input_l = dom.input('text', 'input_h', td_length);
+			var input_l = dom.input('text', 'input_l', td_length);
 			var label_l = dom.elem('label', 'label', td_length);
 			input_l.value = itm.linkLength;
 
-			itm.id = txt
-			itm.elem_h = input_h
-			itm.elem_finish = fun_select_finish
-			itm.elem_link = fun_select_link
-			itm.elem_length = input_l
+			itm.id = txt;
+			itm.elem_h = input_h;
+			itm.elem_finish = fun_select_finish;
+			itm.elem_link = fun_select_link;
+			itm.elem_length = input_l;
 
-			this.arr_corners.push(itm)
+			this.arr_corners.push(itm);
 			this.list_error.corners[txt] = undefined;
 		}
 	};
@@ -1653,6 +1763,8 @@ function ShapeSize (argument) {
 		var arr_sides = this.arr_sides;
 		for(var i = 0; i < arr_sides.length; i++){
 			arr_sides[i].elem_meas.value = '';
+			arr_sides[i].elem_fixed.checked = false;
+			arr_sides[i].elem_mid.checked = false;
 		}
 
 		var arr_corners = this.arr_corners;
@@ -1707,7 +1819,7 @@ function ShapeSize (argument) {
 
 		var AC = obj[4];
 
-		res =  validateTriangle([obj[4],obj[0],obj[1]]).concat(validateTriangle([obj[4],obj[2],obj[3]]));
+		res =  this.validateTriangle([obj[4],obj[0],obj[1]]).concat(this.validateTriangle([obj[4],obj[2],obj[3]]));
 		return res;
 	}
 	this.buildHexagone = function(obj){

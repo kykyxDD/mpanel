@@ -21,6 +21,8 @@ function UserSettings(){
 
 	this.init = function (argument) {
 		this.units = main.units;
+
+		document.title = 'User settings'
 		// var title = createElem('div', 'title', par);
 		// title.innerHTML = 'USER SETTINGS';
 

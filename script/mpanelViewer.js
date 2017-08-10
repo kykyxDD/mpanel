@@ -22,6 +22,7 @@ function MpanelViewer(parent){
 
 	this.init = function(div){
 
+
 		if(div) {
 			container = div;
 			preload = container.querySelector('.preload');
@@ -300,6 +301,8 @@ function MpanelViewer(parent){
 			if(child instanceof THREE.Mesh){
 				if(!self.checkNameMembrane(child.name)){
 					child.material.color.setRGB(color.r, color.g, color.b);
+
+					console.log('update color child:', child.name)
 				}
 			}
 		});

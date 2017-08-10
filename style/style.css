@@ -387,6 +387,9 @@ body {
 .footer {
 	padding-top: 11px;
 }
+.footer.hide {
+	display: none;
+}
 .footer .cont_bottom {
 	text-align: center;
 }

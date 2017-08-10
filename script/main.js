@@ -5,31 +5,31 @@ function Main (argument) {
 	{
 		text: 'project',
 		id: 'project',
-		title: 'project'
+		title: 'Project'
 	},{
 		text: 'fabric',
 		id: 'fabric',
-		title: 'fabric selection'
+		title: 'Fabric selection'
 	},{
 		text: 'fittings',
 		id: 'fittings',
-		title: "finish and fittings"
+		title: "Finish and Fittings"
 	},{
 		text: 'shape & size',
 		id: 'shape',
-		title: 'shape & size'
+		title: 'Shape & Size'
 	},{
 		text: 'review',
 		id: 'review',
-		title: 'design review - visualisation'
+		title: 'Design review - visualisation'
 	},{
 		text: 'seams',
 		id: 'seams',
-		title: 'seam plan'
+		title: 'Seam plan'
 	},{
 		text: 'pattern',
 		id: 'pattern',
-		title: 'pattern plane'
+		title: 'Pattern plane'
 	}
 	];
 
@@ -74,6 +74,7 @@ function Main (argument) {
 		this.text_preload = post
 
 		dom.addclass(this.preload, 'post');
+		dom.addclass(this.footer, 'hide')
 	},
 	this.createPreload = function(){
 		this.preload = dom.div('preload hide',this.cont_body);
@@ -85,6 +86,8 @@ function Main (argument) {
 		if(this.text_preload){
 			this.preload.removeChild(this.text_preload);
 		}
+		// dom.visible(this.footer, true)
+		dom.remclass(this.footer, 'hide')
 	};
 	this.updateTextPreload = function(txt){
 		if(!this.text_preload) {
@@ -100,6 +103,7 @@ function Main (argument) {
 		dom.remclass(this.preload, 'error');
 
 		dom.remclass(this.preload, 'hide');
+		dom.addclass(this.footer, 'hide')
 	};
 	this.remPreload = function(){
 
@@ -190,7 +194,7 @@ function Main (argument) {
 		this.big_title = dom.div('title', cont_body);
 		this.cont_body = cont_body;
 
-		var footer = dom.div('footer', this.main);
+		var footer = dom.div('footer hide', this.main);
 		var cont_elemfooter = dom.div('cont', footer);
 
 		var cont_footer = dom.div('cont_bottom', cont_elemfooter);
@@ -202,6 +206,8 @@ function Main (argument) {
 		var link_btn_next = createElem('a', 'link',cont_btn_next);
 		this.btn_next = cont_btn_next;
 		this.link_next = link_btn_next;
+
+		this.footer = footer;
 
 		this.btn_back = cont_btn_back;
 		this.link_back = link_btn_back;
@@ -291,27 +297,35 @@ function Main (argument) {
 				case 'project':
 					if(this.params.section && this.params.section == 'settings'){
 						next_id = id;
+						document.title = 'User settings'
 						title = 'user settings'
 						var project = new UserSettings()
 					} else {
+						document.title = this.itm_page.title 
 						title = this.itm_page.title
 						var project = new Project();
 						html = 'hs30.htm';
 					}
+					dom.remclass(this.footer, 'hide')
 					break
 				case 'fabric':
+						document.title = this.itm_page.title 
 						title = this.itm_page.title
 						var fabric = new Fabric();
 						html = 'hs40.htm';
+					dom.remclass(this.footer, 'hide')
 					break
 				case 'shape':
+						document.title = this.itm_page.title 
 					title = this.itm_page.title
 					var shape_size = new ShapeSize();
 					html = 'hs50.htm';
 				break
 				default: 
+						document.title = this.itm_page.title 
 					title = this.itm_page.title
 					this.emptyPage();
+					dom.remclass(this.footer, 'hide')
 					break
 			}
 			if(id == 0) {
