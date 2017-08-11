@@ -129,7 +129,6 @@ function Main (argument) {
 		var cont = createElem('div', 'cont', body);
 
 		var logo = createElem('div', 'logo', cont);
-		// var link_logo = createElem('a', )
 
 		var form = createElem('div', 'form', cont);
 
@@ -189,6 +188,9 @@ function Main (argument) {
 		var menu = dom.div('menu', cont_menu);
 		this.menu = menu
 
+		var link_logo = createElem('a', 'link_home', logo)
+		link_logo.href = './'
+
 		var body = dom.div('body', this.main);
 		var cont_body = dom.div('cont', body);
 		this.big_title = dom.div('title', cont_body);
@@ -239,6 +241,11 @@ function Main (argument) {
 		this.createMenu();
 
 		
+	};
+	this.createBtnHelp = function(per){
+		var btn_help_1 = dom.div('btn_help', per);
+		btn_help_1.innerHTML = '?';
+		return btn_help_1
 	};
 
 	this.createBtnSetting = function(disabled){
@@ -315,6 +322,13 @@ function Main (argument) {
 						html = 'hs40.htm';
 					dom.remclass(this.footer, 'hide')
 					break
+				case 'fittings':
+					document.title = this.itm_page.title 
+					title = this.itm_page.title
+					var fitting = new Fittings();
+					html = 'hs40.htm';
+				dom.remclass(this.footer, 'hide')
+				break
 				case 'shape':
 						document.title = this.itm_page.title 
 					title = this.itm_page.title
@@ -482,7 +496,7 @@ function Main (argument) {
 		var popup = dom.div('popup', parents);
 
 		var cont_popup = dom.div( 'cont_popup', popup );
-		dom.text(cont_popup, text)
+		dom.html(cont_popup, text)
 		return popup
 	};
 

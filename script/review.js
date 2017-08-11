@@ -1,6 +1,6 @@
 function Review(){
 	var cont = document.querySelector('.main .body > .cont');
-	var mpanel, url_img = false// './image/texture.jpg',	
+	var mpanel, url_img = './image/texture.jpg',	
 		arr_url = [ 
 		'./data/MPSD2.obj'
 		,
@@ -10,7 +10,7 @@ function Review(){
 		];
 	var example_text = "<p>Site measument error involving A, B, E and F + 0.0%<br>Site measument error involving A, B, E and E + 0.0%<br><span class='text_green'>Built model: OK</span><br><span class='text_green'>First model relax: *OK residual 0,0001</span><br>Adjusting cable tensions<br><span class='text_green'>Second model relax: OK residual 0,0001</span><br></p><p>Shape checks:<br>Width-breadth squareness ratio: 150<br>(recommended between 0.66 and 2.250)<br>Diagonal ratio: 1.00 (recommended below 1.75)<br>Height ratio: 0.29 (recommended below 0.25)<br>Center offset ratio: 0.00 (recommended below 0.16)<br>Smallest corner angle: 60.81 (recommended below 10.00)<br>Largest corner angle: 99.93 (recommended below 160.00)</p><p><span class='text_green'>Updating internal models: OK</span><br><span class='text_green'>Making intial seams: OK</span><br><span class='text_green'>Updating seam models: OK</span><br><span class='text_green'>Updating internal images: OK</span></p>";
 
-	
+	this.text_hint = 'Orange comments are design advice and indicate that some elements of the design may be less than optimal - it does not prevent you progressing with the design.<br> Red warnings on the other hand, prevent progress and require that dimensions be checed in order to correct.'
 
 	var list_script = [];
 	var scripts = [
@@ -24,9 +24,11 @@ function Review(){
 		"./libs/OBJLoader.js",
 		"./libs/OrbitControls.js",
 		"./libs/tween.js",
-		"./libs/CombinedCamera.js"
+		"./libs/CombinedCamera.js",
+		"./libs/jquery_mCustomScrollbar.js"
 	];
 	var styles = [
+		'./style/libs/jquery.mCustomScrollbar.css',
 		'./style/review.css',
 		'./style/graphics.css'
 	];
@@ -140,10 +142,10 @@ function Review(){
 		if(this.text_result && this.color_key){
 			var h_1 = h_btn + Math.max(430, h) - this.color_key.clientHeight - 40;
 			this.text_result.style.height = h_1 + 'px';
-			this.iscroll.refresh()
+			if(this.iscroll){
+				this.iscroll.refresh();
+			}
 		}
-		
-		
 	}
 
 	this.createInfoDesign = function(){
@@ -151,6 +153,7 @@ function Review(){
 
 		var cont_text_result = createElem('div', 'cont_result', this.info_text);
 		this.text_result = cont_text_result;
+		cont_text_result.id = 'content-3dtd';
 
 		this.eventTextResult()
 
@@ -159,8 +162,11 @@ function Review(){
 
 		var title = createElem('div', 'title_color_key', cont_color_key);
 		title.innerHTML = 'color key';
-		var btn_help_1 = createElem('div', 'btn_help', title)
-		btn_help_1.innerHTML = '?';
+		/*var btn_help_1 = createElem('div', 'btn_help', title)
+		btn_help_1.innerHTML = '?';*/
+		var btn_help_1 = main.createBtnHelp(title);
+
+		var popup = main.hintHelp(btn_help_1, this.text_hint)
 
 		this.setTextResult();
 
@@ -176,13 +182,16 @@ function Review(){
 		this.click_text_result = false
 		this.text_result.addEventListener('mousedown', function(){
 			self.click_text_result = true;
-			if(self.iscroll.event_scrollbar || self.iscroll.moved){
-				self.text_result.classList.add('scroll');
+			if(self.iscroll){
+				if(self.iscroll.event_scrollbar || !self.iscroll.moved){
+					self.text_result.classList.add('scroll');
+				}
 			}
 
 		});
 		this.text_result.addEventListener('mousemove', function(){
-			if(!self.click_text_result) return
+			if(!self.click_text_result || !self.iscroll) return
+
 			if(self.iscroll.event_scrollbar || self.iscroll.animating){
 				self.text_result.classList.add('scroll');
 			}
@@ -230,14 +239,46 @@ function Review(){
 			var span = dom.elem('span', class_name, cont_text)
 			dom.text(span, arr_text[i])
 		}
+		/*for(var i = 0; i < arr_text.length; i++){
 
-		var scroll = new iScroll(par, {
+			var class_name = ''
+			if(arr_type[i] == 0){
+				class_name = 'text_green'
+			} else if(arr_type[i] == 1){
+				class_name = 'text_orange'
+			} else if(arr_type[i] == 2) {
+				class_name = 'text_red'
+			}
+			var span = dom.elem('span', class_name, cont_text)
+			dom.text(span, arr_text[i])
+		}*/
+
+		$.mCustomScrollbar.defaults.scrollButtons.enable=true; //enable scrolling buttons by default
+		$.mCustomScrollbar.defaults.axis="y"; //enable 2 axis scrollbars by default
+		$.mCustomScrollbar.defaults.scrollEasing = "easeInOut"
+		$.mCustomScrollbar.defaults.scrollInertia = 300
+
+		$("#content-3dtd").mCustomScrollbar({theme:"3d-thick-dark"});
+				
+		$(".all-themes-switch a").click(function(e){
+			e.preventDefault();
+			var $this=$(this),
+				rel=$this.attr("rel"),
+				el=$(".content");
+			switch(rel){
+				case "toggle-content":
+					el.toggleClass("expanded-content");
+					break;
+			}
+		});
+
+		/*var scroll = new iScroll(par, {
 			hScroll: false,
 			hScrollbar: false,
 			scrollbarClass: 'iscroll_bar'
 		})
 
-		this.iscroll = scroll;
+		this.iscroll = scroll;*/
 	};
 
 	this.createBtnView = function(par){
@@ -281,8 +322,10 @@ function Review(){
 			});
 		}
 
-		var btn_help = createElem('div', 'btn_help', par);
-		btn_help.innerHTML = '?'
+		// var btn_help = createElem('div', 'btn_help', par);
+		// btn_help.innerHTML = '?';
+
+
 
 		btn_isometric.addEventListener('click', function(){
 			mpanel.viewIsometric();

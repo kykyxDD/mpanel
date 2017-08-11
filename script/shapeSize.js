@@ -902,6 +902,8 @@ function ShapeSize (argument) {
 								sides: item_error,
 								name: 'side'
 							});
+
+							text_error = true
 						}
 					} else {
 						len_valid_sides++;
@@ -1011,23 +1013,29 @@ function ShapeSize (argument) {
 				var arr_big = [];
 				// for(var key in get_arr){
 				for(var i = 0; i < list_error.length; i++){
-					if(list_error[key].code == this.kod_error['<0']){
-						if(key == 'side') {
+					if(list_error[i].code == this.kod_error['<0']){
+						if(list_error[i].name == 'side') {
 							arr_negative.push('for the side in the sides table')
-						} else if(key == 'diag'){
+						} else if(list_error[i].name == 'diag'){
 							arr_negative.push('for the side in the diagonals table')
 						} else {
 							arr_negative.push('for the height in the corners table')
 						}
-					} else if(list_error[key].code == this.kod_error['big']){
-						arr_big.push(list_error[key].sides)
+					} else if(list_error[i].code == this.kod_error['big']){
+						arr_big.push(list_error[i].sides)
 					}
 				}
 
 				if(arr_negative.length){
 					main.cont_text.innerText = 'Negative value ' + arr_negative.join(', ')
 				} else if(arr_big.length){
-
+					console.log('arr_big')
+					var values = arr_big[0];
+					main.cont_text.innerText = 'The '+values[0]+ ' side can not be greater than ' + values[1];
+					var side = this.searchSides(values[0]);
+					if(side){
+						dom.addclass(side.label_meas, 'error');
+					}
 				}
 			}
 		}
@@ -1239,7 +1247,7 @@ function ShapeSize (argument) {
 
 		this.checkValSides(target)
 
-		this.checkError();
+		// this.checkError();
 
 		this.blurInput();
 		this.inputTextChanged(target)
@@ -1279,9 +1287,8 @@ function ShapeSize (argument) {
 
 		var target = e.target || e.srcElement;
 
-		this.checkValCorners(target)
-
-		this.checkError();
+		this.checkValCorners(target);
+		
 	}
 	this.checkValCorners = function(elem){
 
@@ -1301,6 +1308,7 @@ function ShapeSize (argument) {
 				dom.remclass(label, 'error');
 			}
 		}
+		this.checkError();
 	}
 
 	this.checkDiag = function(e){
@@ -1442,31 +1450,29 @@ function ShapeSize (argument) {
 
 		if(this.item_num == 3){
 
-			var ab = parseFloat(this.arr_sides[0].elem_meas.value)
-			var bc = parseFloat(this.arr_sides[1].elem_meas.value)
-			var ca = parseFloat(this.arr_sides[2].elem_meas.value)
+			var ab = this.arr_sides[0] ? parseFloat(this.arr_sides[0].elem_meas.value) : '';
+			var bc = this.arr_sides[1] ? parseFloat(this.arr_sides[1].elem_meas.value) : '';
+			var ca = this.arr_sides[2] ? parseFloat(this.arr_sides[2].elem_meas.value) : '';
 			if(!isNaN(ab) && !isNaN(bc) && !isNaN(ca)) {
 				var arr = [ab, bc, ca];
 				res = this.validateTriangle(arr);
 			}
 
-			
 			// if(res){
 			// 	buildTriangle(currentObject)
 			// }
 		} else if(this.item_num == 4){
 
-			var ab = parseFloat(this.arr_sides[0].elem_meas.value)
-			var bc = parseFloat(this.arr_sides[1].elem_meas.value)
-			var cd = parseFloat(this.arr_sides[2].elem_meas.value)
-			var da = parseFloat(this.arr_sides[3].elem_meas.value)
+			var ab = this.arr_sides[0] ? parseFloat(this.arr_sides[0].elem_meas.value) : '';
+			var bc = this.arr_sides[1] ? parseFloat(this.arr_sides[1].elem_meas.value) : '';
+			var cd = this.arr_sides[2] ? parseFloat(this.arr_sides[2].elem_meas.value) : '';
+			var da = this.arr_sides[3] ? parseFloat(this.arr_sides[3].elem_meas.value) : '';
 
 			if(!isNaN(ab) && !isNaN(bc) && !isNaN(cd) && !isNaN(da)) {
 				var arr = [ab, bc, cd, da];
 				res = this.validateQuadrangle(arr);
 			}
-			//console.log('res', res)
-			
+
 			// if(res){
 			// 	buildQuadrangle(currentObject);
 			// }

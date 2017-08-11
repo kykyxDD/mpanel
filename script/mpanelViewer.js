@@ -196,7 +196,7 @@ function MpanelViewer(parent){
 				load_file_obj(texture)
 			});
 		} else {
-			var mtlLoader = new THREE.MTLLoader();
+			/*var mtlLoader = new THREE.MTLLoader();
 			var path = url_obj.split('/');
 			var url_path = path.slice(0, path.length-1).join('/');
 			var file_name_obj = path[path.length-1];
@@ -204,12 +204,12 @@ function MpanelViewer(parent){
 			var file_name_mtl = name.slice(0, path.length-2).join('.') + '.mtl';
 			var url_mtl = [url_path, file_name_mtl].join('/');
 
-
 			mtlLoader.load(url_mtl, function(materials) {
 				materials.preload();
 				loader_obj.setMaterials(materials);
 				load_file_obj()
-			});
+			});*/
+			load_file_obj();
 		};
 
 		function load_file_obj(texture){

@@ -7,6 +7,9 @@ body {
 	font-family: Arial;
 	min-width: 1200px;
 }
+
+
+
 .development{
 	text-transform: uppercase;
 	/* font-weight: bold; */
@@ -57,6 +60,12 @@ body {
 	height: 100%;
 	float: left;
 	background: url(../image/mpanel_logo.png) no-repeat center;
+}
+
+.header .logo .link_home{
+	width: 100%;
+	height: 100%;
+	display: block;
 }
 .header .cont_menu {
 	float: right;
@@ -116,7 +125,7 @@ body {
 	padding-bottom: 20px;
 }
 .body .cont {
-	min-height: 400px;
+	min-height: 550px;
 	position: relative;
 }
 .body .cont > .preload {
@@ -689,6 +698,7 @@ border-color: #20a8ff !important;
 }
 .iscroll_barV .iscroll_bar{
 	background-color: #F47E02;
+	cursor: default;
 }
 .iscroll_barV,
 .btn_top,
@@ -1009,3 +1019,30 @@ border-color: #20a8ff !important;
 .cont_check input[type="checkbox"]:checked + label {
 	background-image:  url(../image/icon/ok.png);
 }
+
+
+
+.cont_input {
+	/*text-align: right;*/
+}
+.cont_input > div {
+	display: inline-block;
+	vertical-align: middle;
+}
+.cont_input .cont_val {
+	width: 68px;
+	margin-left: 14px;
+	height: 30px;
+
+}
+.cont_input .txt{
+	color: #6d6d6d;
+	font-size: 12px;
+
+}
+.cont_input .cont_val input {
+	width: 55px;
+	margin-bottom: 0;
+	padding: 3px 6px;
+	font-size: 12px;
+} 
