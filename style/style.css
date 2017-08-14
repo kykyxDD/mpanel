@@ -419,6 +419,23 @@ body {
 }
 .footer .my_btn.next {
 	text-indent: 48px;
+	pointer-events: none;
+/*	background: rgb(220,220,220);
+	background: -moz-linear-gradient(top, rgba(220,220,220,1) 0%, rgba(193,193,193,1) 100%);
+	background: -webkit-linear-gradient(top, rgba(220,220,220,1) 0%,rgba(193,193,193,1) 100%);
+	background: linear-gradient(to bottom, rgba(220,220,220,1) 0%,rgba(193,193,193,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dcdcdc', endColorstr='#c1c1c1',GradientType=0 );
+	border-color: rgb(220,220,220) ;*/
+}
+.footer .my_btn.next.active {
+	cursor: pointer;
+	pointer-events: auto;
+	/*background: #f6890a;
+    background: -moz-linear-gradient(top, #f6890a 0%, #e87a01 100%);
+    background: -webkit-linear-gradient(top, #f6890a 0%,#e87a01 100%);
+    background: linear-gradient(to bottom, #f6890a 0%,#e87a01 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6890a', endColorstr='#e87a01',GradientType=0 );
+    border-color: #f6890a;*/
 }
 
 
@@ -586,6 +603,7 @@ body {
 	background: -webkit-linear-gradient(top, #1b96e3 0%,#0e8bdb 100%);
 	background: linear-gradient(to bottom, #1b96e3 0%,#0e8bdb 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1b96e3', endColorstr='#0e8bdb',GradientType=0 );
+	border-color: #1b96e3 !important;
 }
 .my_btn.grad_blue:hover {
 /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#20a8ff+0,1f7ff4+100 */
@@ -621,7 +639,9 @@ border-color: #20a8ff !important;
 	background: -webkit-linear-gradient(top, #f6890a 0%,#e87a01 100%);
 	background: linear-gradient(to bottom, #f6890a 0%,#e87a01 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6890a', endColorstr='#e87a01',GradientType=0 );
+	border-color: #f6890a !important;
 } 
+.grad_orange:hover,
 .my_btn.active:hover{
     background: #FBA643;
 	background: -moz-linear-gradient(top, #FBA643 0%, #F38712 100%);

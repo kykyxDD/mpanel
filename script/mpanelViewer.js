@@ -457,10 +457,18 @@ function MpanelViewer(parent){
 	};*/
 	this.updateCenterObj = function(object){
 		var box = new THREE.Box3().setFromObject(object);
+		console.log(box)
 		var min = box.min;
 		var max = box.max;
 		var dis_x = (min.x + max.x)/2;
 		var dis_z = (min.z + max.z)/2;
+		var w = max.x - min.x
+		var h = max.z - min.z
+		// console.log()
+		// if(w > this.obj_plane.geometry.parameters.width || 
+		// 	h > this.obj_plane.geometry.parameters.height){
+		// 	this.updateSizePlane(Math.max(w,h))
+		// }
 
 		var box = new THREE.Box3
 		object.traverse(function(object) {
@@ -473,13 +481,15 @@ function MpanelViewer(parent){
 			box.union(object.geometry.boundingBox)
 		})
 
-		var center = box.getCenter()
+		var center = box.getCenter();
 
 		this.render();
 
 		controls.target.y = center.y;
 		object.position.x = -center.x;
 		object.position.z = -center.z;
+
+
 
 		this.preloadClose();
 
@@ -572,7 +582,6 @@ function MpanelViewer(parent){
 
 		var plane = new THREE.Mesh( planeGeometry, planeMaterial );
 		plane.receiveShadow = true;
-		// plane.material.transparent
 		scene.add( plane );
 
 		plane.rotation.x = -Math.PI/2;
@@ -580,11 +589,17 @@ function MpanelViewer(parent){
 		this.obj_plane = plane;
 		scene.add( plane );
 
+		console.log('plane:',this.obj_plane)
+
 		this.obj_data = new THREE.Object3D();
 		this.obj_data.castShadow = true;
 		scene.add(this.obj_data);
 
 		this.skyBox()
+	};
+
+	this.updateSizePlane = function(){
+		// var plane=
 	};
 
 	this.getScreen = function(){

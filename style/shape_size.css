@@ -596,3 +596,7 @@
     max-width: none !important;
     text-indent: 39px;
 }
+
+.selectboxit-open {
+	box-shadow: 0 0 5px #1296FF !important;
+}
