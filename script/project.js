@@ -2,17 +2,19 @@ function Project(){
 	var par = document.querySelector('.body .cont');
 
 	par.classList.add('page_project');
-	var scripts = [];
+	var scripts = [
+		"./libs/datepicker.js"
+	];
 	var styles = [
+		"./style/libs/datepicker.css",
 		'./style/project.css'
 	]
 
 	this.init = function(){
 
-
-
-		this.units = main.units
+		this.units = main.units;
 		main.createBtnSetting();
+		main.updateLinkBtnNext(this.postInfoProject.bind(this));
 		var cont_info = createElem('form', 'cont_info', par);
 		var cont_input = dom.div('cont_form', cont_info) 
 		var left_path = dom.div('left_path', cont_input);
@@ -28,8 +30,17 @@ function Project(){
 		var elem_quantity = this.createInputVal('quantity required', 'quantity');
 		cont_list_input.appendChild(elem_quantity.elem);
 
-		var elem_required = this.createInputVal('date required', 'date_required')
+		var elem_required = this.createInputVal('date required', 'date_required');
 		cont_list_input.appendChild(elem_required.elem);
+		elem_required.input.id = 'date_required';	
+		dom.addclass(elem_required.cont_input, 'cont_date')
+		var label_date_required = dom.elem('label', 'label_date', elem_required.cont_input)
+		label_date_required.setAttribute('for', 'date_required');
+
+
+		var date_required = $( "#date_required" ).datepicker({
+			dateFormat: 'dd/mm/yyyy'
+		});
 
 
 		var elem = dom.div('cont_val_input sail');
@@ -59,6 +70,17 @@ function Project(){
 
 		var elem_date_entered = this.createInputVal('date entered', 'date_entered');
 		right_path.appendChild(elem_date_entered.elem);
+		elem_date_entered.input.id = 'date_entered';
+
+		dom.addclass(elem_date_entered.cont_input, 'cont_date')
+
+		var label_date_entered = dom.elem('label', 'label_date', elem_date_entered.cont_input)
+		label_date_entered.setAttribute('for', 'date_entered');
+
+
+		var date_entered = $( "#date_entered" ).datepicker({
+			dateFormat: 'dd/mm/yyyy'
+		});
 
 		var elem_entered = this.createInputVal('entered by', 'entered_by');
 		right_path.appendChild(elem_entered.elem);
@@ -96,9 +118,9 @@ function Project(){
 			projectNumber: elem_project_num.input,
 			description: textarea, 
 			enteredBy:elem_entered.input , 
-			enteredDate: elem_date_entered.input, 
+			enteredDate: date_entered, 
 			quantity: elem_quantity.input , 
-			requestDate: elem_required.input,//"2017-08-11T18:52:25.9516135+03:00",
+			requestDate: date_required,//"2017-08-11T18:52:25.9516135+03:00",
 			sailNumber:input ,
 			sailOf:input_0 ,
 			unit: this.fun_units
@@ -144,7 +166,7 @@ function Project(){
 
 		for(var key in data){
 			var elem = this.obj_elem[key];
-			if(elem){
+			if(elem && key != 'requestDate' && key != 'enteredDate'){
 				var tag = elem.tagName.toLowerCase();
 				if(tag == 'input' || tag == 'input') {
 					elem.value = data[key];
@@ -153,15 +175,93 @@ function Project(){
 				this.addSelect(data.units, data.unitIndex);
 			}
 		}
+		var date_required  = this.obj_elem.requestDate.data('datepicker');
+		console.log(date_required)
+		date_required.selectDate(new Date(data.requestDate));
+
+		if(data.enteredDate) {
+			var date_entered  = this.obj_elem.enteredDate.data('datepicker');
+			// console.log(date_required)
+			date_entered.selectDate(new Date(data.enteredDate));
+		}
+		// var start = 
+		// console.log('start', start)
 
 
 	};
 	this.getInfoProject = function(){
 
+		var date_required = this.getStrDate(this.obj_elem.requestDate.data('datepicker').date)
+		var date_entered = this.getStrDate(this.obj_elem.enteredDate.data('datepicker').date)
+
+		var unit_index = this.obj_elem.unit.data("selectBox-selectBoxIt");
+
+		return {
+			"clientName": this.obj_elem.clientName.value,
+			"projectName": this.obj_elem.projectName.value,
+			"projectNumber": this.obj_elem.projectNumber.value,
+			"quantity": this.obj_elem.quantity.value,
+			"requestDate": date_required,
+			"sailNumber": this.obj_elem.sailNumber.value,
+			"sailOf": this.obj_elem.sailOf.value, 
+			"description": this.obj_elem.description.value,
+			"porjectNumber": this.obj_elem.projectNumber.value,
+			"enteredDate": date_entered, 
+			"enteredBy": this.obj_elem.enteredBy.value,
+			"unitIndex": unit_index.currentFocus
+		}
 	};
 	this.postInfoProject =  function(){
+		var info = this.getInfoProject();
+		console.log(info)
+		var id = main.getDataId();
 
+		var url =  main.host+dataUrl.project.post + id;
+		console.log(url)
+		main.showPreload();
+		var self = this;
+		return $.ajax({
+			url: url,
+			type: "POST",
+			contentType: 'application/json',
+			dataType: 'json',
+			data: JSON.stringify(info),
+			success: function(data){
+				if(data.data){
+					window.localStorage.setItem('mpanel_id', data.data);
+					window.location.href = '?page=fabric';
+
+				} else {
+					var text = data.error || data.message;
+					main.errorTextPreload(text)
+				}
+				
+			}, 
+			error: function(e){
+				main.errorTextPreload('Problem loading data!', e)
+			}
+		})
 	};
+	this.getStrDate = function(d){
+		var y = d.getFullYear();
+		var m = '' + (d.getMonth()+1);
+		m = m.length == 1 ? '0'+m : m;
+		var day = d.getDate();
+		var arr = [
+			[y,m,day].join('-'),
+			d.toLocaleTimeString(),//[d.getUTCHours(), d.getUTCMinutes(), d.getUTCSeconds()].join(':'),
+			d.getUTCMilliseconds(),
+			(-d.getTimezoneOffset()/60).toFixed(2)
+		];
+		var t_1 = d.toTimeString()
+
+		var z = d.toTimeString().split(' ')[1].replace('GMT','')
+
+		var arr_z = z.split('');
+		var str_z = arr_z.slice(0, arr_z.length - 2).join('') + ':' + arr_z.slice(-2).join('');
+
+		return arr[0]+ 'T'+arr[1] + '.'+arr[2] + str_z;
+	}
 
 	this.addSelect = function(arr, index){
 		if(!arr || !this.fun_units) return 
@@ -187,7 +287,8 @@ function Project(){
 		input.name = name;
 		return {
 			elem : elem,
-			input: input
+			input: input,
+			cont_input : cont_input
 		}
 	}
 	loadAllFiles(scripts, styles, this.init.bind(this));

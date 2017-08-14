@@ -112,7 +112,7 @@ body {
 	margin-left: -44px;
 	letter-spacing: -0.3px;
 	text-decoration: blink;
-	cursor: pointer;
+	/*cursor: pointer;*/
 }
 .menu .page.itm .text {
 	color: #f67e03;
@@ -992,12 +992,12 @@ border-color: #20a8ff !important;
 
 .select_units {
 	width: 245px !important;
-	text-transform: uppercase;
+	/*text-transform: uppercase;*/
 }
 .select_units,
 .selectboxit-option, 
 .selectboxit-optgroup-header {
-	text-transform: uppercase;
+	/*text-transform: uppercase;*/
 }
 .selectboxit-list .selectboxit-option-anchor {
 	background-color: #f2f2f2 !important;
@@ -1066,3 +1066,25 @@ border-color: #20a8ff !important;
 	padding: 3px 6px;
 	font-size: 12px;
 } 
+
+
+.cont_date {
+	position: relative;
+}
+.cont_date input + label {
+	position: absolute;
+	top: 50%;
+	right: 7px;
+	width: 16px;
+	height: 15px;
+	margin-top: -8px;
+	background-image: url(../image/icon/cal.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+	opacity: 1;
+	transition: opacity 0.3s;
+}
+.cont_date input:focus + label{
+	opacity: 0;
+
+}

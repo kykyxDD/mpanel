@@ -239,8 +239,6 @@ function Main (argument) {
 		link_btn_next.innerHTML = 'next';
 
 		this.createMenu();
-
-		
 	};
 	this.createBtnHelp = function(per){
 		var btn_help_1 = dom.div('btn_help', per);
@@ -258,6 +256,24 @@ function Main (argument) {
 		link.href = '?page=project&section=settings';
 
 		this.cont_left_btn.insertBefore(set, this.btn_help)
+
+	}
+	this.updateLinkBtnNext = function(callback){
+		this.link_next.removeAttribute('href');
+
+		var menu_link = document.querySelector('.header .menu .page.itm');
+
+		console.log('menu_link',menu_link)
+		if(menu_link && menu_link.nextElementSibling){
+			var next = menu_link.nextElementSibling;
+			var link = next.querySelector('a.text');
+			if(link){
+				link.removeAttribute('href');
+			}
+		}
+
+
+		this.btn_next.addEventListener('click', callback)
 
 	}
 	this.createMenu = function(){

@@ -7,6 +7,9 @@
 	padding-bottom: 10px;
 
 }
+.body .cont.page_fitting > .preload {
+	background-color: rgba(249, 249, 249, 0.6);
+}
 .left_path,
 .right_path {
 	display: inline-block;
