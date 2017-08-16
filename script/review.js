@@ -151,16 +151,16 @@ function Review(){
 	this.createInfoDesign = function(){
 		// var cont_top = createElem('div', 'top_btn', this.info_text);
 
-		var cont_text_result = createElem('div', 'cont_result', this.info_text);
+		var cont_text_result = dom.div('cont_result', this.info_text);
 		this.text_result = cont_text_result;
 		cont_text_result.id = 'content-3dtd';
 
-		this.eventTextResult()
+		// this.eventTextResult()
 
-		var cont_color_key = createElem('div', 'cont_color_key', this.info_text);
+		var cont_color_key = dom.div('cont_color_key', this.info_text);
 		this.color_key = cont_color_key
 
-		var title = createElem('div', 'title_color_key', cont_color_key);
+		var title = dom.div('title_color_key', cont_color_key);
 		title.innerHTML = 'color key';
 		/*var btn_help_1 = createElem('div', 'btn_help', title)
 		btn_help_1.innerHTML = '?';*/
@@ -170,11 +170,11 @@ function Review(){
 
 		this.setTextResult();
 
-		var green_text = createElem('div', 'text green', cont_color_key)
+		var green_text = dom.div('text green', cont_color_key)
 		green_text.innerHTML = '<span class="text_green">Green text:</span> Design prodress in OK'
-		var orange_text = createElem('div', 'text orange', cont_color_key)
+		var orange_text = dom.div('text orange', cont_color_key)
 		orange_text.innerHTML = '<span class="text_orange">Orange text:</span> Warnings about the design'
-		var red_text = createElem('div', 'text red', cont_color_key)
+		var red_text = dom.div('text red', cont_color_key)
 		red_text.innerHTML = '<span class="text_red">Red text:</span> A problem the prevent the design from completing'
 	};
 	this.eventTextResult = function(){

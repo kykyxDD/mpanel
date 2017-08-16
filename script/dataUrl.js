@@ -13,6 +13,7 @@ var dataUrl = {
 	},
 	meas: {
 		get: 'api/mp/measPagePopulate?id=',
+		demo: 'api/mp/measPageLoadDefault?id=', //{id}&polyNum={polyNum}'
 		post: {
 			newSide: 'api/mp/measPageNewSideNum?id=',//{id}&polyNum={polyNum}
 			commit: 'api/mp/measPageCommit?id='

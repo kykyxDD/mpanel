@@ -616,16 +616,16 @@ function ShapeSize (argument) {
 
 			if(id != undefined){
 
-				if(!isNaN(parseFloat(num))){
-					this.curentObject[id] = this.updateValCurObj(this.curentObject[id], parseFloat(num));
-				}
+				/*if(!isNaN(parseFloat(num))){
+					// this.curentObject[id] = this.updateValCurObj(this.curentObject[id], parseFloat(num));
+				}*/
 				if(side.elem_fixed.checked){
 					this.curentObject[id].curved = side.elem_fixed.checked ? 0 : 0.3;
 				}
 			}
 		}
 
-		for(var i = 0; i < this.arr_diagonals.length; i++){
+		/*for(var i = 0; i < this.arr_diagonals.length; i++){
 			var side = this.arr_diagonals[i];
 			var num = side.elem_meas.value
 
@@ -635,10 +635,10 @@ function ShapeSize (argument) {
 
 				if(!isNaN(parseFloat(num))){
 
-					this.curentObject[id] = this.updateValCurObj(this.curentObject[id], parseFloat(num));
+					// this.curentObject[id] = this.updateValCurObj(this.curentObject[id], parseFloat(num));
 				}
 			}
-		}
+		}*/
 
 		this.dispatchExportRoot(false)
 	};
@@ -664,7 +664,7 @@ function ShapeSize (argument) {
 		var newval = parseFloat(val);
 		cobj.val = newval; 
 		cobj.fin = true;
-		this.tryToResolveMeasures(oldval,newval);
+		// this.tryToResolveMeasures(oldval,newval);
 
 		return cobj
 	}
@@ -716,7 +716,7 @@ function ShapeSize (argument) {
 		if(!cobj) return
 
 		cobj.fin = true;
-		this.tryToResolveMeasures(oldval,newval );
+		// this.tryToResolveMeasures(oldval,newval );
 		// setFormStatus();
 
 		this.dispatchExportRoot(animation, oldval, newval);
@@ -1249,7 +1249,7 @@ function ShapeSize (argument) {
 		// this.checkError();
 
 		this.blurInput();
-		this.inputTextChanged(target)
+		// this.inputTextChanged(target)
 
 
 		// this.calcDiag();
@@ -1317,7 +1317,7 @@ function ShapeSize (argument) {
 		this.checkError();
 		//exportRoot.setSelection("");
 		this.blurInput();
-		this.inputTextChanged(target)
+		// this.inputTextChanged(target)
 	}
 	this.checkValDiag = function(elem){
 
@@ -1747,7 +1747,7 @@ function ShapeSize (argument) {
 	}
 
 	this.createBtnHead = function(parent, btn_help){
-		var load_example = dom.div('my_btn load_exam disabled');
+		var load_example = dom.div('my_btn load_exam');
 		dom.text(load_example, 'Load example');
 		parent.insertBefore(load_example, btn_help);
 
@@ -1761,6 +1761,33 @@ function ShapeSize (argument) {
 	}
 	this.loadExample = function(){
 		console.log('loadExample')
+
+		var id = main.getDataId();
+		var url = main.host + dataUrl.meas.demo+id + '&polyNum='+ this.item_num
+		var self = this;
+		if(!id) {
+			console.log('error')
+			return
+		}
+
+		$.ajax({
+			type: "GET",
+			url: url,
+			success: function(data){
+				console.log('data', data)
+				if(data.data){
+					self.parseDataObj(data.data);
+				} else {
+					console.log('error')
+					var text = data.error || data.message
+					main.errorTextPreload(text)
+				}
+			}, 
+			error: function(e){
+				console.log('error',e)
+				main.errorTextPreload('Problem loading data!', e)
+			}
+		})
 
 	};
 	this.resetData = function(){
