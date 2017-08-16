@@ -46,9 +46,9 @@ function Seams (argument) {
 
 		this.createCount(cont_num_panels);
 
-		this.createBtnView(cont_btn)
+		this.createBtnView(cont_btn);
 
-		this.loadMpanelViewer(view)
+		this.loadMpanelViewer(view);
 	};
 	this.rightPath = function(){
 		var self = this

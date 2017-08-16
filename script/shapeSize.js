@@ -190,7 +190,7 @@ function ShapeSize (argument) {
 					window.localStorage.setItem('mpanel_id', data.data);
 					window.location.href = '?page=review';
 				} else {
-					console.log('update',false)
+					// console.log('update',false)
 					main.updateTextPreload('Problem loading data! ' + data.error );
 					setTimeout(function(){
 						//window.location.href = '?page=review';
@@ -211,23 +211,23 @@ function ShapeSize (argument) {
 
 		var url = main.host + dataUrl.meas.post.newSide+id+'&polyNum='+num;
 		var self = this;
-		console.log(url)
+		// console.log(url)
 
 		$.ajax({
 			type: "GET",
 			url: url,
 			success: function(data){
-				console.log('data', data)
+				// console.log('data', data)
 				if(data.data){
 					self.parseDataObj(data.data);
 				} else {
-					console.log('error')
+					// console.log('error')
 					var text = data.error
 					main.errorTextPreload(text)
 				}
 			}, 
 			error: function(e){
-				console.log('error',e)
+				// console.log('error',e)
 				// if(e.statusText){
 				// 	main.errorTextPreload('Problem loading data')
 				// }
@@ -239,7 +239,7 @@ function ShapeSize (argument) {
 
 	this.getDataObj = function(){
 		var id = main.getDataId();
-		console.log('id',id)
+		// console.log('id',id)
 		var url = main.host + dataUrl.meas.get+id
 		var self = this;
 		if(!id) {
@@ -251,17 +251,17 @@ function ShapeSize (argument) {
 			type: "GET",
 			url: url,
 			success: function(data){
-				console.log('data', data)
+				// console.log('data', data)
 				if(data.data){
 					self.parseDataObj(data.data);
 				} else {
-					console.log('error')
+					// console.log('error')
 					var text = data.error || data.message
 					main.errorTextPreload(text)
 				}
 			}, 
 			error: function(e){
-				console.log('error',e)
+				// console.log('error',e)
 				main.errorTextPreload('Problem loading data!', e)
 			}
 		})
@@ -597,10 +597,10 @@ function ShapeSize (argument) {
 
 		if(first_nan){
 			first_nan.focus();
-			console.log(first_nan)
+			// console.log(first_nan)
 		} else {
 			this.arr_sides[0].elem_meas.focus();
-			console.log(this.arr_sides[0].elem_meas)
+			// console.log(this.arr_sides[0].elem_meas)
 		}
 	};
 
@@ -1339,8 +1339,8 @@ function ShapeSize (argument) {
 	}
 	this.focusValue = function(e){
 		var elem = e.target || e.srcElement;
-		var name = elem.side
-		console.log('name', name)
+		var name = elem.side;
+		// console.log('name', name)
 		exportRoot.setSelection(name);
 		// if(elem.hasAttribute('autofocus')){
 		// 	elem.removeAttribute('autofocus', true)	
@@ -1368,7 +1368,7 @@ function ShapeSize (argument) {
 	}
 
 	this.updateAllVal = function(){
-		console.log('updateAllVal')
+		// console.log('updateAllVal')
 		var arr_sides = this.arr_sides;
 		var arr_corners = this.arr_corners;
 		var arr_diag = this.arr_diagonals;
@@ -1441,7 +1441,7 @@ function ShapeSize (argument) {
 	};
 
 	this.searchErrorValidData = function(){
-		console.log('searchErrorValidData')
+		// console.log('searchErrorValidData')
 		var res = [];
 
 		if(this.item_num == 3){
@@ -1484,7 +1484,7 @@ function ShapeSize (argument) {
 	this.errorSides = function(res){
 		for(var r = 0; r < res.length; res++){
 			var side = this.searchSides(res[r][0])
-			console.log(side)
+			// console.log(side)
 		}
 	}
 	this.searchSides = function(name){
@@ -1530,7 +1530,7 @@ function ShapeSize (argument) {
 		var tbody_diagonals = this.tbody_diagonals;
 		var alf = lang.substr(0, num).split("");
 		var prev_values = this.obj_info[num] && this.obj_info[num].diag
-		console.log(prev_values)
+		// console.log(prev_values)
 		var prev_index = this.data_obj.sideParameters.length; //diagonalParameters
 
 		this.arr_diagonals = [];
@@ -1639,7 +1639,7 @@ function ShapeSize (argument) {
 		var tbody_corners = this.tbody_corners;
 		var alf = lang.substr(0, num).split("");
 		var prev_values = this.obj_info[num] && this.obj_info[num].corners;
-		console.log(prev_values)
+		// console.log(prev_values)
 		var prev_index = this.data_obj.sideParameters.length + this.data_obj.diagonalParameters.length ;
 
 		var corners = prev_values ? prev_values : this.data_obj.cornerParameters;

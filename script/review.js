@@ -53,26 +53,30 @@ function Review(){
 			contentType: 'application/json',
 			dataType: 'json',
 			success: function(data){
-				if(!data.error) {
+				/*if(!data.error) {
 					self.readyData(data.data)
 				} else {
 					main.errorTextPreload(data.error)
-				}
+				}*/
+				self.readyData(data)
 			}, 
 			error: function(e){
 				main.errorTextPreload('Problem loading data!', e)
 			}
 		});
-
-
-		
 	}
 	this.readyData = function(data){
-		this.data_obj = data
-		console.log(data)
-		arr_url[0] =  main.host + this.folder + data.objModelName;
+		if(!data.error){
+			this.data_obj = data.data;
+			// console.log(data)
+			arr_url[0] =  main.host + this.folder + this.data_obj.objModelName;
 
-		window.localStorage.setItem('mpanel_obj', arr_url[0]);
+			window.localStorage.setItem('mpanel_obj', arr_url[0]);	
+		} else {
+			this.error_data = data.error
+			arr_url = []
+		}
+		
 
 		//this.preload.classList.add('hide');
 		main.hidePreload()
@@ -206,7 +210,10 @@ function Review(){
 
 	this.loadMpanelViewer = function(parent){
 		mpanel = new MpanelViewer(parent);
-		mpanel.loadObj(arr_url[0])
+
+		if(!this.error_data){
+			mpanel.loadObj(arr_url[0]);
+		}
 
 		this.createBtnView();
 		// this.createBtnScreen();
@@ -219,55 +226,61 @@ function Review(){
 		var par = this.text_result;
 		var cont_text = createElem('div', 'text', par)
 		//cont_text.innerHTML = example_text + example_text+ example_text
+		if(!this.error_data){
 
-		var arr_text = this.data_obj.messages
-		var arr_type = this.data_obj.messageTypes
+			var arr_text = this.data_obj.messages
+			var arr_type = this.data_obj.messageTypes
 
-		for(var i = 0; i < arr_text.length; i++){
+			for(var i = 0; i < arr_text.length; i++){
 
-			var class_name = ''
-			if(arr_type[i] == 0){
-				class_name = 'text_green'
-			} else if(arr_type[i] == 1){
-				class_name = 'text_orange'
-			} else if(arr_type[i] == 2) {
-				class_name = 'text_red'
+				var class_name = ''
+				if(arr_type[i] == 0){
+					class_name = 'text_green'
+				} else if(arr_type[i] == 1){
+					class_name = 'text_orange'
+				} else if(arr_type[i] == 2) {
+					class_name = 'text_red'
+				}
+				var span = dom.elem('span', class_name, cont_text)
+				dom.text(span, arr_text[i])
 			}
-			var span = dom.elem('span', class_name, cont_text)
-			dom.text(span, arr_text[i])
+		
+			/*for(var i = 0; i < arr_text.length; i++){
+
+				var class_name = ''
+				if(arr_type[i] == 0){
+					class_name = 'text_green'
+				} else if(arr_type[i] == 1){
+					class_name = 'text_orange'
+				} else if(arr_type[i] == 2) {
+					class_name = 'text_red'
+				}
+				var span = dom.elem('span', class_name, cont_text)
+				dom.text(span, arr_text[i])
+			}*/
+
+			$.mCustomScrollbar.defaults.scrollButtons.enable=true; //enable scrolling buttons by default
+			$.mCustomScrollbar.defaults.axis="y"; //enable 2 axis scrollbars by default
+			$.mCustomScrollbar.defaults.scrollEasing = "easeInOut"
+			$.mCustomScrollbar.defaults.scrollInertia = 300
+
+			$("#content-3dtd").mCustomScrollbar({theme:"3d-thick-dark"});
+					
+			$(".all-themes-switch a").click(function(e){
+				e.preventDefault();
+				var $this=$(this),
+					rel=$this.attr("rel"),
+					el=$(".content");
+				switch(rel){
+					case "toggle-content":
+						el.toggleClass("expanded-content");
+						break;
+				}
+			});
+		} else {
+			var span = dom.elem('span', 'text_red error_data', cont_text)
+			dom.text(span, this.error_data);
 		}
-		/*for(var i = 0; i < arr_text.length; i++){
-
-			var class_name = ''
-			if(arr_type[i] == 0){
-				class_name = 'text_green'
-			} else if(arr_type[i] == 1){
-				class_name = 'text_orange'
-			} else if(arr_type[i] == 2) {
-				class_name = 'text_red'
-			}
-			var span = dom.elem('span', class_name, cont_text)
-			dom.text(span, arr_text[i])
-		}*/
-
-		$.mCustomScrollbar.defaults.scrollButtons.enable=true; //enable scrolling buttons by default
-		$.mCustomScrollbar.defaults.axis="y"; //enable 2 axis scrollbars by default
-		$.mCustomScrollbar.defaults.scrollEasing = "easeInOut"
-		$.mCustomScrollbar.defaults.scrollInertia = 300
-
-		$("#content-3dtd").mCustomScrollbar({theme:"3d-thick-dark"});
-				
-		$(".all-themes-switch a").click(function(e){
-			e.preventDefault();
-			var $this=$(this),
-				rel=$this.attr("rel"),
-				el=$(".content");
-			switch(rel){
-				case "toggle-content":
-					el.toggleClass("expanded-content");
-					break;
-			}
-		});
 
 		/*var scroll = new iScroll(par, {
 			hScroll: false,

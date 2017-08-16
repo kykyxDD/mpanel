@@ -85,6 +85,12 @@
 	margin-top: 5px;
 	display: block;
 }
+
+.info_text .cont_result .text .error_data{
+	font-size: 20px;
+	text-align: center;
+	margin-top: 50px;
+}
 .info_text .cont_result.scroll,
 .info_text .cont_color_key{
 	-moz-user-select: -moz-none;
