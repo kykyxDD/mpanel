@@ -364,8 +364,13 @@ function Fabric (argument) {
 		data.fabricColorSelectedIndex = fun_color.currentFocus
 		data.rollWidthText = this.obj_elem.roll.value
 		data.override = this.obj_elem.override.checked
-		data.warpStretch = this.obj_elem.warp.value
-		data.weftStretch = this.obj_elem.werp.value
+		if(data.override){
+			data.warpStretchOverride = this.obj_elem.warp.value
+			data.weftStretchOverride = this.obj_elem.werp.value
+		} else {
+			data.warpStretch = this.obj_elem.warp.value
+			data.weftStretch = this.obj_elem.werp.value
+		}
 
 		return data
 	};
