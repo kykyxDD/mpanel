@@ -1,5 +1,5 @@
 .page_seams {
-	background-image: url(../image/bg_seams.jpg);
+	/*background-image: url(../image/bg_seams.jpg);*/
 	background-position: center -5px;
 }
 .popup {
@@ -15,6 +15,17 @@
 .cont_view {
 	padding: 5px;
 }
+.cont_view .cont_top_btn {
+	margin-bottom: 10px;
+	text-align: center;
+}
+.cont_view .cont_top_btn .my_btn {
+	width: 100px;
+	margin-right: 10px;
+}
+.cont_view .cont_top_btn .my_btn:last-child {
+	margin-right: 0;
+}
 
 .cont_view .view{
 	width: 550px;
@@ -25,7 +36,7 @@
 .cont_info .cont_count .popup {
 	width: 380px;
 	margin-left: -190px;
-	text-transform: initial;
+	text-transform: initial !important;
 }
 .cont_info .cont_count {
 	padding-top: 5px;
@@ -213,4 +224,46 @@
 .cont_info_select .popup {
 	width: 220px;
 	margin-left: -110px;
+}
+.cont_info_select > div {
+	display: inline-block;
+	vertical-align: middle;
+}
+.cont_info_select .btn_help{
+	margin-left: 13px;
+}
+.cont_info_select .selectboxit-container .selectboxit {
+	width: 423px !important;
+	height: 31px;
+	line-height: 31px;
+}
+
+.cont_info_select .selectboxit-container span, 
+.cont_info_select .selectboxit-container .selectboxit-options a {
+	height: 31px;
+	line-height: 31px;
+}
+.cont_straight{
+	margin: 11px 0 15px;
+}
+.cont_straight > div {
+	display: inline-block;
+	vertical-align: middle;
+}
+.cont_straight .text{
+	margin-left: 8px;
+	color: #6b6b6b;
+	font-size: 12px;
+
+}
+.cont_btn_make{
+	margin: 45px 3px 0;
+}
+.cont_btn_make .btn_make{
+	height: 37px;
+	width: 164px;
+	color: white;
+	font-size: 15px;
+	font-weight: bold;
+	line-height: 37px;
 }

@@ -236,7 +236,7 @@ function MpanelViewer(parent){
 		object.receiveShadow = true;
 		object.traverse( function(child){
 			if(child instanceof THREE.Mesh){
-				console.log(child.name)
+				// console.log(child.name)
 				if(self.checkNameMembrane(child.name)){
 					if(texture){
 						child.material.map = texture;
@@ -302,7 +302,7 @@ function MpanelViewer(parent){
 				if(!self.checkNameMembrane(child.name)){
 					child.material.color.setRGB(color.r, color.g, color.b);
 
-					console.log('update color child:', child.name)
+					// console.log('update color child:', child.name)
 				}
 			}
 		});

@@ -532,11 +532,8 @@ function ShapeSize (argument) {
 	};
 
 	this.parseDataObj = function(data){
-
 		dom.remclass(this.cont_figure_tension, 't_'+this.item_num);
-
 		this.item_num = data.sideCount;
-
 		this.data_obj = data;
 		this.createNewInfo();
 	};

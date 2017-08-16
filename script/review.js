@@ -39,14 +39,8 @@ function Review(){
 
 		this.folder = 'api/mp/modelLoad?fileName=';
 		//this.preload = createElem('div', 'preload', cont)
-		main.createPreload()
-		main.showPreload()
-
-		/*var url_obj = main.params && main.params.obj
-
-		if(url_obj) {
-			arr_url[1] = 'http://192.168.0.119:1234/api/mp/modelLoad?fileName='+url_obj;
-		}*/
+		main.createPreload();
+		main.showPreload();
 
 		var id = main.getDataId();
 		var url = main.host + dataUrl.calculate.post+id;
@@ -77,6 +71,9 @@ function Review(){
 		this.data_obj = data
 		console.log(data)
 		arr_url[0] =  main.host + this.folder + data.objModelName;
+
+		window.localStorage.setItem('mpanel_obj', arr_url[0]);
+
 		//this.preload.classList.add('hide');
 		main.hidePreload()
 		this.createInfo(cont);

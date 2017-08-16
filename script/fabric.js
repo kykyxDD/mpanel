@@ -413,24 +413,17 @@ function Fabric (argument) {
 
 	this.changeFabric = function(e){
 		if(this.update_info) return
-		// console.log('changeFabric', e)
-		this.postNewInfo('FabricSupplier')//fabricItems FabricSelectedIndex
+		this.postNewInfo('FabricSupplier');
 		
 	}
 	this.changeBrand = function(e){
 		if(this.update_info) return
-		// console.log('changeBrand', e)
-		this.postNewInfo('FabricType')//fabricTypeItems FabricTypeSelectedIndex
+		this.postNewInfo('FabricType');
 		
 	}
 	this.changeColor = function(e){
 		if(this.update_info) return
-		// console.log('changeColor', e)
-		// var fun = this.obj_elem.sel_colour.data("selectBox-selectBoxIt");
-		// var val = fun.currentIndex;
-		// console.log(val);
-
-		this.postNewInfo('Color')//fabricColorItems FabricColorSelectedIndex
+		this.postNewInfo('Color');
 	}
 
 	this.createElemInput = function(txt, key, type){
