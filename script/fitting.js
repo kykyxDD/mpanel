@@ -281,35 +281,35 @@ function Fittings (argument) {
 	}
 	this.changeHardware = function(){
 		if(this.update_info) return
-		console.log('hardwareSelectedIndex')
-		this.postNewInfo('hardwareSelectedIndex')
+		// console.log('hardwareSelectedIndex')
+		this.postNewInfo('HardwareSupplier')
 	}
 	this.changeEdgeType = function(){
 		if(this.update_info) return
-		console.log('hardEdgeTypeSelectedIndex')
-		this.postNewInfo('hardEdgeTypeSelectedIndex')
+		// console.log('hardEdgeTypeSelectedIndex')
+		this.postNewInfo('EdgeType')
 	}
 
 	this.changeColor = function(){
 		if(this.update_info) return
-		console.log('hardColorSelectedIndex')
-		this.postNewInfo('hardColorSelectedIndex')
+		// console.log('hardColorSelectedIndex')
+		this.postNewInfo('EdgeColor')
 	}
 	this.changeFinish = function(){
 		if(this.update_info) return
-		console.log('hardCornorSelectedIndex')
-		this.postNewInfo('hardCornorSelectedIndex')
+		// console.log('hardCornorSelectedIndex')
+		this.postNewInfo('CornerType')
 	}
 
 	this.changeLink = function(){
 		if(this.update_info) return
-		console.log('hardLinkSelectedIndex')
-		this.postNewInfo('hardLinkSelectedIndex')
+		// console.log('hardLinkSelectedIndex')
+		this.postNewInfo('LinkType')
 	}
 	this.changeExampleImage = function(){
 		if(this.update_info) return
-		console.log('exampleImageSelectedIndex')
-		this.postNewInfo('exampleImageSelectedIndex')
+		// console.log('exampleImageSelectedIndex')
+		this.postNewInfo('ExampleImage')
 	}
 
 	this.createRightPath = function(par){
@@ -376,40 +376,50 @@ function Fittings (argument) {
 		this.obj_data = data;
 
 		this.update_info = true;
+		var obj = this.obj_elem;
 
 		if(data.hardwareItems){
-			this.createSelInfo(data.hardwareItems, this.obj_elem.sel_hardware, data.hardwareSelectedIndex)
+			this.createSelInfo(data.hardwareItems, obj.sel_hardware, data.hardwareSelectedIndex)
 		}
 		if(data.hardEdgeTypeItems){
-			this.createSelInfo(data.hardEdgeTypeItems, this.obj_elem.sel_hardEdge, data.hardEdgeTypeSelectedIndex)
+			this.createSelInfo(data.hardEdgeTypeItems, obj.sel_hardEdge, data.hardEdgeTypeSelectedIndex)
 		}
 		if(data.hardColorItems){
-			this.createSelInfo(data.hardColorItems, this.obj_elem.sel_color, data.hardColorSelectedIndex)
+			this.createSelInfo(data.hardColorItems, obj.sel_color, data.hardColorSelectedIndex)
 		}
 
-		this.obj_elem.hem.value = data.hemText
+		obj.hem.value = data.hemText
 
 		if(data.hardCornorItems){
-			this.createSelInfo(data.hardCornorItems, this.obj_elem.hard_corner, data.hardCornorSelectedIndex)
+			this.createSelInfo(data.hardCornorItems, obj.hard_corner, data.hardCornorSelectedIndex)
 		}
 
 		if(data.hardLinkItems){
-			this.createSelInfo(data.hardLinkItems, this.obj_elem.sel_link , data.hardLinkSelectedIndex)
+			this.createSelInfo(data.hardLinkItems, obj.sel_link , data.hardLinkSelectedIndex)
 		}
 		if(data.exampleImageItems){
-			this.createSelInfo(data.exampleImageItems, this.obj_elem.sel_example , data.exampleImageSelectedIndex)
+			this.createSelInfo(data.exampleImageItems, obj.sel_example , data.exampleImageSelectedIndex)
 		}
-		this.obj_elem.link_lenght.value = data.linkLengthText;
+		obj.link_lenght.value = data.linkLengthText;
+
+		obj.fitCorner.checked = data.fitCorner != undefined ?  data.fitCorner : false;
+
+
+		obj.hardLenght.value = data.cornerLengthText
+		obj.hardWidth.value  = data.cornerWidthText
 
 
 		/*----- right path -----*/
 
-		this.obj_elem.thread.value  = data.thread;
-		this.obj_elem.accessories.value = data.accessories;
+		obj.thread.value  = data.thread;
+		obj.accessories.value = data.accessories;
+
+		obj.internal.value = data.seamText;
+		obj.size.value = data.reoText;
 		
-		this.obj_elem.diameter.value = data.poleDiameterText
-		this.obj_elem.angle.value = data.poleAngle
-		this.obj_elem.height.value = data.poleExtraHeight
+		obj.diameter.value = data.poleDiameterText
+		obj.angle.value = data.poleAngle
+		obj.height.value = data.poleExtraHeight
 
 		main.hidePreload()
 		this.update_info = false
@@ -422,21 +432,22 @@ function Fittings (argument) {
 				delete data[this.del_key[i]]
 			}
 		}
+		var obj = this.obj_elem;
 
-		data.hardwareSelectedIndex = this.obj_elem.sel_hardware.data("selectBox-selectBoxIt").currentIndex
-		data.hardEdgeTypeSelectedIndex = this.obj_elem.sel_hardEdge.data("selectBox-selectBoxIt").currentIndex
-		data.hardColorSelectedIndex = this.obj_elem.sel_color.data("selectBox-selectBoxIt").currentIndex
-		data.hardCornorSelectedIndex = this.obj_elem.hard_corner.data("selectBox-selectBoxIt").currentIndex
-		data.hardLinkSelectedIndex = this.obj_elem.sel_link.data("selectBox-selectBoxIt").currentIndex
-		data.exampleImageSelectedIndex = this.obj_elem.sel_example.data("selectBox-selectBoxIt").currentIndex
+		data.hardwareSelectedIndex = obj.sel_hardware.data("selectBox-selectBoxIt").currentFocus;
+		data.hardEdgeTypeSelectedIndex = obj.sel_hardEdge.data("selectBox-selectBoxIt").currentFocus;
+		data.hardColorSelectedIndex = obj.sel_color.data("selectBox-selectBoxIt").currentFocus;
+		data.hardCornorSelectedIndex = obj.hard_corner.data("selectBox-selectBoxIt").currentFocus;
+		data.hardLinkSelectedIndex = obj.sel_link.data("selectBox-selectBoxIt").currentFocus;
+		data.exampleImageSelectedIndex = obj.sel_example.data("selectBox-selectBoxIt").currentFocus;
 
-		data.hemText = this.obj_elem.hem.value
-		data.linkLengthText = this.obj_elem.link_lenght.value;
-		data.thread = this.obj_elem.thread.value  ;
-		data.accessories = this.obj_elem.accessories.value ;		
-		data.poleDiameterText = this.obj_elem.diameter.value 
-		data.poleAngle = this.obj_elem.angle.value 
-		data.poleExtraHeight = this.obj_elem.height.value 
+		data.hemText = obj.hem.value;
+		data.linkLengthText = obj.link_lenght.value;
+		data.thread = obj.thread.value ;
+		data.accessories = obj.accessories.value;		
+		data.poleDiameterText = obj.diameter.value;
+		data.poleAngle = obj.angle.value;
+		data.poleExtraHeight = obj.height.value;
 
 		return data
 	};
@@ -450,15 +461,12 @@ function Fittings (argument) {
 			this.new_page = true
 			url += dataUrl.material.post.commit+id;
 		}
-		
 
 		main.createPreload();
 		main.showPreload();
 		var info = this.getObjInfo();
 
 		var self = this;
-
-		// return
 
 		$.ajax({
 			url: url,

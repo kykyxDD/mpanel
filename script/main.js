@@ -56,11 +56,13 @@ function Main (argument) {
 		"inches",
 		"ft inches",
 		"ft inches and fractions",
-	]
-
-
+	];
 
 	this.init = function(){
+		var self = this
+		this.popup_btn_ok = dom.div('btn_ok grad_blue', false);
+		dom.text(this.popup_btn_ok, 'ok');
+		this.popup_btn_ok.addEventListener('click', self.hidePreload.bind(self))
 
 		this.params = parseQueryString();
 
@@ -80,7 +82,6 @@ function Main (argument) {
 		} else {
 			this.pageHome();
 		}
-		
 	};
 	this.preload
 	this.text_preload
@@ -96,6 +97,9 @@ function Main (argument) {
 	},
 	this.createPreload = function(){
 		this.preload = dom.div('preload hide',this.cont_body);
+
+
+
 	};
 	this.hidePreload = function(){
 		dom.addclass(this.preload, 'hide');
@@ -106,6 +110,10 @@ function Main (argument) {
 		}
 		// dom.visible(this.footer, true)
 		dom.remclass(this.footer, 'hide')
+		if(this.popup_btn_ok.parentElement){
+			main.popup_btn_ok.parentElement.removeChild(this.popup_btn_ok);
+		}
+		//elem.appendChild(this.popup_btn_ok)
 	};
 	this.updateTextPreload = function(txt){
 		if(!this.text_preload) {
@@ -117,17 +125,18 @@ function Main (argument) {
 		dom.addclass(this.preload, 'ready');
 	}
 	this.showPreload = function(){
-		if(!this.preload) this.createPreload()
+		if(!this.preload) this.createPreload();
 		dom.text(this.preload, '');
 		dom.remclass(this.preload, 'error');
 
 		dom.remclass(this.preload, 'hide');
-		dom.addclass(this.footer, 'hide')
+		dom.addclass(this.footer, 'hide');
 	};
 	this.remPreload = function(){
 
 	};
 	this.errorTextPreload = function(txt, events){
+		console.log('errorTextPreload')
 		dom.addclass(this.preload, 'error');
 		dom.text(this.preload, '')
 		var elem = dom.div('error_text', this.preload);
@@ -135,13 +144,17 @@ function Main (argument) {
 		if(events){
 			var title_error = dom.div('title_error', elem)
 			dom.text(title_error, txt)
-			var parse = JSON.parse(events.responseText);
-			var cont_text = dom.div('cont_text', elem);
-			dom.text(cont_text, parse.message +'('+events.status+')')
+			if(events.responseText != ''){
+				var parse = JSON.parse(events.responseText);
+				var cont_text = dom.div('cont_text', elem);
+				dom.text(cont_text, parse.message +'('+events.status+')')	
+			}
 		} else {
 			dom.text(elem, txt);
 		}
-		
+
+		elem.appendChild(this.popup_btn_ok)
+
 	};
 	this.pageHome = function(){
 		var body = createElem('div', 'body', this.main);
@@ -164,12 +177,10 @@ function Main (argument) {
 		link_home.href = 'http://mpanel.com/'
 		var btn_open = createElem('div', 'my_btn btn_open grad_blue', cont_btn);
 		var link_open = createElem('a' , 'link', btn_open);
-		link_open.innerHTML = 'Open'
+		link_open.innerHTML = 'Open';
 
-
-		var line_1 = createElem('div', 'cont_btn', right_path)
-		var line_2 = createElem('div', 'cont_btn', right_path)
-
+		var line_1 = createElem('div', 'cont_btn', right_path);
+		var line_2 = createElem('div', 'cont_btn', right_path);
 
 		var btn_learn = createElem('div', 'my_btn learn grad_blue', line_1)
 		var link_learn = createElem('a' , 'link', btn_learn);
@@ -274,8 +285,7 @@ function Main (argument) {
 		link.innerHTML = 'Settings';
 		link.href = '?page=project&section=settings';
 
-		this.cont_left_btn.insertBefore(set, this.btn_help)
-
+		this.cont_left_btn.insertBefore(set, this.btn_help);
 	}
 	this.updateLinkBtnNext = function(callback){
 		this.link_next.removeAttribute('href');
@@ -291,13 +301,11 @@ function Main (argument) {
 			}
 		}
 
-
 		this.btn_next.addEventListener('click', callback)
 
 	}
 	this.createMenu = function(){
 		var w = this.menu.clientWidth;
-		// console.log(w)
 		var id = list_menu.indexOf(this.itm_page)
 		this.link_page = {};
 

@@ -1,5 +1,5 @@
 .page_seams {
-	/*background-image: url(../image/bg_seams.jpg);*/
+	background-image: url(../image/bg_seams.jpg);
 	background-position: center -5px;
 }
 .popup {
@@ -205,9 +205,10 @@
 
 .cont_info .right_path {
 	padding-left: 25px;
+	padding-top: 5px;
 }
 .cont_info .right_path .info {
-	margin-bottom: 57px;
+	margin-bottom: 51px;
 }
 .cont_info_select .popup {
 	width: 220px;

@@ -136,6 +136,8 @@ function Fabric (argument) {
 	];
 	var left_path, right_path;
 
+	this.override = [];
+
 	this.init = function(){
 		var self = this;
 		this.update_info = false;
@@ -183,8 +185,7 @@ function Fabric (argument) {
 		// }
 
 		this.select_brand = $("select.select_brand").selectBoxIt({
-			defaultText: "BRAND SELECTOR",
-			// defaultIcon: ''
+			defaultText: "BRAND SELECTOR"
 		});
 		this.select_brand.bind({
 			'change': self.changeBrand.bind(self)
@@ -204,8 +205,7 @@ function Fabric (argument) {
 		// }
 
 		this.select_colour = $("select.select_colour").selectBoxIt({
-			defaultText: "COLOUR CHOICE",
-			// defaultIcon: ''
+			defaultText: "COLOUR CHOICE"
 		});
 
 		this.select_colour.bind({
@@ -217,6 +217,9 @@ function Fabric (argument) {
 		cont_roll.input.value = ''; //300;
 
 		var cont_over = this.createElemInput('Override stretch values', 'override', 'checkbox');
+		cont_over.input.addEventListener('change', function(){
+			self.checkOverride(this.checked)
+		})
 
 		var cont_str_warp = this.createElemInput('Warp Stretch %', 'warp_str', 'text');
 		cont_str_warp.input.value = ''; //4;
@@ -235,18 +238,32 @@ function Fabric (argument) {
 			werp: cont_str_werp.input
 		}
 
-
 		var id_project = main.getDataId();
 		main.showPreload();
 
-
 		if(id_project){
-			this.getInfoFabric()
+			this.getInfoFabric();
 		} else {
-			main.createDataId(this.getInfoFabric.bind(this))
+			main.createDataId(this.getInfoFabric.bind(this));
 		}
 	};
+	this.checkOverride = function(checked){
+		var prev_val;
+		
+		if(checked){
+			prev_val = this.override[1];
 
+			this.override[0].warp = this.obj_elem.warp.value;
+			this.override[0].werp = this.obj_elem.werp.value;
+		} else {
+			prev_val = this.override[0];
+			
+			this.override[1].warp = this.obj_elem.warp.value;
+			this.override[1].werp = this.obj_elem.werp.value;
+		}
+		this.obj_elem.warp.value = prev_val.warp;
+		this.obj_elem.werp.value = prev_val.werp;
+	}
 
 	this.createSelInfo = function(arr, sel, index){
 		if(!arr || !sel) return 
@@ -263,14 +280,11 @@ function Fabric (argument) {
 		if(!isNaN(parseFloat(index))){
 			fun.selectOption(index);
 		}
-
 	}
 
 	this.getInfoFabric = function(){
 		var id = main.getDataId();
 		var url = main.host + dataUrl.material.get+id;
-
-		// main.createPreload();
 
 		var self = this;
 
@@ -315,13 +329,22 @@ function Fabric (argument) {
 			this.createSelInfo(data.fabricColorItems, this.obj_elem.sel_colour, data.fabricColorSelectedIndex)
 		}
 
-		this.obj_elem.roll.value = data.rollWidthText
-		this.obj_elem.override.checked = data.override
-		this.obj_elem.warp.value = data.warpStretch
-		this.obj_elem.werp.value = data.weftStretch
+		this.obj_elem.roll.value = data.rollWidthText;
+		this.obj_elem.override.checked = data.override;
+		this.obj_elem.warp.value = data.warpStretch;
+		this.obj_elem.werp.value = data.weftStretch;
 
-		main.hidePreload()
-		this.update_info = false
+		this.override[0] = {
+			warp: data.warpStretch,
+			werp: data.weftStretch
+		};
+		this.override[1] = {
+			warp: data.warpStretchOverride,
+			werp: data.weftStretchOverride
+		};
+
+		main.hidePreload();
+		this.update_info = false;
 	}
 	this.getObjInfo = function(){
 		var data = this.obj_data;
@@ -332,14 +355,13 @@ function Fabric (argument) {
 			}
 		}
 
-		var fun_color = this.obj_elem.sel_colour.data("selectBox-selectBoxIt");
-		
+		var fun_color = this.obj_elem.sel_colour.data("selectBox-selectBoxIt");		
 		var fun_fabric = this.obj_elem.sel_fabric.data("selectBox-selectBoxIt");
 		var fun_brand = this.obj_elem.sel_brand.data("selectBox-selectBoxIt");
 
-		data.fabricSelectedIndex = fun_fabric.currentIndex
-		data.fabricTypeSelectedIndex = fun_brand.currentIndex
-		data.fabricColorSelectedIndex = fun_color.currentIndex
+		data.fabricSelectedIndex = fun_fabric.currentFocus
+		data.fabricTypeSelectedIndex = fun_brand.currentFocus
+		data.fabricColorSelectedIndex = fun_color.currentFocus
 		data.rollWidthText = this.obj_elem.roll.value
 		data.override = this.obj_elem.override.checked
 		data.warpStretch = this.obj_elem.warp.value
@@ -357,7 +379,6 @@ function Fabric (argument) {
 			this.new_page = true
 			url += dataUrl.material.post.commit+id;
 		}
-		
 
 		main.createPreload();
 		main.showPreload();
@@ -392,24 +413,24 @@ function Fabric (argument) {
 
 	this.changeFabric = function(e){
 		if(this.update_info) return
-		console.log('changeFabric', e)
-		this.postNewInfo('FabricSelectedIndex')//fabricItems FabricSelectedIndex
+		// console.log('changeFabric', e)
+		this.postNewInfo('FabricSupplier')//fabricItems FabricSelectedIndex
 		
 	}
 	this.changeBrand = function(e){
 		if(this.update_info) return
-		console.log('changeBrand', e)
-		this.postNewInfo('FabricTypeSelectedIndex')//fabricTypeItems FabricTypeSelectedIndex
+		// console.log('changeBrand', e)
+		this.postNewInfo('FabricType')//fabricTypeItems FabricTypeSelectedIndex
 		
 	}
 	this.changeColor = function(e){
 		if(this.update_info) return
-		console.log('changeColor', e)
+		// console.log('changeColor', e)
 		// var fun = this.obj_elem.sel_colour.data("selectBox-selectBoxIt");
 		// var val = fun.currentIndex;
 		// console.log(val);
 
-		this.postNewInfo('FabricColorSelectedIndex')//fabricColorItems FabricColorSelectedIndex
+		this.postNewInfo('Color')//fabricColorItems FabricColorSelectedIndex
 	}
 
 	this.createElemInput = function(txt, key, type){

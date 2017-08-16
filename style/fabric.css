@@ -79,7 +79,7 @@
 .cont_brand .selectboxit-option, 
 .cont_colour .selectboxit-option, 
 .selectboxit-optgroup-header {
-    text-transform: capitalize;
+	text-transform: inherit;
 }
 
 .cont_colour .selectboxit-option-icon{
