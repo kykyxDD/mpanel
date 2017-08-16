@@ -33,14 +33,32 @@ function Main (argument) {
 	}
 	];
 
-	this.units = {
+	/*this.units = {
 		"m"  :"<span class='name'>meters</span> <span class='val'>1.234</span>",	//метр
 		"cm" : "<span class='name'>centimetre</span> <span class='val'>123.4</span>", // сантиметр 
 		'mm' : "<span class='name'>millimeters</span> <span class='val'>1234</span>", // милиметр
 		"in" :"<span class='name'>inches</span> <span class='val'>123.4	&Prime;</span>", //дюйм	//
 		"ft_in" : "<span class='name'>feet and inches</span> <span class='val'>12 &Prime; 3.4</span>",	//фут	
 		"ft_in_fr" : "<span class='name'>feet, inches, fractions</span> <span class='val'>12 &Prime; 3.5/16</span>"	//фатом	1 f, fm	
-	}
+	}*/
+	this.units = [
+		"Meters  ( 1.234 )",
+		"Centimeters  ( 123.4 )",
+		"Millimeters  ( 1234 )",
+		"Inches  ( 123.4\" )",
+		"Feet and inches  ( 12\' 3.4\" )",
+		"Feet, inches, fractions  ( 12\' 3 5/16\" )"
+	];
+	this.reduction = [
+		"m",
+		"cm",
+		'mm',
+		"inches",
+		"ft inches",
+		"ft inches and fractions",
+	]
+
+
 
 	this.init = function(){
 
@@ -99,6 +117,7 @@ function Main (argument) {
 		dom.addclass(this.preload, 'ready');
 	}
 	this.showPreload = function(){
+		if(!this.preload) this.createPreload()
 		dom.text(this.preload, '');
 		dom.remclass(this.preload, 'error');
 
@@ -293,11 +312,12 @@ function Main (argument) {
 				elem.classList.add('itm')
 			}
 			elem.style.left = (Math.floor(l*l_w) - 7) + 'px';
-			var point = createElem('div','point', elem);
+			
 			var text = createElem('a', 'text', elem);
 			text.innerHTML = link.text;
 			text.href = '?page='+link.id;
-			this.link_page[link.id] = text
+			this.link_page[link.id] = text;
+			var point = createElem('div','point', elem);
 			/*(function(data){
 				point.addEventListener('click', function(){
 					window.location.href = '?page='+data.id;
@@ -311,49 +331,43 @@ function Main (argument) {
 
 		if(id>=0){
 			var next_id = id+1;
-			var title = '';
+			var title = this.itm_page.title;
 			switch(this.itm_page.id){
-				case 'review':
-					title = this.itm_page.title
-					var review = new Review();
-					break
+				
 				case 'project':
 					if(this.params.section && this.params.section == 'settings'){
 						next_id = id;
-						document.title = 'User settings'
-						title = 'user settings'
+						title = 'User settings';
 						var project = new UserSettings()
 					} else {
-						document.title = this.itm_page.title 
-						title = this.itm_page.title
 						var project = new Project();
 						html = 'hs30.htm';
 					}
 					dom.remclass(this.footer, 'hide')
-					break
+				break
 				case 'fabric':
-						document.title = this.itm_page.title 
-						title = this.itm_page.title
-						var fabric = new Fabric();
-						html = 'hs40.htm';
+					var fabric = new Fabric();
+					html = 'hs40.htm';
 					dom.remclass(this.footer, 'hide')
 					break
 				case 'fittings':
-					document.title = this.itm_page.title 
-					title = this.itm_page.title
 					var fitting = new Fittings();
 					html = 'hs40.htm';
-				dom.remclass(this.footer, 'hide')
+					dom.remclass(this.footer, 'hide')
 				break
 				case 'shape':
-						document.title = this.itm_page.title 
-					title = this.itm_page.title
 					var shape_size = new ShapeSize();
 					html = 'hs50.htm';
 				break
+				case 'review':
+					// title = this.itm_page.title
+					var review = new Review();
+				break
+				case 'seams':
+					var seams = new Seams();
+					html = 'hs75.htm';
+				break
 				default: 
-						document.title = this.itm_page.title 
-					title = this.itm_page.title
 					this.emptyPage();
 					dom.remclass(this.footer, 'hide')
 					break
@@ -363,6 +377,7 @@ function Main (argument) {
 			} else {
 				this.link_back.href = '?page='+list_menu[id-1].id;
 			}
+			document.title = title 
 
 			if(this.itm_page.id == 'project' && 
 				this.params.section && this.params.section == 'settings'){
@@ -406,8 +421,12 @@ function Main (argument) {
 		var elem = createElem('div', 'development', this.cont_body)
 		elem.innerHTML = 'Page in development';
 	}
+	this.checkValNum = function(str_num){
+		return str_num.replace(/[^0-9.\-]/gi, '');
+	}
 
 	this.createDataId = function(callback){
+		// console.log('createDataId', callback)
 
 		var data = {
 			"ClientName": "Dimka",
@@ -435,19 +454,20 @@ function Main (argument) {
 			success: function(data){
 				if(data.data){
 					window.localStorage.setItem('mpanel_id', data.data)
-					return self.createMaterial(data.data, callback);	
+					return callback();//self.createMaterial(data.data, callback);	
 				} else {
 					var text = data.error || data.message;
 					self.errorTextPreload(text)
 				}
-				
 			}, 
 			error: function(e){
 				self.errorTextPreload('Problem loading data!', e)
 			}
 		})
 	};
-	this.createMaterial = function(id, callback){
+	this.createMaterial = function(callback){
+		// console.log('createMaterial', callback)
+		var id = main.getDataId();
 		var data = {
 			"fabricSelectedIndex": 0,
 			"fabricTypeSelectedIndex": 0,

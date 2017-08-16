@@ -278,7 +278,6 @@ function Fittings (argument) {
 		if(!isNaN(parseFloat(index))){
 			fun.selectOption(index);
 		}
-
 	}
 	this.changeHardware = function(){
 		if(this.update_info) return
@@ -313,8 +312,6 @@ function Fittings (argument) {
 		this.postNewInfo('exampleImageSelectedIndex')
 	}
 
-
-
 	this.createRightPath = function(par){
 		var cont_details = dom.div('cont_details', par);
 		var title = dom.div('title_details', cont_details);
@@ -347,8 +344,6 @@ function Fittings (argument) {
 		this.obj_elem.height = height.input
 
 	}
-
-
 
 	this.getInfoFitting = function(id){
 		var url = main.host + dataUrl.material.get+id;
@@ -435,7 +430,6 @@ function Fittings (argument) {
 		data.hardLinkSelectedIndex = this.obj_elem.sel_link.data("selectBox-selectBoxIt").currentIndex
 		data.exampleImageSelectedIndex = this.obj_elem.sel_example.data("selectBox-selectBoxIt").currentIndex
 
-
 		data.hemText = this.obj_elem.hem.value
 		data.linkLengthText = this.obj_elem.link_lenght.value;
 		data.thread = this.obj_elem.thread.value  ;
@@ -443,7 +437,6 @@ function Fittings (argument) {
 		data.poleDiameterText = this.obj_elem.diameter.value 
 		data.poleAngle = this.obj_elem.angle.value 
 		data.poleExtraHeight = this.obj_elem.height.value 
-
 
 		return data
 	};

@@ -13,7 +13,7 @@
         defaults = {
             classes: '',
             inline: false,
-            language: 'ru',
+            language: 'en',
             startDate: new Date(),
             firstDay: '',
             weekends: [6, 0],
@@ -1152,7 +1152,7 @@
         },
 
         _onMouseUpBody: function (e) {
-            if (e.originalEvent.inFocus) return;
+            if (e.originalEvent && e.originalEvent.inFocus) return;
 
             if (this.visible && !this.inFocus) {
                 this.hide();
@@ -1484,6 +1484,18 @@
             timeFormat: 'hh:ii',
             firstDay: 1
         }
+    };
+    $.fn.datepicker.language['en'] = {
+        days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        daysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+        months: ['January','February','March','April','May','June', 'July','August','September','October','November','December'],
+        monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        today: 'Today',
+        clear: 'Clear',
+        dateFormat: 'mm/dd/yyyy',
+        timeFormat: 'hh:ii aa',
+        firstDay: 0
     };
 
     $(function () {

@@ -237,11 +237,13 @@ function Fabric (argument) {
 
 
 		var id_project = main.getDataId();
+		main.showPreload();
+
 
 		if(id_project){
-			this.getInfoFabric(id_project)
+			this.getInfoFabric()
 		} else {
-
+			main.createDataId(this.getInfoFabric.bind(this))
 		}
 	};
 
@@ -264,11 +266,11 @@ function Fabric (argument) {
 
 	}
 
-	this.getInfoFabric = function(id){
+	this.getInfoFabric = function(){
+		var id = main.getDataId();
 		var url = main.host + dataUrl.material.get+id;
 
-		main.createPreload();
-		main.showPreload();
+		// main.createPreload();
 
 		var self = this;
 

@@ -10,7 +10,9 @@ function Project(){
 		'./style/project.css'
 	]
 
+
 	this.init = function(){
+		var self = this;
 
 		this.units = main.units;
 		main.createBtnSetting();
@@ -37,11 +39,9 @@ function Project(){
 		var label_date_required = dom.elem('label', 'label_date', elem_required.cont_input)
 		label_date_required.setAttribute('for', 'date_required');
 
-
 		var date_required = $( "#date_required" ).datepicker({
 			dateFormat: 'dd/mm/yyyy'
 		});
-
 
 		var elem = dom.div('cont_val_input sail');
 		var title = dom.div('txt', elem);
@@ -66,6 +66,8 @@ function Project(){
 
 		var elem_project_num = this.createInputVal('project number', 'proj_num');
 		right_path.appendChild(elem_project_num.elem);
+
+		elem_project_num.input.addEventListener('input', self.updateValInput.bind(self));
 
 
 		var elem_date_entered = this.createInputVal('date entered', 'date_entered');
@@ -109,7 +111,7 @@ function Project(){
 
 
 		this.fun_units = $("select").selectBoxIt({
-			defaultText: "units"
+			defaultText: "Units"
 		});
 
 		this.obj_elem = {
@@ -131,7 +133,11 @@ function Project(){
 		if(id_project){
 			this.getInfoService(id_project)
 		} else {
-
+			this.addSelect(this.units, 1);
+			var date_required  = this.obj_elem.requestDate.data('datepicker');
+			var date_entered  = this.obj_elem.enteredDate.data('datepicker');
+			date_required.selectDate(new Date());		
+			date_entered.selectDate(new Date());
 		}
 
 	}
@@ -176,18 +182,19 @@ function Project(){
 			}
 		}
 		var date_required  = this.obj_elem.requestDate.data('datepicker');
-		console.log(date_required)
-		date_required.selectDate(new Date(data.requestDate));
+		if(data.requestDate){
+			date_required.selectDate(new Date(data.requestDate));	
+		} else {
+			date_required.selectDate(new Date());
+		}
+		
+		var date_entered  = this.obj_elem.enteredDate.data('datepicker');
 
 		if(data.enteredDate) {
-			var date_entered  = this.obj_elem.enteredDate.data('datepicker');
-			// console.log(date_required)
 			date_entered.selectDate(new Date(data.enteredDate));
+		} else {
+			date_entered.selectDate(new Date());
 		}
-		// var start = 
-		// console.log('start', start)
-
-
 	};
 	this.getInfoProject = function(){
 
@@ -195,28 +202,44 @@ function Project(){
 		var date_entered = this.getStrDate(this.obj_elem.enteredDate.data('datepicker').date)
 
 		var unit_index = this.obj_elem.unit.data("selectBox-selectBoxIt");
+		var projectNumber = parseFloat(this.obj_elem.projectNumber.value);
+		var quantity = parseFloat(this.obj_elem.quantity.value);
+		var sailNumber = parseFloat(this.obj_elem.sailNumber.value);
+		var sailOf = parseFloat(this.obj_elem.sailOf.value);
+		var unitIndex = parseFloat(unit_index.currentFocus);
 
 		return {
 			"clientName": this.obj_elem.clientName.value,
 			"projectName": this.obj_elem.projectName.value,
-			"projectNumber": this.obj_elem.projectNumber.value,
-			"quantity": this.obj_elem.quantity.value,
+			"projectNumber": projectNumber ? projectNumber : 0, // this.obj_elem.projectNumber.value,
+			"quantity":  quantity ? quantity : 0, //this.obj_elem.quantity.value,
 			"requestDate": date_required,
-			"sailNumber": this.obj_elem.sailNumber.value,
-			"sailOf": this.obj_elem.sailOf.value, 
+			"sailNumber": sailNumber ? sailNumber : 0 ,//this.obj_elem.sailNumber.value,
+			"sailOf":  sailOf ? sailOf : 0,//this.obj_elem.sailOf.value, 
 			"description": this.obj_elem.description.value,
-			"porjectNumber": this.obj_elem.projectNumber.value,
+			"porjectNumber":  projectNumber ? projectNumber : 0, // this.obj_elem.projectNumber.value,
 			"enteredDate": date_entered, 
 			"enteredBy": this.obj_elem.enteredBy.value,
 			"unitIndex": unit_index.currentFocus
 		}
 	};
+
+	this.updateValInput = function(e){
+		var input = e.target || e.srcElement;
+		var val = main.checkValNum(input.value)
+		input.value = val;
+	}
 	this.postInfoProject =  function(){
 		var info = this.getInfoProject();
 		console.log(info)
 		var id = main.getDataId();
 
-		var url =  main.host+dataUrl.project.post + id;
+		var url =  main.host
+		if(id){
+			url += dataUrl.project.post + id;
+		} else {
+			url += dataUrl.project.new_project
+		}
 		console.log(url)
 		main.showPreload();
 		var self = this;

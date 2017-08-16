@@ -67,7 +67,7 @@ function ShapeSize (argument) {
 		if(mpanel_id) {
 			this.getDataObj(mpanel_id);
 		} else {
-			main.createDataId(this.getDataObj.bind(this));
+			main.createDataId(main.createMaterial.bind(main, this.getDataObj.bind(this)));
 		}
 
 		this.addEventNextBtn()
@@ -119,8 +119,8 @@ function ShapeSize (argument) {
 			var val = side.elem_meas.value;
 
 			itm.pointToPointSize = val != '' ? parseFloat(val) : '';//parseFloat(side.elem_meas.value)
-			itm.selectedHemType = fun_type.textArray[fun_type.currentIndex];
-			itm.selectedDip = fun_dip.textArray[fun_dip.currentIndex];
+			itm.selectedHemType = fun_type.textArray[fun_type.currentFocus];
+			itm.selectedDip = fun_dip.textArray[fun_dip.currentFocus];
 			itm.isFixed = side.elem_fixed.checked;
 			itm.isMidSupport = side.elem_mid.checked;
 			sides[i] = itm;
@@ -151,8 +151,8 @@ function ShapeSize (argument) {
 
 			var fun_finish = corn.elem_finish.data("selectBox-selectBoxIt");
 			var fun_link = corn.elem_link.data("selectBox-selectBoxIt");
-			itm.selectedLink = fun_link.textArray[fun_link.currentIndex];
-			itm.selectedHardware = fun_finish.textArray[fun_finish.currentIndex];
+			itm.selectedLink = fun_link.textArray[fun_link.currentFocus];
+			itm.selectedHardware = fun_finish.textArray[fun_finish.currentFocus];
 
 			corners[i] = itm;
 		}
@@ -365,27 +365,27 @@ function ShapeSize (argument) {
 
 		// Handle Date
 		if (obj instanceof Date) {
-		copy = new Date();
-		copy.setTime(obj.getTime());
-		return copy;
+			copy = new Date();
+			copy.setTime(obj.getTime());
+			return copy;
 		}
 
 		// Handle Array
 		if (obj instanceof Array) {
-		copy = [];
-		for (var i = 0, len = obj.length; i < len; i++) {
-		    copy[i] = this.clone(obj[i]);
-		}
-		return copy;
+			copy = [];
+			for (var i = 0, len = obj.length; i < len; i++) {
+			    copy[i] = this.clone(obj[i]);
+			}
+			return copy;
 		}
 
 		// Handle Object
 		if (obj instanceof Object) {
-		copy = {};
-		for (var attr in obj) {
-		    if (obj.hasOwnProperty(attr)) copy[attr] = this.clone(obj[attr]);
-		}
-		return copy;
+			copy = {};
+			for (var attr in obj) {
+				if (obj.hasOwnProperty(attr)) copy[attr] = this.clone(obj[attr]);
+			}
+			return copy;
 		}
 
 		throw new Error("Unable to copy obj! Its type isn't supported.");
@@ -422,7 +422,6 @@ function ShapeSize (argument) {
 
 		var title_hind = dom.div('btn_help', title)
 		dom.text(title_hind, '?');
-
 
 		var popup = main.hintHelp(title_hind,  this.text_hilp_sides)
 
@@ -748,8 +747,8 @@ function ShapeSize (argument) {
 			var fun_type = itm.sel_type.data("selectBox-selectBoxIt")
 
 			itm.pointToPointSize = itm.elem_meas.value;
-			itm.selectedHemType = fun_type.currentIndex; //itm.sel_type[0].selectedIndex;
-			itm.selectedDip = fun_dip.currentIndex; //itm.sel_dip[0].selectedIndex;
+			itm.selectedHemType = fun_type.currentFocus; //itm.sel_type[0].selectedIndex;
+			itm.selectedDip = fun_dip.currentFocus; //itm.sel_dip[0].selectedIndex;
 
 			itm.isFixed = itm.elem_fixed.checked;
 			itm.isMidSupport = itm.elem_mid.checked;
@@ -785,8 +784,8 @@ function ShapeSize (argument) {
 
 			itm.height = itm.elem_h.value;
 			itm.linkLength = itm.elem_length.value;
-			itm.selectedLink = fun_link.currentIndex;
-			itm.selectedHardware = fun_finish.currentIndex;
+			itm.selectedLink = fun_link.currentFocus;
+			itm.selectedHardware = fun_finish.currentFocus;
 
 			obj.corners[i] = itm;
 

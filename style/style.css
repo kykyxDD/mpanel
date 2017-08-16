@@ -70,6 +70,9 @@ body {
 .header .cont_menu {
 	float: right;
 }
+.menu .page.itm + .page {
+	pointer-events: none;
+} 
 .menu .page {
 	position: absolute;
 	margin-top: -6px;
@@ -81,6 +84,7 @@ body {
 	background-color: #fff;
 	position: relative;
 	cursor: pointer;
+	pointer-events: none;
 }
 .menu .page .point:before {
 	position: absolute;
@@ -93,7 +97,9 @@ body {
 	height: 8px;
 	border-radius: 50%;
 	background-color: #e6e6e6;
+	transition: background-color 0.2s;
 }
+.menu .page .text:hover + .point:before,
 .menu .page.prev .point:before,
 .menu .page.itm .point:before{
 	background-color: #f67e03;
@@ -112,8 +118,11 @@ body {
 	margin-left: -44px;
 	letter-spacing: -0.3px;
 	text-decoration: blink;
+	transition: color 0.2s;
 	/*cursor: pointer;*/
 }
+.menu .page.prev .text:hover, 
+.menu .page .text:hover, 
 .menu .page.itm .text {
 	color: #f67e03;
 } 
@@ -1015,6 +1024,13 @@ border-color: #20a8ff !important;
 
 .selectboxit-container .selectboxit-options {
 	border-radius: 0px !important;
+}
+.selectboxit-container .selectboxit {
+	box-shadow: 0 0 0px #1296FF;
+	transition: box-shadow 0.3s;
+}
+.selectboxit-container .selectboxit.selectboxit-open {
+	box-shadow: 0 0 5px #1296FF !important;
 }
 
 
