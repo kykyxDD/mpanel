@@ -134,7 +134,7 @@ function Review(){
 		var h_btn = document.querySelector('.graphics .cont_button.top').clientHeight;
 		var h_cont = all_h  - h_head - h_bottom - h_title
 		
-		var h = h_cont - (h_btn ?  h_btn + 10 : 45 ) - 50
+		var h = h_cont - (h_btn ?  h_btn + 10 : 45 ) - 50;
 		// console.log(h_head, h_bottom, h_title, h_btn)
 		this.elem_view.style.height = Math.max(430, h) + 'px';
 		if(mpanel){

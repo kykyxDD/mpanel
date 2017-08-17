@@ -736,16 +736,14 @@ function ShapeSize (argument) {
 			this.arr_sides[i].elem_meas.removeEventListener('blur', self.blurInput.bind(self));
 			var id = this.arr_sides[i].id;
 
-
 			this.arr_sides[i].elem_fixed.removeEventListener('change', self.changeFixed.bind(self))
-
 
 			var fun_dip = itm.sel_dip.data("selectBox-selectBoxIt")
 			var fun_type = itm.sel_type.data("selectBox-selectBoxIt")
 
 			itm.pointToPointSize = itm.elem_meas.value;
 			itm.selectedHemType = fun_type.currentFocus; //itm.sel_type[0].selectedIndex;
-			itm.selectedDip = fun_dip.currentFocus; //itm.sel_dip[0].selectedIndex;
+			itm.selectedDip = fun_dip.currentFocus;     //itm.sel_dip[0].selectedIndex;
 
 			itm.isFixed = itm.elem_fixed.checked;
 			itm.isMidSupport = itm.elem_mid.checked;

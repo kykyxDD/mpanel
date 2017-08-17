@@ -142,12 +142,12 @@ function Main (argument) {
 		var elem = dom.div('error_text', this.preload);
 
 		if(events){
-			var title_error = dom.div('title_error', elem)
-			dom.text(title_error, txt)
+			var title_error = dom.div('title_error', elem);
+			dom.text(title_error, txt);
 			if(events.responseText != ''){
 				var parse = JSON.parse(events.responseText);
 				var cont_text = dom.div('cont_text', elem);
-				dom.text(cont_text, parse.message +'('+events.status+')')	
+				dom.text(cont_text, parse.message +'('+events.status+')');	
 			}
 		} else {
 			dom.text(elem, txt);
@@ -210,7 +210,7 @@ function Main (argument) {
 	};
 
 	this.createPage = function(){
-		var head = dom.div('header', this.main);//document.querySelector('.header');
+		var head = dom.div('header', this.main); //document.querySelector('.header');
 
 		var cont_head = dom.div('cont', head);
 		var logo = dom.div('logo', cont_head);
@@ -307,7 +307,7 @@ function Main (argument) {
 	this.createMenu = function(){
 		var w = this.menu.clientWidth;
 		var id = list_menu.indexOf(this.itm_page)
-		this.link_page = {};
+		this.link_page = [];
 
 		var l_w = Math.floor(w/(list_menu.length-1));
 
@@ -324,7 +324,9 @@ function Main (argument) {
 			var text = createElem('a', 'text', elem);
 			text.innerHTML = link.text;
 			text.href = '?page='+link.id;
-			this.link_page[link.id] = text;
+			this.link_page[l] = {
+				link:text,
+			};
 			var point = createElem('div','point', elem);
 			/*(function(data){
 				point.addEventListener('click', function(){
@@ -334,7 +336,8 @@ function Main (argument) {
 		}
 		var line = createElem('div', 'line', this.menu)
 		line.style.width = (id/(list_menu.length-1))*w + 'px';
-		var html = ''
+		var html = '';
+		this.line = line;
 
 
 		if(id>=0){
@@ -403,6 +406,10 @@ function Main (argument) {
 			this.createBigTitle(title, html)
 			
 		}
+	}
+
+	this.updatePage = function(){
+
 	}
 
 	this.createBigTitle = function(tlt, html){
