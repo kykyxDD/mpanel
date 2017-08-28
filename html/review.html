@@ -1,0 +1,52 @@
+<div class="info page_review">
+	<div class="info_text">
+		<div class="cont_result mCustomScrollbar _mCS_1" id="content-3dtd" custom-scroll ng-model='data_review.messages'>
+			<div class="text">
+				<span ng-if='data_review.messages.length'  ng-repeat='mess in data_review.messages' ng-class='arr_class[data_review.messageTypes[$index]]'>
+					{{mess}}
+				</span>
+			</div>
+			<span ng-if='review_error'>{{review_error}}</span> 
+		</div>
+
+		<div class="cont_color_key">
+			<div class="title_color_key">color key
+				<div class="btn_help">?
+					<div class="popup">
+						<div class="cont_popup">
+							Orange comments are design advice and indicate that some elements of the design may be less than optimal - it does not prevent you progressing with the design.<br>
+							Red warnings on the other hand, prevent progress and require that dimensions be checed in order to correct.
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="text green">
+				<span class="text_green">Green text:</span> Design prodress in OK
+			</div>
+			<div class="text orange">
+				<span class="text_orange">Orange text:</span> Warnings about the design
+			</div>
+			<div class="text red">
+				<span class="text_red">Red text:</span> 
+				A problem the prevent the design from completing
+			</div>
+		</div>
+	</div>
+	<div class="graphics">
+		<div class="cont_button top">
+			<div class="my_btn isometric" ng-class="{disabled: data_error }" ng-click='isometricClick()'>isometric</div>
+			<div class="my_btn right" ng-class="{disabled: data_error }" ng-click='rightClick()'>right</div>
+			<div class="my_btn front" ng-class="{disabled: data_error }" ng-click='frontClick()'>front</div>
+			<div class="my_btn top" ng-class="{disabled: data_error }" ng-click='topClick()'>top</div>
+			<div ng-if='arr_url.length > 1' ng-click='editNumModel(0)' ng-class='{active :index_model == 0 }' class="my_btn model_1">1</div>
+			<div ng-if='arr_url.length > 1' ng-click='editNumModel(1)' ng-class='{active :index_model == 1 }' class="my_btn model_2">2</div>
+		</div>
+		<div class="word">
+			<div id="threejs" class="threejs">
+				<div ng-if='review_error'>
+					Error loading model
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

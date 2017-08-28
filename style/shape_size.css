@@ -3,6 +3,14 @@
 	background-position: 1px -5px;
 }
 
+.page_shape .left_path,
+.page_shape .right_p {
+
+}
+.page_shape .left_path{
+	padding-right: 28px;
+}
+
 .cont_left_btn .my_btn{
 	height: 31px;
 	margin-left: 8px;
@@ -62,18 +70,17 @@
 	background-image: url(../image/icon/load.png);
 }
 
-
-
 .cont_info{
 	padding-top: 3px;
 	padding-left: 3px;
 	padding-bottom: 15px;
 }
-.cont_info > div {
-	display: inline-block;
+.page_shape .left_path,
+.page_shape .right_path {
+	display: table-cell;
 	vertical-align: top;
 }
-.cont_info .left_path{
+.page_shape .cont_info .left_path{
 	width: 430px;
 	padding-right: 33px;
 }
@@ -198,8 +205,8 @@
 }
 
 
-.cont_sides_diagonals > div{
-	display: inline-block;
+.page_shape .cont_sides_diagonals > div{
+	display: table-cell;
 	vertical-align: top;
 }
 
@@ -604,4 +611,21 @@
 
 .selectboxit-open {
 	box-shadow: 0 0 5px #1296FF !important;
+}
+
+.page_shape select {
+	margin: 0;
+}
+.select_dip {
+	width: 80px;
+	margin-bottom: 0;
+}
+.select_type {
+	width: 90px;
+}
+.select_finish{
+	width: 110px
+}
+.select_link{
+	width: 105px;
 }

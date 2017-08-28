@@ -5,12 +5,14 @@
 .popup {
 	text-transform: inherit !important;
 }
-.cont_info > div {
+.page_seams .left_path,
+.page_seams .right_path {
 	display: inline-block;
 	vertical-align: top;
 }
-.left_path {
+.page_seams .left_path {
 	width: 560px;
+	padding-right: 30px;
 }
 .cont_view {
 	padding: 5px;
@@ -26,7 +28,10 @@
 .cont_view .cont_top_btn .my_btn:last-child {
 	margin-right: 0;
 }
-
+.page_seams #threejs {
+width: 550px;
+	height: 460px;
+}
 .cont_view .view{
 	width: 550px;
 	height: 460px;
@@ -130,7 +135,7 @@
     position: relative;
     background-color: #F1F1F1;
 }
-.info_text .cont_result {
+.page_seams .info_text .cont_result {
 	width: 463px;
     height: 210px;
 	border: 1px solid #EAEAEA;
@@ -214,7 +219,7 @@
 	background-color:#e5e5e5;
 }
 
-.cont_info .right_path {
+.page_seams .cont_info .right_path {
 	padding-left: 25px;
 	padding-top: 5px;
 }

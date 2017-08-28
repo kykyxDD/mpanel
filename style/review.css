@@ -9,6 +9,7 @@
 	background-position: left top;
 }
 
+
 .graphics {
 	width: 745px;
 }
@@ -45,6 +46,10 @@
 
 .graphics .word {
 	
+}
+.graphics #threejs {
+	width: 740px;
+	height: 470px;
 }
 .model_1,
 .model_2 {

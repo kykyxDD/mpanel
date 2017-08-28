@@ -1,0 +1,71 @@
+<div class="cont_info page_seams">
+	 <div class="left_path">
+		<div class="cont_view">
+			<div class="view threejs" id='threejs'>
+			</div>
+		</div>
+		<div class="cont_num_panels">
+			<div class="cont_count">
+				<div class="text">number of panels
+					<div class="btn_help">?
+						<div class="popup">
+							<div class="cont_popup">Blue lines are guidelines representing the fabric width in the selected warp direction - right click on these allows movement</div>
+						</div>
+					</div>
+				</div>
+				<div class="elem_count">
+					<div class="btn_minus"></div>
+					<div class="val_num">1</div>
+					<div class="btn_plus"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="right_path">
+		<div class="info">
+			<div class="info_text">
+				<div class="cont_result mCustomScrollbar _mCS_1 mCS_no_scrollbar" id="content-3dtd" customScroll ng-model='data_seams.list'>
+				</div>
+			</div>
+		</div>
+		<div class="cont_info_select">
+			<div class="cont_select cont_warp">
+				<select  class="select_warp" 
+					id="select_warp" 
+					fancy-select 
+					fancy-default-text='WARP DIRECTION' 
+					fancy-list='data_seams.warp' 
+					fancy-index="data_seams.warpIndex"
+					ng-model='data_seams.warpIndex' >
+					
+				</select>
+			</div>
+			<div class="btn_help">?<div class="popup">
+			<div class="cont_popup">Warp is direction of fabric comming off the roll</div>
+			</div>
+			</div>
+		</div>
+		<div class="cont_straight">
+			<div class="cont_check">
+				<input class="straight" type="checkbox" id="straight">
+				<label for="straight"></label>
+			</div>
+			<div class="text">Straighten Seams</div>
+		</div>
+		<div class="cont_info_select">
+			<div class="cont_select cont_tag">
+				<select  class="select_tag" 
+					id="select_tag" 
+					fancy-select 
+					fancy-default-text='TAG CORNER' 
+					fancy-list='data_seams.tag' 
+					fancy-index="data_seams.tagIndex"
+					ng-model='data_seams.tagIndex' >
+				</select>
+			</div>
+		</div>
+		<div class="cont_btn_make">
+			<div class="my_btn grad_blue btn_make disabled">make panels</div>
+		</div>
+	</div>
+</div>

@@ -1,14 +1,16 @@
 	
 .threejs {
 	position: relative;
-    width: 740px;
-    height: 470px;
-    box-shadow: 4px 4px 5px #C7C6C6;
-    border-radius: 3px;
-    overflow: hidden;
-    background-color: #fff;
+	max-width: 100%;
+	width: 100%;
+	max-height: 100%;
+	height: 100%;
+	box-shadow: 4px 4px 5px #C7C6C6;
+	border-radius: 3px;
+	overflow: hidden;
+	background-color: #fff;
 }
-#canvas {
+.threejs #canvas {
 	position: absolute;
 	top: 0;
 	left: 0;

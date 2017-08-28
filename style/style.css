@@ -52,7 +52,8 @@ body {
 }
 .menu .line {
 	background-color: #f67e03;
-	height: 100%
+	height: 100%;
+	transition: width 0.3s;
 }
 
 .header .logo {
@@ -71,7 +72,7 @@ body {
 	float: right;
 }
 .menu .page.itm + .page {
-	pointer-events: none;
+	/*pointer-events: none;*/
 } 
 .menu .page {
 	position: absolute;
@@ -119,7 +120,7 @@ body {
 	letter-spacing: -0.3px;
 	text-decoration: blink;
 	transition: color 0.2s;
-	/*cursor: pointer;*/
+	cursor: pointer;
 }
 .menu .page.prev .text:hover, 
 .menu .page .text:hover, 
@@ -143,13 +144,15 @@ body {
 	/*height: 560px;*/
 	position: relative;
 	opacity: 1;
-	transition: opacity 0.5s;
+	transition: opacity 0.3s, visibility 0s ease 0s;
 	position: absolute;
 	top: 65px;
 	left: 0;
+	display: block !important; 
 	bottom: 0;
 	z-index: 10;
 	background-color: #f9f9f9;
+	visibility: visible;
 }
 
 .body .cont > .preload.error:before {
@@ -175,6 +178,8 @@ body {
 }
 .body .cont > .preload.hide {
 	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.3s ease 0.3s, opacity 0s ease 0.6s;
 }
 .body .cont > .preload:after {
 	content: '';
@@ -206,7 +211,6 @@ body {
 	left: 50%;
 	margin-top: -75px;
 	margin-left: -95px;
-
 }
 
 .body .cont > .preload .post_text{
@@ -240,7 +244,6 @@ body {
 	text-transform: uppercase;
 	font-weight: bold;
 	cursor: pointer;
-
 }
 
 @-moz-keyframes animaciya {
@@ -337,6 +340,8 @@ body {
 	background: linear-gradient(to bottom, #fefefe 0%,#f0f0f0 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#f0f0f0',GradientType=0 );
 }
+.btn_minus.disabled,
+.btn_plus.disabled,
 .my_btn.disabled {
 	pointer-events: none;
 	background: rgb(220,220,220); 
@@ -834,6 +839,7 @@ body {
     color: white;
     text-transform: uppercase;
     border-radius: 3px;
+    margin: 0 auto;
 }
 .home .body .btn_start .link {
 	color: white;

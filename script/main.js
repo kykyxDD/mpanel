@@ -57,28 +57,31 @@ function Main (argument) {
 		"ft inches",
 		"ft inches and fractions",
 	];
+	this.searchListPage = function(page){
+		var itm_page
+		for(var i = 0; i < list_menu.length; i++){
+			var itm = list_menu[i];
+			if(page && page == itm.id){
+				itm_page = itm
+			}
+		}
+		return itm_page
+	}
 
 	this.init = function(){
 		var self = this
 		this.popup_btn_ok = dom.div('btn_ok grad_blue', false);
 		dom.text(this.popup_btn_ok, 'ok');
-		this.popup_btn_ok.addEventListener('click', self.hidePreload.bind(self))
+		this.popup_btn_ok.addEventListener('click', self.hidePreload.bind(self));
 
 		this.params = parseQueryString();
 
 		this.main = document.querySelector('.main');
 		var page = this.params && this.params.page;
-		var itm_page;
 
 		if(page){
-			for(var i = 0; i < list_menu.length; i++){
-				var itm = list_menu[i];
-				if(page && page == itm.id){
-					itm_page = itm
-				}
-			}
-			this.itm_page = itm_page;
-			this.createPage()
+			this.itm_page = this.searchListPage(page);
+			this.createPage();
 		} else {
 			this.pageHome();
 		}
@@ -111,7 +114,7 @@ function Main (argument) {
 		// dom.visible(this.footer, true)
 		dom.remclass(this.footer, 'hide')
 		if(this.popup_btn_ok.parentElement){
-			main.popup_btn_ok.parentElement.removeChild(this.popup_btn_ok);
+			main.popup_btn_ok.parensatgetElement.removeChild(this.popup_btn_ok);
 		}
 		//elem.appendChild(this.popup_btn_ok)
 	};
@@ -157,6 +160,7 @@ function Main (argument) {
 
 	};
 	this.pageHome = function(){
+		var self = this;
 		var body = createElem('div', 'body', this.main);
 		var cont = createElem('div', 'cont', body);
 
@@ -189,6 +193,9 @@ function Main (argument) {
 		var btn_set = createElem('div', 'my_btn setting', line_1)
 		var link_set = createElem('a' , 'link', btn_set);
 		link_set.href = '?page=project&section=settings';
+		// var link_set = createElem('div' , 'link', btn_set);
+		// link_set.addEventListener('click', this.updatePage.bind(this,'?page=project&section=settings'));
+
 
 
 		var btn_news = createElem('div', 'my_btn news grad_blue', line_2)
@@ -196,14 +203,16 @@ function Main (argument) {
 		link_news.innerHTML = 'news';
 		link_news.href = 'http://mpanel.com/news/'
 		var btn_help = createElem('div', 'my_btn help', line_2)
+		//var link_help = createElem('a' , 'link', btn_help);
 		var link_help = createElem('a' , 'link', btn_help);
-		btn_help.href = '?page=project';
 		link_help.href = 'http://demo.stagingmonster.com/mpanel_help/source/html/hs10.htm'
 
 		var btn_start = createElem('div','btn_start grad_orange', cont);
 		var link = createElem('a', 'link', btn_start)
 		link.innerHTML = 'start';
-		link.href = '?page=project'
+		link.href = '?page=project';
+		// var link = createElem('div', 'link', btn_start)
+		// link.addEventListener('click', this.updatePage.bind(this,'?page=project'));
 
 		this.main.classList.add('home')
 		document.body.classList.add('body_home')
@@ -288,6 +297,8 @@ function Main (argument) {
 		this.cont_left_btn.insertBefore(set, this.btn_help);
 	}
 	this.updateLinkBtnNext = function(callback){
+		console.log('updateLinkBtnNext');
+		return
 		this.link_next.removeAttribute('href');
 
 		var menu_link = document.querySelector('.header .menu .page.itm');
@@ -305,11 +316,13 @@ function Main (argument) {
 
 	}
 	this.createMenu = function(){
+		var self = this;
 		var w = this.menu.clientWidth;
 		var id = list_menu.indexOf(this.itm_page)
 		this.link_page = [];
 
 		var l_w = Math.floor(w/(list_menu.length-1));
+		console.log(l_w, w)
 
 		for(var l = 0; l < list_menu.length; l++){
 			var link = list_menu[l]
@@ -321,9 +334,15 @@ function Main (argument) {
 			}
 			elem.style.left = (Math.floor(l*l_w) - 7) + 'px';
 			
-			var text = createElem('a', 'text', elem);
+			var text = createElem('div', 'text', elem);
+			// var text = createElem('a', 'text', elem);
+			// text.href = '?page='+link.id;
 			text.innerHTML = link.text;
-			text.href = '?page='+link.id;
+
+			(function(elem, link){
+				elem.addEventListener('click', self.updatePage.bind(this,link))
+			})(text, '?page='+link.id);
+
 			this.link_page[l] = {
 				link:text,
 			};
@@ -373,6 +392,7 @@ function Main (argument) {
 				case 'review':
 					// title = this.itm_page.title
 					var review = new Review();
+					html = 'hs75.htm';
 				break
 				case 'seams':
 					var seams = new Seams();
@@ -408,10 +428,21 @@ function Main (argument) {
 		}
 	}
 
-	this.updatePage = function(){
+	this.updatePage = function(url){
+		var params = parseQueryString(url)
+		console.log('params',params)
+		var itm_params = parseQueryString();
+
+	}
+	this.updateMenu = function(id){
 
 	}
 
+	this.updateTitle = function(){
+
+	}
+
+	
 	this.createBigTitle = function(tlt, html){
 		// 
 		var title = this.big_title
@@ -438,6 +469,17 @@ function Main (argument) {
 	}
 	this.checkValNum = function(str_num){
 		return str_num.replace(/[^0-9.\-]/gi, '');
+	}
+
+	this.searchListPage = function(page){
+		var itm_page
+		for(var i = 0; i < list_menu.length; i++){
+			var itm = list_menu[i];
+			if(page && page == itm.id){
+				itm_page = itm
+			}
+		}
+		return itm_page
 	}
 
 	this.createDataId = function(callback){
@@ -566,9 +608,9 @@ function createElem(tag, class_name, par){
 
 }
 
-function parseQueryString() {
+function parseQueryString(queryString) {
 
-	var queryString = window.location.search;
+	queryString = queryString ? queryString : window.location.search;
 	queryString = queryString.substring(1);
 	var params = {}, queries, temp, i, l;
 	queries = queryString.split("&");

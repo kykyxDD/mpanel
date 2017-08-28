@@ -70,7 +70,7 @@ function ShapeSize (argument) {
 			main.createDataId(main.createMaterial.bind(main, this.getDataObj.bind(this)));
 		}
 
-		this.addEventNextBtn()
+		// this.addEventNextBtn()
 
 		// window.onbeforeunload = function(e){
 		// 	return self.postNewData();
@@ -87,8 +87,8 @@ function ShapeSize (argument) {
 		btn_next.addEventListener('click', function(){
 			self.postNewData();
 		});
-		var btn_menu = main.link_page['review']
-		btn_menu.removeAttribute('href');
+		// var btn_menu = main.link_page['review']
+		// btn_menu.removeAttribute('href');
 		// btn_menu.addEventListener('click', function(){
 		// 	self.postNewData();
 		// })

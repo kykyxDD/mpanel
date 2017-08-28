@@ -1,40 +1,145 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		
-		<link rel="stylesheet" type="text/css" href="./style/libs/jquery.selectBoxIt.css">
-		<link rel="stylesheet" type="text/css" href="./style/libs/bootstrap-combined.min.css" />
-		<!-- <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" />
-		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/base/jquery-ui.css" />
-		<link type="text/css" rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
-		<link rel="stylesheet" href="http://gregfranko.com/jquery.selectBoxIt.js/css/jquery.selectBoxIt.css" />
-		-->
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" type="text/css" href="./style/libs/jquery.selectBoxIt.css">
+	<link rel="stylesheet" type="text/css" href="./style/libs/bootstrap-combined.min.css" />
+	<link rel="stylesheet" type="text/css" href="./style/style.css"> 
+	<link rel="stylesheet" type="text/css" href="./style/libs/jquery.mCustomScrollbar.css">
+	<link rel="stylesheet" type="text/css" href="./style/libs/datepicker.css"> 
+	
+	<link rel="stylesheet" type="text/css" href="./style/user_settings.css"> 
+	<link rel="stylesheet" type="text/css" href="./style/project.css"> 
+	<link rel="stylesheet" type="text/css" href="./style/fabric.css"> 
+	<link rel="stylesheet" type="text/css" href="./style/fitting.css"> 
+	<link rel="stylesheet" type="text/css" href="./style/shape_size.css"> 
+	<link rel="stylesheet" type="text/css" href="./style/review.css"> 
+	<link rel="stylesheet" type="text/css" href="./style/seams.css"> 
+	<link rel="stylesheet" type="text/css" href="./style/graphics.css"> 
+	
 
-		<link rel="stylesheet" type="text/css" href="./style/style.css"> 
+	<link rel="stylesheet" type="text/css" href="./style_angular/style.css"> 
+	<!-- <script type="text/javascript" src='./libs/angularjs/angular.min.js'></script> -->
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script> -->
 
-		<script type="text/javascript" src="./script/dataUrl.js"></script>
-		<script type="text/javascript" src="./script/main.js"></script>
-		<script type="text/javascript" src="./script/review.js"></script>
-		<script type="text/javascript" src="./script/userSettings.js"></script>
-		<script type="text/javascript" src="./script/project.js"></script>
-		<script type="text/javascript" src="./script/fabric.js"></script>
-		<script type="text/javascript" src="./script/fitting.js"></script>
-		<script type="text/javascript" src="./script/shapeSize.js"></script>
-		<script type="text/javascript" src="./script/seams.js"></script>
+	<script src="./libs/angularjs/angular_1.2.min.js"></script>
+	<script src="./libs/angularjs/angular-route.js"></script>
+	
+	
+
+	<script src="./libs/easeljs-0.8.1.min.js"></script>
+	<script src="./libs/movieclip-0.8.1.min.js"></script>
+	<script src="./libs/tweenjs-0.6.1.min.js"></script>
+	<script src="./script/Shapes.js"></script>
+	
+	<script src="./libs/1.8.3_jquery.min.js"></script>
+	<script src="./libs/1.9.2_jquery-ui.min.js"></script>
+	<script src="./libs/jquery_mCustomScrollbar.js"></script>
+	<script src="./libs/jquery.selectBoxIt.min.js"></script>
+	<script src="./libs/datepicker.js"></script>
 
 
-		<script src="./libs/f.js"></script>
-		<script src="./libs/dom.js"></script>
-		<script src="./libs/1.8.3_jquery.min.js"></script>
-		<script src="./libs/1.9.2_jquery-ui.min.js"></script>
-		<script src="./libs/jquery.selectBoxIt.min.js"></script>
-	</head>
-	<body>
-		<div class="main">
-			<script type="text/javascript">
-				var main = new Main();
-			</script>
+	<script src="./script/mpanelViewer.js"></script>
+	<script src="./libs/three.js"></script>
+	<script src="./libs/MTLLoader.js"></script>
+	<script src="./libs/OBJLoader.js"></script>
+	<script src="./libs/OrbitControls.js"></script>
+	<script src="./libs/tween.js"></script>
+	<script src="./libs/CombinedCamera.js"></script>
+	
+	<script type="text/javascript" src="./script/dataUrl.js"></script>
+
+	<script type="text/javascript" src='./script_angular/mainApp.js'></script>
+	<script type="text/javascript" src='./script_angular/appState.js'></script>
+	<script type="text/javascript" src='./script_angular/homeController.js'></script>
+	<script type="text/javascript" src='./script_angular/userController.js'></script>
+	<script type="text/javascript" src='./script_angular/projectController.js'></script>
+	<script type="text/javascript" src='./script_angular/fabricController.js'></script>
+	<script type="text/javascript" src='./script_angular/fittingController.js'></script>
+	<script type="text/javascript" src='./script_angular/shapeController.js'></script>
+	<script type="text/javascript" src='./script_angular/reviewController.js'></script>
+	<script type="text/javascript" src='./script_angular/seamsController.js'></script>
+	<script type="text/javascript" src='./script_angular/patternController.js'></script>
+
+	
+	<script type="text/javascript" src='./script_angular/configApp.js'></script>
+
+	<script type="text/javascript" src='./script_angular/datepicker.js'></script>
+	<script type="text/javascript" src='./script_angular/customScroll.js'></script>
+	<script type="text/javascript" src='./script_angular/fancySelect.js'></script>
+	
+	<!-- // <script type="text/javascript" src='./script_angular/headerController.js'></script> -->
+</head>
+<body ng-app='mpanelApp' ng-controller="mpanelController" ng-class='{body_home : home_page}'>
+	<div class='main' ng-class='{home : home_page}' >
+		<div class="header" ng-if='!home_page'>
+			<div class="cont">
+				<div class="logo">
+					<a class="link_home" href="./"></a>
+				</div>
+				<div class="cont_menu">
+					<div class="menu">
+						<div class="page" ng-repeat="itm in list_menu" ng-class="{prev: $index < id_itm_page, itm: $index == id_itm_page}" ng-style="{'left': ($index*135 - 7)+'px' }">
+							<!-- <a class="text" ng-click="updatePage($index)">{{ itm.text}}</a> -->
+							<a class="text" ng-href="#{{itm.id}}" ng-click="updatePage($index)">{{ itm.text}}</a>
+							<div class="point"></div>
+					  	</div>
+					  	<div class="line"  ng-style="{'width': (id_itm_page/(list_menu.length-1))*810+'px' }"></div>
+					</div>
+				</div>
+			</div>
 		</div>
-	</body>
+		<div class='body' >
+			<div class="cont" ng-class="{user_set: user_page }">
+				<div ng-if="!home_page" class="title">
+					<div ng-if='!user_page'>{{itm_page.title}}</div>
+					<div ng-if='user_page'>USER SETTINGS</div>
+					<div class="cont_left_btn">
+
+						<div class="my_btn load_exam" ng-click='loadExample()' ng-show='itm_page.id == "shape"'>Load example</div>
+						<div class="grad_blue reset my_btn"  ng-click='resetData()' ng-show='itm_page.id == "shape"'>Reset</div>
+						<div class="set my_btn" ng-show='itm_page.id == "project" || user_page' ng-class='{disabled: user_page}'>
+							<a class="link" href="#user">Settings</a>
+						</div>
+						<div class="my_btn btn_help" ng-hide="user_page">
+							<a class="link" ng-href='http://demo.stagingmonster.com/mpanel_help/source/html/ + {{itm_page.help}}' target="_blank">Help</a>
+						</div>
+					</div>
+				</div>
+
+				<div ng-if="!home_page" class="preload" ng-class='{hide: !load_data && !data_error, error: data_error}'>
+					<div class="error_text" ng-if='data_error'>{{
+						data_error
+					}}</div>
+				</div>
+				<div class="cont_info" ng-view></div>
+			</div>
+		</div>
+		<div class="footer" ng-if='!home_page'>
+			<div class="cont">
+				<div class="cont_bottom">
+					<div class="my_btn back" ng-if='id_itm_page > 0' ng-click='backPage()'>
+						<div class="link" >back</div>
+					</div>
+					<div class="text_prompt hide">
+						<div class="cont_error">
+							<div class="cont_text_error">
+								<div class="fill_data">Please fill your measurement data.</div>
+								<div class="cont_itm_error">
+									<div class="txt_before">It looks like there is an error in your measurements.</div>
+									<div class="cont_txt"></div>
+								</div>
+							</div>
+						</div>
+						<div class="text_ok">Preliminary data check passed.</div>
+					</div>
+					<div class="my_btn next active" ng-if='id_itm_page < list_menu.length-1' ng-click='nextPage()'>
+						<div class="link" >next</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
 </html>

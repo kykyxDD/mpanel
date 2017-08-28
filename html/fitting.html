@@ -1,0 +1,235 @@
+<div class="page_fittings">
+	<div class="left_path">
+		<div class="cont_layer layer_1">
+			<div class="cont_view_color">
+				<div class="cont_color">
+					<div class="color"></div>
+				</div>
+			</div>
+			<div class="cont_all_select">
+				<div class="cont_select cont_hardware">
+					<select class="select_hardware" 
+						ng-change='changeSelect("HardwareSupplier")'
+						ng-model='data_fitting.hardwareSelectedIndex'
+						fancy-select 
+						fancy-default-text='HARDWARE DATA' 
+						fancy-list='data_fitting.hardwareItems' 
+						fancy-index="data_fitting.hardwareSelectedIndex"
+					>
+						<!-- <option value="Custom Hardware">Custom Hardware</option> -->
+					</select>
+
+					<!-- <select class="select_hardware" ng-change='changeSelect("HardwareSupplier")' ng-model='data_fitting.hardwareSelectedIndex'>
+						<option ng-repeat="itm in data_fitting.hardwareItems" ng-value='itm'  ng-selected='data_fitting.hardwareSelectedIndex == $index'>
+							{{itm}}
+						</option>
+					</select> -->
+				</div>
+				<div class="cont_select cont_webbing">
+
+					<select class="select_edge_type" 
+						ng-change='changeSelect("EdgeType")'
+						ng-model='data_fitting.hardEdgeTypeSelectedIndex'
+						fancy-select 
+						fancy-default-text='EDGE TYPE' 
+						fancy-list='data_fitting.hardEdgeTypeItems' 
+						fancy-index="data_fitting.hardEdgeTypeSelectedIndex"
+					>
+						<!-- <option value="Webbing">Webbing</option>
+						<option value="Wire_Rope">Wire_Rope</option>
+						<option value="Fixed_edge">Fixed_edge</option> -->
+					</select>
+
+					<!-- <select class="select_edge_type" ng-change='changeSelect("EdgeType")' ng-model='data_fitting.hardEdgeTypeSelectedIndex'>
+						<option ng-repeat="itm in data_fitting.hardEdgeTypeItems" ng-value='itm'  ng-selected='data_fitting.hardEdgeTypeSelectedIndex == $index'>
+							{{itm}}
+						</option>
+					</select> -->
+				</div>
+				<div class="cont_select cont_colour">
+
+					<select class="select_colour"
+						ng-change='changeSelect("EdgeColor")'
+						ng-model='data_fitting.hardColorSelectedIndex'
+						fancy-select 
+						fancy-default-text='COLOUR' 
+						fancy-list='data_fitting.hardColorItems' 
+						fancy-index="data_fitting.hardColorSelectedIndex"
+					>
+						<!-- <option value="Natural">Natural</option> -->
+					</select>
+
+					<!-- <select class="select_colour" ng-change='changeSelect("EdgeColor")' ng-model='data_fitting.hardColorSelectedIndex'>
+						<option ng-repeat="itm in data_fitting.hardColorItems" ng-value='itm'  ng-selected='data_fitting.hardColorSelectedIndex == $index'>
+							{{itm}}
+						</option>
+					</select> -->
+
+				</div>
+				<div class="cont_input cont_hem">
+					<div class="txt">Hem ({{reduction[id_unit]}})</div>
+					<div class="cont_val">
+						<input class="input_hem" type="text" ng-model='data_fitting.hemText'>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="cont_layer layer_2">
+			<div class="cont_view_corner">
+				<div class="cont_img_corn">
+					<div class="img_corn" style="background-image: {{data_fitting.exampleImageBase64}}">
+					</div>
+				</div>
+				<div class="cont_select cont_corner">
+
+					<select class="select_corner"
+						ng-change='changeSelect("ExampleImage")'
+						ng-model='data_fitting.exampleImageSelectedIndex'
+						fancy-select 
+						fancy-default-text='EXAMPLE CORNER IMAGE' 
+						fancy-list='data_fitting.exampleImageItems' 
+						fancy-index="data_fitting.exampleImageSelectedIndex"
+					>
+						<!-- <option value="None">None</option>
+						<option value="Webbing Loop">Webbing Loop</option> -->
+					</select>
+					<!-- <select class="select_corner" ng-change='changeSelect("ExampleImage")' ng-model='data_fitting.exampleImageSelectedIndex'>
+						<option ng-repeat="itm in data_fitting.exampleImageItems" ng-value='itm'  ng-selected='data_fitting.exampleImageSelectedIndex == $index'>
+							{{itm}}
+						</option>
+					</select> -->
+
+
+				</div>
+			</div>
+			<div class="cont_all_select">
+				<div class="cont_select cont_finish">
+
+					<select class="select_finish" 
+						ng-change='changeSelect("CornerType")'
+						ng-model='data_fitting.hardCornorSelectedIndex'
+						fancy-select 
+						fancy-default-text='CORNER FINISH' 
+						fancy-list='data_fitting.hardCornorItems' 
+						fancy-index="data_fitting.hardCornorSelectedIndex"
+					>
+						<!-- <option value="D ring">D ring</option>
+						<option value="EZ Glide">EZ Glide</option>
+						<option value="Nothing">Nothing</option> -->
+					</select> 
+					<!-- <select class="select_finish" ng-change='changeSelect("CornerType")' ng-model='data_fitting.hardCornorSelectedIndex'>
+						<option ng-repeat="itm in data_fitting.hardCornorItems" ng-value='itm'  ng-selected='data_fitting.hardCornorSelectedIndex == $index'>
+							{{itm}}
+						</option>
+					</select> -->
+					
+				</div>
+				<div class="cont_info_hardware">
+					<div class="cont_input cont_lenght">
+						<div class="txt">Hardware lenght ({{reduction[id_unit]}})</div>
+						<div class="cont_val">
+							<input class="input_lenght" type="text" ng-model='data_fitting.cornerLengthText'>
+						</div>
+					</div>
+					<div class="cont_input cont_width">
+						<div class="txt">Hardware width ({{reduction[id_unit]}})</div>
+						<div class="cont_val">
+							<input class="input_width" type="text" ng-model='data_fitting.cornerWidthText'>
+						</div>
+					</div>
+					<div class="cont_checkbox_circle">
+						<div class="txt">Fit hardware circle in corner</div>
+						<div class="cont_check">
+							<input class="checkbox_circle" type="checkbox" id="checkbox_circle" name="checkbox_circle">
+							<label class="label_circle" for="checkbox_circle"></label>
+						</div>
+					</div>
+				</div>
+				<div class="cont_select cont_shackle">
+					<select class="select_corner_link" 
+						ng-change='changeSelect("LinkType")'
+						ng-model='data_fitting.hardLinkSelectedIndex'
+						fancy-select 
+						fancy-default-text='CORNER LINK' 
+						fancy-list='data_fitting.hardLinkItems' 
+						fancy-index="data_fitting.hardLinkSelectedIndex"
+					>
+						<!-- <option value="Shackle">Shackle</option>
+						<option value="Turnbuckle">Turnbuckle</option>
+						<option value="Nothing">Nothing</option>
+						<option value="Guy">Guy</option> -->
+					</select>
+					<!-- <select class="select_corner_link" ng-change='changeSelect("LinkType")' ng-model='data_fitting.hardLinkSelectedIndex'>
+						<option ng-repeat="itm in data_fitting.hardLinkItems" ng-value='itm'  ng-selected='data_fitting.hardLinkSelectedIndex == $index'>
+							{{itm}}
+						</option>
+					</select> -->
+
+					
+				</div>
+				<div class="cont_input cont_link">
+					<div class="txt">Link length({{reduction[id_unit]}})</div>
+					<div class="cont_val">
+						<input class="input_link" type="text" ng-model='data_fitting.linkLengthText'>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="right_path">
+		<div class="cont_details">
+			<div class="title_details">DETAILS</div>
+			<div class="cont_input cont_thread">
+				<div class="txt">Thread</div>
+				<div class="cont_val">
+					<input class="input_thread" type="text" ng-model='data_fitting.thread'>
+				</div>
+			</div>
+			<div class="cont_input cont_accessories">
+				<div class="txt">Accessories</div>
+				<div class="cont_val">
+					<input class="input_accessories" type="text" ng-model='data_fitting.accessories'>
+				</div>
+			</div>
+			<div class="cont_input cont_internal">
+				<div class="txt">Internal seam width ({{reduction[id_unit]}})</div>
+				<div class="cont_val">
+					<input class="input_internal" type="text" ng-model='data_fitting.seamText'>
+					<div class="btn_help">?
+						<div class="popup">
+							<div class="cont_popup">This allowance will be added to both sides of each seam</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="cont_input cont_reinfo">
+				<div class="txt">Corner reinforcement size ({{reduction[id_unit]}})</div>
+				<div class="cont_val">
+					<input class="input_reinfo" type="text" ng-model='data_fitting.reoText'>
+				</div>
+			</div>
+			<div class="cont_input cont_diameter">
+				<div class="txt">Pole diameter ({{reduction[id_unit]}})</div>
+				<div class="cont_val">
+				<input class="input_diameter" type="text" ng-model='data_fitting.poleDiameterText'></div>
+			</div>
+			<div class="cont_input cont_angle">
+				<div class="txt">Pole angle angle degress</div>
+				<div class="cont_val">
+					<input class="input_angle" type="text" ng-model='data_fitting.poleAngle'>
+				</div>
+			</div>
+			<div class="cont_input cont_height">
+				<div class="txt">Pole added height ({{reduction[id_unit]}})</div>
+				<div class="cont_val">
+					<input class="input_height" type="text" ng-model='data_fitting.poleExtraHeight'>
+					<div class="btn_help">?
+						<div class="popup">
+							<div class="cont_popup">This wiil extend the post above the connection height for visualisation purposes only</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,19 +1,36 @@
-.page_fitting {
+.page_fitting,
+.page_fittings  {
 	/*background-image: url(../image/bg_fitting.jpg);*/
-	background-position: -2px -5px;
+	    background-position: 2px -77px;
 }
 .cont_info {
 	padding-top: 6px;
 	padding-bottom: 10px;
 
 }
-.body .cont.page_fitting > .preload {
+.body .cont.page_fittings > .preload,
+.body .cont.page_fitting > .preload  {
 	background-color: rgba(249, 249, 249, 0.6);
 }
-.left_path,
-.right_path {
-	display: inline-block;
+.page_fittings .cont_all_select select {
+	width: 300px;
+	margin-bottom: 3px;
+}
+.page_fittings .cont_all_select select {
+	width: 300px;
+	margin-bottom: 3px;
+}
+.page_fittings .cont_select.cont_corner select {
+	width: 260px;
+}
+
+.page_fitting .left_path,
+.page_fittings .left_path,
+.page_fitting .right_path ,
+.page_fittings .right_path {
+	display: table-cell;
 	vertical-align: top;
+	padding-left: 0;
 }
 .left_path {
 
@@ -22,7 +39,7 @@
 	margin-bottom: 52px;
 }
 .left_path .cont_layer > div {
-	display: inline-block;
+	display: table-cell;
 	vertical-align: top;
 }
 .cont_layer .cont_color {
@@ -31,8 +48,12 @@
 	border-radius: 3px;
 	border: 1px solid #dcdcdc;
 	padding: 5px;
-	margin-right: 46px;
+	
 	background-color: #f6f6f6;
+}
+.cont_view_color,
+.cont_view_corner{
+	padding-right: 46px;
 }
 .cont_layer .cont_color .color{
 	border-radius: 3px;
@@ -60,29 +81,10 @@
 	width: 100% !important
 }
 
-.cont_input {
+.page_fittings .cont_input {
 	text-align: right;
-	margin-bottom: 2px;
+	margin-bottom: 7px;
 }
-/*.cont_input > div {
-	display: inline-block;
-	vertical-align: middle;
-}
-.cont_input .cont_val {
-	width: 68px;
-	margin-left: 14px;
-	height: 30px;
-
-}
-.cont_input .txt{
-	color: #6d6d6d;
-	font-size: 12px;
-
-}
-.cont_input .cont_val input {
-	width: 55px;
-	margin-bottom: 0;
-}*/
 
 .cont_select .selectboxit-container .selectboxit-options {
 	width: 100%;
@@ -164,7 +166,7 @@
     text-align: left;
 }
 .cont_details .cont_input .cont_val .btn_help {
-	margin-left: 12px;
+	margin-left: 8px;
 }
 .cont_details .cont_input.cont_thread,
 .cont_details .cont_input.cont_accessories {
@@ -182,7 +184,7 @@
 
 .cont_details .cont_thread > div,
 .cont_details .cont_accessories > div {
-	display: inline-block;
+	display: table-cell;
 	vertical-align: middle;
 }
 .cont_details .cont_thread .txt,

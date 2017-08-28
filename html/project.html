@@ -1,0 +1,89 @@
+<div class="cont_info page_project">
+	<div class="cont_form">
+		<div class="left_path">
+			<div class="cont_val_input client">
+				<div class="txt">client</div>
+				<div class="cont_input">
+					<input type="text" name="client" ng-model='data_project.clientName'>
+				</div>
+			</div>
+			<div class="cont_val_input project">
+				<div class="txt">project name</div>
+				<div class="cont_input">
+					<input type="text" name="project" ng-model='data_project.projectName' >
+				</div>
+			</div>
+			<div class="cont_list_input">
+				<div class="cont_val_input quantity">
+					<div class="txt">quantity required</div>
+					<div class="cont_input">
+						<input type="text" name="quantity" ng-model='data_project.quantity'>
+					</div>
+				</div>
+				<div class="cont_val_input date_required">
+					<div class="txt">date required</div>
+					<div class="cont_input cont_date">
+						<input type="text"   name="date_required" id="date_required" ng-model='data_project.requestDate'  calendar>
+						<label class="label_date" for="date_required"></label>
+					</div>
+				</div>
+				<div class="cont_val_input sail">
+					<div class="txt">sail number</div>
+					<div class="cont_list_val">
+						<div class="cont_input">
+							<input type="text" name="sail_if" ng-model='data_project.sailNumber' >
+						</div>
+						<div class="text">of</div>
+						<div class="cont_input">
+							<input type="text" name="sail_of" ng-model='data_project.sailOf'>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="right_path">
+			<div class="cont_val_input proj_num">
+				<div class="txt">project number</div>
+				<div class="cont_input">
+					<input type="text" name="proj_num" ng-model='data_project.sailNumber' >
+				</div>
+			</div>
+			<div class="cont_val_input date_entered">
+				<div class="txt">date entered</div>
+				<div class="cont_input cont_date">
+					<input type="text"  name="date_entered" id="date_entered" ng-model='data_project.enteredDate' calendar>
+					<label class="label_date" for="date_entered"></label>
+				</div>
+			</div>
+			<div class="cont_val_input entered_by">
+				<div class="txt">entered by</div>
+				<div class="cont_input">
+					<input type="text" name="entered_by" ng-model='data_project.enteredBy' >
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="cont_form_bottom">
+		<div class="cont_val_textarea desc">
+			<div class="txt">description</div>
+			<div class="cont_textarea">
+				<textarea name="description" ng-model='data_project.description'></textarea>
+			</div>
+		</div>
+		<div class="cont_units">
+			<select class="select_units" 
+				id="select_units" 
+				fancy-select 
+				fancy-default-text='Units' 
+				fancy-list='data_project.units' 
+				fancy-index="data_project.unitIndex"
+				ng-model='data_project.unitIndex' 
+				>
+				<!-- <option value="Meters  ( 1.234 )">Meters  ( 1.234 )</option><option value="Centimeters  ( 123.4 )">Centimeters  ( 123.4 )</option><option value="Millimeters  ( 1234 )">Millimeters  ( 1234 )</option><option value="Inches  ( 123.4&quot; )">Inches  ( 123.4" )</option><option value="Feet and inches  ( 12' 3.4&quot; )">Feet and inches  ( 12' 3.4" )</option><option value="Feet, inches, fractions  ( 12' 3 5/16&quot; )">Feet, inches, fractions  ( 12' 3 5/16" )</option> -->
+				<!-- <option ng-repeat="unit in data_project.units" ng-value='unit' ng-selected='data_project.unitIndex == $index'>
+					{{unit}}
+				</option> -->
+			</select>
+		</div>
+	</div>
+</div>

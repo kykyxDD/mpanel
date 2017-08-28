@@ -1,6 +1,6 @@
 function MpanelViewer(parent){
 	
-	var container;
+	this.container;
 	var preload;
 
 	this.parent = parent;
@@ -18,23 +18,26 @@ function MpanelViewer(parent){
 	var view_orthog = true;
 	var start_zoom = 20;
 	var maxPolarAngle = Math.PI/2;
+	var material
 
 
 	this.init = function(div){
 
 
 		if(div) {
-			container = div;
-			preload = container.querySelector('.preload');
+			// this.container = div;
+			this.container = document.createElement('div');
+			div.appendChild(this.container);
+			preload = this.container.querySelector('.preload');
 			if(!preload) {
 				preload = document.createElement('div');
 				preload.className = 'preload show';
-				container.appendChild(preload);
+				this.container.appendChild(preload);
 			}
 			this.preload = preload;
 		}
 
-		container.classList.add('threejs');
+		this.container.classList.add('threejs');
 		this.createCanvas();
 		this.createBtn()
 	};
@@ -43,6 +46,7 @@ function MpanelViewer(parent){
 		
 		this.width = this.parent.offsetWidth;
 		this.height = this.parent.offsetHeight;
+
 		
 		aspect = this.width/this.height;
 		
@@ -54,7 +58,7 @@ function MpanelViewer(parent){
 		renderer.autoClear = false;
 		renderer.shadowMap.enabled = true;
 		renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-		container.appendChild( renderer.domElement );
+		this.container.appendChild( renderer.domElement );
 		renderer.domElement.id = 'canvas';
 
 		// stats = new Stats();
@@ -105,18 +109,16 @@ function MpanelViewer(parent){
 		light.shadow.camera.left = -30;
 		light.shadow.camera.right = 30;
 
-
 		light.shadow.camera.near = 180;
 		light.shadow.camera.far = 230;
 		light.shadow.darkness = 1;
 
 		light.shadow.radius = 1.5;
-
 	};
 
 	this.createBtn = function(){
 		var self = this;
-		var par = this.parent;
+		var par = this.container //this.parent;
 		var cont_btn = createElem('div', par, 'navigation');
 
 		var cont_top = createElem('div', cont_btn, 'cont_btn_top');
@@ -184,7 +186,11 @@ function MpanelViewer(parent){
 
 		request.send();
 	};*/
-	this.loadObj = function(url_obj, url_img ){
+	this.loadObj = function(url_obj, url_img, basic ){
+
+		this.url_obj = url_obj;
+
+		this.basicMaterial = basic;
 
 		this.preloadOpen();
 		var self = this
@@ -238,6 +244,9 @@ function MpanelViewer(parent){
 			if(child instanceof THREE.Mesh){
 				// console.log(child.name)
 				if(self.checkNameMembrane(child.name)){
+					var color = child.material.color.getHexString();
+					// if(!color) color = 'ffffff'
+					// child.material = new THREE.MeshBasicMaterial({color: +('0x'+color)});
 					if(texture){
 						child.material.map = texture;
 						child.material.map.wrapS = child.material.map.wrapT = THREE.RepeatWrapping; 
@@ -269,6 +278,10 @@ function MpanelViewer(parent){
 		if(this.input_color){
 			this.setInputColor();
 		}
+		if(this.basicMaterial){
+			this.createMeshMaterial()	
+		}
+		
 
 		this.viewTop(true);
 	};
@@ -732,6 +745,24 @@ function MpanelViewer(parent){
 		var diff_up = valUpFrontObj()
 		this.rotateUp(diff_up)
 	};
+	this.updateMaterial = function(basic){
+		// if()
+		this.basicMaterial = basic;
+		this.createMeshMaterial()
+	}
+
+	this.createMeshMaterial = function(){
+		var basic = this.basicMaterial;
+		var obj = this.item_object;
+		this.item_object.traverse(function(child){
+			if(child instanceof THREE.Mesh){
+				if(self.checkNameMembrane(child.name)){
+					console.log(child)
+					child.material.wireframe = basic
+				}
+			}
+		});
+	};
 	this.viewTop = function(no_duration){
 		// console.log('viewTop', no_duration)
 		if(controls.spherical.theta != 0){
@@ -807,8 +838,8 @@ function MpanelViewer(parent){
 	};
 
 	function onWindowResize() {
-		this.width = parent.offsetWidth;
-		this.height = parent.offsetHeight;
+		this.width = this.parent.offsetWidth;
+		this.height = this.parent.offsetHeight;
 
 		camera.setSize(this.width, this.height);
 		camera_1.setSize(this.width, this.height);

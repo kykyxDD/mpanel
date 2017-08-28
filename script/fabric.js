@@ -434,8 +434,8 @@ function Fabric (argument) {
 	this.createElemInput = function(txt, key, type){
 		var elem = createElem('div', 'cont_input '+key, right_path);
 		var cont_name = createElem('div', 'cont_name', elem);
-		var text = createElem('div', 'name', cont_name)
-		text.innerHTML = txt
+		var text = createElem('div', 'name', cont_name);
+		text.innerHTML = txt;
 		var cont_val = createElem('div', 'cont_val', elem);
 
 		var input = createElem('input', 'val input_' + type, cont_val);
@@ -443,10 +443,10 @@ function Fabric (argument) {
 		input.name = key;
 
 		if(type == 'checkbox'){
-			dom.addclass(cont_val , 'cont_check')
-			var label = createElem('label', 'label_checkbox', cont_val)
-			label.setAttribute('for', key)
-			input.id = key
+			dom.addclass(cont_val , 'cont_check');
+			var label = createElem('label', 'label_checkbox', cont_val);
+			label.setAttribute('for', key);
+			input.id = key;
 		}
 
 		return {

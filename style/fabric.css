@@ -6,55 +6,61 @@
 	background-color: rgba(249, 249, 249, 0.6);
 }
 
-.cont_info {
+.page_fabric {
 	padding-top: 5px;
 	padding-left: 1px;
 }
-.cont_img_texture{
+.page_fabric .cont_img_texture{
 	max-width: 246px;
 	/*height: 290px;*/
 	border: 1px solid #E3E3E3;
 	border-radius: 5px;
 	padding: 7px 6px;
+	min-height: 150px;
+	min-width: 150px;
 }
 
-.cont_img_texture .item_texture{
-    /*width: 100%;*/
-    /*height: 100%;*/
+.page_fabric .cont_img_texture .item_texture{
+    width: 100%;
+    height: 100%;
     border-radius: 5px;
     overflow: hidden;
     background-repeat: no-repeat;
     background-size: cover;
-    background-image: url(../image/texture_fabric.png);
+    /*background-image: url(../image/texture_fabric.png);*/
+    background-color: #fff;
+    min-height: 150px;
+    min-width: 150px;
 }
 
-.cont_info > div {
+.page_fabric .right_path ,
+.page_fabric .left_path {
 	display: inline-block;
 	vertical-align: top;
 }
 
-.cont_info .left_path {
+.page_fabric .left_path {
 	padding-right: 47px;
 }
 
-.selectboxit-container span, .selectboxit-container .selectboxit-options a {
+.page_fabric .selectboxit-container span, .selectboxit-container .selectboxit-options a {
     height: 31px !important;
     line-height: 31px !important;
 }
 
-.selectboxit-container .selectboxit {
+.page_fabric .selectboxit-container .selectboxit {
 	width: 296px !important;
 }
 
-.cont_info .cont_select {
+.page_fabric .cont_select {
 	margin-bottom: 7px;
 }
 
-.cont_brand .selectboxit-option-icon-url {
+.page_fabric .cont_brand .selectboxit-option-icon-url {
 	width: 53px;
 	background-size: contain;
 }
-.cont_select .selectboxit-option .selectboxit-option-anchor  {
+.page_fabric .cont_select .selectboxit-option .selectboxit-option-anchor  {
 	padding: 0px;
 }
 /*.cont_select .selectboxit-option-icon-container{
@@ -62,13 +68,13 @@
 }
 */
 
-.cont_brand .selectboxit-options {
+.page_fabric .cont_brand .selectboxit-options {
 
 	max-height: 290px;
 
 }
 
-.cont_select:not(.cont_database) .selectboxit-option-icon-container {
+.page_fabric .cont_select:not(.cont_database) .selectboxit-option-icon-container {
 	/*margin: 0 7px 0 15px;*/
 /*	margin: 0 ;*/
 }
@@ -76,104 +82,71 @@
 	margin-left: 15px;
 }*/
 
-.cont_brand .selectboxit-option, 
-.cont_colour .selectboxit-option, 
-.selectboxit-optgroup-header {
+.page_fabric .cont_brand .selectboxit-option, 
+.page_fabric .cont_colour .selectboxit-option, 
+.page_fabric .selectboxit-optgroup-header {
 	text-transform: inherit;
 }
 
-.cont_colour .selectboxit-option-icon{
+.page_fabric .cont_colour .selectboxit-option-icon{
 	/*width: 23px !important;*/
 	/*height: 23px !important;*/
 	border-radius: 3px;
 }
 
-.cont_colour .select_colour .selectboxit-option-icon-container{
+.page_fabric .cont_colour .select_colour .selectboxit-option-icon-container{
 	margin: 0 5px 0 0 ;
 
 	width: 0;
 }
-.cont_colour .select_colour  .selectboxit-option-icon {
+.page_fabric .cont_colour .select_colour  .selectboxit-option-icon {
 	background-size: cover;
 	width: 8px !important;
 }
 
-.cont_select.cont_colour {
+.page_fabric .cont_select.cont_colour {
 	margin-bottom: 32px;
 }
-.selectboxit .selectboxit-option-icon-container {
+.page_fabric .selectboxit .selectboxit-option-icon-container {
 	margin-left: 5px;
 }
 
-input {
+.page_fabric input {
 	color: #636363 !important;
 	border-radius: 3px;
 }
 
-.cont_input{
+.page_fabric .cont_input{
 	margin-bottom: 7px;
 }
 
 
-.cont_input.override{
+.page_fabric .cont_input.override{
 	margin-bottom: 27px;
 }
-.cont_input .name {
+.page_fabric .cont_input .name {
 	color: #636363 !important;
 }
-.cont_input > div {
+.page_fabric .cont_input > div {
 	display: inline-block;
 	vertical-align: top;
 }
-.cont_input .cont_name{
+.page_fabric .cont_input .cont_name{
 	padding-top: 7px;
 	padding-right: 10px;
 }
-.cont_input .name {
+.page_fabric .cont_input .name {
 	width: 88px;
 	font-size: 12px;
 	text-align: right;
 	line-height: 14px;
 }
 
-.cont_input .cont_val input {
+.page_fabric .cont_input .cont_val input {
 	width: 55px;
 	margin-bottom: 0;
 }
 
-.cont_check input[type="checkbox"] + label{
+.page_fabric .cont_check input[type="checkbox"] + label{
 	margin: 7px 2px;
 }
-
-
-
-
-/*.olive .selectboxit-option-icon {
-	background-color: #7f8000
-}
-.terracota .selectboxit-option-icon {
-	background-color: #cb6743
-}
-.indigo .selectboxit-option-icon {
-	background-color: #4b0081;
-}
-
-.celadon .selectboxit-option-icon {
-	background-color: #ace0af;
-}
-.khaki .selectboxit-option-icon {
-	background-color: #c3b090;
-}
-.carmine .selectboxit-option-icon {
-	background-color: #960019;
-}
-
-.red .selectboxit-option-icon {
-	background-color: #fb0300;
-}
-.titian .selectboxit-option-icon {
-	background-color: #d53e07;
-}
-.crocus .selectboxit-option-icon {
-	background-color: #f3c430;
-}*/
