@@ -25,7 +25,7 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 	$s.max_edge = 6;
 	var unit = $w.localStorage.getItem('mpanel_unit');
 	$s.id_unit = +unit >= 0 ? +unit : 1; //1;
-	console.log($s.id_unit)
+	// console.log($s.id_unit)
 
 
 	$s.$route = $r;
@@ -81,7 +81,7 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 	];
 
 	function on_page_change(){
-		console.log('on_page_change');
+		// console.log('on_page_change');
 		var itm = $s.itm_page;
 		if(itm){
 			$s.id_itm_page = itm.id ? $s.list_menu.indexOf(searchListPage(itm.id)) : 0;	
@@ -139,14 +139,14 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 	}
 
 	function updateItmPage(obj){
-		console.log('updateItmPage', obj == $s.itm_page)
+		// console.log('updateItmPage', obj == $s.itm_page)
 		if(obj == $s.itm_page && !$s.user_page) return
 
 		if($s.$$childTail && $s.$$childTail.destroy) {
-			console.log(true)
+			// console.log(true)
 			$s.load_data = true
 			$s.$$childTail.destroy(true).then(function(){
-				console.log(true, $s.data_error)
+				// console.log(true, $s.data_error)
 				if(!$s.data_error){
 					$s.itm_page = obj;
 					$s.load_data = false	
@@ -156,7 +156,7 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 				// $s.load_data = false
 			});
 		} else {
-			console.log(false)
+			// console.log(false)
 			$s.itm_page = obj;
 		}
 		
@@ -184,114 +184,6 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 		}
 		
 		// $s.itm_page = $s.list_menu[$s.id_itm_page+1]
-	}
-
-	$s.createDataId = function(){
-		var data = {
-			"ClientName": "Dimka",
-			"ProjectName": "Dimka Save2",
-			"ProjectNumber": 3,
-			"Quantity": 4,
-			"RequestDate": "2017-07-31T14:29:42.3012892+03:00",
-			"SailNumber": 6,
-			"SailOf": 7,
-			"Description": "sample string 8",
-			"PorjectNumber": 9,
-			"EnteredDate": "2017-07-31T14:29:42.3022891+03:00",
-			"EnteredBy": "sample string 10",
-			"UnitIndex": 1
-		}
-		var url = $s.host+dataUrl.project.new_project;
-		console.log(url)
-		var self = this;
-
-		return $h({
-		    method : "POST",
-		    url : url,
-			data: data//"welcome.htm"
-		}).then(function mySuccess(response) {
-			// console.log('mySuccess', response)
-			var data = response.data
-			if(!data.error){
-				// console.log('data',data.data)
-				$s.id_project = data.data;
-				$w.localStorage.setItem('mpanel_id', data.data);
-				// parent.updateMpanel = true
-			} else {
-				console.lgo('data error')
-				$s.data_error = data.error
-
-			}
-		    // $scope.myWelcome = response.data;
-		    	
-		}, function myError(response) {
-			console.log('myError', response)
-		    // $scope.myWelcome = response.statusText;
-		    $s.data_error = data.error
-		});
-	}
-
-	$s.createMaterialId = function(){
-		var id = $s.id_project// main.getDataId();
-		var data = {
-			"fabricSelectedIndex": 0,
-			"fabricTypeSelectedIndex": 0,
-			"fabricColorSelectedIndex": 1,
-			"rollWidthText": "1",
-			"override": false,
-			"warpStretch": 1,
-			"weftStretch": 1,
-			"warpStretchOverride": 1,
-			"weftStretchOverride": 1,
-			"hardwareSelectedIndex": 0,
-			"hardEdgeTypeSelectedIndex": 1,
-			"hardColorSelectedIndex": 0,
-			"hemText": "1",
-			"hardCornorSelectedIndex": 0,
-			"cornerLengthText": "1",
-			"cornerWidthText": "1",
-			"fitCorner": false,
-			"hardLinkSelectedIndex": 0,
-			"linkLengthText": "1",
-			"thread": "1",
-			"accessories": "1",
-			"seamText": "1",
-			"reoText": "1",
-			"poleDiameterText": "1",
-			"poleAngle": 1,
-			"poleExtraHeight": "1",
-			"exampleImageSelectedIndex": 0
-		}
-		var self = this;
-
-		var url = $s.host + dataUrl.project.new_project + $s.id_project;;
-
-		
-		return $h({
-		    method : "POST",
-		    url : url,
-			data: data//"welcome.htm"
-		}).then(function mySuccess(response) {
-			// console.log('mySuccess', response)
-			var data = response.data
-			if(!data.error){
-				// console.log('data',data.data)
-				$s.id_project = data.data;
-				$w.localStorage.setItem('mpanel_id', data.data);
-				// parent.updateMpanel = true
-			} else {
-				console.lgo('data error')
-				$s.data_error = data.error
-
-			}
-		    // $scope.myWelcome = response.data;
-		    	
-		}, function myError(response) {
-			console.log('myError', response)
-		    // $scope.myWelcome = response.statusText;
-		    $s.data_error = data.error
-		});
-		
 	}
 
 }])

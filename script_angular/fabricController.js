@@ -1,15 +1,6 @@
 
 mpanelApp.controller("fabricController", ['$http', '$window','$scope', function($h, $w, $s){
-
-	// $s.$on("$destroy", function(start) {
-	// 	console.log('farbicController destroy', start)
-	// 	if(start){
-	// 		return postInfo()	
-	// 	}		
-	// });
-
-	// $s.$parent.load_data = true;
-
+	$s.$parent.load_data = true;
 	var parent = $s.$parent;
 
 	$s.destroy = function(start){
@@ -19,7 +10,7 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 		return false
 	}
 
-	$s.destroy
+	// $s.destroy
 	$s.data_fabric = {};
 	// $s.str = $s.reduction[$s.id_unit];
 	$s.model_fabric = {
@@ -45,15 +36,15 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 		// console.log('fabric',name)
 		postInfo(name)
 	}
-	if(!$s.id_project){
-		return $s.updatePage(0)
-	} else if(parent.all_data['material']) {
+	if(parent.all_data['material']) {
+
 		$s.data_fabric = parent.all_data['material'];
+		$s.$parent.load_data = false;
 	} else {
-		parent.load_data = true
+		// parent.load_data = true
 		getInfo().then(function(){
 
-			pullDataPage()
+			// pullDataPage()
 			parent.load_data = false
 		})
 	}

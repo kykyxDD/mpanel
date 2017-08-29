@@ -1,5 +1,5 @@
 mpanelApp.controller("fittingController", ['$http', '$window','$scope', function($h, $w, $s){
-
+	$s.$parent.load_data = true;
 
 	$s.destroy = function(start){
 		if(start){
@@ -21,6 +21,7 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 		"fabricColorItems",
 		'fabricImageBase64'
 	]
+	var parent = $s.$parent;
 	$s.$watch('all_data.material', on_page_change)
 
 	function on_page_change(){
@@ -33,10 +34,11 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 	}
 	if($s.all_data['material']) {
 		$s.data_fitting = $s.all_data['material'];
+		$s.$parent.load_data = false;
 	} else {
-		$s.$parent.load_data = true;
+		// $s.$parent.load_data = true;
 		getInfo().then(function(){
-			pullDataPage()
+			// pullDataPage()
 			parent.load_data = false;
 		})
 	}

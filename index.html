@@ -118,7 +118,7 @@
 				<div class="cont_info" ng-view></div>
 			</div>
 		</div>
-		<div class="footer" ng-if='!home_page'>
+		<div class="footer" ng-if='!home_page' ng-class='{hide: load_data}'>
 			<div class="cont">
 				<div class="cont_bottom">
 					<div class="my_btn back" ng-if='id_itm_page > 0' ng-click='backPage()'>
