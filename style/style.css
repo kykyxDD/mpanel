@@ -873,6 +873,7 @@ body {
 	height: 100%;
 	line-height: 50px;
 	font-size: 20px;
+	cursor: pointer;
 }
 
 .home .form > div {
