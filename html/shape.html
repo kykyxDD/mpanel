@@ -27,158 +27,158 @@
 		</div>
 	</div>
 	<div class="right_path">
-			<div class="cont_sides_diagonals">
-				<div class="cont_sides">
-					<div class="title_cont">
-						sides
-						<div class="btn_help">
-							?<div class="popup">
-								<div class="cont_popup">Dimensions takes directly between sail connection points</div>
-							</div>
+		<div class="cont_sides_diagonals">
+			<div class="cont_sides">
+				<div class="title_cont">
+					sides
+					<div class="btn_help">
+						?<div class="popup">
+							<div class="cont_popup">Dimensions takes directly between sail connection points</div>
 						</div>
 					</div>
-					<div class="cont_table_sides">
-						<table class="table_info table_sides">
-							<thead class="thead_sides">
-								<tr>
-									<td class="side">Side</td>
-									<td class="measurement">Measurement</td>
-									<td class="type">Type</td>
-									<td class="dip">
-										<div class="txt">Dip/ Span %</div>
-										<div class="cont_btn_help">
-											<div class="btn_help">?
-												<div class="popup">
-													<div class="cont_popup">Edge curve depth as % of span e..g for edge length of 10m and d/s of 8% will give a curve depth of approx 800mm. NB this will vary when using very long link lengths.
-													</div>
+				</div>
+				<div class="cont_table_sides">
+					<table class="table_info table_sides">
+						<thead class="thead_sides">
+							<tr>
+								<td class="side">Side</td>
+								<td class="measurement">Measurement</td>
+								<td class="type">Type</td>
+								<td class="dip">
+									<div class="txt">Dip/ Span %</div>
+									<div class="cont_btn_help">
+										<div class="btn_help">?
+											<div class="popup">
+												<div class="cont_popup">Edge curve depth as % of span e..g for edge length of 10m and d/s of 8% will give a curve depth of approx 800mm. NB this will vary when using very long link lengths.
 												</div>
 											</div>
 										</div>
-									</td>
-									<td class="fixed">Fixed</td>
-									<td class="mid">Mid support</td>
-								</tr>
-							</thead>
-							<tbody class="tbody_sides">
-								<tr ng-repeat="side in item_shape.sideParameters">
-									<td class="td_side">{{side.name}}</td>
-									<td class="td_meas td_input_red">
-										<input class="input_meas" type="text" tabindex="1" ng-model="side.pointToPointSize" ng-focus='focus(side.name)' ng-blur='blur()' >
-										<label class="label"></label>
-										<div class="val_red">{{reduction[id_unit]}}</div>
-									</td>
-									<td class="td_type">
-										<select class="td_select select_type"
-											fancy-select 
-											fancy-default-text='' 
-											fancy-list='data_shape.hemItems' 
-											fancy-index="side.selectedHemType"
-											ng-model='side.selectedHemType' 
-											>
-											
-										</select>
-										
-									</td>
-									<td class="td_dip">
-										<select class="td_select select_dip" 
-											fancy-select 
-											fancy-default-text='' 
-											fancy-list='data_shape.dipItems' 
-											fancy-index="side.selectedDip"
-											ng-model='side.selectedDip' 
-										>
-										</select>
-									</td>
-									<td class="td_fixed">
-										<div class="cont_check">
-											<input class="fixed" type="checkbox" id="fixed_{{side.name}}" ng-checked='side.isFixed' ng-model='side.isFixed'>
-											<label for="fixed_{{side.name}}"></label>
-										</div>
-									</td>
-									<td class="td_mid">
-										<div class="cont_check">
-											<input class="mid" type="checkbox" id="mid_{{side.name}}" ng-checked='side.isMidSupport' ng-model='side.isMidSupport'>
-											<label for="mid_{{side.name}}"></label>
-										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="cont_diagonals" ng-show='item_shape.diagonalParameters.length'>
-					<div class="title_cont">diagonals</div>
-					<div class="cont_table_diagonals">
-						<table class="table_info table_diagonals">
-							<thead class="thead_diagonals">
-							<tr>
-								<td class="diagonal">Diagonal</td>
-								<td class="measurement">Measurement</td>
-							</tr>
-							</thead>
-							<tbody class="tbody_diagonals">
-								<tr ng-repeat="diagonal in item_shape.diagonalParameters">
-									<td class="td_diag">{{diagonal.name}}</td>
-									<td class="td_meas td_input_red">
-										<input class="input_meas_diag" type="text" tabindex="5" ng-model='diagonal.value' ng-focus='focus(diagonal.name)' ng-blur='blur()'>
-										<label class="label"></label>
-										<div class="div_m_red val_red">{{reduction[id_unit]}}</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-			<div class="cont_corners" >
-				<div class="title_cont">corners</div>
-				<div class="cont_table_corners">
-					<table class="table_info table_corners">
-						<thead class="thead_corners">
-							<tr>
-								<td class="corner">Corner</td>
-								<td class="height">Height</td>
-								<td class="finish">Finish</td>
-								<td class="link">Link</td>
-								<td class="length">Link Length</td>
+									</div>
+								</td>
+								<td class="fixed">Fixed</td>
+								<td class="mid">Mid support</td>
 							</tr>
 						</thead>
-						<tbody class="tbody_corners">
-							<tr ng-repeat="corner in item_shape.cornerParameters">
-								<td class="td_corner">{{corner.name}}</td>
-								<td class="td_height td_input_red">
-									<input class="input_h" type="text" tabindex="7" ng-model='corner.height'>
+						<tbody class="tbody_sides">
+							<tr ng-repeat="side in item_shape.sideParameters">
+								<td class="td_side">{{side.name}}</td>
+								<td class="td_meas td_input_red">
+									<input class="input_meas" type="text" tabindex="1" ng-model="side.pointToPointSize" ng-focus='focus(side.name)' ng-blur='blur()' >
 									<label class="label"></label>
-									<div class="div_h_red val_red">{{reduction[id_unit]}}</div>
+									<div class="val_red">{{reduction[id_unit]}}</div>
 								</td>
-								<td class="td_finish">
-									<select class="td_select select_finish"
-											ng-model='corner.selectedHardware' 
-											fancy-select 
-											fancy-default-text='' 
-											fancy-list='data_shape.hardwareItems' 
-											fancy-index="corner.selectedHardware"
+								<td class="td_type">
+									<select class="td_select select_type"
+										fancy-select 
+										fancy-default-text='' 
+										fancy-list='item_shape.hemItems' 
+										fancy-index="side.selectedHemType"
+										ng-model='side.selectedHemType' 
+										>
+										
+									</select>
+									
+								</td>
+								<td class="td_dip">
+									<select class="td_select select_dip" 
+										fancy-select 
+										fancy-default-text='' 
+										fancy-list='item_shape.dipItems' 
+										fancy-index="side.selectedDip"
+										ng-model='side.selectedDip' 
 									>
 									</select>
 								</td>
-								<td class="td_link">
-									<select class="td_select select_link" 
-											ng-model='corner.selectedLink' 
-											fancy-select 
-											fancy-default-text='' 
-											fancy-list='data_shape.linkItems' 
-											fancy-index="corner.selectedLink"
-									>
-									</select>
+								<td class="td_fixed">
+									<div class="cont_check">
+										<input class="fixed" type="checkbox" id="fixed_{{side.name}}" ng-checked='side.isFixed' ng-model='side.isFixed'>
+										<label for="fixed_{{side.name}}"></label>
+									</div>
 								</td>
-								<td class="td_length td_input_red">
-									<input class="input_l" type="text" ng-model='corner.linkLength'>
-									<label class="label"></label>
+								<td class="td_mid">
+									<div class="cont_check">
+										<input class="mid" type="checkbox" id="mid_{{side.name}}" ng-checked='side.isMidSupport' ng-model='side.isMidSupport'>
+										<label for="mid_{{side.name}}"></label>
+									</div>
 								</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
+			<div class="cont_diagonals" ng-show='item_shape.diagonalParameters.length'>
+				<div class="title_cont">diagonals</div>
+				<div class="cont_table_diagonals">
+					<table class="table_info table_diagonals">
+						<thead class="thead_diagonals">
+						<tr>
+							<td class="diagonal">Diagonal</td>
+							<td class="measurement">Measurement</td>
+						</tr>
+						</thead>
+						<tbody class="tbody_diagonals">
+							<tr ng-repeat="diagonal in item_shape.diagonalParameters">
+								<td class="td_diag">{{diagonal.name}}</td>
+								<td class="td_meas td_input_red">
+									<input class="input_meas_diag" type="text" tabindex="5" ng-model='diagonal.value' ng-focus='focus(diagonal.name)' ng-blur='blur()'>
+									<label class="label"></label>
+									<div class="div_m_red val_red">{{reduction[id_unit]}}</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="cont_corners" >
+			<div class="title_cont">corners</div>
+			<div class="cont_table_corners">
+				<table class="table_info table_corners">
+					<thead class="thead_corners">
+						<tr>
+							<td class="corner">Corner</td>
+							<td class="height">Height</td>
+							<td class="finish">Finish</td>
+							<td class="link">Link</td>
+							<td class="length">Link Length</td>
+						</tr>
+					</thead>
+					<tbody class="tbody_corners">
+						<tr ng-repeat="corner in item_shape.cornerParameters">
+							<td class="td_corner">{{corner.name}}</td>
+							<td class="td_height td_input_red">
+								<input class="input_h" type="text" tabindex="7" ng-model='corner.height'>
+								<label class="label"></label>
+								<div class="div_h_red val_red">{{reduction[id_unit]}}</div>
+							</td>
+							<td class="td_finish">
+								<select class="td_select select_finish"
+										ng-model='corner.selectedHardware' 
+										fancy-select 
+										fancy-default-text='' 
+										fancy-list='item_shape.hardwareItems' 
+										fancy-index="corner.selectedHardware"
+								>
+								</select>
+							</td>
+							<td class="td_link">
+								<select class="td_select select_link" 
+										ng-model='corner.selectedLink' 
+										fancy-select 
+										fancy-default-text='' 
+										fancy-list='item_shape.linkItems' 
+										fancy-index="corner.selectedLink"
+								>
+								</select>
+							</td>
+							<td class="td_length td_input_red">
+								<input class="input_l" type="text" ng-model='corner.linkLength'>
+								<label class="label"></label>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
 </div>

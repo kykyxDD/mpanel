@@ -43,8 +43,9 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 		console.log('fabric',name)
 		postInfo(name)
 	}
-
-	if(parent.all_data['material']) {
+	if(!$s.id_project){
+		return $s.updatePage(0)
+	} else if(parent.all_data['material']) {
 		$s.data_fabric = parent.all_data['material'];
 	} else {
 		parent.load_data = true

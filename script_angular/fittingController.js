@@ -1,14 +1,17 @@
-
 mpanelApp.controller("fittingController", ['$http', '$window','$scope', function($h, $w, $s){
 	// $s.$on("$destroy", function() {
 	// 	console.log('farbicController destroy')
 	// 	postInfo()
 	// });
-	$s.destroy = function(start){
-		if(start){
-			return postInfo()
+	if(!$s.id_project){
+		return $s.updatePage(0)
+	} else {
+		$s.destroy = function(start){
+			if(start){
+				return postInfo()
+			}
+			return false
 		}
-		return false
 	}
 	$s.data_fitting = {};
 	var del_key = [
@@ -34,7 +37,6 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 		console.log('fitting',name)
 		postInfo(name)
 	}
-
 	if($s.all_data['material']) {
 		$s.data_fitting = $s.all_data['material'];
 	} else {

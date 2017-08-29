@@ -32,9 +32,7 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 	// });
 
 	$s.destroy = function(start){
-		if(start){
-			return postInfo();
-		}
+		return postInfo();
 	}
 
 
@@ -51,7 +49,17 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 			})
 		}
 	} else {
-		
+		$s.data_project = {
+		unitIndex: 1,
+			units:  [
+				"Meters  ( 1.234 )",
+				"Centimeters  ( 123.4 )",
+				"Millimeters  ( 1234 )",
+				"Inches  ( 123.4\" )",
+				"Feet and inches  ( 12\' 3.4\" )",
+				"Feet, inches, fractions  ( 12\' 3 5/16\" )"
+			]
+		};
 	}
 
 	function pullDataPage(data){
@@ -159,7 +167,7 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 			var data = response.data
 			if(!data.error){
 				console.log('data',data.data)
-				$s.id_project = data.data
+				parent.id_project = data.data
 				$w.localStorage.setItem('mpanel_id', data.data)
 			} else {
 				console.lgo('data error')

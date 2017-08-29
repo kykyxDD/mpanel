@@ -87,14 +87,16 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 
 	if(search != ''){
 		var obj = searchListPage(search);
-		console.log('obj',obj)
 		if(obj){
+			var index = $s.list_menu.indexOf(obj) 
+			if(index > 0 && !$s.id_project){
+				obj = $s.list_menu[0];
+		
+				// updateItmPage(obj)
+			} 
 			$s.itm_page = obj;
 		}
-	}
-
-	if(!$s.id_project){
-
+		
 	}
 
 	$s.loadExample = function(){
@@ -107,17 +109,7 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 		$s.$$childTail.resetDataShape()
 	}
 
-	/*if(search.page){
 
-		//on_page_change(search.page)
-		var obj = searchListPage(search.page)
-		console.log(obj)
-		if(obj){
-			$s.itm_page = obj;
-		}
-		// $s.$apply()
-
-	}*/
 
 	function searchListPage(page){
 		var itm_page
@@ -141,18 +133,21 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 	}
 
 	function updateItmPage(obj){
+		console.log('updateItmPage', obj == $s.itm_page)
 		if(obj == $s.itm_page && !$s.user_page) return
 
 		if($s.$$childTail && $s.$$childTail.destroy) {
+			console.log(true)
 			$s.load_data = true
 			$s.$$childTail.destroy(true).then(function(){
 				console.log(true, $s.data_error)
 				$s.itm_page = obj;
 				$s.load_data = false
-			}).then(function(){
-				$s.load_data = false
+			// }).then(function(){
+				// $s.load_data = false
 			});
 		} else {
+			console.log(false)
 			$s.itm_page = obj;
 		}
 		
@@ -197,42 +192,97 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 			"EnteredBy": "sample string 10",
 			"UnitIndex": 1
 		}
-		var url =  $s.host+dataUrl.project.new_project;
+		var url = $s.host+dataUrl.project.new_project;
 		console.log(url)
 		var self = this;
-		/*return $.ajax({
-			url: url,
-			type: "POST",
-			contentType: 'application/json',
-			dataType: 'json',
-			data: JSON.stringify(data),
-			success: function(data){
-				if(data.data){
-					window.localStorage.setItem('mpanel_id', data.data)
-					return callback();//self.createMaterial(data.data, callback);	
-				} else {
-					var text = data.error || data.message;
-					self.errorTextPreload(text)
-				}
-			}, 
-			error: function(e){
-				self.errorTextPreload('Problem loading data!', e)
-			}
-		})*/
+
 		return $h({
 		    method : "POST",
 		    url : url,
-		    headers: {
-				'Content-Type': 'application/json'
-			},
 			data: data//"welcome.htm"
 		}).then(function mySuccess(response) {
-			console.log('mySuccess', response)
+			// console.log('mySuccess', response)
+			var data = response.data
+			if(!data.error){
+				// console.log('data',data.data)
+				$s.id_project = data.data;
+				$w.localStorage.setItem('mpanel_id', data.data);
+				// parent.updateMpanel = true
+			} else {
+				console.lgo('data error')
+				$s.data_error = data.error
+
+			}
 		    // $scope.myWelcome = response.data;
+		    	
 		}, function myError(response) {
 			console.log('myError', response)
 		    // $scope.myWelcome = response.statusText;
+		    $s.data_error = data.error
 		});
+	}
+
+	$s.createMaterialId = function(){
+		var id = $s.id_project// main.getDataId();
+		var data = {
+			"fabricSelectedIndex": 0,
+			"fabricTypeSelectedIndex": 0,
+			"fabricColorSelectedIndex": 1,
+			"rollWidthText": "1",
+			"override": false,
+			"warpStretch": 1,
+			"weftStretch": 1,
+			"warpStretchOverride": 1,
+			"weftStretchOverride": 1,
+			"hardwareSelectedIndex": 0,
+			"hardEdgeTypeSelectedIndex": 1,
+			"hardColorSelectedIndex": 0,
+			"hemText": "1",
+			"hardCornorSelectedIndex": 0,
+			"cornerLengthText": "1",
+			"cornerWidthText": "1",
+			"fitCorner": false,
+			"hardLinkSelectedIndex": 0,
+			"linkLengthText": "1",
+			"thread": "1",
+			"accessories": "1",
+			"seamText": "1",
+			"reoText": "1",
+			"poleDiameterText": "1",
+			"poleAngle": 1,
+			"poleExtraHeight": "1",
+			"exampleImageSelectedIndex": 0
+		}
+		var self = this;
+
+		var url = $s.host + dataUrl.project.new_project + $s.id_project;;
+
+		
+		return $h({
+		    method : "POST",
+		    url : url,
+			data: data//"welcome.htm"
+		}).then(function mySuccess(response) {
+			// console.log('mySuccess', response)
+			var data = response.data
+			if(!data.error){
+				// console.log('data',data.data)
+				$s.id_project = data.data;
+				$w.localStorage.setItem('mpanel_id', data.data);
+				// parent.updateMpanel = true
+			} else {
+				console.lgo('data error')
+				$s.data_error = data.error
+
+			}
+		    // $scope.myWelcome = response.data;
+		    	
+		}, function myError(response) {
+			console.log('myError', response)
+		    // $scope.myWelcome = response.statusText;
+		    $s.data_error = data.error
+		});
+		
 	}
 
 }])

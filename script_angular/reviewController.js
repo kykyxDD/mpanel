@@ -2,9 +2,12 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 	$s.index_model = 0;
 	var elem = document.getElementById('threejs');
 	var mpanel
-	var parent = $s.$parent
+	var parent = $s.$parent;
+	$s.$parent.load_data = false;
 
-	if(parent.mpanel){
+	if(!$s.id_project){
+		return $s.updatePage(0)
+	} else if(parent.mpanel){
 		mpanel = parent.mpanel;
 		mpanel.parent = elem;
 		elem.appendChild(mpanel.container);
@@ -69,6 +72,7 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 
 	function getInfo(){
 		// load_file = false
+		if(!$s.id_project) return
 		var id = $s.id_project;
 		var url = $s.host + dataUrl.calculate.post+id;
 		console.log('url', url)
@@ -80,6 +84,7 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 			// $scope.myWelcome = response.data;
 			var data = response.data
 			if(!data.error){
+				$s.$parent.load_data = false
 				loadInfo(data.data)
 			} else {
 				//parent.data_error = data.error

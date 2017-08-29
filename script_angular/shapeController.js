@@ -1,11 +1,15 @@
 mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($h, $w, $s){
+	if(!$s.id_project){
+		return $s.updatePage(0)
+	}
+	$s.$parent.load_data = true
 	console.log('shapeController')
 	var canvas, exportRoot, stage, objectsDataCanvas, curentObject;
 	var defaultTriangle, defaultQuadrilateral, defaultPentagon, defaultHexagon;
-	$s.data_shape = {};
+	$s.data_shape = [];
 	$s.prev_num = $s.item_num;
-	$s.model_shape = {};
-	// $s.load_data = true;
+
+	
 
 	var parent = $s.$parent;
 
@@ -13,13 +17,44 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	$s.loadExampleShape = function(){
 		console.log('loadExample')
 		var num = $s.item_num - $s.min_edge;
-		$s.item_shape = clone($s.default_data[num]);
+		var new_data = $s.default_data[num];
+		//$s.item_shape = clone($s.default_data[num]);
+		console.time('loadExample')
+		for(var key in new_data){
+			$s.item_shape[key] = cloneItem(new_data[key])
+			
+		}
+		console.timeEnd('loadExample')
+	}
+
+	function cloneItem(data){
+		if(!data) return data
+
+		if(typeof data === 'string' || typeof data === 'number'){
+			return data;
+		} else if(data.length){
+			var arr = [];
+
+			for(var i = 0; i < data.length; i++){
+				arr.push(cloneItem(data[i]))
+			}
+			return arr
+		} else if(typeof data === 'object'){
+			var obj = {}
+			for(var key in data){
+				obj[key] = cloneItem(data[key])
+			}
+			return obj
+		} else {
+			return data
+		}
 	}
 
 	
 	$s.resetDataShape = function(){
 		console.log('resetData')
 		var shape = $s.item_shape;
+		console.time('reset')
 		for(var i = 0; i < shape.sideParameters.length;i++){
 			var side = shape.sideParameters[i];
 			side.pointToPointSize = 0;
@@ -36,6 +71,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			var dial =  shape.diagonalParameters[i];
 			dial.value = 0;
 		}
+		console.timeEnd('reset')
 	}
 
 	$s.$watch('item_num', updateNumEdge);
@@ -84,16 +120,16 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	}
 
 
-	if($s.id_project){
-		if(parent.all_data['shape']){
-			saveData()
-		} else {
-			getInfo().then(function(){
-				if(!parent.data_error){
-					saveData()
-				}
-			})
-		}
+	if(parent.all_data['shape']){
+		saveData();
+		$s.$parent.load_data = false
+	} else {
+		getInfo().then(function(){
+			if(!parent.data_error){
+				saveData()
+				$s.$parent.load_data = false
+			}
+		});
 	}
 
 	createSailPattern();
@@ -101,40 +137,69 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	function saveData(){
 		var data = parent.all_data['shape'];
 
-		for(var i = 0; i < data.innerItems.length; i++){
-			// var itm = data.innerItems[i];
-			// var obj = {};
-			// // $s.default_data[i] = []//data.innerItems[i];
-			// for(var key in itm){
-			// 	obj[key] = itm[key]
-			// }
-			$s.default_data[i] = clone(data.innerItems[i])
+		if(!$s.default_data.length){
+			$s.default_data = cloneItem(parent.all_data['default_shape'])
 		}
 
-		pullDataPage()
+		if(!$s.data_shape.length){
+			$s.data_shape = getArrData();
+		}
+
+		$s.item_num = data.sideCount;
+
+		pullDataPage();
 		console.log('data',$s.default_data)
 	}
 	function updatePrevVal(prev){
-
-		var num = prev - $s.min_edge;
-		
-		$s.data_shape.innerItems[num] = clone($s.item_shape)
+		if($s.item_shape){
+			var num = prev - $s.min_edge;
+			$s.data_shape[num] = cloneItem($s.item_shape)
+		}
 
 		pullDataPage()
 	}
 
+	
+	function getArrData(){
+		var res = [];
+		var data = parent.all_data['shape'];
+		var index = parent.all_data['shape'].sideCount - $s.min_edge;
+
+		res[index] = cloneInner(data);
+
+		for(var i = 0; i < data.innerItems.length; i++){
+			if(i == index) continue
+
+			res[i] = cloneInner(data.innerItems[i])
+		}
+
+		function cloneInner(data){
+			var obj = {}
+
+			for(var key in data){
+				if(key == 'innerItems' || key == 'isInnerPage') continue
+				obj[key] = cloneItem(data[key])
+			}
+			return obj
+		}
+		return res
+
+	}
+
 	function pullDataPage(){
-		var data = $s.data_shape
-		if(!data || !data.sideCount) return
+		var data = $s.data_shape;
+		if(!data.length) return
+
+		var index = $s.item_num - $s.min_edge;
 		// console.log('data',data)
-		if($s.item_num != data.sideCount){
-			var index = $s.item_num - $s.min_edge
-			$s.item_shape = data.innerItems[index];
+		if($s.item_shape && $s.item_num != $s.item_shape.sideCount){
+			// var index = $s.item_num - $s.min_edge;
+			$s.item_shape = data[index];
 			console.log('no')
 		} else {
-			$s.item_shape = data
+			$s.item_shape = data[index];
 			console.log('itm')
-		}		
+		}
 	}
 
 	function getInfo(){
@@ -149,9 +214,12 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			// $scope.myWelcome = response.data;
 			var data = response.data
 			if(!data.error){
-				$s.data_shape = data.data;
+				console.time('get')
+				// $s.data_shape = data.data;
+				// $s.default_data = cloneItem(data.data.innerItems);
 				parent.all_data['shape'] = data.data;
-				$s.item_num = $s.data_shape.sideCount;
+				parent.all_data['default_shape'] = cloneItem(data.data.innerItems)//cloneItem(data.data.innerItems);
+				console.timeEnd('get')
 			} else {
 				// $s.data_error = data.error
 				parent.data_error = data.error
@@ -166,8 +234,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 
 	function getDataParent(){
 		var data = $s.item_shape;
-		data.innerItems = $s.data_shape.innerItems
-		console.log(data)
+		data.innerItems = $s.default_data
 		return data
 	}
 	function postInfo(){
@@ -181,8 +248,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			data: data,
 			url : url
 		}).then(function mySuccess(response) {
-			console.log('getInfo', response)
-			// $scope.myWelcome = response.data;
+			// console.log('getInfo', response)
 			var data = response.data
 			if(!data.error){
 				// console.log('data',data.data)
@@ -205,8 +271,8 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	}
 	function getSides(arr){
 		var res = [];
-		var hemItems = $s.data_shape.hemItems
-		var dipItems = $s.data_shape.dipItems
+		var hemItems = $s.item_shape.hemItems
+		var dipItems = $s.item_shape.dipItems
 		for(var i = 0; i < arr.length; i++){
 			var itm = arr[i];
 			res[i] = {
@@ -235,8 +301,8 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	}
 	function getCorn(arr){
 		var res = [];
-		var linkItems = $s.data_shape.linkItems
-		var hardwareItems = $s.data_shape.hardwareItems
+		var linkItems = $s.item_shape.linkItems
+		var hardwareItems = $s.item_shape.hardwareItems
 		for(var i = 0; i < arr.length; i++){
 			var itm = arr[i];
 			res[i]= {
@@ -262,8 +328,8 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			sideParameters: sides,
 			diagonalParameters: diagonals,
 			cornerParameters: corners,
-			loftingSelected : $s.data_shape.loftingSelected,
-			measureBetween : $s.data_shape.measureBetween
+			loftingSelected : $s.item_shape.loftingSelected,
+			measureBetween : $s.item_shape.measureBetween
 		}
 	}
 
@@ -288,12 +354,12 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 					   {name:"CA",val:100,fin:false,indexes:[2,0],curved:0.3}];
 
 		defaultQuadrilateral = [{name:"AB",val:100,fin:false,indexes:[0,1],curved:0.3},
-									{name:"BC",val:100,fin:false,indexes:[1,2],curved:0.3},
-									{name:"CD",val:100,fin:false,indexes:[2,3],curved:0.3},
-									{name:"DA",val:100,fin:false,indexes:[3,0],curved:0.3},
-									{name:"AC",val:Math.sqrt(20000),fin:false,indexes:[0,2],diag:true},
-									{name:"BD",val:Math.sqrt(20000),fin:false,indexes:[1,3],diag:true}
-									];
+								{name:"BC",val:100,fin:false,indexes:[1,2],curved:0.3},
+								{name:"CD",val:100,fin:false,indexes:[2,3],curved:0.3},
+								{name:"DA",val:100,fin:false,indexes:[3,0],curved:0.3},
+								{name:"AC",val:Math.sqrt(20000),fin:false,indexes:[0,2],diag:true},
+								{name:"BD",val:Math.sqrt(20000),fin:false,indexes:[1,3],diag:true}
+								];
 		var pentaK = (1+Math.sqrt(5))/2;
 		defaultPentagon = [{name:"AB",val:100,fin:false,indexes:[0,1],curved:0.3},
 							   {name:"BC",val:100,fin:false,indexes:[1,2],curved:0.3},

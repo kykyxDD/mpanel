@@ -1,7 +1,7 @@
 mpanelApp.controller("userController",['$http', '$window','$scope', function($h, $w, $s){
 	$s.message = "This page will be used to display all the students";
 	console.log('headerController')
-	$s.$parent.id_itm_page = 0;
+	$s.$parent.id_itm_page = -1;
 
 	$s.$parent.itm_page = undefined
 	$w.document.title = 'User setting';
@@ -15,7 +15,7 @@ mpanelApp.controller("userController",['$http', '$window','$scope', function($h,
 		'Smre'
 	];
 
-	$s.model_units
+	$s.model_units;
 	$s.units = [
 		"Meters  ( 1.234 )",
 		"Centimeters  ( 123.4 )",

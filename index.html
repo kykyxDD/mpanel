@@ -82,10 +82,10 @@
 					<div class="menu">
 						<div class="page" ng-repeat="itm in list_menu" ng-class="{prev: $index < id_itm_page, itm: $index == id_itm_page}" ng-style="{'left': ($index*135 - 7)+'px' }">
 							<!-- <a class="text" ng-click="updatePage($index)">{{ itm.text}}</a> -->
-							<a class="text" ng-href="#{{itm.id}}" ng-click="updatePage($index)">{{ itm.text}}</a>
+							<a class="text" ng-click="updatePage($index)">{{ itm.text}}</a>
 							<div class="point"></div>
 					  	</div>
-					  	<div class="line"  ng-style="{'width': (id_itm_page/(list_menu.length-1))*810+'px' }"></div>
+					  	<div class="line" ng-if='id_itm_page >= 0' ng-style="{'width': (id_itm_page/(list_menu.length-1))*810+'px' }"></div>
 					</div>
 				</div>
 			</div>
