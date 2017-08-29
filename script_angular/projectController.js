@@ -12,24 +12,6 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 			"Feet, inches, fractions  ( 12\' 3 5/16\" )"
 		]*/
 	};
-	// $s.model_project = {
-	// 	// selectedOption: false
-	// 	// clientName: '',
-	// 	description: '',
-	// 	enteredBy: '',
-	// 	enteredDate: '',
-	// 	projectName: '',
-	// 	projectNumber: '',
-	// 	quantity: '',
-	// 	requestDate: '',
-	// 	sailNumber: '',
-	// 	sailOf: '',
-	// 	unitIndex: $s.data_project.units[1]
-	// }
-	// $s.$on("$destroy", function() {
-	// 	console.log(' projectController destroy')
-	// 	return postInfo();
-	// });
 
 	$s.destroy = function(start){
 		return postInfo();
@@ -119,6 +101,17 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 			parent.data_error = response.data.message;
 		});
 	}
+	$s.desplayPikaday = function(){
+		var data = $s.data_project;
+		console.log('data',data)
+		var date_required = document.getElementById('date_required');
+		var date_entered = document.getElementById('date_entered');
+		// var fun_required = date_required.data('datepicker');
+		// var fun_entered = date_entered.data('datepicker');
+		// console.log(fun_required,fun_entered)
+		$(date_required).data('datepicker').destroy()
+		$(date_entered).data('datepicker').destroy()
+	}
 	function postInfo(){
 		var id = $s.id_project;
 
@@ -151,7 +144,8 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 			if(!data.error){
 				// console.log('data',data.data)
 				parent.id_project = data.data
-				$w.localStorage.setItem('mpanel_id', data.data)
+				$w.localStorage.setItem('mpanel_id', data.data);
+				$s.desplayPikaday()
 			} else {
 				// console.lgo('data error')
 				parent.data_error = data.error

@@ -49,6 +49,7 @@ mpanelApp.directive('calendar', function () {
                     ngModel.$setViewValue(str_date);
                 }
             });
+            el.data_pikaday = fun
             return scope.$watch(attr.ngModel, function(newValue){
                 // console.log(newValue)
                 if(newValue && !update){

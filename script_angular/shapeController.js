@@ -7,25 +7,23 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	}
 	// $s.$s.item_shape.arr_negative = [];
 	$s.$parent.load_data = true
-	console.log('shapeController')
+	// console.log('shapeController')
 	var canvas, exportRoot, stage, objectsDataCanvas, curentObject;
 	var defaultTriangle, defaultQuadrilateral, defaultPentagon, defaultHexagon;
 	$s.data_shape = [];
-	$s.prev_num = $s.item_num;
+	$s.item_num = false
+	$s.prev_num = false;
 
 	var parent = $s.$parent;
 
 	$s.default_data = [];
 	$s.loadExampleShape = function(){
-		// console.log('loadExample')
 		var num = $s.item_num - $s.min_edge;
 		var new_data = $s.default_data[num];
-		// console.time('loadExample')
 		for(var key in new_data){
 			$s.item_shape[key] = cloneItem(new_data[key])			
 		}
 		$s.item_shape.arr_negative = []
-		// console.timeEnd('loadExample')
 	}
 
 	function cloneItem(data){
@@ -53,9 +51,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 
 	
 	$s.resetDataShape = function(){
-		// console.log('resetData')
 		var shape = $s.item_shape;
-		// console.time('reset')
 		for(var i = 0; i < shape.sideParameters.length;i++){
 			var side = shape.sideParameters[i];
 			side.pointToPointSize = 0;
@@ -66,7 +62,6 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			var corner = shape.cornerParameters[i];
 			corner.height = 0;
 			corner.linkLength = 0;
-			// side.isMidSupport = false;
 		}
 		for(var i = 0; i < shape.diagonalParameters.length; i++){
 			var dial =  shape.diagonalParameters[i];
@@ -74,7 +69,6 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		}
 
 		$s.item_shape.arr_negative = []
-		// console.timeEnd('reset')
 	}
 
 	$s.$watch('item_num', updateNumEdge);
@@ -112,10 +106,8 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	$s.blur = function(obj, str){
 		exportRoot.setSelection("");
 		if(obj){
-			// console.log('blur', obj, str)
 			var val_str = str+'-'+obj.name
 			if(str == 'size'){
-				// var val_str = str+'-'+obj.name
 				if(+obj.pointToPointSize < 0){
 					$s.item_shape.arr_negative.push(val_str)
 					obj.negative = true
@@ -150,9 +142,11 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	}
 
 	function updateNumEdge(){
-		// console.log('updateNumEdge', $s.prev_num, $s.item_num)
-		// clearMasure()
+
+		if($s.prev_num === false || $s.item_num === false) return
+
 		var num = $s.item_num - $s.min_edge;
+
 		curentObject = objectsDataCanvas[num];
 		exportRoot.buildShape(curentObject);
 
@@ -179,7 +173,11 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	createSailPattern();
 
 	function saveData(){
+
 		var data = parent.all_data['shape'];
+
+		$s.prev_num = data.sideCount;
+		$s.item_num = data.sideCount;
 
 		if(!$s.default_data.length){
 			$s.default_data = cloneItem(parent.all_data['default_shape'])
@@ -195,10 +193,14 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		// console.log('data',$s.default_data)
 	}
 	function updatePrevVal(prev){
+		// console.time('updatePrevVal')
 		if($s.item_shape){
 			var num = prev - $s.min_edge;
+			
 			$s.data_shape[num] = cloneItem($s.item_shape)
+			
 		}
+		// console.timeEnd('updatePrevVal')
 
 		pullDataPage()
 	}
@@ -234,17 +236,95 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	function pullDataPage(){
 		var data = $s.data_shape;
 		if(!data.length) return
+		console.time('pullDataPage')
 
 		var index = $s.item_num - $s.min_edge;
-		// console.log('data',data)
-		if($s.item_shape && $s.item_num != $s.item_shape.sideCount){
-			// var index = $s.item_num - $s.min_edge;
-			$s.item_shape = data[index];
-			// console.log('no')
-		} else {
-			$s.item_shape = data[index];
-			// console.log('itm')
+		// $s.item_shape = data[index];
+
+		var new_shape = data[index];
+
+		var res_type = сompareArr(new_shape.hemItems, $s.item_shape.hemItems);
+		var res_dip = сompareArr(new_shape.dipItems, $s.item_shape.dipItems);
+
+
+		var res_finish = сompareArr(new_shape.hardwareItems, $s.item_shape.hardwareItems);
+		var res_link = сompareArr(new_shape.linkItems, $s.item_shape.linkItems);
+
+		for(var key in new_shape){
+
+			if(!$s.item_shape[key]) {
+				$s.item_shape[key] = new_shape[key];
+			} else {
+				if(key == 'hemItems' && !res_type) continue
+				if(key == 'dipItems' && !res_dip) continue
+				if(key == 'hardwareItems' && !res_finish) continue
+				if(key == 'linkItems' && !res_link) continue
+
+				if(key == 'loftingItems' || key == 'loftingSelected') continue
+				
+
+				if(key == 'sideParameters' && $s.item_shape[key]) {
+					var sides = new_shape['sideParameters'];
+
+					if($s.item_shape.sideParameters.length > sides.length){
+						var len = $s.item_shape.sideParameters.length - sides.length
+						$s.item_shape.sideParameters.splice(sides.length, len)
+					} 
+					for(var i = 0; i < sides.length; i++){
+						var itm = sides[i];
+						if(!$s.item_shape.sideParameters[i]){
+							$s.item_shape.sideParameters[i] = itm
+						} else {
+							$s.item_shape.sideParameters[i].index = itm.index;
+							$s.item_shape.sideParameters[i].name = itm.name;
+							$s.item_shape.sideParameters[i].pointToPointSize = itm.pointToPointSize;
+							
+							$s.item_shape.sideParameters[i].isFixed = itm.isFixed;
+							$s.item_shape.sideParameters[i].isMidSupport = itm.isMidSupport;
+							$s.item_shape.sideParameters[i].selectedHemType = itm.selectedHemType;
+							$s.item_shape.sideParameters[i].selectedDip = itm.selectedDip;
+							$s.item_shape.sideParameters[i].negative = itm.negative
+						}
+					}
+				} else if(key == 'cornerParameters' && $s.item_shape[key]) {
+					var corner = new_shape['cornerParameters'];
+
+					if($s.item_shape.cornerParameters.length > sides.length){
+						var len = $s.item_shape.cornerParameters.length - sides.length
+						$s.item_shape.cornerParameters.splice(sides.length, len)
+					} 
+					for(var i = 0; i < corner.length; i++){
+						var itm = corner[i];
+						if(!$s.item_shape.cornerParameters[i]){
+							$s.item_shape.cornerParameters[i] = corner[i]
+						} else {
+							$s.item_shape.cornerParameters[i].index = itm.index;
+							$s.item_shape.cornerParameters[i].height = itm.height;
+							$s.item_shape.cornerParameters[i].linkLength = itm.linkLength;
+							$s.item_shape.cornerParameters[i].linkLengthChangable = itm.linkLengthChangable;
+							$s.item_shape.cornerParameters[i].name = itm.name;
+							$s.item_shape.cornerParameters[i].selectedHardware = itm.selectedHardware;
+							$s.item_shape.cornerParameters[i].selectedLink = itm.selectedLink;
+							$s.item_shape.cornerParameters[i].negative = itm.negative;
+						}
+					}
+				} else {
+					$s.item_shape[key] = new_shape[key];
+				}
+			}
 		}
+
+		console.timeEnd('pullDataPage')
+	}
+	function сompareArr(itm, prev){
+		var res = false
+		if(!prev) return true
+		for(var i = 0; i < itm.length; i++){
+			if(!prev[i] || itm[i] != prev[i]) res = true
+		}
+
+		return res
+
 	}
 
 	function getInfo(){
@@ -255,24 +335,15 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			method : "get",
 			url : url
 		}).then(function mySuccess(response) {
-			// console.log('getInfo', response)
-			// $scope.myWelcome = response.data;
 			var data = response.data
 			if(!data.error){
-				// console.time('get')
-				// $s.data_shape = data.data;
-				// $s.default_data = cloneItem(data.data.innerItems);
 				parent.all_data['shape'] = data.data;
 				parent.all_data['default_shape'] = cloneItem(data.data.innerItems)//cloneItem(data.data.innerItems);
-				// console.timeEnd('get')
 			} else {
-				// $s.data_error = data.error
 				parent.data_error = data.error
 			}
 			
 		}, function myError(response) {
-			// console.log('getInfo myError', response)
-			// $scope.myWelcome = response.statusText;
 			parent.data_error = response.data.message
 		});
 	}
@@ -287,7 +358,6 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		var url = $s.host + dataUrl.meas.post.commit+id;
 		parent.all_data['shape'] = getDataParent()
 		var data = getNewData();
-		// console.log('url', data)
 		return $h({
 			method : "post",
 			data: data,
@@ -296,20 +366,15 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			// console.log('getInfo', response)
 			var data = response.data
 			if(!data.error){
-				// console.log('data',data.data)
 				parent.id_project = data.data;
 				$w.localStorage.setItem('mpanel_id', data.data);
 				parent.updateMpanel = true
 			} else {
-				// console.log('data error')
 				parent.data_error = data.error
 
 			}
 			
 		}, function myError(response) {
-			// console.log('getInfo myError', response)
-			// $s.all_data['project'] 
-			// $scope.myWelcome = response.statusText;
 			parent.data_error = data.error
 		});
 

@@ -29,8 +29,12 @@
 	margin-right: 0;
 }
 .page_seams #threejs {
-width: 550px;
+	width: 550px;
 	height: 460px;
+}
+.page_seams .navigation,
+.page_seams .elem_color {
+	display: none;
 }
 .cont_view .view{
 	width: 550px;
