@@ -1,5 +1,5 @@
 mpanelApp.controller("projectController", ['$http', '$window','$scope', function($h, $w, $s){
-	console.log('project')
+	// console.log('project')
 	var parent = $s.$parent;
 	$s.data_project = {
 		/*unitIndex: 1,
@@ -37,6 +37,7 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 
 
 	if($s.id_project){
+		$s.$parent.load_data = true;
 		console.log($s.all_data['project'])
 		if(parent.all_data['project']){
 			$s.data_project = parent.all_data['project'];
@@ -63,29 +64,11 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 	}
 
 	function pullDataPage(data){
-		console.log('pullDataPage', $s)
-		var data = $s.data_project;
-		// var model = $s.model_project;
-		// $s.$apply();
+		// console.log('pullDataPage', $s)
+		// var data = $s.data_project;
 
-		console.log(data.enteredDate)
+		$s.$parent.load_data = false;
 
-		// $s.$apply(function(argument) {
-		// 	console.log(true)
-		// })
-
-		// model.clientName =  data.clientName
-		// model.description =  data.description
-		// model.enteredBy =  data.enteredBy
-		// model.enteredDate =  data.enteredDate //"2017-08-18T14:50:47.6188583+03:00",
-		// model.porjectNumber =  data.projectNumber,
-		// model.projectName = data.projectName
-		// model.projectNumber = data.projectNumber
-		// model.quantity =  data.quantity
-		// model.requestDate =  data.requestDate //"2017-08-18T14:50:47.6188583+03:00"
-		// model.sailNumber = data.sailNumber
-		// model.sailOf = data.sailOf
-		// model.unitIndex = data.units[data.unitIndex] //data.units.indexOf($s.model_project.unitIndex)
 	}
 	function getData(){
 		var data = $s.data_project
@@ -111,12 +94,12 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 	function getInfo(){
 		var id = $s.id_project;
 		var url = $s.host + dataUrl.project.get+id;//dataUrl.project.new_project;
-		console.log('url', url)
+		// console.log('url', url)
 		return $h({
 			method : "get",
 			url : url
 		}).then(function mySuccess(response) {
-			console.log('getInfo', response)
+			// console.log('getInfo', response)
 			// $scope.myWelcome = response.data;
 			var data = response.data
 			if(!data.error){
@@ -130,7 +113,7 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 			}
 			
 		}, function myError(response) {
-			console.log('getInfo myError', response)
+			// console.log('getInfo myError', response)
 			// $scope.myWelcome = response.statusText;
 			//$s.data_error = response.data.message
 			parent.data_error = response.data.message;
@@ -147,7 +130,7 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 		}
 		var data = $s.data_project;
 		var data_1 = getData();
-		console.log(data_1)
+		// console.log(data_1)
 		// $s.data_project.unitIndex = data.units.indexOf($s.model_project.unitIndex)
 		$w.localStorage.setItem('mpanel_unit', $s.data_project.unitIndex);
 
@@ -162,21 +145,21 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 			data: data_1,
 			url : url
 		}).then(function mySuccess(response) {
-			console.log('getInfo', response)
+			// console.log('getInfo', response)
 			// $scope.myWelcome = response.data;
 			var data = response.data
 			if(!data.error){
-				console.log('data',data.data)
+				// console.log('data',data.data)
 				parent.id_project = data.data
 				$w.localStorage.setItem('mpanel_id', data.data)
 			} else {
-				console.lgo('data error')
+				// console.lgo('data error')
 				parent.data_error = data.error
 
 			}
 			
 		}, function myError(response) {
-			console.log('getInfo myError', response)
+			// console.log('getInfo myError', response)
 			// $s.all_data['project'] 
 			// $scope.myWelcome = response.statusText;
 			parent.data_error = data.error

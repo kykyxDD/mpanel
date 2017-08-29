@@ -1,7 +1,7 @@
 <div class="info page_review">
 	<div class="info_text">
 		<div class="cont_result">
-			<div ng-if='review_error' class='text_error_list'>{{review_error}}</div> 
+			<div ng-if='review_error || data_error' class='text_error_list'>{{data_error || review_error}}</div> 
 			<div ng-if='!review_error && data_review.messages.length'  class="mCustomScrollbar _mCS_1" id="content-3dtd" custom-scroll ng-model='data_review.messages'>
 				<div class="text">
 					<span ng-repeat='mess in data_review.messages' ng-class='arr_class[data_review.messageTypes[$index]]'>
@@ -10,7 +10,6 @@
 					
 				</div>
 			</div>
-			
 		</div>
 
 		<div class="cont_color_key">

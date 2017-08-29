@@ -1,17 +1,11 @@
 mpanelApp.controller("fittingController", ['$http', '$window','$scope', function($h, $w, $s){
-	// $s.$on("$destroy", function() {
-	// 	console.log('farbicController destroy')
-	// 	postInfo()
-	// });
-	if(!$s.id_project){
-		return $s.updatePage(0)
-	} else {
-		$s.destroy = function(start){
-			if(start){
-				return postInfo()
-			}
-			return false
+
+
+	$s.destroy = function(start){
+		if(start){
+			return postInfo()
 		}
+		return false
 	}
 	$s.data_fitting = {};
 	var del_key = [
@@ -34,18 +28,20 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 	}
 
 	$s.changeSelect = function(name) {
-		console.log('fitting',name)
+		// console.log('fitting',name)
 		postInfo(name)
 	}
 	if($s.all_data['material']) {
 		$s.data_fitting = $s.all_data['material'];
 	} else {
+		$s.$parent.load_data = true;
 		getInfo().then(function(){
 			pullDataPage()
+			parent.load_data = false;
 		})
 	}
 	function pullDataPage(){
-		console.log('pullDataPage', $s.data_fitting)
+		// console.log('pullDataPage', $s.data_fitting)
 
 	}
 
@@ -127,8 +123,6 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 			data: data,
 			url : url
 		}).then(function mySuccess(response) {
-			console.log('getInfo', response)
-			// $scope.myWelcome = response.data;
 			var data = response.data
 			if(!data.error){
 				if(typeof data.data == 'string'){
@@ -137,23 +131,19 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 					$s.all_data['material'] = data.data;
 					$s.data_fitting = data.data;
 				}
-				
-				
 			} else {
-				console.lgo('data error')
-				$s.data_error = data.error
+				// console.lgo('data error')
+				parent.data_error = data.error
 			}
 		}, function myError(response) {
-			console.log('getInfo myError', response)
-			// $s.all_data['project'] 
-			// $scope.myWelcome = response.statusText;
+			parent.data_error =  response.data.message;
 		});
 	}
 
 	function getInfo(){
 		var id = $s.id_project;
 		var url = $s.host + dataUrl.material.get+id;//dataUrl.project.new_project;
-		console.log('url', url)
+		// console.log('url', url)
 		return $h({
 			method : "get",
 			url : url
@@ -167,13 +157,13 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 				// $s.id_unit = $s.data_fitting.unitIndex; //1;
 				//$w.localStorage.setItem('mpanel_unit', $s.id_unit);
 			} else {
-				$s.data_error = data.error
+				parent.data_error = data.error
 			}
 			
 		}, function myError(response) {
-			console.log('getInfo myError', response)
+			// console.log('getInfo myError', response)
 			// $scope.myWelcome = response.statusText;
-			$s.data_error = response.data.message
+			parent.data_error = response.data.message
 		});
 	}
 

@@ -170,6 +170,7 @@ body {
     color: red;
     margin-top: -20px;
 }
+
 .body .cont > .preload .error_text .cont_text {
 	margin-top: 10px;
 }
@@ -244,6 +245,20 @@ body {
 	text-transform: uppercase;
 	font-weight: bold;
 	cursor: pointer;
+
+	/*position: absolute;
+    top: 50%;
+    left: 50%;*/
+    /*width: 50px;*/
+    background-color: green;
+    /*height: 30px;*/
+    /*margin-left: -25px;*/
+    /*color: white;*/
+    text-transform: uppercase;
+    border-radius: 3px;
+    text-align: center;
+    /*line-height: 30px;*/
+    margin-top: 10px;
 }
 
 @-moz-keyframes animaciya {

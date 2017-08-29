@@ -746,7 +746,7 @@ function MpanelViewer(parent){
 		this.rotateUp(diff_up)
 	};
 	this.updateMaterial = function(basic){
-		// if()
+		if(!this.item_object) return
 		this.basicMaterial = basic;
 		this.createMeshMaterial()
 	}

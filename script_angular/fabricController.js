@@ -8,6 +8,8 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 	// 	}		
 	// });
 
+	// $s.$parent.load_data = true;
+
 	var parent = $s.$parent;
 
 	$s.destroy = function(start){
@@ -40,7 +42,7 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 	]
 
 	$s.changeSelect = function(name) {
-		console.log('fabric',name)
+		// console.log('fabric',name)
 		postInfo(name)
 	}
 	if(!$s.id_project){
@@ -58,7 +60,7 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 
 
 	function pullDataPage(argument) {
-		console.log('pullDataPage', $s.data_fabric)
+		// console.log('pullDataPage', $s.data_fabric)
 
 	}
 
@@ -118,7 +120,7 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 			data: data,
 			url : url
 		}).then(function mySuccess(response) {
-			console.log('getInfo', response)
+			// console.log('getInfo', response)
 			// $scope.myWelcome = response.data;
 			var data = response.data
 			if(!data.error){
@@ -133,11 +135,11 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 				
 				// $w.localStorage.setItem('mpanel_id', data.data)
 			} else {
-				console.log('data error')
+				// console.log('data error')
 				parent.data_error = data.error
 			}
 		}, function myError(response) {
-			console.log('getInfo myError', response)
+			// console.log('getInfo myError', response)
 			// $s.all_data['project'] 
 			// $scope.myWelcome = response.statusText;
 			parent.data_error = response.data.message;
@@ -148,13 +150,13 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 	function getInfo(){
 		var id = $s.id_project;
 		var url = $s.host + dataUrl.material.get+id;//dataUrl.project.new_project;
-		console.log('url', url)
+		// console.log('url', url)
 		if(!id) return
 		return $h({
 			method : "get",
 			url : url
 		}).then(function mySuccess(response) {
-			console.log('getInfo', response)
+			// console.log('getInfo', response)
 			// $scope.myWelcome = response.data;
 			var data = response.data
 			if(!data.error){
@@ -167,7 +169,7 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 			}
 			
 		}, function myError(response) {
-			console.log('getInfo myError', response)
+			// console.log('getInfo myError', response)
 			// $scope.myWelcome = response.statusText;
 			parent.data_error = response.data.message
 		});

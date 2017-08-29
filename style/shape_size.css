@@ -405,7 +405,7 @@
 	pointer-events: none;
 	padding: 0;
 	border-radius: 0;
-	box-shadow: 0 0 0px #1296FF !important;
+	box-shadow: 0 0 0px #1296FF;
 	transition: all 0.15s;
 }
 .table_info tbody tr td input[type='text']:focus + label{

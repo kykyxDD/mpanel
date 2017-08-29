@@ -11,6 +11,7 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 	$s.mpanel = false;
 	$s.updateMpanel = false;
 	$s.user_page = false;
+	$s.negative = false
 	$s.reduction = [
 		"m",
 		"cm",
@@ -31,6 +32,11 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 	$s.$location = $l;
 	$s.$routeParams = $rp;
 	// console.log($r, $l, $rp)
+
+	$s.errorOk = function(){
+		$s.data_error = false
+		$s.load_data = false
+	}
 
     $s.id_itm_page = 0;
 
@@ -141,8 +147,11 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 			$s.load_data = true
 			$s.$$childTail.destroy(true).then(function(){
 				console.log(true, $s.data_error)
-				$s.itm_page = obj;
-				$s.load_data = false
+				if(!$s.data_error){
+					$s.itm_page = obj;
+					$s.load_data = false	
+				}
+				
 			// }).then(function(){
 				// $s.load_data = false
 			});

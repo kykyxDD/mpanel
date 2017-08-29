@@ -3,7 +3,7 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 	var elem = document.getElementById('threejs');
 	var mpanel
 	var parent = $s.$parent;
-	$s.$parent.load_data = false;
+	$s.$parent.load_data = true;
 
 	if(!$s.id_project){
 		return $s.updatePage(0)
@@ -75,16 +75,16 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 		if(!$s.id_project) return
 		var id = $s.id_project;
 		var url = $s.host + dataUrl.calculate.post+id;
-		console.log('url', url)
+		// console.log('url', url)
 		return $h({
 			method : "post",
 			url : url
 		}).then(function mySuccess(response) {
-			console.log('getInfo', response)
+			// console.log('getInfo', response)
 			// $scope.myWelcome = response.data;
 			var data = response.data
 			if(!data.error){
-				$s.$parent.load_data = false
+				
 				loadInfo(data.data)
 			} else {
 				//parent.data_error = data.error
@@ -92,14 +92,12 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 			}
 			
 		}, function myError(response) {
-			console.log('getInfo myError', response)
+			// console.log('getInfo myError', response)
 			$s.review_error = response.data.message;
 		});
 	};
 	function loadInfo(data){
 		load_file = false
-
-		console.log($s)
 		$s.data_review = data;
 		if(!parent.all_data['review']) {
 			parent.all_data['review'] = data;
@@ -114,6 +112,8 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 		}
 		parent.updateMpanel = false;
 		parent.noUpdateMpanel = false
+
+		$s.$parent.load_data = false
 
 	}
 

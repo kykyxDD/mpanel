@@ -2,6 +2,10 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	if(!$s.id_project){
 		return $s.updatePage(0)
 	}
+	$s.item_shape = {
+		arr_negative: []
+	}
+	// $s.$s.item_shape.arr_negative = [];
 	$s.$parent.load_data = true
 	console.log('shapeController')
 	var canvas, exportRoot, stage, objectsDataCanvas, curentObject;
@@ -9,22 +13,19 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	$s.data_shape = [];
 	$s.prev_num = $s.item_num;
 
-	
-
 	var parent = $s.$parent;
 
 	$s.default_data = [];
 	$s.loadExampleShape = function(){
-		console.log('loadExample')
+		// console.log('loadExample')
 		var num = $s.item_num - $s.min_edge;
 		var new_data = $s.default_data[num];
-		//$s.item_shape = clone($s.default_data[num]);
-		console.time('loadExample')
+		// console.time('loadExample')
 		for(var key in new_data){
-			$s.item_shape[key] = cloneItem(new_data[key])
-			
+			$s.item_shape[key] = cloneItem(new_data[key])			
 		}
-		console.timeEnd('loadExample')
+		$s.item_shape.arr_negative = []
+		// console.timeEnd('loadExample')
 	}
 
 	function cloneItem(data){
@@ -52,9 +53,9 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 
 	
 	$s.resetDataShape = function(){
-		console.log('resetData')
+		// console.log('resetData')
 		var shape = $s.item_shape;
-		console.time('reset')
+		// console.time('reset')
 		for(var i = 0; i < shape.sideParameters.length;i++){
 			var side = shape.sideParameters[i];
 			side.pointToPointSize = 0;
@@ -71,20 +72,27 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			var dial =  shape.diagonalParameters[i];
 			dial.value = 0;
 		}
-		console.timeEnd('reset')
+
+		$s.item_shape.arr_negative = []
+		// console.timeEnd('reset')
 	}
 
 	$s.$watch('item_num', updateNumEdge);
-	// $s.$on("$destroy", function() {
-	// 	console.log(' projectController destroy')
-	// 	return postInfo();
-	// });
+
+	$s.$watch('item_shape.arr_negative.length', updateNedative);
 
 	$s.destroy = function(start){
 		if(start){
 			return postInfo();
 		}
 		return false
+	}
+	function updateNedative(){
+		var str = false
+		if($s.item_shape && $s.item_shape.arr_negative && $s.item_shape.arr_negative.length > 0){
+			str = $s.item_shape.arr_negative.length > 0
+		}
+		parent.negative = str
 	}
 
 	$s.minusNum = function(){
@@ -101,12 +109,48 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			exportRoot.setSelection(name.replace('-',''));
 		}
 	}
-	$s.blur = function(name){
+	$s.blur = function(obj, str){
 		exportRoot.setSelection("");
+		if(obj){
+			// console.log('blur', obj, str)
+			var val_str = str+'-'+obj.name
+			if(str == 'size'){
+				// var val_str = str+'-'+obj.name
+				if(+obj.pointToPointSize < 0){
+					$s.item_shape.arr_negative.push(val_str)
+					obj.negative = true
+				} else if(obj.negative){
+					var id = $s.item_shape.arr_negative.indexOf(val_str)
+					if(id >= 0){
+						$s.item_shape.arr_negative.splice(id, 1);
+					}
+				}
+			} else if(str == 'diag'){
+				if(+obj.value < 0){
+					$s.item_shape.arr_negative.push(val_str)
+					obj.negative = true
+				} else if(obj.negative){
+					var id = $s.item_shape.arr_negative.indexOf(val_str)
+					if(id >= 0){
+						$s.item_shape.arr_negative.splice(id, 1);
+					}
+				}
+			} else if(str == 'corn'){
+				if(+obj.height < 0){
+					$s.item_shape.arr_negative.push(val_str)
+					obj.negative = true
+				} else if(obj.negative){
+					var id = $s.item_shape.arr_negative.indexOf(val_str)
+					if(id >= 0){
+						$s.item_shape.arr_negative.splice(id, 1);
+					}
+				}
+			}
+		}
 	}
 
 	function updateNumEdge(){
-		console.log('updateNumEdge', $s.prev_num, $s.item_num)
+		// console.log('updateNumEdge', $s.prev_num, $s.item_num)
 		// clearMasure()
 		var num = $s.item_num - $s.min_edge;
 		curentObject = objectsDataCanvas[num];
@@ -148,7 +192,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		$s.item_num = data.sideCount;
 
 		pullDataPage();
-		console.log('data',$s.default_data)
+		// console.log('data',$s.default_data)
 	}
 	function updatePrevVal(prev){
 		if($s.item_shape){
@@ -180,6 +224,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 				if(key == 'innerItems' || key == 'isInnerPage') continue
 				obj[key] = cloneItem(data[key])
 			}
+			obj.arr_negative = []
 			return obj
 		}
 		return res
@@ -195,38 +240,38 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		if($s.item_shape && $s.item_num != $s.item_shape.sideCount){
 			// var index = $s.item_num - $s.min_edge;
 			$s.item_shape = data[index];
-			console.log('no')
+			// console.log('no')
 		} else {
 			$s.item_shape = data[index];
-			console.log('itm')
+			// console.log('itm')
 		}
 	}
 
 	function getInfo(){
 		var id = $s.id_project;
 		var url = $s.host + dataUrl.meas.get+id; 
-		console.log('url', url)
+		// console.log('url', url)
 		return $h({
 			method : "get",
 			url : url
 		}).then(function mySuccess(response) {
-			console.log('getInfo', response)
+			// console.log('getInfo', response)
 			// $scope.myWelcome = response.data;
 			var data = response.data
 			if(!data.error){
-				console.time('get')
+				// console.time('get')
 				// $s.data_shape = data.data;
 				// $s.default_data = cloneItem(data.data.innerItems);
 				parent.all_data['shape'] = data.data;
 				parent.all_data['default_shape'] = cloneItem(data.data.innerItems)//cloneItem(data.data.innerItems);
-				console.timeEnd('get')
+				// console.timeEnd('get')
 			} else {
 				// $s.data_error = data.error
 				parent.data_error = data.error
 			}
 			
 		}, function myError(response) {
-			console.log('getInfo myError', response)
+			// console.log('getInfo myError', response)
 			// $scope.myWelcome = response.statusText;
 			parent.data_error = response.data.message
 		});
@@ -242,7 +287,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		var url = $s.host + dataUrl.meas.post.commit+id;
 		parent.all_data['shape'] = getDataParent()
 		var data = getNewData();
-		console.log('url', data)
+		// console.log('url', data)
 		return $h({
 			method : "post",
 			data: data,
@@ -256,13 +301,13 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 				$w.localStorage.setItem('mpanel_id', data.data);
 				parent.updateMpanel = true
 			} else {
-				console.lgo('data error')
+				// console.log('data error')
 				parent.data_error = data.error
 
 			}
 			
 		}, function myError(response) {
-			console.log('getInfo myError', response)
+			// console.log('getInfo myError', response)
 			// $s.all_data['project'] 
 			// $scope.myWelcome = response.statusText;
 			parent.data_error = data.error

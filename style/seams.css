@@ -226,6 +226,10 @@ width: 550px;
 .cont_info .right_path .info {
 	margin-bottom: 51px;
 }
+.cont_info .right_path .info_text {
+	width: 425px;
+	height: 200px;
+}
 .cont_info_select .popup {
 	width: 220px;
 	margin-left: -110px;
