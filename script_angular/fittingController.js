@@ -29,16 +29,13 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 	}
 
 	$s.changeSelect = function(name) {
-		// console.log('fitting',name)
-		postInfo(name)
+		postInfo(name);
 	}
 	if($s.all_data['material']) {
 		$s.data_fitting = $s.all_data['material'];
 		$s.$parent.load_data = false;
 	} else {
-		// $s.$parent.load_data = true;
 		getInfo().then(function(){
-			// pullDataPage()
 			parent.load_data = false;
 		})
 	}
@@ -59,11 +56,6 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 			}
 		}
 
-		// hardwareSelectedIndex
-		// hardEdgeTypeSelectedIndex
-		// hardColorSelectedIndex
-		// exampleImageSelectedIndex
-		// hardCornorSelectedIndex
 
 		if(typeof data.hardwareSelectedIndex == 'string'){
 			var id = data_fitting.hardwareItems.indexOf(data.hardwareSelectedIndex)
@@ -107,18 +99,16 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 
 
 	function postInfo(sel) {
-		var url = $s.host; //main.host + dataUrl.material.post.selectChange+id; 
+		var url = $s.host; 
 		var id = $s.id_project;
-		// var url = $s.host + dataUrl.material.get+id;
 		if(typeof sel == 'string'){
-			// this.new_page = false
+			parent.preload_opacity = true;
 			url += dataUrl.material.post.selectChange+id+ '&selectType='+sel;
+
 		} else {
-			// this.new_page = true
 			url += dataUrl.material.post.commit+id;
 		}
 		var data = getData();
-
 
 		return $h({
 			method : "post",
@@ -130,11 +120,11 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 				if(typeof data.data == 'string'){
 					$w.localStorage.setItem('mpanel_id', data.data)
 				} else {
+					parent.preload_opacity = false;
 					$s.all_data['material'] = data.data;
 					$s.data_fitting = data.data;
 				}
 			} else {
-				// console.lgo('data error')
 				parent.data_error = data.error
 			}
 		}, function myError(response) {
@@ -145,29 +135,20 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 	function getInfo(){
 		var id = $s.id_project;
 		var url = $s.host + dataUrl.material.get+id;//dataUrl.project.new_project;
-		// console.log('url', url)
 		return $h({
 			method : "get",
 			url : url
 		}).then(function mySuccess(response) {
-			// console.log('getInfo', response)
-			// $scope.myWelcome = response.data;
 			var data = response.data
 			if(!data.error){
 				$s.all_data['material'] = data.data;
 				$s.data_fitting = data.data;
-				// $s.id_unit = $s.data_fitting.unitIndex; //1;
-				//$w.localStorage.setItem('mpanel_unit', $s.id_unit);
 			} else {
 				parent.data_error = data.error
 			}
-			
 		}, function myError(response) {
-			// console.log('getInfo myError', response)
-			// $scope.myWelcome = response.statusText;
 			parent.data_error = response.data.message
 		});
 	}
 
-	
 }])

@@ -98,6 +98,7 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 		// var url = $s.host + dataUrl.material.get+id;
 		if(typeof sel == 'string'){
 			// this.new_page = false
+			parent.preload_opacity = true
 			url += dataUrl.material.post.selectChange+id+ '&selectType='+sel;
 		} else {
 			// this.new_page = true
@@ -122,6 +123,7 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 				} else {
 					parent.all_data['material'] = data.data;
 					$s.data_fabric = data.data;	
+					parent.preload_opacity = false;
 				}
 				
 				// $w.localStorage.setItem('mpanel_id', data.data)

@@ -109,7 +109,7 @@
 					</div>
 				</div>
 
-				<div ng-if="!home_page" class="preload" ng-class='{hide: !load_data && !data_error, error: data_error}'>
+				<div ng-if="!home_page" class="preload" ng-class='{hide: !load_data && !data_error && !preload_opacity, error: data_error, opacity: preload_opacity }'>
 					<div class="error_text" ng-if='data_error'>{{data_error}}
 						<div class="btn_ok" ng-click='errorOk()'>Ok</div>
 					</div>

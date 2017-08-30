@@ -20,7 +20,7 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 
 	if($s.id_project){
 		$s.$parent.load_data = true;
-		console.log($s.all_data['project'])
+		// console.log($s.all_data['project'])
 		if(parent.all_data['project']){
 			$s.data_project = parent.all_data['project'];
 			pullDataPage()
@@ -46,16 +46,11 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 	}
 
 	function pullDataPage(data){
-		// console.log('pullDataPage', $s)
-		// var data = $s.data_project;
-
 		$s.$parent.load_data = false;
-
 	}
 	function getData(){
-		var data = $s.data_project
-		// var model = $s.model_project
-		var id_unit = $s.data_project.unitIndex //data.units.indexOf(model.unitIndex)
+		var data = $s.data_project;
+		var id_unit = $s.data_project.unitIndex; //data.units.indexOf(model.unitIndex)
 
 		return {
 			clientName: data.clientName,
@@ -76,41 +71,31 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 	function getInfo(){
 		var id = $s.id_project;
 		var url = $s.host + dataUrl.project.get+id;//dataUrl.project.new_project;
-		// console.log('url', url)
+
 		return $h({
 			method : "get",
 			url : url
 		}).then(function mySuccess(response) {
-			// console.log('getInfo', response)
-			// $scope.myWelcome = response.data;
 			var data = response.data
 			if(!data.error){
 				parent.all_data['project'] = data.data;
 				$s.data_project = data.data;
-				parent.id_unit = $s.data_project.unitIndex; //1;
+				parent.id_unit = $s.data_project.unitIndex; 
 				$w.localStorage.setItem('mpanel_unit', parent.id_unit);
 			} else {
-				//$s.data_error = data.error
 				parent.data_error = data.error;
 			}
 			
 		}, function myError(response) {
-			// console.log('getInfo myError', response)
-			// $scope.myWelcome = response.statusText;
-			//$s.data_error = response.data.message
 			parent.data_error = response.data.message;
 		});
 	}
 	$s.desplayPikaday = function(){
 		var data = $s.data_project;
-		console.log('data',data)
 		var date_required = document.getElementById('date_required');
 		var date_entered = document.getElementById('date_entered');
-		// var fun_required = date_required.data('datepicker');
-		// var fun_entered = date_entered.data('datepicker');
-		// console.log(fun_required,fun_entered)
-		$(date_required).data('datepicker').destroy()
-		$(date_entered).data('datepicker').destroy()
+		$(date_required).data('datepicker').destroy();
+		$(date_entered).data('datepicker').destroy();
 	}
 	function postInfo(){
 		var id = $s.id_project;
@@ -123,8 +108,30 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 		}
 		var data = $s.data_project;
 		var data_1 = getData();
-		// console.log(data_1)
-		// $s.data_project.unitIndex = data.units.indexOf($s.model_project.unitIndex)
+
+		var prev_unit = $w.localStorage.getItem('mpanel_unit');
+		if(prev_unit != undefined &&  +prev_unit >= 0 ){
+			if(+prev_unit != $s.data_project.unitIndex) {
+				console.log('prev_unit')
+				if(parent.all_data['shape']){
+					delete parent.all_data['shape']
+				}
+				if(parent.all_data['default_shape']){
+					delete parent.all_data['default_shape']
+				}
+				if(parent.all_data['review']){
+					delete parent.all_data['review']
+				}
+
+				if($w.localStorage.getItem('mpanel_obj')){
+					$w.localStorage.removeItem('mpanel_obj')
+				}
+				if(parent.mpanel){
+					parent.mpanel = false
+				}
+			}
+		}
+
 		$w.localStorage.setItem('mpanel_unit', $s.data_project.unitIndex);
 
 		parent.all_data['project'] = data_1;
@@ -138,24 +145,16 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 			data: data_1,
 			url : url
 		}).then(function mySuccess(response) {
-			// console.log('getInfo', response)
-			// $scope.myWelcome = response.data;
 			var data = response.data
 			if(!data.error){
-				// console.log('data',data.data)
 				parent.id_project = data.data
 				$w.localStorage.setItem('mpanel_id', data.data);
 				$s.desplayPikaday()
 			} else {
-				// console.lgo('data error')
 				parent.data_error = data.error
-
 			}
 			
 		}, function myError(response) {
-			// console.log('getInfo myError', response)
-			// $s.all_data['project'] 
-			// $scope.myWelcome = response.statusText;
 			parent.data_error = data.error
 		});
 	}

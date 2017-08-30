@@ -139,8 +139,9 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 	}
 
 	function updateItmPage(obj){
+		console.log($s.user_page, $s.home_page)
 		// console.log('updateItmPage', obj == $s.itm_page)
-		if(obj == $s.itm_page && !$s.user_page) return
+		if(obj == $s.itm_page && !$s.user_page && !$s.home_page) return
 
 		if($s.$$childTail && $s.$$childTail.destroy) {
 			// console.log(true)
