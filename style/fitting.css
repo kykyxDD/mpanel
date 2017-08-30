@@ -129,7 +129,7 @@
 .cont_checkbox_circle > div{
 	display: inline-block;
 	vertical-align: middle;
-	color: #646464;
+	/*color: #646464;*/
 }
 .cont_checkbox_circle .cont_check {
 	width: 68px;

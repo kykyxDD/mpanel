@@ -25,10 +25,10 @@
 }
 .cont_val_textarea .txt,
 .cont_val_input .txt {
-	color: #6a6a6a;
-	text-transform: uppercase;
+	color: #2D2D2D;
+    text-transform: uppercase;
     font-size: 12px;
-    letter-spacing: -0.5px;
+    /* letter-spacing: -0.5px; */
     margin-bottom: 5px;
 }
 .cont_input input{

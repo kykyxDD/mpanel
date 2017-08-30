@@ -2,7 +2,7 @@
 	/*background-image: url(../image/bg_seams.jpg);*/
 	background-position: center -5px;
 }
-.popup {
+.page_seams .popup {
 	text-transform: inherit !important;
 }
 .page_seams .left_path,
@@ -48,14 +48,14 @@
 	text-transform: initial !important;
 }
 .cont_info .cont_count {
-	padding-top: 5px;
+	padding-top: 7px;
 	text-align: center;
 }
 
 .cont_info .cont_count .text{
 	text-transform: uppercase;
 	line-height: 17px;
-	color: dimgrey;
+	/*color: dimgrey;*/
 
 }
 

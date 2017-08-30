@@ -1,11 +1,48 @@
+@font-face {
+    font-family: OpenSans;
+    /*src: url(fonts/OpenSans-Regular.ttf);*/
+    src: url(fonts/OpenSans-Regular.ttf);
+    
+}
+@font-face {
+    font-family: OpenSans;
+    src: url(fonts/OpenSans-Light.ttf);
+    font-weight: lighter;
+}
+@font-face {
+    font-family: OpenSans;
+    src: url(fonts/OpenSans-Semibold.ttf);
+    font-weight: bold;
+}
+@font-face {
+    font-family: OpenSans;
+    src: url(fonts/OpenSans-Italic.ttf);
+    font-style: italic;
+}
+@font-face {
+    font-family: OpenSans;
+    src: url(fonts/OpenSans-SemiboldItalic.ttf);
+    font-weight: bold;
+    font-style: italic;
+}
+@font-face {
+    font-family: OpenSans;
+    src: url(fonts/OpenSans-LightItalic.ttf);
+    font-weight: lighter;
+    font-style: italic;
+}
+    
+
+
 body {
 	padding: 0;
 	margin: 0;
 	/*background-image: url(../image/review.jpg);*/
 	background-repeat: no-repeat;
 	background-position: center top;
-	font-family: Arial;
+	font-family: OpenSans;
 	min-width: 1200px;
+	color: #000;
 }
 
 
@@ -115,9 +152,9 @@ body {
 	height: 40px;
 	line-height: 60px;
 	text-align: center;
-	color: #7D7D7D;
+	color: #212121;
 	margin-left: -44px;
-	letter-spacing: -0.3px;
+	/*letter-spacing: -0.3px;*/
 	text-decoration: blink;
 	transition: color 0.2s;
 	cursor: pointer;
@@ -125,7 +162,7 @@ body {
 .menu .page.prev .text:hover, 
 .menu .page .text:hover, 
 .menu .page.itm .text {
-	color: #f67e03;
+	color: #F65203;
 } 
 .menu .page.prev .text {
 	color: black;
@@ -292,11 +329,12 @@ body {
 }
 .body .cont .title {
 	padding: 22px 0;
-	font-size: 23px;
-	letter-spacing: -1.3px;
+	font-size: 21px;
+	/*letter-spacing: -1.3px;*/
 	margin-bottom: 6px;
 	position: relative;
 	text-transform: uppercase;
+	font-weight: bold;
 }
 .body .cont .title .btn_help {
 	width: 130px;
@@ -309,7 +347,7 @@ body {
 	border: 1px solid #dbdbdb;
 	color: #666666;
 	font-size: 13px;
-	letter-spacing: 0.5px;
+	/*letter-spacing: 0.5px;*/
 	line-height: 30px;
 	text-indent: 61px;
 	/*background: #fefefe;
@@ -351,7 +389,7 @@ body {
 	line-height: 34px;
 	text-transform: uppercase;
 	font-size: 12px;
-	color: #767676;
+    color: #616161;
 	background: #fefefe;
 	background: -moz-linear-gradient(top, #fefefe 0%, #f0f0f0 100%);
 	background: -webkit-linear-gradient(top, #fefefe 0%,#f0f0f0 100%);
@@ -387,7 +425,7 @@ body {
 	border-radius: 50%;
 	font-size: 12px;
 	border: 1px solid #6E6E6E;
-	color: #848484;
+	/*color: #848484;*/
 	margin-left: 5px;
 	line-height: 14px;
 	text-align: center;
@@ -401,7 +439,7 @@ body {
 
 .btn_help .popup{
 	position: absolute;
-	background-color: rgba(0,0,0,0.7);
+	background-color: rgba(0, 1, 10, 0.8);
 	border-radius: 3px;
 	color: #fff;
 	text-align: left;
@@ -411,6 +449,7 @@ body {
 	opacity: 0;
 	transition: opacity 0.3s;
 	text-transform: capitalize;
+	font-weight: bold;
 }
 .btn_help:hover .popup {
 	opacity: 1;
@@ -460,15 +499,15 @@ body {
 }
 .footer .my_btn {
 	width: 143px;
-	height: 40px;
-	/*background: inherit;*/
-	font-weight: bold;
-	font-size: 15px;
-	line-height: 40px;
-	color: #6C6C6C;
-	letter-spacing: -1px;
-	text-align: left;
-	position: relative;
+    height: 40px;
+    /* background: inherit; */
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 40px;
+    color: #6C6C6C;
+    /* letter-spacing: -1px; */
+    text-align: left;
+    position: relative;
 }
 .footer .my_btn.back {
 	text-indent: 62px;
@@ -730,12 +769,15 @@ body {
 
 .text_green {
 	color: #43B668;
+	font-weight: bold;
 }
 .text_orange {
 	color: #FF7A00;
+	font-weight: bold;
 }
 .text_red {
-	color:#FC0000
+	color:#FC0000;
+	font-weight: bold;
 }
 .iscroll_contbar {
 	position: relative;
@@ -1123,7 +1165,7 @@ body {
 
 }
 .cont_input .txt{
-	color: #6d6d6d;
+	color: #212121;
 	font-size: 12px;
 
 }

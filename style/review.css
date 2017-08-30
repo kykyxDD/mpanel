@@ -120,10 +120,10 @@
 }
 .info .cont_color_key .text{
 	text-indent: 20px;
-	position: relative;
-	color: #5C5C5C;
-	font-size: 13px;
-	margin-bottom: 5px;
+    position: relative;
+    /* color: #5C5C5C; */
+    font-size: 12px;
+    margin-bottom: 5px;
 }
 .info .cont_color_key .text.green:before {
 	content: '';

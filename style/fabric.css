@@ -112,7 +112,7 @@
 }
 
 .page_fabric input {
-	color: #636363 !important;
+	color: #212121 !important;
 	border-radius: 3px;
 }
 
@@ -125,7 +125,7 @@
 	margin-bottom: 27px;
 }
 .page_fabric .cont_input .name {
-	color: #636363 !important;
+	color: #212121 !important;
 }
 .page_fabric .cont_input > div {
 	display: inline-block;

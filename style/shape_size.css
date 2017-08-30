@@ -108,7 +108,7 @@
 	text-indent: 9px;
 	font-size: 12px;
 	letter-spacing: 0.1px;
-	color:#868686;
+	/*color:#868686;*/
 	line-height: 16px;
 }
 .cont_info .cont_figure{
@@ -132,7 +132,7 @@
 .cont_info .cont_count .text{
 	text-transform: uppercase;
 	line-height: 17px;
-	color: dimgrey;
+	/*color: dimgrey;*/
 
 }
 
@@ -259,7 +259,7 @@
 .thead_sides,
 .thead_diagonals,
 .thead_corners{
-	color: #929292;
+	color: #4A4A4A;
 	background-color: #e5e5e5;
 }
 
@@ -434,6 +434,9 @@
 	padding-right: 10px;
 	opacity: 1;
 	transition: all 0.15s;
+	font-size: 13px;
+	line-height: 20px;
+	color: #000;
 }
 .table_diagonals tr {
 	height: 32px;

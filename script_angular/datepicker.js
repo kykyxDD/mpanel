@@ -44,8 +44,12 @@ mpanelApp.directive('calendar', function () {
                 onSelect: function (dateText) {
                     update = true
                     // console.log('dateText',dateText)
+
                     var date = getObjDate(dateText);
-                    var str_date = getStrDate(date)
+                    if(date.getDay()){
+                        str_date = getStrDate(date);
+                    }
+
                     ngModel.$setViewValue(str_date);
                 }
             });

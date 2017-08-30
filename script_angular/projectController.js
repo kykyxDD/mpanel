@@ -112,14 +112,9 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 		if(prev_unit != undefined &&  +prev_unit >= 0 ){
 			if(+prev_unit != $s.data_project.unitIndex) {
 				console.log('prev_unit')
-				if(parent.all_data['shape']){
-					delete parent.all_data['shape']
-				}
-				if(parent.all_data['default_shape']){
-					delete parent.all_data['default_shape']
-				}
-				if(parent.all_data['review']){
-					delete parent.all_data['review']
+
+				for(var key in parent.all_data){
+					delete parent.all_data[key]
 				}
 
 				if($w.localStorage.getItem('mpanel_obj')){
