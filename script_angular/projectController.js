@@ -20,7 +20,6 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 
 	if($s.id_project){
 		$s.$parent.load_data = true;
-		// console.log($s.all_data['project'])
 		if(parent.all_data['project']){
 			$s.data_project = parent.all_data['project'];
 			pullDataPage()
@@ -131,8 +130,6 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 				}
 			}
 		}
-
-		$w.localStorage.setItem('mpanel_unit', $s.data_project.unitIndex);
 
 		parent.all_data['project'] = data_1;
 		parent.all_data['project'].units = $s.data_project.units;
