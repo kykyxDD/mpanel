@@ -478,10 +478,11 @@ function MpanelViewer(parent){
 		var w = max.x - min.x
 		var h = max.z - min.z
 		// console.log()
-		// if(w > this.obj_plane.geometry.parameters.width || 
-		// 	h > this.obj_plane.geometry.parameters.height){
-		// 	this.updateSizePlane(Math.max(w,h))
-		// }
+		if(w > this.obj_plane.geometry.parameters.width || 
+			h > this.obj_plane.geometry.parameters.height){
+			//this.updateSizePlane(Math.max(w,h))
+			//console.log('')
+		}
 
 		var box = new THREE.Box3
 		object.traverse(function(object) {

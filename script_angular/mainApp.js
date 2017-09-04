@@ -16,9 +16,9 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 		"m",
 		"cm",
 		'mm',
-		"inches",
-		"ft inches",
-		"ft inches and fractions",
+		"in",
+		"in",
+		"in"
 	];
 	$s.min_edge = 3;
 	// $s.item_num = 3

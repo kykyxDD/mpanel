@@ -38,24 +38,31 @@ mpanelApp.directive('calendar', function () {
         restrict: 'A',
         link: function (scope, el, attr, ngModel) {
             var update = false;
+            var label = el[0].labels[0];
 
             var fun = $(el).datepicker({
                 dateFormat: 'dd/mm/yyyy',
+                inline: false,
+                onShow: function(dp, animationCompleted){
+                    $(dp.el).addClass('show')
+                },
+                onHide: function(dp, animationCompleted){
+                    $(dp.el).removeClass('show')
+                },
                 onSelect: function (dateText) {
                     update = true
-                    // console.log('dateText',dateText)
 
                     var date = getObjDate(dateText);
                     if(date.getDay()){
                         str_date = getStrDate(date);
                     }
+                    label.innerText = dateText;
 
                     ngModel.$setViewValue(str_date);
                 }
             });
-            el.data_pikaday = fun
+            el.data_pikaday = fun;
             return scope.$watch(attr.ngModel, function(newValue){
-                // console.log(newValue)
                 if(newValue && !update){
 
                     var date = getObjDate(newValue) 

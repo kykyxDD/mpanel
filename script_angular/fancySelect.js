@@ -15,15 +15,12 @@ mpanelApp.directive('fancySelect', function() {
             var val = undefined
 
             $(el).bind({
-                'change': function(){
-                    // console.log('change')
+
+                'option-click' : function(){
                     if(!update) return
                     val = fun.currentFocus
                     ngModel.$setViewValue(fun.currentFocus)
-                    // console.log(fun.currentFocus)
-                // },
-                // "click" : function(){
-                //     console.log('click', this)
+                    fun.selectOption(val);
                 }
             });
 
@@ -35,22 +32,18 @@ mpanelApp.directive('fancySelect', function() {
                 for(var i = 0; i < newValue.length; i++){
                     arr.push({
                         text: newValue[i],
-                        value: newValue[i]
+                        value: 'value_'+i
                     })
                 };
                 update = true
                 fun.remove();
                 fun.add(arr);
-                fun.refresh();
                 if(val >= 0){
                     fun.selectOption(val);
                 }
-                // if(attr.fancyList == 'data_shape.dipItems'){
-                //     console.log(newValue)
-                // }
             })
             scope.$watch(attr.ngModel, function(newValue){
-                if(newValue >= 0){
+                if(newValue >= 0){                    
                     fun.selectOption(newValue);
                     val = newValue;
                 }

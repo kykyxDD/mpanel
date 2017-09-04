@@ -37,12 +37,12 @@
 	</div>
 	<div class="graphics">
 		<div class="cont_button top">
-			<div class="my_btn isometric" ng-class="{disabled: data_error }" ng-click='isometricClick()'>isometric</div>
-			<div class="my_btn right" ng-class="{disabled: data_error }" ng-click='rightClick()'>right</div>
-			<div class="my_btn front" ng-class="{disabled: data_error }" ng-click='frontClick()'>front</div>
-			<div class="my_btn top" ng-class="{disabled: data_error }" ng-click='topClick()'>top</div>
-			<div ng-if='arr_url.length > 1' ng-click='editNumModel(0)' ng-class='{active :index_model == 0 }' class="my_btn model_1">1</div>
-			<div ng-if='arr_url.length > 1' ng-click='editNumModel(1)' ng-class='{active :index_model == 1 }' class="my_btn model_2">2</div>
+			<div class="my_btn isometric" ng-class="{disabled: data_error || review_error }" ng-click='isometricClick()'>isometric</div>
+			<div class="my_btn right" ng-class="{disabled: data_error || review_error }" ng-click='rightClick()'>right</div>
+			<div class="my_btn front" ng-class="{disabled: data_error || review_error }" ng-click='frontClick()'>front</div>
+			<div class="my_btn top" ng-class="{disabled: data_error || review_error }" ng-click='topClick()'>top</div>
+			<div ng-if='arr_url.length > 1' ng-click='editNumModel(0)' ng-class='{active :index_model == 0, disabled: data_error || review_error }' class="my_btn model_1">1</div>
+			<div ng-if='arr_url.length > 1' ng-click='editNumModel(1)' ng-class='{active :index_model == 1, disabled: data_error || review_error }' class="my_btn model_2">2</div>
 		</div>
 		<div class="word">
 			<div id="threejs" class="threejs" ng-class='{error: review_error}'>

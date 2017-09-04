@@ -3,11 +3,13 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 	var elem = document.getElementById('threejs');
 	var mpanel
 	var parent = $s.$parent;
-	$s.$parent.load_data = true;
+	parent.load_data = true;
 
 	if(!$s.id_project){
 		return $s.updatePage(0)
-	} else if(parent.mpanel){
+	} 
+
+	if(parent.mpanel){
 		mpanel = parent.mpanel;
 		mpanel.parent = elem;
 		elem.appendChild(mpanel.container);
@@ -87,8 +89,8 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 				
 				loadInfo(data.data)
 			} else {
-				//parent.data_error = data.error
 				$s.review_error = data.error;
+				parent.load_data = false
 			}
 			
 		}, function myError(response) {
@@ -113,7 +115,7 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 		parent.updateMpanel = false;
 		parent.noUpdateMpanel = false
 
-		$s.$parent.load_data = false
+		parent.load_data = false
 
 	}
 
