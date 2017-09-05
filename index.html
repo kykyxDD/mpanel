@@ -17,21 +17,12 @@
 	<link rel="stylesheet" type="text/css" href="./style/shape_size.css"> 
 	<link rel="stylesheet" type="text/css" href="./style/review.css"> 
 	<link rel="stylesheet" type="text/css" href="./style/seams.css"> 
+	<link rel="stylesheet" type="text/css" href="./style/pattern.css"> 
 	<link rel="stylesheet" type="text/css" href="./style/graphics.css"> 
-	
-
 	<link rel="stylesheet" type="text/css" href="./style_angular/style.css"> 
-	<!-- <link rel="stylesheet" type="text/css" href="./libs/angular-moment-picker.css">  -->
-
 	
-	<!-- <script type="text/javascript" src='./libs/angularjs/angular.min.js'></script> -->
-	<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script> -->
-
 	<script src="./libs/angularjs/angular_1.2.min.js"></script>
 	<script src="./libs/angularjs/angular-route.js"></script>
-	<!-- // <script src="./libs/angularjs/angular-moment-picker.js"></script> -->
-	
-	
 
 	<script src="./libs/easeljs-0.8.1.min.js"></script>
 	<script src="./libs/movieclip-0.8.1.min.js"></script>
@@ -73,8 +64,6 @@
 	<script type="text/javascript" src='./script_angular/datepicker.js'></script>
 	<script type="text/javascript" src='./script_angular/customScroll.js'></script>
 	<script type="text/javascript" src='./script_angular/fancySelect.js'></script>
-	
-	<!-- // <script type="text/javascript" src='./script_angular/headerController.js'></script> -->
 </head>
 <body ng-app='mpanelApp' ng-controller="mpanelController" ng-class='{body_home : home_page}'>
 	<div class='main' ng-class='{home : home_page}' >
@@ -129,18 +118,18 @@
 						<div class="link" >back</div>
 					</div>
 					<div class="text_prompt" ng-if='itm_page.id == "shape"'>
-						<div class="cont_error" ng-if='negative'>
+						<div class="cont_error" ng-if='negative || no_all_val'>
 							<div class="cont_text_error">
-								<!-- <div class="fill_data">Please fill your measurement data.</div> -->
-								<div class="cont_itm_error">
-									<div class="txt_before" ng-if='negative'>It looks like there is an error in your measurements.</div>
+								<div class="fill_data" ng-if='no_all_val'>Please fill your measurement data.</div>
+								<div class="cont_itm_error" ng-if='!no_all_val && negative'>
+									<div class="txt_before" >It looks like there is an error in your measurements.</div>
 									<div class="cont_txt"></div>
 								</div>
 							</div>
 						</div>
-						<div class="text_ok" ng-if='!negative'>Preliminary data check passed.</div>
+						<div class="text_ok" ng-if='!negative && !no_all_val'>Preliminary data check passed.</div>
 					</div>
-					<div class="my_btn next active" ng-if='id_itm_page < list_menu.length-1' ng-click='nextPage()'>
+					<div class="my_btn next active" ng-if='id_itm_page < list_menu.length-1' ng-click='nextPage()' ng-class='{disabled: itm_page.id == "shape" && (negative || no_all_val)}'>
 						<div class="link" >next</div>
 					</div>
 				</div>

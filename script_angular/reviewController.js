@@ -36,12 +36,7 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 		messages: [],
 		messageTypes: []
 	}
-	$s.arr_class = [
-		'text_green',
-		'text_orange',
-		'text_red',
-		''
-	]
+
 
 	if(parent.all_data['review'] && !parent.updateMpanel){
 		loadInfo(parent.all_data['review'])

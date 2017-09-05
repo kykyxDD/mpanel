@@ -1,1 +1,60 @@
-<div class="development">PAGE IN DEVELOPMENT</div>
+<div class="cont_info page_pattern">
+	<div class="left_path">
+		<div class="cont_view" ng-style="{'background-image': 'url({{dase_url_svg}})'}">
+			<!-- {{url_svg}} -->
+		</div>
+	</div>
+	<div class="right_path">
+		<div class="cont_table_info">
+			<table class="table_info table_bill">
+				<thead class="thead">
+					<tr>
+						<td class="item">Item</td>
+						<td class="qty">Qty</td>
+						<td class="unit">Unit</td>
+						<td class="desc">Description</td>
+						<td class="unit_cost">Unit Cost</td>
+						<td class="exit_cost">Exit Cost</td>
+						<td class="unit_weight">Unit Weight</td>
+						<td class="exit_weight">Exit Weight</td>
+					</tr>
+				</thead>
+				<tbody class="tbody">
+					
+					<tr ng-repeat="itm in item_pattern.estimateBillInfo">
+						<td class="td_item">{{itm.name}}</td>
+						<td class="td_qty">{{itm.quantity}}</td>
+						<td class="td_unit">{{itm.units}}</td>
+						<td class="td_desc">{{itm.description}}</td>
+						<td class="td_unit_cost">{{itm.unitCost}}</td>
+						<td class="td_exit_cost">{{itm.extCost}}</td>
+						<td class="td_unit_weight">{{itm.unitWeight}}</td>
+						<td class="td_exit_weight">{{itm.extWeight}}</td>
+
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="cont_last_info">
+			<div class="cont_table_edges">
+				<div class="title_info">EDGES</div>
+				<table class="table_info table_edges">
+					<thead class="thead">
+						<tr>
+							<td class="edge">Edge</td>
+							<td class="lenght">Edge lenght</td>
+							<td class="cable">Cable lenght</td>
+						</tr>
+					</thead>
+					<tbody class="tbody">
+						<tr ng-repeat="itm in item_pattern.estimateEdgeInfo">
+							<td class="td_edge">{{itm.name}}</td>
+							<td class="td_lenght">{{itm.edgeLength}}</td>
+							<td class="td_cable">{{itm.cableLength}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

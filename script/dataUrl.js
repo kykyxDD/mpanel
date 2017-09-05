@@ -24,5 +24,8 @@ var dataUrl = {
 	},
 	modelLoad : {
 		get: 'api/mp/modelLoad?fileName='
+	},
+	seams: {
+		post: 'api/mp/calculatePanel?id='
 	}
 }

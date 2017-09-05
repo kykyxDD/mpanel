@@ -80,6 +80,13 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 		}	
 	];
 
+	$s.arr_class = [
+		'text_green',
+		'text_orange',
+		'text_red',
+		''
+	];
+
 	function on_page_change(){
 		// console.log('on_page_change');
 		var itm = $s.itm_page;
@@ -99,10 +106,11 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 				obj = $s.list_menu[0];
 		
 				// updateItmPage(obj)
-			} 
+			} else if(index == $s.list_menu.length-1 && !$s.all_data['pattern']){
+				obj = $s.list_menu[$s.list_menu.length-2];
+			}
 			$s.itm_page = obj;
 		}
-		
 	}
 
 	$s.loadExample = function(){
@@ -138,26 +146,30 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 		// $s.itm_page = obj;
 	}
 
-	function updateItmPage(obj){
+	function updateItmPage(obj, index){
 		console.log($s.user_page, $s.home_page)
 		// console.log('updateItmPage', obj == $s.itm_page)
 		if(obj == $s.itm_page && !$s.user_page && !$s.home_page) return
-
-		if($s.$$childTail && $s.$$childTail.destroy) {
-			// console.log(true)
-			$s.load_data = true
-			$s.$$childTail.destroy(true).then(function(){
-				// console.log(true, $s.data_error)
-				if(!$s.data_error){
-					$s.itm_page = obj;
-					$s.load_data = false	
-				}
-				
-			// }).then(function(){
-				// $s.load_data = false
-			});
+		
+		if(index > 0){
+			if($s.$$childTail && $s.$$childTail.destroy) {
+				// console.log(true)
+				$s.load_data = true
+				$s.$$childTail.destroy(true).then(function(){
+					// console.log(true, $s.data_error)
+					if(!$s.data_error){
+						$s.itm_page = obj;
+						$s.load_data = false
+					}
+					
+				// }).then(function(){
+					// $s.load_data = false
+				});
+			} else {
+				// console.log(false)
+				$s.itm_page = obj;
+			}
 		} else {
-			// console.log(false)
 			$s.itm_page = obj;
 		}
 		
@@ -166,7 +178,7 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 	$s.backPage = function(){
 		var obj = $s.list_menu[$s.id_itm_page-1]
 		if(obj){
-			updateItmPage(obj)
+			updateItmPage(obj, -1)
 		}
 		
 		// $s.itm_page = $s.list_menu[$s.id_itm_page-1]
@@ -181,7 +193,7 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 		}
 		
 		if(obj){
-			updateItmPage(obj)
+			updateItmPage(obj, 1)
 		}
 		
 		// $s.itm_page = $s.list_menu[$s.id_itm_page+1]

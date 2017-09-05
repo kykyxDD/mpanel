@@ -20,9 +20,9 @@
 		<div class="cont_count">
 			<div class="text">number of sides</div>
 			<div class="elem_count">
-				<div class="btn_minus" ng-click='minusNum()' ng-class='{disabled: item_num == min_edge}'></div>
+				<div class="btn_minus" ng-click='minusNum()' ng-class='{off: item_num == min_edge}'></div>
 				<div class="val_num">{{item_num}}</div>
-				<div class="btn_plus" ng-click='plusNum()' ng-class='{disabled: item_num == max_edge}'></div>
+				<div class="btn_plus" ng-click='plusNum()' ng-class='{off: item_num == max_edge}'></div>
 			</div>
 		</div>
 	</div>
@@ -39,7 +39,7 @@
 				</div>
 				<div class="cont_table_sides">
 					<table class="table_info table_sides">
-						<thead class="thead_sides">
+						<thead class="thead thead_sides">
 							<tr>
 								<td class="side">Side</td>
 								<td class="measurement">Measurement</td>
@@ -59,7 +59,7 @@
 								<td class="mid">Mid support</td>
 							</tr>
 						</thead>
-						<tbody class="tbody_sides">
+						<tbody class="tbody tbody_sides">
 							<tr ng-repeat="side in item_shape.sideParameters">
 								<td class="td_side">{{side.name}}</td>
 								<td class="td_meas td_input_red">
@@ -110,13 +110,13 @@
 				<div class="title_cont">diagonals</div>
 				<div class="cont_table_diagonals">
 					<table class="table_info table_diagonals">
-						<thead class="thead_diagonals">
-						<tr>
-							<td class="diagonal">Diagonal</td>
-							<td class="measurement">Measurement</td>
-						</tr>
+						<thead class="thead thead_diagonals">
+							<tr>
+								<td class="diagonal">Diagonal</td>
+								<td class="measurement">Measurement</td>
+							</tr>
 						</thead>
-						<tbody class="tbody_diagonals">
+						<tbody class="tbody tbody_diagonals">
 							<tr ng-repeat="diagonal in item_shape.diagonalParameters">
 								<td class="td_diag">{{diagonal.name}}</td>
 								<td class="td_meas td_input_red">
@@ -134,7 +134,7 @@
 			<div class="title_cont">corners</div>
 			<div class="cont_table_corners">
 				<table class="table_info table_corners">
-					<thead class="thead_corners">
+					<thead class="thead thead_corners">
 						<tr>
 							<td class="corner">Corner</td>
 							<td class="height">Height</td>
@@ -143,7 +143,7 @@
 							<td class="length">Link Length</td>
 						</tr>
 					</thead>
-					<tbody class="tbody_corners">
+					<tbody class="tbody tbody_corners">
 						<tr ng-repeat="corner in item_shape.cornerParameters">
 							<td class="td_corner">{{corner.name}}</td>
 							<td class="td_height td_input_red">

@@ -372,6 +372,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 	}();
 
 	function dollyIn( dollyScale ) {
+		console.log('dollyScale', dollyScale)
 
 		if ( scope.object instanceof THREE.PerspectiveCamera  || scope.object.inPerspectiveMode) {
 
@@ -380,6 +381,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 		} else if ( scope.object instanceof THREE.OrthographicCamera || scope.object.inOrthographicMode) {
 
 			scope.object.zoom = Math.max( scope.minZoom, Math.min( scope.maxZoom, scope.object.zoom * dollyScale ) );
+			console.log(scope.object.zoom)
 			scope.object.updateProjectionMatrix();
 			zoomChanged = true;
 
@@ -401,6 +403,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 	}
 	this.dollyIn = dollyIn
+	this.dollyOut = dollyOut
 
 
 	function dollyOut( dollyScale ) {

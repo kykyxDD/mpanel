@@ -105,17 +105,22 @@ function MpanelViewer(parent){
 
 		light.shadow.mapSize.width = 512; 
 		light.shadow.mapSize.height = 512; 
+		this.light_indent = 30;
 
-		light.shadow.camera.top = 30;
-		light.shadow.camera.bottom = -30;
-		light.shadow.camera.left = -30;
-		light.shadow.camera.right = 30;
+		light.shadow.camera.top = this.light_indent;
+		light.shadow.camera.bottom = -this.light_indent;
+		light.shadow.camera.left = -this.light_indent;
+		light.shadow.camera.right = this.light_indent;
 
 		light.shadow.camera.near = 180;
 		light.shadow.camera.far = 230;
 		light.shadow.darkness = 1;
 
 		light.shadow.radius = 1.5;
+
+		// light.helper = new THREE.CameraHelper(light.shadow.camera)
+		// light.helper.material.side = THREE.DoubleSide
+		// scene.add(light.helper)
 	};
 
 	this.createBtn = function(){
@@ -470,6 +475,7 @@ function MpanelViewer(parent){
 		this.preloadClose();
 		this.updateCenterObj(object)
 	};*/
+
 	this.updateCenterObj = function(object){
 		var box = new THREE.Box3().setFromObject(object);
 		console.log(box)
@@ -482,8 +488,15 @@ function MpanelViewer(parent){
 		// console.log()
 		if(w > this.obj_plane.geometry.parameters.width || 
 			h > this.obj_plane.geometry.parameters.height){
-			this.updateSizePlane(Math.max(w,h))
+			this.updateSize(Math.max(w,h))
 			console.log('big')
+		} else if(this.obj_plane.geometry.parameters.width > this.size_plane) {
+
+			controls.minZoom = 3;
+
+			this.updateSizePlane(this.size_plane)
+
+			this.updateSizeLight(this.light_indent)
 		}
 
 		var box = new THREE.Box3
@@ -614,18 +627,32 @@ function MpanelViewer(parent){
 		this.skyBox()
 	};
 
-	this.updateSizePlane = function(size){
+	this.updateSize = function(size){
 		size = Math.floor(size) + 20;
+		var n = size + 20;
 
 		var s = this.size_plane/size;
-		controls.minZoom = Math.max(0.5,3*s);
+		controls.minZoom = Math.max(0,3*s);
 
-		var plane = this.obj_plane;
-		plane.geometry = new THREE.PlaneBufferGeometry( size, size, 32, 32 );
-		plane.needsUpdate = true;
+		this.updateSizePlane(size);
+		this.updateSizeLight(n);
+		// light.helper.camera.updateProjectionMatrix()
 
 		console.log('plane',plane)
 	};
+	this.updateSizePlane = function(){
+		var plane = this.obj_plane;
+		plane.geometry = new THREE.PlaneBufferGeometry( size, size, 32, 32 );
+		plane.needsUpdate = true;
+	};
+	this.updateSizeLight = function(l){
+		light.shadow.camera.top = l;
+		light.shadow.camera.bottom = -l;
+		light.shadow.camera.left = -l;
+		light.shadow.camera.right = l;
+
+		light.shadow.camera.updateProjectionMatrix();
+	}
 
 	this.getScreen = function(){
 

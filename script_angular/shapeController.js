@@ -13,8 +13,10 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	$s.data_shape = [];
 	$s.item_num = false
 	$s.prev_num = false;
+	
 
 	var parent = $s.$parent;
+	parent.no_all_val = false;
 
 	$s.default_data = [];
 	$s.loadExampleShape = function(){
@@ -24,6 +26,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			$s.item_shape[key] = cloneItem(new_data[key])			
 		}
 		$s.item_shape.arr_negative = []
+		chechAllVal();
 	}
 
 	function cloneItem(data){
@@ -68,7 +71,8 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			dial.value = 0;
 		}
 
-		$s.item_shape.arr_negative = []
+		$s.item_shape.arr_negative = [];
+		chechAllVal();
 	}
 
 	$s.$watch('item_num', updateNumEdge);
@@ -170,6 +174,41 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 				}
 			}
 		}
+
+		chechAllVal();
+	}
+	function chechAllVal(){
+		var res = false;
+		var shape = $s.item_shape
+
+		for(var i = 0; i < shape.sideParameters.length; i++){
+			if(res) continue
+			var itm = shape.sideParameters[i];
+			var search = itm.pointToPointSize.search(/[0-9]/);
+			if(search < 0){
+				res = true
+			}
+		}
+
+		for(var i = 0; i < shape.diagonalParameters.length; i++){
+			if(res) continue
+			var itm = shape.diagonalParameters[i];
+			var search = itm.value.search(/[0-9]/);
+			if(search < 0){
+				res = true
+			}
+		}
+
+		for(var i = 0; i < shape.cornerParameters.length; i++){
+			if(res) continue
+			var itm = shape.cornerParameters[i];
+			var search = itm.height.search(/[0-9]/);
+			if(search < 0){
+				res = true
+			}
+		}
+
+		parent.no_all_val = res
 	}
 
 	function updateNumEdge(){
@@ -340,7 +379,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 				}
 			}
 		}
-
+		chechAllVal();
 		// console.timeEnd('pullDataPage')
 	}
 	function сompareArr(itm, prev){
@@ -385,6 +424,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		var url = $s.host + dataUrl.meas.post.commit+id;
 		parent.all_data['shape'] = getDataParent()
 		var data = getNewData();
+		parent.no_all_val = false;
 		return $h({
 			method : "post",
 			data: data,

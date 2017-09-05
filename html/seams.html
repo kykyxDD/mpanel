@@ -14,9 +14,9 @@
 					</div>
 				</div>
 				<div class="elem_count">
-					<div class="btn_minus"></div>
-					<div class="val_num">1</div>
-					<div class="btn_plus"></div>
+					<div class="btn_minus" ng-click='prevPanels()' ng-class='{off: index_panel == 0 }'></div>
+					<div class="val_num">{{item_seams.nPanels[index_panel]}}</div>
+					<div class="btn_plus" ng-click='nextPanels()' ng-class='{off: index_panel == item_seams.nPanels.length-1 }'></div>
 				</div>
 			</div>
 		</div>
@@ -24,7 +24,18 @@
 	<div class="right_path">
 		<div class="info">
 			<div class="info_text">
-				<div class="cont_result mCustomScrollbar _mCS_1 mCS_no_scrollbar" id="content-3dtd" customScroll ng-model='data_seams.list'>
+
+				<div class="cont_result">
+					<div class="preload" ng-show='load_pattern'></div>
+					<div ng-if='pattern_error || data_error' class='text_error_list'>{{data_error || pattern_error}}</div> 
+					<div ng-if='!pattern_error && data_pattern.messages.length'  class="mCustomScrollbar _mCS_1" id="content-3dtd" custom-scroll ng-model='data_pattern.messages'>
+						<div class="text">
+							<span ng-repeat='mess in data_pattern.messages' ng-class='arr_class[data_pattern.messageTypes[$index]]'>
+								{{mess}}
+							</span>
+							
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -34,7 +45,7 @@
 					id="select_warp" 
 					fancy-select 
 					fancy-default-text='WARP DIRECTION' 
-					fancy-list='data_seams.warp' 
+					fancy-list='item_seams.warpDir' 
 					fancy-index="data_seams.warpIndex"
 					ng-model='data_seams.warpIndex' >
 					
@@ -58,14 +69,14 @@
 					id="select_tag" 
 					fancy-select 
 					fancy-default-text='TAG CORNER' 
-					fancy-list='data_seams.tag' 
+					fancy-list='item_seams.tagCorner' 
 					fancy-index="data_seams.tagIndex"
 					ng-model='data_seams.tagIndex' >
 				</select>
 			</div>
 		</div>
 		<div class="cont_btn_make">
-			<div class="my_btn grad_blue btn_make disabled">make panels</div>
+			<div class="my_btn grad_blue btn_make" ng-click='getMake()' ng-class='{disabled: !item_seams.tagCorner}'>make panels</div>
 		</div>
 	</div>
 </div>
