@@ -468,7 +468,7 @@ body {
 	height: 0;
 	border-left: 5px  solid transparent;
 	border-right: 5px  solid transparent;
-	border-top: 5px solid rgba(0,0,0,0.7); 
+	border-top: 5px solid rgba(0, 1, 10, 0.8); 
 }
 .btn_help .popup .cont_popup:after {
 	top: 50%;

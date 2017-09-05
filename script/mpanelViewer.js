@@ -43,6 +43,8 @@ function MpanelViewer(parent){
 	};
 
 	this.createCanvas = function(){
+
+		this.size_plane = 50; 
 		
 		this.width = this.parent.offsetWidth;
 		this.height = this.parent.offsetHeight;
@@ -77,7 +79,7 @@ function MpanelViewer(parent){
 		light_0.position.set(0, 1, 0);
 		scene.add(light_0);
 
-		// light.helper = new THREE.CameraHelper(light.shadow.camera)
+		// light.helper = new THREE.CameraHelper(light_0.shadow.camera)
 		// light.helper.material.side = THREE.DoubleSide
 		// scene.add(light.helper)
 
@@ -480,8 +482,8 @@ function MpanelViewer(parent){
 		// console.log()
 		if(w > this.obj_plane.geometry.parameters.width || 
 			h > this.obj_plane.geometry.parameters.height){
-			//this.updateSizePlane(Math.max(w,h))
-			//console.log('')
+			this.updateSizePlane(Math.max(w,h))
+			console.log('big')
 		}
 
 		var box = new THREE.Box3
@@ -578,7 +580,7 @@ function MpanelViewer(parent){
 	this.createEnvironment = function(){
 		// console.log("createEnvironment")
 
-		var size = 50,
+		var size = this.size_plane,
 		segments = 30;
 
 		var sphereGeometry = new THREE.SphereBufferGeometry( 5, 32, 32 );
@@ -612,8 +614,17 @@ function MpanelViewer(parent){
 		this.skyBox()
 	};
 
-	this.updateSizePlane = function(){
-		// var plane=
+	this.updateSizePlane = function(size){
+		size = Math.floor(size) + 20;
+
+		var s = this.size_plane/size;
+		controls.minZoom = Math.max(0.5,3*s);
+
+		var plane = this.obj_plane;
+		plane.geometry = new THREE.PlaneBufferGeometry( size, size, 32, 32 );
+		plane.needsUpdate = true;
+
+		console.log('plane',plane)
 	};
 
 	this.getScreen = function(){

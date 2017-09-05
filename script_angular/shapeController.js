@@ -117,7 +117,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		}
 	}
 	function checkValNum(str_num){
-		return str_num.replace(/[^0-9.\-]/gi, '');
+		return str_num.replace(/[^0-9.\-\'\"\,\/\s]/gi, '');
 	}
 
 	$s.minusNum = function(){
