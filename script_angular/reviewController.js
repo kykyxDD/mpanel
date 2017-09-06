@@ -24,8 +24,6 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 
 	var load_file = true;
 
-
-
 	$s.arr_url = [
 		'./data/MPSD2.obj'
 		//,
