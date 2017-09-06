@@ -1,7 +1,8 @@
 <div class="cont_info page_pattern">
 	<div class="left_path">
-		<div class="cont_view" ng-style="{'background-image': 'url({{dase_url_svg}})'}">
-			<!-- {{url_svg}} -->
+		<div class="cont_view" ng-class='{big_svg: big_svg}'>
+			<div class="cont_svg" ng-bind-html="dase_url_svg"></div>
+			<div class="btn_size my_btn" ng-if='dase_url_svg' ng-click='openBig()' ng-class='{big: big_svg, small: !big_svg, hide: small_svg}'></div>
 		</div>
 	</div>
 	<div class="right_path">
@@ -20,7 +21,6 @@
 					</tr>
 				</thead>
 				<tbody class="tbody">
-					
 					<tr ng-repeat="itm in item_pattern.estimateBillInfo">
 						<td class="td_item">{{itm.name}}</td>
 						<td class="td_qty">{{itm.quantity}}</td>

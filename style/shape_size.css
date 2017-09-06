@@ -389,9 +389,9 @@
 	/*width: 100%; 50px;*/
 	font-size: 12px;
 	box-shadow: none;
-	text-indent: 13px;
-	width: 63px;
-    padding-right: 30px;
+    text-indent: 10px;
+    width: 75px;
+    padding-right: 20px;
 }
 .table_info tbody tr td.td_length input[type='text'] {
 	text-align: center;

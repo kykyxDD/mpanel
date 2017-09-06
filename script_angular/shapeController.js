@@ -184,6 +184,10 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		for(var i = 0; i < shape.sideParameters.length; i++){
 			if(res) continue
 			var itm = shape.sideParameters[i];
+			if(!itm.pointToPointSize) {
+				res = true
+				continue
+			}
 			var search = itm.pointToPointSize.search(/[0-9]/);
 			if(search < 0){
 				res = true
@@ -193,6 +197,10 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		for(var i = 0; i < shape.diagonalParameters.length; i++){
 			if(res) continue
 			var itm = shape.diagonalParameters[i];
+			if(!itm.value) {
+				res = true
+				continue
+			}
 			var search = itm.value.search(/[0-9]/);
 			if(search < 0){
 				res = true
@@ -202,6 +210,10 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		for(var i = 0; i < shape.cornerParameters.length; i++){
 			if(res) continue
 			var itm = shape.cornerParameters[i];
+			if(!itm.height) {
+				res = true
+				continue
+			}
 			var search = itm.height.search(/[0-9]/);
 			if(search < 0){
 				res = true
@@ -419,6 +431,20 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		data.innerItems = $s.default_data
 		return data
 	}
+	function destroyAllData(){
+		if(parent.all_data['review']){
+			delete parent.all_data['review']
+		}
+		if(parent.all_data['seams']){
+			delete parent.all_data['seams']
+		}
+		if(parent.all_data['pattern']){
+			delete parent.all_data['pattern']
+		}
+		if(!parent.mpanel) {
+			parent.mpanel = false
+		}
+	}
 	function postInfo(){
 		var id = $s.id_project;
 		var url = $s.host + dataUrl.meas.post.commit+id;
@@ -436,6 +462,8 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 				parent.id_project = data.data;
 				$w.localStorage.setItem('mpanel_id', data.data);
 				parent.updateMpanel = true
+				destroyAllData()
+				
 			} else {
 				parent.data_error = data.error
 

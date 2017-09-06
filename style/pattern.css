@@ -13,13 +13,49 @@
 .page_pattern .cont_view{
 	width: 550px;
 	height: 460px;
-	background-color: rgba(0,0,0,0.4);
+	background-color: #7f7f7f;
 	border-radius: 5px;
 	padding: 0;
 	background-size: contain;
 	background-position: center;
 	background-repeat: no-repeat;
+	position: relative;
+	overflow: hidden;
 }
+.page_pattern .cont_view .btn_size {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	width: 30px;
+	height: 30px;
+	background-image: url(../image/icon/zoom_in.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 18px;
+	background-color: #FBFBFB;
+	z-index: 10;
+}
+.page_pattern .cont_view .btn_size.big {
+	background-image: url(../image/icon/zoom_out.png);
+}
+
+.page_pattern .cont_view .cont_svg{
+	width: 100%;
+	height: 100%;
+}
+.page_pattern .cont_view .cont_svg svg {
+	max-height: 100%;
+	max-width: 100%;
+}
+.page_pattern .cont_view.big_svg .cont_svg {
+	width: auto;
+	height: auto;
+}
+.page_pattern .cont_view.big_svg .cont_svg svg {
+	max-height: none;
+	max-width: none;
+}
+
 .table_bill {
 	margin-bottom: 20px;
 }

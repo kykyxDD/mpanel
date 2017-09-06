@@ -6,7 +6,7 @@ mpanelApp.controller("seamsController", ['$http', '$window','$scope', function($
 	var mpanel_obj = $w.localStorage.getItem('mpanel_obj');
 	var parent = $s.$parent;
 
-
+	parent.load_data = true
 
 	$s.data_seams = {		
 		warpIndex: 0,
@@ -127,6 +127,8 @@ mpanelApp.controller("seamsController", ['$http', '$window','$scope', function($
 	function loadInfo(data){
 		$s.item_seams = data;
 		parent.all_data['review'] = data;
+
+		parent.load_data = false
 
 		if(data.objModelName != mpanel_obj){
 			console.log(data.objModelName)

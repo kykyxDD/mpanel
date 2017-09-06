@@ -114,12 +114,10 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 	}
 
 	$s.loadExample = function(){
-		// console.log('loadExample',$s)
 		$s.$$childTail.loadExampleShape()
 	}
 	
 	$s.resetData = function(){
-		// console.log('resetData',$s)
 		$s.$$childTail.resetDataShape()
 	}
 

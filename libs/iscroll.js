@@ -91,8 +91,6 @@ var m = Math,
 		that.wrapper.style.overflow = 'hidden';
 		that.scroller = that.wrapper.children[0];
 
-		console.log(this.scroller)
-
 		// Default options
 		that.options = {
 			hScroll: true,
@@ -179,7 +177,6 @@ var m = Math,
 
 		that._bind(RESIZE_EV, window);
 		that._bind(START_EV);
-
 		if (!hasTouch) {
 			if (that.options.wheelAction != 'none')
 				that._bind(WHEEL_EV);
@@ -227,7 +224,7 @@ iScroll.prototype = {
 	
 	_scrollbar: function (dir) {
 		var that = this,
-			bar;
+			bar,line_bar;
 
 		if (!that[dir + 'Scrollbar']) {
 			if (that[dir + 'ScrollbarWrapper']) {
@@ -242,60 +239,30 @@ iScroll.prototype = {
 
 		if (!that[dir + 'ScrollbarWrapper']) {
 			// Create the scrollbar wrapper
-			var elem = doc.createElement('div')
-			elem.className = 'iscroll_contbar'
-
-			that.wrapper.appendChild(elem);
-
-			var cont_bar = doc.createElement('div');
-			cont_bar.className = 'contbar';
-			elem.appendChild(cont_bar);
-
-
-			var btn_top = doc.createElement('div');
-			btn_top.className = 'btn_top';
-			cont_bar.appendChild(btn_top);
-
-			btn_top.addEventListener('click', function(){
-				//that._setwheel(0, 10)
-				var y = that.y + 100;
-				that.scrollTo(0, y, 100);
-			})
-
 			bar = doc.createElement('div');
+			bar.className = 'bar';
+			line_bar = doc.createElement('div');
+			line_bar.className = 'line';
+			bar.appendChild(line_bar);
 
 			if (that.options.scrollbarClass) bar.className = that.options.scrollbarClass + dir.toUpperCase();
-			else bar.style.cssText = 'position:absolute;z-index:100;' + (dir == 'h' ? 'height:7px;bottom:1px;left:2px;right:' + (that.vScrollbar ? '7' : '2') + 'px' : 'width:7px;bottom:' + (that.hScrollbar ? '7' : '2') + 'px;top:2px;right:1px');
+			else bar.style.cssText = 'position:absolute;z-index:100;' + (dir == 'h' ? 'height:7px;bottom:1px;left:2px;right:' + (that.vScrollbar ? '14' : '2') + 'px' : 'width:7px;bottom:' + (that.hScrollbar ? '14' : '2') + 'px;top:2px;right:1px');
 
-			bar.style.cssText += ';' + cssVendor + 'transition-property:opacity;' + cssVendor + 'transition-duration:' + (that.options.fadeScrollbar ? '350ms' : '0') + ';overflow:hidden;opacity:' + (that.options.hideScrollbar ? '0' : '1');
+			bar.style.cssText += ';pointer-events:none;' + cssVendor + 'transition-property:opacity;' + cssVendor + 'transition-duration:' + (that.options.fadeScrollbar ? '350ms' : '0') + ';overflow:hidden;opacity:' + (that.options.hideScrollbar ? '0' : '1');
 
-			cont_bar.appendChild(bar);
-
-			var btn_bottom = doc.createElement('div');
-			btn_bottom.className = 'btn_bottom';
-			cont_bar.appendChild(btn_bottom);
-			btn_bottom.addEventListener('click', function(){
-				//that._setwheel(0, -10)
-				var y = that.y - 100;
-				that.scrollTo(0, y, 100);
-			})
-
+			that.wrapper.appendChild(bar);
 			that[dir + 'ScrollbarWrapper'] = bar;
-
 
 			// Create the scrollbar indicator
 			bar = doc.createElement('div');
 			if (!that.options.scrollbarClass) {
-				bar.style.cssText = 'position:absolute;z-index:100;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.9);' + cssVendor + 'background-clip:padding-box;' + cssVendor + 'box-sizing:border-box;' + (dir == 'h' ? 'height:100%' : 'width:100%') + ';' + cssVendor + 'border-radius:3px;border-radius:3px';
-			} else {
-				bar.className = that.options.scrollbarClass
+				bar.style.cssText = 'position:absolute;z-index:100;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.9);' + cssVendor + 'background-clip:padding-box;' + cssVendor + 'box-sizing:border-box;' + (dir == 'h' ? 'height:100%' : 'width:100%') + ';' + cssVendor + 'border-radius:3px;border-radius:3px';
 			}
-			bar.style.cssText += ';' + cssVendor + 'transition-property:' + cssVendor + 'transform;' + cssVendor + 'transition-timing-function:cubic-bezier(0.33,0.66,0.66,1);' + cssVendor + 'transition-duration:0;' + cssVendor + 'transform: translate(0,0)' + translateZ;
+			bar.style.cssText += ';pointer-events:none;' + cssVendor + 'transition-property:' + cssVendor + 'transform;' + cssVendor + 'transition-timing-function:cubic-bezier(0.33,0.66,0.66,1);' + cssVendor + 'transition-duration:0;' + cssVendor + 'transform: translate(0,0)' + translateZ;
 			if (that.options.useTransition) bar.style.cssText += ';' + cssVendor + 'transition-timing-function:cubic-bezier(0.33,0.66,0.66,1)';
 
 			that[dir + 'ScrollbarWrapper'].appendChild(bar);
 			that[dir + 'ScrollbarIndicator'] = bar;
-			that._bind(START_EV, bar);
 		}
 
 		if (dir == 'h') {
@@ -400,8 +367,6 @@ iScroll.prototype = {
 		that.dirX = 0;
 		that.dirY = 0;
 
-		that.start_event = true
-
 		// Gesture start
 		if (that.options.zoom && hasTouch && e.touches.length > 1) {
 			c1 = m.abs(e.touches[0].pageX-e.touches[1].pageX);
@@ -432,7 +397,6 @@ iScroll.prototype = {
 				that._pos(x, y);
 			}
 		}
-		that.event_scrollbar = that.vScrollbarIndicator == e.target 
 
 		that.absStartX = that.x;	// Needed by snap threshold
 		that.absStartY = that.y;
@@ -452,14 +416,12 @@ iScroll.prototype = {
 	},
 	
 	_move: function (e) {
-
 		var that = this,
-			index = that.event_scrollbar ? -1 : 1,
 			point = hasTouch ? e.touches[0] : e,
 			deltaX = point.pageX - that.pointX,
 			deltaY = point.pageY - that.pointY,
-			newX = that.x + deltaX*index,
-			newY = that.y + deltaY*index,
+			newX = that.x + deltaX,
+			newY = that.y + deltaY,
 			c1, c2, scale,
 			timestamp = e.timeStamp || Date.now();
 
@@ -500,10 +462,8 @@ iScroll.prototype = {
 			newY = that.options.bounce ? that.y + (deltaY / 2) : newY >= that.minScrollY || that.maxScrollY >= 0 ? that.minScrollY : that.maxScrollY;
 		}
 
-
 		that.distX += deltaX;
 		that.distY += deltaY;
-
 		that.absDistX = m.abs(that.distX);
 		that.absDistY = m.abs(that.distY);
 
@@ -555,9 +515,6 @@ iScroll.prototype = {
 		that._unbind(MOVE_EV, window);
 		that._unbind(END_EV, window);
 		that._unbind(CANCEL_EV, window);
-
-		that.event_scrollbar = false;
-		that.start_event = false;
 
 		if (that.options.onBeforeScrollEnd) {
 			that.options.onBeforeScrollEnd.call(that, e);
@@ -671,8 +628,6 @@ iScroll.prototype = {
 
 		that._resetPos(200);
 		if (that.options.onTouchEnd) that.options.onTouchEnd.call(that, e);
-
-
 	},
 	
 	_resetPos: function (time) {
@@ -737,15 +692,7 @@ iScroll.prototype = {
 			
 			return;
 		}
-
-		this._setwheel(wheelDeltaX, wheelDeltaY)
 		
-		
-	},
-	_setwheel: function(wheelDeltaX, wheelDeltaY){
-		// console.log(wheelDeltaX, wheelDeltaY)
-		var that = this;
-		var deltaX, deltaY;
 		deltaX = that.x + wheelDeltaX;
 		deltaY = that.y + wheelDeltaY;
 
