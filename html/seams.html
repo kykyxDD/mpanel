@@ -1,7 +1,10 @@
 <div class="cont_info page_seams">
 	 <div class="left_path">
 		<div class="cont_view">
-			<div class="view threejs" id='threejs'>
+			<div id="threejs" class="view threejs" ng-class='{error: pattern_error}'>
+				<div ng-if='pattern_error' class="text_error">
+					Error loading model
+				</div>
 			</div>
 		</div>
 		<div class="cont_num_panels">
@@ -33,7 +36,6 @@
 							<span ng-repeat='mess in data_pattern.messages' ng-class='arr_class[data_pattern.messageTypes[$index]]'>
 								{{mess}}
 							</span>
-							
 						</div>
 					</div>
 				</div>
@@ -49,11 +51,10 @@
 					fancy-list='item_seams.warpDir' 
 					fancy-index="data_seams.warpIndex"
 					ng-model='data_seams.warpIndex' >
-					
 				</select>
 			</div>
 			<div class="btn_help">?<div class="popup">
-			<div class="cont_popup">Warp is direction of fabric comming off the roll</div>
+			<div class="cont_popup">Warp is direction of fabric coming off the roll</div>
 			</div>
 			</div>
 		</div>

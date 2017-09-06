@@ -27,6 +27,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		}
 		$s.item_shape.arr_negative = []
 		chechAllVal();
+
 	}
 
 	function cloneItem(data){
@@ -140,85 +141,88 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	}
 	$s.blur = function(obj, str){
 		exportRoot.setSelection("");
-		if(obj){
-			var val_str = str+'-'+obj.name
-			if(str == 'size'){
-				if(+obj.pointToPointSize < 0){
-					$s.item_shape.arr_negative.push(val_str)
-					obj.negative = true
-				} else if(obj.negative){
-					var id = $s.item_shape.arr_negative.indexOf(val_str)
-					if(id >= 0){
-						$s.item_shape.arr_negative.splice(id, 1);
-					}
-				}
-			} else if(str == 'diag'){
-				if(+obj.value < 0){
-					$s.item_shape.arr_negative.push(val_str)
-					obj.negative = true
-				} else if(obj.negative){
-					var id = $s.item_shape.arr_negative.indexOf(val_str)
-					if(id >= 0){
-						$s.item_shape.arr_negative.splice(id, 1);
-					}
-				}
-			} else if(str == 'corn'){
-				if(+obj.height < 0){
-					$s.item_shape.arr_negative.push(val_str)
-					obj.negative = true
-				} else if(obj.negative){
-					var id = $s.item_shape.arr_negative.indexOf(val_str)
-					if(id >= 0){
-						$s.item_shape.arr_negative.splice(id, 1);
-					}
-				}
-			}
-		}
 
 		chechAllVal();
 	}
 	function chechAllVal(){
 		var res = false;
-		var shape = $s.item_shape
+		var shape = $s.item_shape;
+		if($s.item_shape.arr_negative){
+			$s.item_shape.arr_negative = []
+		}
 
 		for(var i = 0; i < shape.sideParameters.length; i++){
-			if(res) continue
 			var itm = shape.sideParameters[i];
+
 			if(!itm.pointToPointSize) {
 				res = true
 				continue
 			}
+			var val_str = 'size-'+itm.name;
 			var search = itm.pointToPointSize.search(/[0-9]/);
-			if(search < 0){
+			if(search < 0 || parseFloat(itm.pointToPointSize) ==0){
 				res = true
+			}
+
+			if(parseFloat(itm.pointToPointSize) < 0){
+				$s.item_shape.arr_negative.push(val_str)
+				itm.negative = true
+			} else if(itm.negative){
+				var id = $s.item_shape.arr_negative.indexOf(val_str)
+				if(id >= 0){
+					$s.item_shape.arr_negative.splice(id, 1);
+				}
 			}
 		}
 
 		for(var i = 0; i < shape.diagonalParameters.length; i++){
-			if(res) continue
+
 			var itm = shape.diagonalParameters[i];
 			if(!itm.value) {
 				res = true
 				continue
 			}
+			var val_str = 'diag-'+itm.name;
 			var search = itm.value.search(/[0-9]/);
-			if(search < 0){
+			if(search < 0 || parseFloat(itm.value) == 0){
 				res = true
+			}
+
+			if(parseFloat(itm.value) < 0){
+				$s.item_shape.arr_negative.push(val_str)
+				itm.negative = true
+			} else if(itm.negative){
+				var id = $s.item_shape.arr_negative.indexOf(val_str)
+				if(id >= 0){
+					$s.item_shape.arr_negative.splice(id, 1);
+				}
 			}
 		}
 
 		for(var i = 0; i < shape.cornerParameters.length; i++){
-			if(res) continue
+
 			var itm = shape.cornerParameters[i];
 			if(!itm.height) {
 				res = true
 				continue
 			}
+			var val_str = 'corn-'+itm.name;
 			var search = itm.height.search(/[0-9]/);
-			if(search < 0){
+			if(search < 0 || parseFloat(itm.height) == 0){
 				res = true
 			}
+
+			if(parseFloat(itm.height) < 0){
+				$s.item_shape.arr_negative.push(val_str)
+				itm.negative = true
+			} else if(itm.negative){
+				var id = $s.item_shape.arr_negative.indexOf(val_str)
+				if(id >= 0){
+					$s.item_shape.arr_negative.splice(id, 1);
+				}
+			}
 		}
+		updateNedative()
 
 		parent.no_all_val = res
 	}

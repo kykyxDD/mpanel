@@ -448,7 +448,7 @@ body {
 	pointer-events: none;
 	opacity: 0;
 	transition: opacity 0.3s;
-	text-transform: capitalize;
+	/*text-transform: capitalize;*/
 	font-weight: bold;
 }
 .btn_help:hover .popup {

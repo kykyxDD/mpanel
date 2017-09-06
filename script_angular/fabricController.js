@@ -41,19 +41,11 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 		$s.data_fabric = parent.all_data['material'];
 		$s.$parent.load_data = false;
 	} else {
-		// parent.load_data = true
 		getInfo().then(function(){
-
-			// pullDataPage()
 			parent.load_data = false
 		})
 	}
 
-
-	function pullDataPage(argument) {
-		// console.log('pullDataPage', $s.data_fabric)
-
-	}
 
 	function getData(argument) {
 		var data = {};
@@ -67,27 +59,33 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 			}
 		}
 
-		if(typeof data.fabricSelectedIndex == 'string'){
-			var id = data_fabric.fabricItems.indexOf(data.fabricSelectedIndex)
-			if(id >= 0){
-				data.fabricSelectedIndex = data_fabric.fabricItems.indexOf(data.fabricSelectedIndex);
-				parent.all_data['material'].fabricSelectedIndex =  data.fabricSelectedIndex//data_fabric[key]
-			}
-		}
-		if(typeof data.fabricTypeSelectedIndex == 'string'){
-			var id = data_fabric.fabricTypeItems.indexOf(data.fabricTypeSelectedIndex)
-			if(id >= 0){
-				data.fabricTypeSelectedIndex = data_fabric.fabricTypeItems.indexOf(data.fabricTypeSelectedIndex);
-				parent.all_data['material'].fabricTypeSelectedIndex =  data.fabricTypeSelectedIndex//data_fabric[key]
-			}
-		}
-		if(typeof data.fabricColorSelectedIndex == 'string'){
-			var id = data_fabric.fabricColorItems.indexOf(data.fabricColorSelectedIndex)
-			if(id >= 0){
-				data.fabricColorSelectedIndex = data_fabric.fabricColorItems.indexOf(data.fabricColorSelectedIndex);
-				parent.all_data['material'].fabricColorSelectedIndex =  data.fabricColorSelectedIndex//data_fabric[key]
-			}
-		}
+		// if(typeof data.fabricSelectedIndex == 'string'){
+		// 	var id = data_fabric.fabricItems.indexOf(data.fabricSelectedIndex)
+		// 	if(id >= 0){
+		// 		data.fabricSelectedIndex = data_fabric.fabricItems.indexOf(data.fabricSelectedIndex);
+		// 		parent.all_data['material'].fabricSelectedIndex =  data.fabricSelectedIndex;
+		// 	}
+		// }
+		// if(typeof data.fabricTypeSelectedIndex == 'string'){
+		// 	var id = data_fabric.fabricTypeItems.indexOf(data.fabricTypeSelectedIndex)
+		// 	if(id >= 0){
+		// 		data.fabricTypeSelectedIndex = data_fabric.fabricTypeItems.indexOf(data.fabricTypeSelectedIndex);
+		// 		parent.all_data['material'].fabricTypeSelectedIndex =  data.fabricTypeSelectedIndex;
+		// 	}
+
+		// }
+		// if(typeof data.fabricColorSelectedIndex == 'string'){
+		// 	var id = data_fabric.fabricColorItems.indexOf(data.fabricColorSelectedIndex)
+		// 	if(id >= 0){
+		// 		data.fabricColorSelectedIndex = data_fabric.fabricColorItems.indexOf(data.fabricColorSelectedIndex);
+		// 		parent.all_data['material'].fabricColorSelectedIndex =  data.fabricColorSelectedIndex;
+		// 	}
+
+		// }
+
+		console.log(data.fabricSelectedIndex,
+data.fabricTypeSelectedIndex,
+data.fabricColorSelectedIndex)
 		return data
 	}
 
@@ -106,6 +104,8 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 		}
 		var data = getData();
 
+		console.log('sel',data)
+
 
 		return $h({
 			method : "post",
@@ -122,7 +122,7 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 					parent.preload_opacity = false;
 				}
 			} else {
-				parent.data_error = data.error
+				parent.data_error = data.error;
 			}
 		}, function myError(response) {
 			parent.data_error = response.data.message;
@@ -143,11 +143,11 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 				parent.all_data['material'] = data.data;
 				$s.data_fabric = data.data;
 			} else {
-				parent.data_error = data.error
+				parent.data_error = data.error;
 			}
 			
 		}, function myError(response) {
-			parent.data_error = response.data.message
+			parent.data_error = response.data.message;
 		});
 	}
 }])

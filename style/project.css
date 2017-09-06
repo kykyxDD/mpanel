@@ -41,6 +41,9 @@
     padding: 4px 0;
     text-indent: 6px;
 }
+.cont_input input[disabled] + label{
+	background-color: #DADADA;
+}
 .cont_input input,
 .cont_textarea textarea {
 	border-radius: 3px;

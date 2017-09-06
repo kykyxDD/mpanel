@@ -231,6 +231,7 @@
 .title_cont .btn_help{
 	margin-left: 7px;
 	position: relative;
+	text-transform: initial;
 }
 
 .title_cont .btn_help .popup{

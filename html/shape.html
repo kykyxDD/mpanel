@@ -49,7 +49,7 @@
 									<div class="cont_btn_help">
 										<div class="btn_help">?
 											<div class="popup">
-												<div class="cont_popup">Edge curve depth as % of span e..g for edge length of 10m and d/s of 8% will give a curve depth of approx 800mm. NB this will vary when using very long link lengths.
+												<div class="cont_popup">Edge curve depth as % of span e.g. for edge length of 10m and d/s of 8% will give a curve depth of approx 800mm. NB this will vary when using very long link lengths.
 												</div>
 											</div>
 										</div>
@@ -64,7 +64,7 @@
 								<td class="td_side">{{side.name}}</td>
 								<td class="td_meas td_input_red">
 									<input class="input_meas" type="text" ng-model="side.pointToPointSize" ng-focus='focus(side.name)' ng-blur='blur(side, "size")' ng-change='validNumSide(side.pointToPointSize, $index)'>
-									<label class="label" ng-class='{error: side.pointToPointSize < 0}'></label>
+									<label class="label" ng-class='{error: side.negative}'></label>
 									<div class="val_red">{{reduction[id_unit]}}</div>
 								</td>
 								<td class="td_type">
@@ -121,7 +121,7 @@
 								<td class="td_diag">{{diagonal.name}}</td>
 								<td class="td_meas td_input_red">
 									<input class="input_meas_diag" type="text" ng-model='diagonal.value' ng-focus='focus(diagonal.name)' ng-blur='blur(diagonal, "diag")' ng-change='validNumDiag(diagonal.value, $index)'>
-									<label class="label" ng-class='{error: diagonal.value < 0}'></label>
+									<label class="label" ng-class='{error: diagonal.negative}'></label>
 									<div class="div_m_red val_red">{{reduction[id_unit]}}</div>
 								</td>
 							</tr>
@@ -148,7 +148,7 @@
 							<td class="td_corner">{{corner.name}}</td>
 							<td class="td_height td_input_red">
 								<input class="input_h" type="text" ng-model='corner.height' ng-blur='blur(corner, "corn")' ng-change='validNumCorn(corner.height, $index)'>
-								<label class="label" ng-class='{error: corner.height < 0}' ></label>
+								<label class="label" ng-class='{error: corner.negative}' ></label>
 								<div class="div_h_red val_red">{{reduction[id_unit]}}</div>
 							</td>
 							<td class="td_finish">
@@ -158,8 +158,7 @@
 										fancy-default-text='' 
 										fancy-list='item_shape.hardwareItems' 
 										fancy-index="corner.selectedHardware"
-								>
-								</select>
+								></select>
 							</td>
 							<td class="td_link">
 								<select class="td_select select_link" 

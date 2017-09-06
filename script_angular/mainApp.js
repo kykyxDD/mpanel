@@ -34,8 +34,9 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 	// console.log($r, $l, $rp)
 
 	$s.errorOk = function(){
-		$s.data_error = false
-		$s.load_data = false
+		$s.data_error = false;
+		$s.load_data = false;
+		$s.preload_opacity = false;
 	}
 
     $s.id_itm_page = 0;
@@ -119,7 +120,7 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 		$s.$$childTail.resetDataShape()
 	}
 
-
+	$s.searchListPage = searchListPage;
 
 	function searchListPage(page){
 		var itm_page
@@ -135,34 +136,26 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 
 
 	$s.updatePage = function(index){
-		console.log('index', index)
 		var obj = $s.list_menu[index];
 		
-		updateItmPage(obj)
-		// $s.itm_page = obj;
+		updateItmPage(obj);
 	}
 
 	function updateItmPage(obj, index){
-		console.log($s.user_page, $s.home_page)
-		// console.log('updateItmPage', obj == $s.itm_page)
+
 		if(obj == $s.itm_page && !$s.user_page && !$s.home_page) return
-		
+		if(obj.id == 'pattern' && !$s.all_data['pattern']) return
+
 		if(index > 0){
 			if($s.$$childTail && $s.$$childTail.destroy) {
-				// console.log(true)
 				$s.load_data = true
 				$s.$$childTail.destroy(true).then(function(){
-					// console.log(true, $s.data_error)
 					if(!$s.data_error){
 						$s.itm_page = obj;
 						$s.load_data = false
 					}
-					
-				// }).then(function(){
-					// $s.load_data = false
 				});
 			} else {
-				// console.log(false)
 				$s.itm_page = obj;
 			}
 		} else {

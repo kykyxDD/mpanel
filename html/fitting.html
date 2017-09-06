@@ -8,14 +8,13 @@
 			</div>
 			<div class="cont_all_select">
 				<div class="cont_select cont_hardware">
-					<div class="txt">HARDWARE DATA</div>
+					<div class="txt">HARDWARE DATABASE</div>
 					<select class="select_hardware" 
 						ng-change='changeSelect("HardwareSupplier")'
 						ng-model='data_fitting.hardwareSelectedIndex'
 						fancy-select 
-						fancy-default-text='HARDWARE DATA' 
+						fancy-default-text='HARDWARE DATABASE' 
 						fancy-list='data_fitting.hardwareItems' 
-						fancy-index="data_fitting.hardwareSelectedIndex"
 					></select>
 				</div>
 				<div class="cont_select cont_webbing">
@@ -26,7 +25,6 @@
 						fancy-select 
 						fancy-default-text='EDGE TYPE' 
 						fancy-list='data_fitting.hardEdgeTypeItems' 
-						fancy-index="data_fitting.hardEdgeTypeSelectedIndex"
 					></select>
 				</div>
 				<div class="cont_select cont_colour">
@@ -37,7 +35,6 @@
 						fancy-select 
 						fancy-default-text='COLOUR' 
 						fancy-list='data_fitting.hardColorItems' 
-						fancy-index="data_fitting.hardColorSelectedIndex"
 					></select>
 				</div>
 				<div class="cont_input cont_hem">
@@ -62,7 +59,6 @@
 						fancy-select 
 						fancy-default-text='EXAMPLE CORNER IMAGE' 
 						fancy-list='data_fitting.exampleImageItems' 
-						fancy-index="data_fitting.exampleImageSelectedIndex"
 					></select>
 				</div>
 			</div>
@@ -75,7 +71,6 @@
 						fancy-select 
 						fancy-default-text='CORNER FINISH' 
 						fancy-list='data_fitting.hardCornorItems' 
-						fancy-index="data_fitting.hardCornorSelectedIndex"
 					></select> 
 				</div>
 				<div class="cont_info_hardware">
@@ -107,7 +102,6 @@
 						fancy-select 
 						fancy-default-text='CORNER LINK' 
 						fancy-list='data_fitting.hardLinkItems' 
-						fancy-index="data_fitting.hardLinkSelectedIndex"
 					></select>
 				</div>
 				<div class="cont_input cont_link">

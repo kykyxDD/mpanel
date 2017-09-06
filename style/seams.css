@@ -42,6 +42,9 @@
 	border-radius: 5px;
 	background-color: #7f7f7f;
 }
+.cont_view .view.error {
+	background-color: #fff
+}
 .cont_info .cont_count .popup {
 	width: 380px;
 	margin-left: -190px;
@@ -148,6 +151,14 @@
 	color: #0B0B0B;
 	position: relative;
 	background-color: #F1F1F1;
+
+}
+
+.page_seams .text_error_list{
+	text-align: center;
+    color: red;
+    margin-top: 30px;
+    font-size: 18px;
 
 }
 .info_text .cont_result p {

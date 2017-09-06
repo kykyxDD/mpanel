@@ -15,7 +15,6 @@ mpanelApp.directive('fancySelect', function() {
             var val = undefined
 
             $(el).bind({
-
                 'option-click' : function(){
                     if(!update) return
                     val = fun.currentFocus
@@ -38,6 +37,7 @@ mpanelApp.directive('fancySelect', function() {
                 update = true
                 fun.remove();
                 fun.add(arr);
+                fun.refresh();
                 if(val >= 0){
                     fun.selectOption(val);
                 }
