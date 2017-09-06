@@ -23,6 +23,7 @@
 .right_path .cont_val_input  {
 	width: 190px;
 }
+.cont_units .txt,
 .cont_val_textarea .txt,
 .cont_val_input .txt {
 	color: #2D2D2D;

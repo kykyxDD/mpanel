@@ -17,7 +17,7 @@
 				<div class="cont_val_input quantity">
 					<div class="txt">quantity required</div>
 					<div class="cont_input">
-						<input type="text" name="quantity" ng-model='data_project.quantity'>
+						<input type="text" name="quantity" ng-model='data_project.quantity' ng-change='validNum("quantity")'>
 					</div>
 				</div>
 				<div class="cont_val_input date_required">
@@ -32,11 +32,11 @@
 					<div class="txt">sail number</div>
 					<div class="cont_list_val">
 						<div class="cont_input">
-							<input type="text" name="sail_if" ng-model='data_project.sailNumber' >
+							<input type="text" name="sail_if" ng-model='data_project.sailNumber' ng-change='validNum("sailNumber")'>
 						</div>
 						<div class="text">of</div>
 						<div class="cont_input">
-							<input type="text" name="sail_of" ng-model='data_project.sailOf'>
+							<input type="text" name="sail_of" ng-model='data_project.sailOf' ng-change='validNum("sailOf")'>
 						</div>
 					</div>
 				</div>
@@ -46,7 +46,7 @@
 			<div class="cont_val_input proj_num">
 				<div class="txt">project number</div>
 				<div class="cont_input">
-					<input type="text" name="proj_num" ng-model='data_project.projectNumber' >
+					<input type="text" name="proj_num" ng-model='data_project.projectNumber' ng-change='validNum("projectNumber")'>
 				</div>
 			</div>
 			<div class="cont_val_input date_entered">
@@ -73,6 +73,7 @@
 			</div>
 		</div>
 		<div class="cont_units">
+			<div class="txt">UNITS</div>
 			<select class="select_units" 
 				id="select_units" 
 				fancy-select 

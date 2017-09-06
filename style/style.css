@@ -624,7 +624,7 @@ body {
 	position: relative;
 }
 
-.footer .btn:before {
+.footer .my_btn:before {
 	position: absolute;
 	content: '';
 	top: 50%;

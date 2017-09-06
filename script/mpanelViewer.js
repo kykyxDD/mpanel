@@ -22,10 +22,7 @@ function MpanelViewer(parent){
 
 
 	this.init = function(div){
-
-
 		if(div) {
-			// this.container = div;
 			this.container = document.createElement('div');
 			div.appendChild(this.container);
 			preload = this.container.querySelector('.preload');
@@ -48,7 +45,6 @@ function MpanelViewer(parent){
 		
 		this.width = this.parent.offsetWidth;
 		this.height = this.parent.offsetHeight;
-
 		
 		aspect = this.width/this.height;
 		
@@ -62,10 +58,6 @@ function MpanelViewer(parent){
 		renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 		this.container.appendChild( renderer.domElement );
 		renderer.domElement.id = 'canvas';
-
-		// stats = new Stats();
-		// container.appendChild( stats.dom );
-
 
 		camera = new THREE.CombinedCamera(this.width, this.height, fov, near, far, orthoNear, orthoFar, view_orthog, start_zoom );// ( fov, aspect, near, far );
 		camera.position.z = 30;
@@ -89,10 +81,7 @@ function MpanelViewer(parent){
 		controls.minZoom = 3;
 		controls.noPan = true;
 
-		// window.addEventListener('resize', self.onWindowResize.bind(self));
-
 		this.createEnvironment();
-
 
 		this.animate();
 
@@ -162,7 +151,7 @@ function MpanelViewer(parent){
 			this.input_color = input;
 		};
 		var text_color = createElem('div', cont_div_color, 'text');
-		text_color.innerHTML = 'Color <br>of Poles';
+		text_color.innerHTML = 'Colour <br>of Poles';
 		
 	};
 
@@ -209,19 +198,6 @@ function MpanelViewer(parent){
 				load_file_obj(texture)
 			});
 		} else {
-			/*var mtlLoader = new THREE.MTLLoader();
-			var path = url_obj.split('/');
-			var url_path = path.slice(0, path.length-1).join('/');
-			var file_name_obj = path[path.length-1];
-			var name = file_name_obj.split('.');
-			var file_name_mtl = name.slice(0, path.length-2).join('.') + '.mtl';
-			var url_mtl = [url_path, file_name_mtl].join('/');
-
-			mtlLoader.load(url_mtl, function(materials) {
-				materials.preload();
-				loader_obj.setMaterials(materials);
-				load_file_obj()
-			});*/
 			load_file_obj();
 		};
 

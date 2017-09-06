@@ -53,7 +53,17 @@
 }
 
 .page_fabric .cont_select {
-	margin-bottom: 7px;
+	margin-bottom: 15px;
+	width: 295px;
+}
+.page_seams .cont_select .txt,
+.page_fabric .cont_select .txt,
+.page_fittings .cont_select .txt  {
+	color: #2D2D2D;
+	text-transform: uppercase;
+	font-size: 12px;
+	/* letter-spacing: -0.5px; */
+	margin-bottom: 5px;
 }
 
 .page_fabric .cont_brand .selectboxit-option-icon-url {

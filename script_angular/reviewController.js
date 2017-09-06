@@ -16,6 +16,7 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 		// mpanel.parent = elem;
 		mpanel.onWindowResize()
 		mpanel.updateMaterial(false);
+		mpanel.viewTop(true);
 	} else {
 		mpanel = new MpanelViewer(elem);
 		parent.mpanel = mpanel;
@@ -77,8 +78,6 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 			method : "post",
 			url : url
 		}).then(function mySuccess(response) {
-			// console.log('getInfo', response)
-			// $scope.myWelcome = response.data;
 			var data = response.data
 			if(!data.error){
 				
@@ -89,7 +88,6 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 			}
 			
 		}, function myError(response) {
-			// console.log('getInfo myError', response)
 			$s.review_error = response.data.message;
 		});
 	};

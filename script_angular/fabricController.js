@@ -112,12 +112,8 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 			data: data,
 			url : url
 		}).then(function mySuccess(response) {
-			// console.log('getInfo', response)
-			// $scope.myWelcome = response.data;
 			var data = response.data
 			if(!data.error){
-				// console.log('data',data.data)
-				// $s.id_project = data.data
 				if(typeof data.data == 'string'){
 					$w.localStorage.setItem('mpanel_id', data.data)
 				} else {
@@ -125,16 +121,10 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 					$s.data_fabric = data.data;	
 					parent.preload_opacity = false;
 				}
-				
-				// $w.localStorage.setItem('mpanel_id', data.data)
 			} else {
-				// console.log('data error')
 				parent.data_error = data.error
 			}
 		}, function myError(response) {
-			// console.log('getInfo myError', response)
-			// $s.all_data['project'] 
-			// $scope.myWelcome = response.statusText;
 			parent.data_error = response.data.message;
 		});
 	}
@@ -142,28 +132,21 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 
 	function getInfo(){
 		var id = $s.id_project;
-		var url = $s.host + dataUrl.material.get+id;//dataUrl.project.new_project;
-		// console.log('url', url)
+		var url = $s.host + dataUrl.material.get+id;
 		if(!id) return
 		return $h({
 			method : "get",
 			url : url
 		}).then(function mySuccess(response) {
-			// console.log('getInfo', response)
-			// $scope.myWelcome = response.data;
 			var data = response.data
 			if(!data.error){
 				parent.all_data['material'] = data.data;
 				$s.data_fabric = data.data;
-				// $s.id_unit = $s.data_fabric.unitIndex; //1;
-				//$w.localStorage.setItem('mpanel_unit', $s.id_unit);
 			} else {
 				parent.data_error = data.error
 			}
 			
 		}, function myError(response) {
-			// console.log('getInfo myError', response)
-			// $scope.myWelcome = response.statusText;
 			parent.data_error = response.data.message
 		});
 	}

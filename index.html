@@ -130,7 +130,7 @@
 						</div>
 						<div class="text_ok" ng-if='!negative && !no_all_val'>Preliminary data check passed.</div>
 					</div>
-					<div class="my_btn next active" ng-if='id_itm_page < list_menu.length-1' ng-click='nextPage()' ng-class='{disabled: itm_page.id == "shape" && (negative || no_all_val), disabled: itm_page.id == "seams" && !all_data["pattern"]}'>
+					<div class="my_btn next active" ng-if='id_itm_page < list_menu.length-1' ng-click='nextPage()' ng-class='{disabled: (itm_page.id == "seams" && !all_data["pattern"]) || ( itm_page.id == "shape" && (negative || no_all_val))}'>
 						<div class="link" >next</div>
 					</div>
 				</div>

@@ -49,12 +49,12 @@ mpanelApp.controller("seamsController", ['$http', '$window','$scope', function($
 	$s.prevPanels = function(){
 		if($s.index_panel == 0) return
 
-		$s.index_panel--
+		$s.index_panel--;
 	}
 	$s.nextPanels = function(){
 		if($s.index_panel == $s.item_seams.nPanels.length-1) return
 
-		$s.index_panel++
+		$s.index_panel++;
 	}
 
 	$s.getMake = function(){

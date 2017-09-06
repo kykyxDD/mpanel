@@ -42,6 +42,8 @@ mpanelApp.directive('calendar', function () {
 
             var fun = $(el).datepicker({
                 dateFormat: 'dd/mm/yyyy',
+
+                minDate: new Date(2015, 0, 1),
                 inline: false,
                 onShow: function(dp, animationCompleted){
                     $(dp.el).addClass('show')

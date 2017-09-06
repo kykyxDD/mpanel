@@ -18,6 +18,15 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 	}
 
 
+	$s.validNum = function(name){
+		var val = $s.data_project[name];
+		console.log(val)
+		var check_val = checkValNum(val);
+		if(check_val != val) {
+			$s.data_project[name] = check_val
+		}
+	}
+
 	if($s.id_project){
 		$s.$parent.load_data = true;
 		if(parent.all_data['project']){
@@ -32,7 +41,8 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 		}
 	} else {
 		$s.data_project = {
-		unitIndex: 1,
+			unitIndex: 1,
+
 			units:  [
 				"Meters  ( 1.234 )",
 				"Centimeters  ( 123.4 )",
@@ -149,5 +159,8 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 		}, function myError(response) {
 			parent.data_error = data.error
 		});
+	}
+	function checkValNum(str_num){
+		return str_num.replace(/[^0-9.\-\'\"\,\/]/gi, '');
 	}
 }])

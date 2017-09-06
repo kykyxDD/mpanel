@@ -225,9 +225,6 @@
 .cont_info .right_path .info_text {
 	width: 425px;
 	height: 200px;
-/*	background-color: #ededed;
-	border: 1px solid #e2e2e2;
-	border-radius: 3px;*/
 }
 .cont_info_select .popup {
 	width: 220px;
@@ -239,6 +236,7 @@
 }
 .cont_info_select .btn_help{
 	margin-left: 13px;
+	margin-top: 20px;
 }
 .cont_info_select .selectboxit-container .selectboxit {
 	width: 423px !important;

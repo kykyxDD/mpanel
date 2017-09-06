@@ -104,8 +104,6 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 			var index = $s.list_menu.indexOf(obj) 
 			if(index > 0 && !$s.id_project){
 				obj = $s.list_menu[0];
-		
-				// updateItmPage(obj)
 			} else if(index == $s.list_menu.length-1 && !$s.all_data['pattern']){
 				obj = $s.list_menu[$s.list_menu.length-2];
 			}

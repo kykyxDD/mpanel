@@ -6,6 +6,7 @@
 	</div>
 	<div class="right_path">
 		<div class="cont_select cont_database">
+			<div class="txt">FABRIC DATABASE</div>
 			<select class="select_database" 
 				ng-change='changeSelect("FabricSupplier")' 
 				ng-model='data_fabric.fabricSelectedIndex' 
@@ -13,15 +14,10 @@
 				fancy-default-text='FABRIC DATABASE' 
 				fancy-list='data_fabric.fabricItems' 
 				fancy-index="data_fabric.fabricSelectedIndex" >
-				<!-- <option value="Custom Fabric">Custom Fabric</option> -->
 			</select>
-			<!-- <select class="select_database" ng-change='changeSelect("FabricSupplier")' ng-model='data_fabric.fabricSelectedIndex'>
-				<option ng-repeat="itm in data_fabric.fabricItems" ng-value='itm'  ng-selected='data_fabric.fabricSelectedIndex == $index'>
-					{{itm}}
-				</option>
-			</select> -->
 		</div>
 		<div class="cont_select cont_brand">
+			<div class="txt">BRAND SELECTOR</div>
 			<select class="select_brand" 
 				ng-change='changeSelect("FabricType")' 
 				ng-model='data_fabric.fabricTypeSelectedIndex'
@@ -29,16 +25,10 @@
 				fancy-default-text='BRAND SELECTOR' 
 				fancy-list='data_fabric.fabricTypeItems' 
 				fancy-index="data_fabric.fabricTypeSelectedIndex" 
-			>
-			<!-- <option value="Demo fabric">Demo fabric</option> -->
-			</select>
-			<!-- <select class="select_brand" ng-change='changeSelect("FabricType")' ng-model='data_fabric.fabricTypeSelectedIndex'>
-				<option ng-repeat="type in data_fabric.fabricTypeItems" ng-value='type'  ng-selected='data_fabric.fabricTypeSelectedIndex == $index'>
-					{{type}}
-				</option>
-			</select> -->
+			></select>
 		</div>
 		<div class="cont_select cont_colour">
+			<div class="txt">COLOUR CHOICE</div>
 			<select class="select_colour"
 				ng-change='changeSelect("Color")'
 				ng-model='data_fabric.fabricColorSelectedIndex'
@@ -46,15 +36,7 @@
 				fancy-default-text='COLOUR CHOICE' 
 				fancy-list='data_fabric.fabricColorItems' 
 				fancy-index="data_fabric.fabricColorSelectedIndex" 
-			>
-			<!-- <option value="Cyan">Cyan</option><option value="Russet">Russet</option> -->
-			</select>
-			<!-- <select class="select_colour" ng-change='changeSelect("Color")' ng-model='data_fabric.fabricColorSelectedIndex'>
-				<option ng-repeat="color in data_fabric.fabricColorItems" ng-value='color'  ng-selected='data_fabric.fabricColorSelectedIndex == $index'>
-					{{color}}
-				</option>
-			</select> -->
-
+			></select>
 		</div>
 		<div class="cont_input poll">
 			<div class="cont_name">
