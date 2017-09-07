@@ -65,6 +65,7 @@
 	<script type="text/javascript" src='./script_angular/datepicker.js'></script>
 	<script type="text/javascript" src='./script_angular/customScroll.js'></script>
 	<script type="text/javascript" src='./script_angular/fancySelect.js'></script>
+	<script type="text/javascript" src='./script_angular/validNum.js'></script>
 </head>
 <body ng-app='mpanelApp' ng-controller="mpanelController" ng-class='{body_home : home_page}'>
 	<div class='main' ng-class='{home : home_page}' >
@@ -75,7 +76,7 @@
 				</div>
 				<div class="cont_menu">
 					<div class="menu">
-						<div class="page" ng-repeat="itm in list_menu" ng-class="{prev: $index < id_itm_page, itm: $index == id_itm_page}" ng-style="{'left': ($index*135 - 7)+'px' }">
+						<div class="page" ng-repeat="itm in list_menu" ng-class="{prev: $index < id_itm_page, itm: $index == id_itm_page, disabled: data_error && $index > id_itm_page}" ng-style="{'left': ($index*135 - 7)+'px' }">
 							<!-- <a class="text" ng-click="updatePage($index)">{{ itm.text}}</a> -->
 							<a class="text" ng-click="updatePage($index)">{{ itm.text}}</a>
 							<div class="point"></div>
@@ -130,7 +131,7 @@
 						</div>
 						<div class="text_ok" ng-if='!negative && !no_all_val'>Preliminary data check passed.</div>
 					</div>
-					<div class="my_btn next active" ng-if='id_itm_page < list_menu.length-1' ng-click='nextPage()' ng-class='{disabled: (itm_page.id == "seams" && !all_data["pattern"]) || ( itm_page.id == "shape" && (negative || no_all_val))}'>
+					<div class="my_btn next active" ng-if='id_itm_page < list_menu.length-1' ng-click='nextPage()' ng-class='{disabled: (itm_page.id == "seams" && !all_data["pattern"]) || ( itm_page.id == "shape" && (negative || no_all_val)) || data_error}'>
 						<div class="link" >next</div>
 					</div>
 				</div>

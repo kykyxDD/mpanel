@@ -40,7 +40,7 @@
 				<div class="cont_input cont_hem">
 					<div class="txt">Hem ({{reduction[id_unit]}})</div>
 					<div class="cont_val">
-						<input class="input_hem" type="text" ng-model='data_fitting.hemText'>
+						<input class="input_hem" type="text" ng-model='data_fitting.hemText' valid-num>
 					</div>
 				</div>
 			</div>
@@ -77,13 +77,13 @@
 					<div class="cont_input cont_lenght">
 						<div class="txt">Hardware length ({{reduction[id_unit]}})</div>
 						<div class="cont_val">
-							<input class="input_lenght" type="text" ng-model='data_fitting.cornerLengthText'>
+							<input class="input_lenght" type="text" ng-model='data_fitting.cornerLengthText' valid-num>
 						</div>
 					</div>
 					<div class="cont_input cont_width">
 						<div class="txt">Hardware width ({{reduction[id_unit]}})</div>
 						<div class="cont_val">
-							<input class="input_width" type="text" ng-model='data_fitting.cornerWidthText'>
+							<input class="input_width" type="text" ng-model='data_fitting.cornerWidthText' valid-num>
 						</div>
 					</div>
 					<div class="cont_checkbox_circle">
@@ -107,7 +107,7 @@
 				<div class="cont_input cont_link">
 					<div class="txt">Link length({{reduction[id_unit]}})</div>
 					<div class="cont_val">
-						<input class="input_link" type="text" ng-model='data_fitting.linkLengthText'>
+						<input class="input_link" type="text" ng-model='data_fitting.linkLengthText' valid-num>
 					</div>
 				</div>
 			</div>
@@ -131,7 +131,7 @@
 			<div class="cont_input cont_internal">
 				<div class="txt">Internal seam width ({{reduction[id_unit]}})</div>
 				<div class="cont_val">
-					<input class="input_internal" type="text" ng-model='data_fitting.seamText'>
+					<input class="input_internal" type="text" ng-model='data_fitting.seamText' valid-num>
 					<div class="btn_help">?
 						<div class="popup">
 							<div class="cont_popup">This allowance will be added to both sides of each seam</div>
@@ -142,24 +142,24 @@
 			<div class="cont_input cont_reinfo">
 				<div class="txt">Corner reinforcement size ({{reduction[id_unit]}})</div>
 				<div class="cont_val">
-					<input class="input_reinfo" type="text" ng-model='data_fitting.reoText'>
+					<input class="input_reinfo" type="text" ng-model='data_fitting.reoText' valid-num>
 				</div>
 			</div>
 			<div class="cont_input cont_diameter">
 				<div class="txt">Pole diameter ({{reduction[id_unit]}})</div>
 				<div class="cont_val">
-				<input class="input_diameter" type="text" ng-model='data_fitting.poleDiameterText'></div>
+				<input class="input_diameter" type="text" ng-model='data_fitting.poleDiameterText' valid-num></div>
 			</div>
 			<div class="cont_input cont_angle">
 				<div class="txt">Pole lean angle degress</div>
 				<div class="cont_val">
-					<input class="input_angle" type="text" ng-model='data_fitting.poleAngle'>
+					<input class="input_angle" type="text" ng-model='data_fitting.poleAngle' valid-num>
 				</div>
 			</div>
 			<div class="cont_input cont_height">
 				<div class="txt">Pole added height ({{reduction[id_unit]}})</div>
 				<div class="cont_val">
-					<input class="input_height" type="text" ng-model='data_fitting.poleExtraHeight'>
+					<input class="input_height" type="text" ng-model='data_fitting.poleExtraHeight' valid-num>
 					<div class="btn_help">?
 						<div class="popup">
 							<div class="cont_popup">This wiil extend the post above the connection height for visualisation purposes only</div>

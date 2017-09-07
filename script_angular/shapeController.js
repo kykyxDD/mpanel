@@ -93,34 +93,32 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		}
 		parent.negative = str
 	}
-	$s.validNumSide = function(val, index){
+	// $s.validNumSide = function(val, index){
 		// console.log('val',val, index)
-		var new_val = checkValNum(val);
-		if(new_val != val){
-			$s.item_shape.sideParameters[index].pointToPointSize = new_val
-		}
-	}
-	$s.validNumDiag = function(val, index){
-		// console.log('val',val)
-		var new_val = checkValNum(val);
-		if(new_val != val){
-			$s.item_shape.diagonalParameters[index].value = new_val
-		}
-	}
-	$s.validNumCorn = function(val, index){
-		// console.log('val',val)
-		var new_val = checkValNum(val);
-		if(new_val != val){
-			$s.item_shape.cornerParameters[index].height = new_val
-		}
-	}
-	$s.validNumLink = function(val, index){
-		// console.log('val',val)
-		var new_val = checkValNum(val);
-		if(new_val != val){
-			$s.item_shape.cornerParameters[index].linkLength = new_val
-		}
-	}
+		// var new_val = checkValNum(val);
+		// if(new_val != val){
+		// 	$s.item_shape.sideParameters[index].pointToPointSize = new_val
+		// }
+	// }
+	// $s.validNumDiag = function(val, index){
+	// 	// console.log('val',val)
+	// 	var new_val = checkValNum(val);
+	// 	if(new_val != val){
+	// 		$s.item_shape.diagonalParameters[index].value = new_val
+	// 	}
+	// }
+	// $s.validNumCorn = function(val, index){
+	// 	var new_val = checkValNum(val);
+	// 	if(new_val != val){
+	// 		$s.item_shape.cornerParameters[index].height = new_val
+	// 	}
+	// }
+	// $s.validNumLink = function(val, index){
+	// 	var new_val = checkValNum(val);
+	// 	if(new_val != val){
+	// 		$s.item_shape.cornerParameters[index].linkLength = new_val
+	// 	}
+	// }
 	function checkValNum(str_num){
 		return str_num.replace(/[^0-9.\-\'\"\,\/\s]/gi, '');
 	}
@@ -163,6 +161,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			if(search < 0 || parseFloat(itm.pointToPointSize) == 0){
 				res = true
 			}
+			console.log(itm.pointToPointSize)
 
 			if(parseFloat(itm.pointToPointSize) < 0){
 				$s.item_shape.arr_negative.push(val_str)
@@ -252,7 +251,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		$s.$parent.load_data = false
 	} else {
 		getInfo().then(function(){
-			if(!parent.data_error){
+			if(!parent.data_error && parent.all_data['shape']){
 				saveData()
 				$s.$parent.load_data = false
 			}

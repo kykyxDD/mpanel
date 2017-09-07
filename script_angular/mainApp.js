@@ -24,14 +24,11 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 	// $s.item_num = 3
 	$s.max_edge = 6;
 	var unit = $w.localStorage.getItem('mpanel_unit');
-	$s.id_unit = +unit >= 0 ? +unit : 1; //1;
-	// console.log($s.id_unit)
-
+	$s.id_unit = +unit >= 0 ? +unit : 1; 
 
 	$s.$route = $r;
 	$s.$location = $l;
 	$s.$routeParams = $rp;
-	// console.log($r, $l, $rp)
 
 	$s.errorOk = function(){
 		$s.data_error = false;

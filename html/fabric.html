@@ -40,7 +40,7 @@
 				<div class="name">Roll width ({{reduction[id_unit]}})</div>
 			</div>
 			<div class="cont_val">
-				<input class="val input_text" type="text" name="poll" ng-model='data_fabric.rollWidthText'>
+				<input class="val input_text" type="text" name="poll" ng-model='data_fabric.rollWidthText' valid-num>
 			</div>
 		</div>
 		<div class="cont_input override">
@@ -58,8 +58,8 @@
 			</div>
 			<div class="cont_val">
 
-				<input ng-if='!data_fabric.override' class="val input_text" type="text" name="warp_str" ng-model='data_fabric.warpStretch'>
-				<input ng-if='data_fabric.override' class="val input_text" type="text" name="warp_str" ng-model='data_fabric.warpStretchOverride'>
+				<input ng-if='!data_fabric.override' class="val input_text" type="text" name="warp_str" ng-model='data_fabric.warpStretch' valid-num>
+				<input ng-if='data_fabric.override' class="val input_text" type="text" name="warp_str" ng-model='data_fabric.warpStretchOverride' valid-num>
 			</div>
 		</div>
 		<div class="cont_input waft_str">
@@ -67,8 +67,8 @@
 				<div class="name">Waft Stretch %</div>
 			</div>
 			<div class="cont_val">
-				<input ng-if='!data_fabric.override' class="val input_text" type="text" name="waft_str" ng-model='data_fabric.weftStretch'>
-				<input ng-if='data_fabric.override' class="val input_text" type="text" name="waft_str" ng-model='data_fabric.weftStretchOverride'>
+				<input ng-if='!data_fabric.override' class="val input_text" type="text" name="waft_str" ng-model='data_fabric.weftStretch' valid-num>
+				<input ng-if='data_fabric.override' class="val input_text" type="text" name="waft_str" ng-model='data_fabric.weftStretchOverride' valid-num>
 			</div>
 		</div>
 	</div>

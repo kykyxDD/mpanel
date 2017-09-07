@@ -1,4 +1,3 @@
-
 mpanelApp.controller("fabricController", ['$http', '$window','$scope', function($h, $w, $s){
 	$s.$parent.load_data = true;
 	var parent = $s.$parent;
