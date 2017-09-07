@@ -31,8 +31,9 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 		'fabricImageBase64'
 	]
 
-	$s.changeSelect = function(name) {
-		postInfo(name)
+	$s.changeSelect = function(name, old_val) {
+		console.log('changeSelect',name, old_val)
+		postInfo(name, old_val)
 	}
 	if(parent.all_data['material']) {
 
@@ -60,14 +61,14 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 		return data
 	}
 
-	function postInfo(sel) {
+	function postInfo(sel, index) {
 		var url = $s.host; //main.host + dataUrl.material.post.selectChange+id; 
 		var id = $s.id_project;
 		if(!id) return
 
 		if(typeof sel == 'string'){
 			parent.preload_opacity = true
-			url += dataUrl.material.post.selectChange+id+ '&selectType='+sel;
+			url += dataUrl.material.post.selectChange+id+ '&selectType='+sel+'&oldVal='+index;
 		} else {
 			url += dataUrl.material.post.commit+id;
 		}

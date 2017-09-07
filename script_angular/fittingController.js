@@ -28,8 +28,8 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 		$s.data_fitting = $s.all_data['material']
 	}
 
-	$s.changeSelect = function(name) {
-		postInfo(name);
+	$s.changeSelect = function(name, old_val) {
+		postInfo(name, old_val)
 	}
 	if($s.all_data['material']) {
 		$s.data_fitting = $s.all_data['material'];
@@ -55,12 +55,12 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 	}
 
 
-	function postInfo(sel) {
+	function postInfo(sel, index) {
 		var url = $s.host; 
 		var id = $s.id_project;
 		if(typeof sel == 'string'){
 			parent.preload_opacity = true;
-			url += dataUrl.material.post.selectChange+id+ '&selectType='+sel;
+			url += dataUrl.material.post.selectChange+id+ '&selectType='+sel+'&oldVal='+index;;
 
 		} else {
 			url += dataUrl.material.post.commit+id;

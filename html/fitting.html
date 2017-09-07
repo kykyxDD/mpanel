@@ -10,7 +10,7 @@
 				<div class="cont_select cont_hardware">
 					<div class="txt">HARDWARE DATABASE</div>
 					<select class="select_hardware" 
-						ng-change='changeSelect("HardwareSupplier")'
+						ng-change='changeSelect("HardwareSupplier", "{{data_fitting.hardwareSelectedIndex}}")'
 						ng-model='data_fitting.hardwareSelectedIndex'
 						fancy-select 
 						fancy-default-text='HARDWARE DATABASE' 
@@ -20,7 +20,7 @@
 				<div class="cont_select cont_webbing">
 					<div class="txt">EDGE TYPE</div>
 					<select class="select_edge_type" 
-						ng-change='changeSelect("EdgeType")'
+						ng-change='changeSelect("EdgeType", "{{data_fitting.hardEdgeTypeSelectedIndex}}")'
 						ng-model='data_fitting.hardEdgeTypeSelectedIndex'
 						fancy-select 
 						fancy-default-text='EDGE TYPE' 
@@ -30,7 +30,7 @@
 				<div class="cont_select cont_colour">
 					<div class="txt">COLOUR</div>
 					<select class="select_colour"
-						ng-change='changeSelect("EdgeColor")'
+						ng-change='changeSelect("EdgeColor", "{{data_fitting.hardColorSelectedIndex}}")'
 						ng-model='data_fitting.hardColorSelectedIndex'
 						fancy-select 
 						fancy-default-text='COLOUR' 
@@ -54,7 +54,7 @@
 				<div class="cont_select cont_corner">
 					<div class="txt">EXAMPLE CORNER IMAGE</div>
 					<select class="select_corner"
-						ng-change='changeSelect("ExampleImage")'
+						ng-change='changeSelect("ExampleImage", "{{data_fitting.exampleImageSelectedIndex}}")'
 						ng-model='data_fitting.exampleImageSelectedIndex'
 						fancy-select 
 						fancy-default-text='EXAMPLE CORNER IMAGE' 
@@ -66,7 +66,7 @@
 				<div class="cont_select cont_finish">
 					<div class="txt">CORNER FINISH</div>
 					<select class="select_finish" 
-						ng-change='changeSelect("CornerType")'
+						ng-change='changeSelect("CornerType", "{{data_fitting.hardCornorSelectedIndex}}")'
 						ng-model='data_fitting.hardCornorSelectedIndex'
 						fancy-select 
 						fancy-default-text='CORNER FINISH' 
@@ -97,7 +97,7 @@
 				<div class="cont_select cont_shackle">
 					<div class="txt">CORNER LINK</div>
 					<select class="select_corner_link" 
-						ng-change='changeSelect("LinkType")'
+						ng-change='changeSelect("LinkType", "{{data_fitting.hardLinkSelectedIndex}}")'
 						ng-model='data_fitting.hardLinkSelectedIndex'
 						fancy-select 
 						fancy-default-text='CORNER LINK' 

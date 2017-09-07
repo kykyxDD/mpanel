@@ -161,7 +161,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			if(search < 0 || parseFloat(itm.pointToPointSize) == 0){
 				res = true
 			}
-			console.log(itm.pointToPointSize)
+			// console.log(itm.pointToPointSize)
 
 			if(parseFloat(itm.pointToPointSize) < 0){
 				$s.item_shape.arr_negative.push(val_str)

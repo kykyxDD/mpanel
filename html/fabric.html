@@ -8,7 +8,7 @@
 		<div class="cont_select cont_database">
 			<div class="txt">FABRIC DATABASE</div>
 			<select class="select_database" 
-				ng-change='changeSelect("FabricSupplier")' 
+				ng-change='changeSelect("FabricSupplier", "{{data_fabric.fabricSelectedIndex}}")' 
 				ng-model='data_fabric.fabricSelectedIndex' 
 				fancy-select 
 				fancy-default-text='FABRIC DATABASE' 
@@ -18,7 +18,7 @@
 		<div class="cont_select cont_brand">
 			<div class="txt">BRAND SELECTOR</div>
 			<select class="select_brand" 
-				ng-change='changeSelect("FabricType")' 
+				ng-change='changeSelect("FabricType", "{{data_fabric.fabricTypeSelectedIndex}}")' 
 				ng-model='data_fabric.fabricTypeSelectedIndex'
 				fancy-select 
 				fancy-default-text='BRAND SELECTOR' 
@@ -28,7 +28,7 @@
 		<div class="cont_select cont_colour">
 			<div class="txt">COLOUR CHOICE</div>
 			<select class="select_colour"
-				ng-change='changeSelect("Color")'
+				ng-change='changeSelect("Color", "{{data_fabric.fabricColorSelectedIndex}}")'
 				ng-model='data_fabric.fabricColorSelectedIndex'
 				fancy-select 
 				fancy-default-text='COLOUR CHOICE' 
