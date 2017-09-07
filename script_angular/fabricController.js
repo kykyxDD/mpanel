@@ -33,7 +33,6 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 	]
 
 	$s.changeSelect = function(name) {
-		// console.log('fabric',name)
 		postInfo(name)
 	}
 	if(parent.all_data['material']) {
@@ -59,33 +58,6 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 			}
 		}
 
-		// if(typeof data.fabricSelectedIndex == 'string'){
-		// 	var id = data_fabric.fabricItems.indexOf(data.fabricSelectedIndex)
-		// 	if(id >= 0){
-		// 		data.fabricSelectedIndex = data_fabric.fabricItems.indexOf(data.fabricSelectedIndex);
-		// 		parent.all_data['material'].fabricSelectedIndex =  data.fabricSelectedIndex;
-		// 	}
-		// }
-		// if(typeof data.fabricTypeSelectedIndex == 'string'){
-		// 	var id = data_fabric.fabricTypeItems.indexOf(data.fabricTypeSelectedIndex)
-		// 	if(id >= 0){
-		// 		data.fabricTypeSelectedIndex = data_fabric.fabricTypeItems.indexOf(data.fabricTypeSelectedIndex);
-		// 		parent.all_data['material'].fabricTypeSelectedIndex =  data.fabricTypeSelectedIndex;
-		// 	}
-
-		// }
-		// if(typeof data.fabricColorSelectedIndex == 'string'){
-		// 	var id = data_fabric.fabricColorItems.indexOf(data.fabricColorSelectedIndex)
-		// 	if(id >= 0){
-		// 		data.fabricColorSelectedIndex = data_fabric.fabricColorItems.indexOf(data.fabricColorSelectedIndex);
-		// 		parent.all_data['material'].fabricColorSelectedIndex =  data.fabricColorSelectedIndex;
-		// 	}
-
-		// }
-
-		console.log(data.fabricSelectedIndex,
-data.fabricTypeSelectedIndex,
-data.fabricColorSelectedIndex)
 		return data
 	}
 
@@ -93,18 +65,14 @@ data.fabricColorSelectedIndex)
 		var url = $s.host; //main.host + dataUrl.material.post.selectChange+id; 
 		var id = $s.id_project;
 		if(!id) return
-		// var url = $s.host + dataUrl.material.get+id;
+
 		if(typeof sel == 'string'){
-			// this.new_page = false
 			parent.preload_opacity = true
 			url += dataUrl.material.post.selectChange+id+ '&selectType='+sel;
 		} else {
-			// this.new_page = true
 			url += dataUrl.material.post.commit+id;
 		}
 		var data = getData();
-
-		console.log('sel',data)
 
 
 		return $h({

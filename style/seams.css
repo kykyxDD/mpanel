@@ -263,6 +263,10 @@
 .cont_straight{
 	margin: 11px 0 15px;
 }
+.cont_straight .popup {
+	width: 250px;
+    margin-left: -124px;
+}
 .cont_straight > div {
 	display: inline-block;
 	vertical-align: middle;
@@ -275,6 +279,11 @@
 }
 .cont_btn_make{
 	margin: 45px 3px 0;
+}
+
+.cont_btn_make .popup{
+	width: 330px;
+	margin-left: -164px;
 }
 .cont_btn_make .btn_make{
 	height: 37px;

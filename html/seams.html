@@ -53,9 +53,10 @@
 					ng-model='data_seams.warpIndex' >
 				</select>
 			</div>
-			<div class="btn_help">?<div class="popup">
-			<div class="cont_popup">Warp is direction of fabric coming off the roll</div>
-			</div>
+			<div class="btn_help">?
+				<div class="popup">
+					<div class="cont_popup">Warp is direction of fabric coming off the roll</div>
+				</div>
 			</div>
 		</div>
 		<div class="cont_straight">
@@ -63,7 +64,13 @@
 				<input class="straight" type="checkbox" id="straight">
 				<label for="straight"></label>
 			</div>
-			<div class="text">Straighten Seams</div>
+			<div class="text">Straighten Seams 
+				<div class="btn_help">?
+					<div class="popup">
+						<div class="cont_popup">Check this to straighten seams</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="cont_info_select">
 			<div class="cont_select cont_tag">
@@ -80,6 +87,11 @@
 		</div>
 		<div class="cont_btn_make">
 			<div class="my_btn grad_blue btn_make" ng-click='getMake()' ng-class='{disabled: !item_seams.tagCorner}'>make panels</div>
+			<div class="btn_help">?
+				<div class="popup">
+					<div class="cont_popup">This button creates the pattern - you cannot proceed without pressing this</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

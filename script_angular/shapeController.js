@@ -160,7 +160,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			}
 			var val_str = 'size-'+itm.name;
 			var search = itm.pointToPointSize.search(/[0-9]/);
-			if(search < 0 || parseFloat(itm.pointToPointSize) ==0){
+			if(search < 0 || parseFloat(itm.pointToPointSize) == 0){
 				res = true
 			}
 
@@ -172,6 +172,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 				if(id >= 0){
 					$s.item_shape.arr_negative.splice(id, 1);
 				}
+				itm.negative = false
 			}
 		}
 
@@ -196,6 +197,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 				if(id >= 0){
 					$s.item_shape.arr_negative.splice(id, 1);
 				}
+				itm.negative = false
 			}
 		}
 
@@ -208,7 +210,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			}
 			var val_str = 'corn-'+itm.name;
 			var search = itm.height.search(/[0-9]/);
-			if(search < 0 || parseFloat(itm.height) == 0){
+			if(search < 0){
 				res = true
 			}
 
@@ -220,6 +222,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 				if(id >= 0){
 					$s.item_shape.arr_negative.splice(id, 1);
 				}
+				itm.negative = false
 			}
 		}
 		updateNedative()
