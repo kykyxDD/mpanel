@@ -1,9 +1,9 @@
 mpanelApp.controller("reviewController", ['$http', '$window','$scope', function($h, $w, $s){
 	$s.index_model = 0;
 	var elem = document.getElementById('threejs');
-	var mpanel
+	var mpanel;
 	var parent = $s.$parent;
-	parent.load_data = true;
+	
 
 	if(!$s.id_project){
 		return $s.updatePage(0)
@@ -37,11 +37,7 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 	}
 
 
-	if(parent.all_data['review'] && !parent.updateMpanel){
-		loadInfo(parent.all_data['review'])
-	} else {
-		getInfo()
-	}
+	
 
 	$s.editNumModel = function(num){
 		if(num != $s.index_model){
@@ -104,9 +100,9 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 			mpanel.loadObj($s.arr_url[0]);
 		}
 		parent.updateMpanel = false;
-		parent.noUpdateMpanel = false
+		parent.noUpdateMpanel = false;
 
-		parent.load_data = false
+		parent.load_data = false;
 
 	}
 
@@ -115,4 +111,14 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 		if(!mpanel || load_file) return 
 		mpanel.loadObj($s.arr_url[$s.index_model]);
 	}
+
+	function initInfo(){
+		if(parent.all_data['review'] && !parent.updateMpanel){
+			loadInfo(parent.all_data['review'])
+		} else {
+			getInfo()
+		}
+	}
+
+	initInfo()
 }])

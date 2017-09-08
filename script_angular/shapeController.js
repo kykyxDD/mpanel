@@ -222,12 +222,12 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	function initInfo(){
 		if(parent.all_data['shape']){
 			saveData();
-			$s.$parent.load_data = false
+			// $s.$parent.load_data = false
 		} else {
 			getInfo().then(function(){
 				if(!parent.data_error && parent.all_data['shape']){
 					saveData()
-					$s.$parent.load_data = false
+					// parent.load_data = false
 				}
 			});
 		}
@@ -252,6 +252,8 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		}
 
 		$s.item_num = data.sideCount;
+
+		parent.load_data = false
 
 		pullDataPage();
 	}
