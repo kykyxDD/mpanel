@@ -137,7 +137,7 @@ mpanelApp.controller("seamsController", ['$http', '$window','$scope', function($
 			mpanel.viewTop(true);
 		}
 
-		$s.getMake();
+		// $s.getMake();
 	}
 
 }]);

@@ -86,7 +86,6 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 	];
 
 	function on_page_change(){
-		// console.log('on_page_change');
 		var itm = $s.itm_page;
 		if(itm){
 			$s.id_itm_page = itm.id ? $s.list_menu.indexOf(searchListPage(itm.id)) : 0;	

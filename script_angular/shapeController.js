@@ -93,32 +93,6 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		}
 		parent.negative = str
 	}
-	// $s.validNumSide = function(val, index){
-		// console.log('val',val, index)
-		// var new_val = checkValNum(val);
-		// if(new_val != val){
-		// 	$s.item_shape.sideParameters[index].pointToPointSize = new_val
-		// }
-	// }
-	// $s.validNumDiag = function(val, index){
-	// 	// console.log('val',val)
-	// 	var new_val = checkValNum(val);
-	// 	if(new_val != val){
-	// 		$s.item_shape.diagonalParameters[index].value = new_val
-	// 	}
-	// }
-	// $s.validNumCorn = function(val, index){
-	// 	var new_val = checkValNum(val);
-	// 	if(new_val != val){
-	// 		$s.item_shape.cornerParameters[index].height = new_val
-	// 	}
-	// }
-	// $s.validNumLink = function(val, index){
-	// 	var new_val = checkValNum(val);
-	// 	if(new_val != val){
-	// 		$s.item_shape.cornerParameters[index].linkLength = new_val
-	// 	}
-	// }
 	function checkValNum(str_num){
 		return str_num.replace(/[^0-9.\-\'\"\,\/\s]/gi, '');
 	}

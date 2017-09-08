@@ -38,12 +38,14 @@ mpanelApp.directive('calendar', function () {
         restrict: 'A',
         link: function (scope, el, attr, ngModel) {
             var update = false;
-            var label = el[0].labels[0];
+            var id = el[0].getAttribute('id')
+//            var label = el[0].labels[0];
+            var label = document.querySelector('label[for='+id+']')
 
             var fun = $(el).datepicker({
                 dateFormat: 'dd/mm/yyyy',
 
-                minDate: new Date(2015, 0, 1),
+                // minDate: new Date(2015, 0, 1),
                 inline: false,
                 onShow: function(dp, animationCompleted){
                     $(dp.el).addClass('show')

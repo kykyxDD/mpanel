@@ -21,7 +21,11 @@
 	<link rel="stylesheet" type="text/css" href="./style/graphics.css"> 
 	<link rel="stylesheet" type="text/css" href="./style_angular/style.css"> 
 	
-	<script src="./libs/angularjs/angular_1.2.min.js"></script>
+	<!-- // <script src="./libs/angularjs/angular_1.2.min.js"></script> -->
+	<!-- // <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script> -->
+
+	
+	<script src="./libs/angularjs/angular_1.4.4.min.js"></script> 
 	<script src="./libs/angularjs/angular-route.js"></script>
 
 	<script src="./libs/easeljs-0.8.1.min.js"></script>
@@ -29,7 +33,8 @@
 	<script src="./libs/tweenjs-0.6.1.min.js"></script>
 	<script src="./script/Shapes.js"></script>
 	
-	<script src="./libs/1.8.3_jquery.min.js"></script>
+	<!-- // <script src="./libs/1.8.3_jquery.min.js"></script> -->
+	<script src="./libs/1.11.0_jquery.min.js"></script>
 	<script src="./libs/1.9.2_jquery-ui.min.js"></script>
 	<script src="./libs/jquery_mCustomScrollbar.js"></script>
 	<script src="./libs/jquery.selectBoxIt.js"></script>
@@ -76,7 +81,7 @@
 				</div>
 				<div class="cont_menu">
 					<div class="menu">
-						<div class="page" ng-repeat="itm in list_menu" ng-class="{prev: $index < id_itm_page, itm: $index == id_itm_page, disabled: data_error && $index > id_itm_page}" ng-style="{'left': ($index*135 - 7)+'px' }">
+						<div class="page" ng-repeat="itm in list_menu" ng-class="{prev: $index < id_itm_page, itm: $index == id_itm_page, disabled: (data_error && $index > id_itm_page) || load_data || preload_opacity}" ng-style="{'left': ($index*135 - 7)+'px' }">
 							<!-- <a class="text" ng-click="updatePage($index)">{{ itm.text}}</a> -->
 							<a class="text" ng-click="updatePage($index)">{{ itm.text}}</a>
 							<div class="point"></div>
