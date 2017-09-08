@@ -36,9 +36,10 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 			$s.data_fitting = $s.all_data['material'];
 			$s.$parent.load_data = false;
 		} else {
-			getInfo().then(function(){
-				parent.load_data = false;
-			});
+			// getInfo().then(function(){
+			// 	parent.load_data = false;
+			// });
+			getInfo()
 		}
 	}
 
@@ -102,6 +103,7 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 			if(!data.error){
 				$s.all_data['material'] = data.data;
 				$s.data_fitting = data.data;
+				parent.load_data = false;
 			} else {
 				parent.data_error = data.error;
 			}

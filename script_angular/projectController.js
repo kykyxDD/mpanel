@@ -34,11 +34,12 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 				$s.data_project = parent.all_data['project'];
 				pullDataPage()
 			} else {
-				getInfo().then(function(){
-					if(!$s.data_error){
-						pullDataPage()
-					}
-				})
+				// getInfo().then(function(){
+				// 	if(!$s.data_error){
+				// 		pullDataPage()
+				// 	}
+				// })
+				getInfo()
 			}
 		} else {
 			$s.data_project = {
@@ -94,6 +95,7 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 				$s.data_project = data.data;
 				parent.id_unit = $s.data_project.unitIndex; 
 				$w.localStorage.setItem('mpanel_unit', parent.id_unit);
+				pullDataPage()
 			} else {
 				parent.data_error = data.error;
 			}

@@ -222,12 +222,13 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			saveData();
 			// $s.$parent.load_data = false
 		} else {
-			getInfo().then(function(){
-				if(!parent.data_error && parent.all_data['shape']){
-					saveData()
-					// parent.load_data = false
-				}
-			});
+			// getInfo().then(function(){
+			// 	if(!parent.data_error && parent.all_data['shape']){
+			// 		saveData()
+			// 		// parent.load_data = false
+			// 	}
+			// });
+			getInfo()
 		}
 		createSailPattern();
 	}
@@ -393,6 +394,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			if(!data.error){
 				parent.all_data['shape'] = data.data;
 				parent.all_data['default_shape'] = cloneItem(data.data.innerItems)//cloneItem(data.data.innerItems);
+				saveData()
 			} else {
 				parent.data_error = data.error
 			}
