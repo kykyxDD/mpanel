@@ -215,3 +215,10 @@
 	left: inherit;
     right: 15px;
 }
+
+
+input.disabled,
+input[disabled] + label {
+	pointer-events: none;
+	background-color: #eee;
+}

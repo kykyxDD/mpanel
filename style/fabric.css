@@ -151,11 +151,21 @@
 	text-align: right;
 	line-height: 14px;
 }
-
+.page_fabric .cont_input .cont_val {
+	position: relative;
+}
 .page_fabric .cont_input .cont_val input {
 	width: 55px;
 	margin-bottom: 0;
 }
+
+.page_fabric .cont_input .cont_val .name {
+	position: absolute;
+	top: -23px;
+	left: 0;
+	text-align: left;
+}
+
 
 .page_fabric .cont_check input[type="checkbox"] + label{
 	margin: 7px 2px;

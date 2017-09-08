@@ -25,7 +25,7 @@
 	<!-- // <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script> -->
 
 	
-	<script src="./libs/angularjs/angular_1.4.4.min.js"></script> 
+	<script src="./libs/angularjs/angular_1.2.min.js"></script> 
 	<script src="./libs/angularjs/angular-route.js"></script>
 
 	<script src="./libs/easeljs-0.8.1.min.js"></script>
@@ -100,7 +100,7 @@
 
 						<div class="my_btn load_exam" ng-click='loadExample()' ng-show='itm_page.id == "shape"'>Load example</div>
 						<div class="grad_blue reset my_btn"  ng-click='resetData()' ng-show='itm_page.id == "shape"'>Reset</div>
-						<div class="set my_btn" ng-show='itm_page.id == "project" || user_page' ng-class='{disabled: user_page}'>
+						<div class="set my_btn" ng-show='itm_page.id == "project" || user_page' ng-class='{disabled: user_page || load_data}'>
 							<a class="link" href="#user">Settings</a>
 						</div>
 						<div class="my_btn btn_help" ng-hide="user_page">

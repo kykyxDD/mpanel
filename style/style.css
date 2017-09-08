@@ -115,6 +115,9 @@ body {
 	position: absolute;
 	margin-top: -6px;
 }
+.menu .page.disabled{
+	pointer-events: none;
+}
 .menu .page .point {
 	width: 14px;
 	height: 14px;
@@ -190,6 +193,7 @@ body {
 	z-index: 10;
 	background-color: #f9f9f9;
 	visibility: visible;
+	z-index: 100;
 	/*pointer-events: none;*/
 }
 
@@ -850,6 +854,14 @@ body {
 	background-size: cover;
 	min-height: 100vh;
 	min-width: 780px;
+    display: table;
+    margin: 0 auto;
+    vertical-align: middle;
+}
+
+.body_home .main.home{
+	vertical-align: middle;
+	display: table-cell;
 }
 
 .home .body {
@@ -857,7 +869,7 @@ body {
 	text-align: center;
 }
 .home .body .cont {
-	padding-top: 200px;
+	/*padding-top: 200px;*/
 	width: 780px;
 }
 .home .body .cont > div {

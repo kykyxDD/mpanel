@@ -27,31 +27,33 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 		}
 	}
 
-	if($s.id_project){
-		$s.$parent.load_data = true;
-		if(parent.all_data['project']){
-			$s.data_project = parent.all_data['project'];
-			pullDataPage()
+	function initPage(){
+		if($s.id_project){
+			$s.$parent.load_data = true;
+			if(parent.all_data['project']){
+				$s.data_project = parent.all_data['project'];
+				pullDataPage()
+			} else {
+				getInfo().then(function(){
+					if(!$s.data_error){
+						pullDataPage()
+					}
+				})
+			}
 		} else {
-			getInfo().then(function(){
-				if(!$s.data_error){
-					pullDataPage()
-				}
-			})
+			$s.data_project = {
+				unitIndex: 1,
+	
+				units:  [
+					"Meters  ( 1.234 )",
+					"Centimeters  ( 123.4 )",
+					"Millimeters  ( 1234 )",
+					"Inches  ( 123.4\" )",
+					"Feet and inches  ( 12\' 3.4\" )",
+					"Feet, inches, fractions  ( 12\' 3 5/16\" )"
+				]
+			};
 		}
-	} else {
-		$s.data_project = {
-			unitIndex: 1,
-
-			units:  [
-				"Meters  ( 1.234 )",
-				"Centimeters  ( 123.4 )",
-				"Millimeters  ( 1234 )",
-				"Inches  ( 123.4\" )",
-				"Feet and inches  ( 12\' 3.4\" )",
-				"Feet, inches, fractions  ( 12\' 3 5/16\" )"
-			]
-		};
 	}
 
 	function pullDataPage(data){
@@ -163,4 +165,6 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 	function checkValNum(str_num){
 		return str_num.replace(/[^0-9.\-\'\"\,\/]/gi, '');
 	}
+
+	initPage()
 }])

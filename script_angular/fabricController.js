@@ -35,14 +35,18 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 		console.log('changeSelect',name, old_val)
 		postInfo(name, old_val)
 	}
-	if(parent.all_data['material']) {
 
-		$s.data_fabric = parent.all_data['material'];
-		$s.$parent.load_data = false;
-	} else {
-		getInfo().then(function(){
-			parent.load_data = false
-		})
+
+	function initInfo(){
+		if(parent.all_data['material']) {
+
+			$s.data_fabric = parent.all_data['material'];
+			$s.$parent.load_data = false;
+		} else {
+			getInfo().then(function(){
+				parent.load_data = false
+			})
+		}
 	}
 
 
@@ -118,4 +122,6 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 			parent.data_error = response.data.message;
 		});
 	}
+
+	initInfo();
 }])

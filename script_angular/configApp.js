@@ -45,8 +45,7 @@ angular.module("mpanelApp").config(function($routeProvider, $locationProvider) {
            templateUrl: './html/pattern.html',
            // templateUrl:'viewStudents.htm',
            controller: 'patternController'
-       })    
-        .otherwise({ redirectTo: '/' });
+       })
 
     //$locationProvider.html5Mode(true);
 })

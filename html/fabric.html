@@ -57,9 +57,11 @@
 				<div class="name">Warp Stretch %</div>
 			</div>
 			<div class="cont_val">
-
-				<input ng-if='!data_fabric.override' class="val input_text" type="text" name="warp_str" ng-model='data_fabric.warpStretch' valid-num>
-				<input ng-if='data_fabric.override' class="val input_text" type="text" name="warp_str" ng-model='data_fabric.warpStretchOverride' valid-num>
+				<input class="val input_text" type="text" name="warp_str" ng-model='data_fabric.warpStretch' valid-num>
+			</div>
+			<div class="cont_val" ng-if='data_fabric.override'>
+				<div class="name">Override</div>
+				<input class="val input_text" type="text" name="warp_str" ng-model='data_fabric.warpStretchOverride' valid-num>
 			</div>
 		</div>
 		<div class="cont_input waft_str">
@@ -67,8 +69,10 @@
 				<div class="name">Waft Stretch %</div>
 			</div>
 			<div class="cont_val">
-				<input ng-if='!data_fabric.override' class="val input_text" type="text" name="waft_str" ng-model='data_fabric.weftStretch' valid-num>
-				<input ng-if='data_fabric.override' class="val input_text" type="text" name="waft_str" ng-model='data_fabric.weftStretchOverride' valid-num>
+				<input class="val input_text" type="text" name="waft_str" ng-model='data_fabric.weftStretch' valid-num>
+			</div>
+			<div class="cont_val" ng-if='data_fabric.override'>
+				<input class="val input_text" type="text" name="waft_str" ng-model='data_fabric.weftStretchOverride' valid-num>
 			</div>
 		</div>
 	</div>
