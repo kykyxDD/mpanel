@@ -9,12 +9,14 @@ mpanelApp.controller("seamsController", ['$http', '$window','$scope', function($
 	parent.load_data = true
 
 	$s.data_seams = {		
-		warpIndex: 0,
-		tagIndex: 0
+
 	}
 
 	$s.item_seams = {
-		nPanels: [1]
+		nPanels: [1],
+		index_panel: 0,
+		warpIndex: 0,
+		tagIndex: 0
 	}
 	$s.index_panel = 0
 	$s.pattern_error = false;
@@ -47,14 +49,14 @@ mpanelApp.controller("seamsController", ['$http', '$window','$scope', function($
 
 	
 	$s.prevPanels = function(){
-		if($s.index_panel == 0) return
+		if($s.item_seams.index_panel == 0) return
 
-		$s.index_panel--;
+		$s.item_seams.index_panel--;
 	}
 	$s.nextPanels = function(){
-		if($s.index_panel == $s.item_seams.nPanels.length-1) return
+		if($s.item_seams.index_panel == $s.item_seams.nPanels.length-1) return
 
-		$s.index_panel++;
+		$s.item_seams.index_panel++;
 	}
 
 	$s.getMake = function(){
@@ -62,10 +64,12 @@ mpanelApp.controller("seamsController", ['$http', '$window','$scope', function($
 		var id = $s.id_project;
 		var data = {
 			objFileName: $s.item_seams.objModelName,
-			selectedPanel: $s.index_panel,
-			selectedTag: $s.data_seams.warpIndex,
-			selectedWarp: $s.data_seams.tagIndex
+			selectedPanel: $s.item_seams.index_panel,
+			selectedTag: $s.item_seams.warpIndex,
+			selectedWarp: $s.item_seams.tagIndex
 		}
+
+		console.log(data)
 		var url = $s.host + dataUrl.seams.post+id;
 		$s.load_pattern = true
 		// console.log('data',data)
@@ -128,7 +132,23 @@ mpanelApp.controller("seamsController", ['$http', '$window','$scope', function($
 		$s.item_seams = data;
 		parent.all_data['review'] = data;
 
-		parent.load_data = false
+		parent.load_data = false;
+		if(data.index_panel >= 0){
+			$s.item_seams.index_panel = data.index_panel;
+		} else {
+			$s.item_seams.index_panel = 0;
+		} 
+
+		if(data.warpIndex>=0){
+
+		} else {
+			$s.item_seams.warpIndex = 0
+		}
+		if(data.tagIndex>=0){
+
+		} else {
+			$s.item_seams.tagIndex = 0
+		}
 
 		if(data.objModelName != mpanel_obj){
 			// console.log(data.objModelName)

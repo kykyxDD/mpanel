@@ -17,9 +17,9 @@
 					</div>
 				</div>
 				<div class="elem_count">
-					<div class="btn_minus" ng-click='prevPanels()' ng-class='{off: index_panel == 0 }'></div>
-					<div class="val_num">{{item_seams.nPanels[index_panel]}}</div>
-					<div class="btn_plus" ng-click='nextPanels()' ng-class='{off: index_panel == item_seams.nPanels.length-1 }'></div>
+					<div class="btn_minus" ng-click='prevPanels()' ng-class='{off: item_seams.index_panel == 0 }'></div>
+					<div class="val_num">{{item_seams.nPanels[item_seams.index_panel]}}</div>
+					<div class="btn_plus" ng-click='nextPanels()' ng-class='{off: item_seams.index_panel == item_seams.nPanels.length-1 }'></div>
 				</div>
 			</div>
 		</div>
@@ -49,8 +49,8 @@
 					fancy-select 
 					fancy-default-text='WARP DIRECTION' 
 					fancy-list='item_seams.warpDir' 
-					fancy-index="data_seams.warpIndex"
-					ng-model='data_seams.warpIndex' >
+					fancy-index="item_seams.warpIndex"
+					ng-model='item_seams.warpIndex' >
 				</select>
 			</div>
 			<div class="btn_help">?
@@ -80,8 +80,8 @@
 					fancy-select 
 					fancy-default-text='TAG CORNER' 
 					fancy-list='item_seams.tagCorner' 
-					fancy-index="data_seams.tagIndex"
-					ng-model='data_seams.tagIndex' >
+					fancy-index="item_seams.tagIndex"
+					ng-model='item_seams.tagIndex' >
 				</select>
 			</div>
 		</div>
