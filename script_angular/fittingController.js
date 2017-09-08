@@ -1,6 +1,8 @@
 mpanelApp.controller("fittingController", ['$http', '$window','$scope', function($h, $w, $s){
 	$s.$parent.load_data = true;
 
+	$s.$on('child_start', postInfo)
+
 	$s.destroy = function(start){
 		if(start){
 			return postInfo()
@@ -58,7 +60,7 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 	}
 
 
-	function postInfo(sel, index) {
+	/*function postInfo(sel, index) {
 		var url = $s.host; 
 		var id = $s.id_project;
 		if(typeof sel == 'string'){
@@ -90,7 +92,81 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 		}, function myError(response) {
 			parent.data_error =  response.data.message;
 		});
+	}*/
+
+	function postInfoSelect(sel, index) {
+		var url = $s.host; //main.host + dataUrl.material.post.selectChange+id; 
+		var id = $s.id_project;
+		if(!id) return
+
+		// if(typeof sel == 'string'){
+			parent.preload_opacity = true
+			url += dataUrl.material.post.selectChange+id+ '&selectType='+sel+'&oldVal='+index;
+		// } else {
+		// 	url += dataUrl.material.post.commit+id;
+		// }
+		var data = getData();
+
+
+		return $h({
+			method : "post",
+			data: data,
+			url : url
+		}).then(function mySuccess(response) {
+			var data = response.data
+			if(!data.error){
+				// if(typeof data.data == 'string'){
+				// 	$w.localStorage.setItem('mpanel_id', data.data)
+				// } else {
+					parent.all_data['material'] = data.data;
+					$s.data_fabric = data.data;	
+					parent.preload_opacity = false;
+				// }
+			} else {
+				parent.data_error = data.error;
+			}
+		}, function myError(response) {
+			parent.data_error = response.data.message;
+		});
 	}
+	function postInfo(start,args) {
+		var url = $s.host; //main.host + dataUrl.material.post.selectChange+id; 
+		var id = $s.id_project;
+		if(!id) return
+
+		// if(typeof sel == 'string'){
+		// 	parent.preload_opacity = true
+		// 	url += dataUrl.material.post.selectChange+id+ '&selectType='+sel+'&oldVal='+index;
+		// } else {
+			url += dataUrl.material.post.commit+id;
+		// }
+		var data = getData();
+
+
+		return $h({
+			method : "post",
+			data: data,
+			url : url
+		}).then(function mySuccess(response) {
+			var data = response.data
+			if(!data.error){
+				// if(typeof data.data == 'string'){
+					$w.localStorage.setItem('mpanel_id', data.data)
+				// } else {
+				// 	parent.all_data['material'] = data.data;
+				// 	$s.data_fabric = data.data;	
+				// 	parent.preload_opacity = false;
+				// }
+			} else {
+				parent.data_error = data.error;
+			}
+		}, function myError(response) {
+			parent.data_error = response.data.message;
+		}).then(function(){
+			$s.$emit('child_finish', args)
+		});
+	}
+
 
 	function getInfo(){
 		var id = $s.id_project;

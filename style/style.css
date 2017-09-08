@@ -860,8 +860,11 @@ body {
 }
 
 .body_home .main.home{
-	vertical-align: middle;
-	display: table-cell;
+/*	vertical-align: middle;
+	display: table-cell;*/
+	    /* vertical-align: middle; */
+    /* display: table-cell; */
+    padding-top: 150px;
 }
 
 .home .body {

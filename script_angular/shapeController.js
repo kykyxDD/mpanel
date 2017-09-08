@@ -13,6 +13,9 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	$s.prev_num = false;
 
 
+	$s.$on('child_start', postInfo)
+
+
 	var parent = $s.$parent;
 	parent.no_all_val = false;
 
@@ -423,7 +426,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			parent.mpanel = false
 		}
 	}
-	function postInfo(){
+	function postInfo(start,args){
 		var id = $s.id_project;
 		var url = $s.host + dataUrl.meas.post.commit+id;
 		parent.all_data['shape'] = getDataParent()
@@ -449,6 +452,8 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			
 		}, function myError(response) {
 			parent.data_error = data.error
+		}).then(function(){
+			$s.$emit('child_finish', args)
 		});
 
 	}

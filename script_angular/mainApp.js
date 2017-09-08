@@ -38,6 +38,8 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 
     $s.id_itm_page = 0;
 
+
+
     $s.$watch('itm_page.id', on_page_change)
     $s.list_menu = [
 		{
@@ -129,13 +131,25 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 		return itm_page
 	}
 
-
-
 	$s.updatePage = function(index){
 		var obj = $s.list_menu[index];
 		
 		updateItmPage(obj);
 	}
+
+	$s.$on('child_finish',function(event, fun){
+		if(fun){
+			updateObj(fun)
+		}
+	})
+	function updateObj(obj){
+		// console.log('child_start')
+		if(!$s.data_error){
+			$s.itm_page = obj;
+			$s.load_data = false
+		}
+	}
+
 
 	function updateItmPage(obj, index){
 
@@ -144,21 +158,24 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 
 		$s.load_data = true
 
-		if(index > 0){
-			if($s.$$childTail && $s.$$childTail.destroy) {
-				$s.load_data = true
-				$s.$$childTail.destroy(true).then(function(){
-					if(!$s.data_error){
-						$s.itm_page = obj;
-						$s.load_data = false
-					}
-				});
-			} else {
-				$s.itm_page = obj;
-			}
-		} else {
-			$s.itm_page = obj;
-		}
+		// if(index > 0){
+			// $s.load_data = true
+			// if($s.$$childTail && $s.$$childTail.destroy) {
+			// 	$s.load_data = true
+			// 	$s.$$childTail.destroy(true).then(function(){
+			// 		if(!$s.data_error){
+			// 			$s.itm_page = obj;
+			// 			$s.load_data = false
+			// 		}
+			// 	});
+			// } else {
+			// 	$s.itm_page = obj;
+			// }
+			$s.$broadcast('child_start', obj );
+
+		// } else {
+		// 	$s.itm_page = obj;
+		// }
 		
 	}
 

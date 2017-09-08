@@ -11,6 +11,10 @@ mpanelApp.controller("patternController", ['$scope', '$sce', function($s, $sce){
 		$s.big_svg = !$s.big_svg;
 	}
 
+	$s.$on('child_start', function(event,args){
+		$s.$emit('child_finish', args)
+	})
+
 	$s.$watch('big_svg', function(){
 		if(!$s.cont_svg || $s.small_svg) return false
 		if($s.big_svg){

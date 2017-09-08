@@ -12,15 +12,16 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 			"Feet, inches, fractions  ( 12\' 3 5/16\" )"
 		]*/
 	};
+	$s.$on('child_start', postInfo)
 
-	$s.destroy = function(start){
-		return postInfo();
-	}
+	// $s.destroy = function(start){
+	// 	return postInfo();
+	// }
 
 
 	$s.validNum = function(name){
 		var val = $s.data_project[name];
-		console.log(val)
+		// console.log(val)
 		var check_val = checkValNum(val);
 		if(check_val != val) {
 			$s.data_project[name] = check_val
@@ -111,7 +112,7 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 		$(date_required).data('datepicker').destroy();
 		$(date_entered).data('datepicker').destroy();
 	}
-	function postInfo(){
+	function postInfo(start,args){
 		parent.load_data = true;
 		var id = $s.id_project;
 
@@ -124,10 +125,12 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 		var data = $s.data_project;
 		var data_1 = getData();
 
+		// console.log('postInfo')
+
 		var prev_unit = $w.localStorage.getItem('mpanel_unit');
 		if(prev_unit != undefined &&  +prev_unit >= 0 ){
 			if(+prev_unit != $s.data_project.unitIndex) {
-				console.log('prev_unit')
+				// console.log('prev_unit')
 
 				for(var key in parent.all_data){
 					delete parent.all_data[key];
@@ -164,6 +167,8 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 			
 		}, function myError(response) {
 			parent.data_error = data.error
+		}).then(function(){
+			$s.$emit('child_finish', args)
 		});
 	}
 	function checkValNum(str_num){

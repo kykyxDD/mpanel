@@ -2,6 +2,12 @@ mpanelApp.controller("userController",['$http', '$window','$scope', function($h,
 	$s.message = "This page will be used to display all the students";
 	// console.log('headerController')
 	$s.$parent.id_itm_page = -1;
+	var parent = $s.$parent
+
+	$s.$on('child_start', function(event,args){
+		parent.user_page = false
+		$s.$emit('child_finish', args)
+	})
 
 	$s.$parent.itm_page = undefined
 	$w.document.title = 'User setting';

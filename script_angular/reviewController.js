@@ -3,6 +3,10 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 	var elem = document.getElementById('threejs');
 	var mpanel;
 	var parent = $s.$parent;
+
+	$s.$on('child_start', function(event,args){
+		$s.$emit('child_finish', args)
+	})
 	
 
 	if(!$s.id_project){

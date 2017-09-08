@@ -3,6 +3,7 @@ mpanelApp.controller("homeController",['$http', '$window','$scope', function($h,
     $s.message = "This page will be used to display all the students";
     $w.document.title = 'Mpanel';
     console.log('homeController')
+    var parent = $s.$parent
     $s.$parent.id_itm_page = -1;
 
     $s.$parent.itm_page = undefined;
@@ -13,5 +14,9 @@ mpanelApp.controller("homeController",['$http', '$window','$scope', function($h,
         return true
         // return postInfo();
     });
+    $s.$on('child_start', function(event,args){
+        parent.home_page = false
+        $s.$emit('child_finish', args)
+    })
     
 }])

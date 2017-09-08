@@ -12,6 +12,11 @@ mpanelApp.controller("seamsController", ['$http', '$window','$scope', function($
 
 	}
 
+
+	$s.$on('child_start', function(event,args){
+		$s.$emit('child_finish', args)
+	})
+
 	$s.item_seams = {
 		nPanels: [1],
 		index_panel: 0,
