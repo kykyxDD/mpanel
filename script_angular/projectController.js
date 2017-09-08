@@ -53,6 +53,7 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 					"Feet, inches, fractions  ( 12\' 3 5/16\" )"
 				]
 			};
+			parent.load_data = false;
 		}
 	}
 
