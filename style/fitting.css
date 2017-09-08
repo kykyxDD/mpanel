@@ -219,6 +219,6 @@
 
 input.disabled,
 input[disabled] + label {
-	pointer-events: none;
-	background-color: #eee;
+	pointer-events: none !important;
+	background-color: #eee !important;
 }
