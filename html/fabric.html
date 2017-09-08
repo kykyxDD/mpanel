@@ -5,74 +5,78 @@
 		</div>
 	</div>
 	<div class="right_path">
-		<div class="cont_select cont_database">
-			<div class="txt">FABRIC DATABASE</div>
-			<select class="select_database" 
-				ng-change='changeSelect("FabricSupplier", "{{data_fabric.fabricSelectedIndex}}")' 
-				ng-model='data_fabric.fabricSelectedIndex' 
-				fancy-select 
-				fancy-default-text='FABRIC DATABASE' 
-				fancy-list='data_fabric.fabricItems'  >
-			</select>
-		</div>
-		<div class="cont_select cont_brand">
-			<div class="txt">BRAND SELECTOR</div>
-			<select class="select_brand" 
-				ng-change='changeSelect("FabricType", "{{data_fabric.fabricTypeSelectedIndex}}")' 
-				ng-model='data_fabric.fabricTypeSelectedIndex'
-				fancy-select 
-				fancy-default-text='BRAND SELECTOR' 
-				fancy-list='data_fabric.fabricTypeItems' 
-			></select>
-		</div>
-		<div class="cont_select cont_colour">
-			<div class="txt">COLOUR CHOICE</div>
-			<select class="select_colour"
-				ng-change='changeSelect("Color", "{{data_fabric.fabricColorSelectedIndex}}")'
-				ng-model='data_fabric.fabricColorSelectedIndex'
-				fancy-select 
-				fancy-default-text='COLOUR CHOICE' 
-				fancy-list='data_fabric.fabricColorItems' 
-			></select>
-		</div>
-		<div class="cont_input poll">
-			<div class="cont_name">
-				<div class="name">Roll width ({{reduction[id_unit]}})</div>
+		<div class="cont_list cont_list_select">
+			<div class="cont_select cont_database">
+				<div class="txt">FABRIC DATABASE</div>
+				<select class="select_database" 
+					ng-change='changeSelect("FabricSupplier", "{{data_fabric.fabricSelectedIndex}}")' 
+					ng-model='data_fabric.fabricSelectedIndex' 
+					fancy-select 
+					fancy-default-text='FABRIC DATABASE' 
+					fancy-list='data_fabric.fabricItems'  >
+				</select>
 			</div>
-			<div class="cont_val">
-				<input class="val input_text" type="text" name="poll" ng-model='data_fabric.rollWidthText' valid-num>
+			<div class="cont_select cont_brand">
+				<div class="txt">BRAND SELECTOR</div>
+				<select class="select_brand" 
+					ng-change='changeSelect("FabricType", "{{data_fabric.fabricTypeSelectedIndex}}")' 
+					ng-model='data_fabric.fabricTypeSelectedIndex'
+					fancy-select 
+					fancy-default-text='BRAND SELECTOR' 
+					fancy-list='data_fabric.fabricTypeItems' 
+				></select>
+			</div>
+			<div class="cont_select cont_colour">
+				<div class="txt">COLOUR CHOICE</div>
+				<select class="select_colour"
+					ng-change='changeSelect("Color", "{{data_fabric.fabricColorSelectedIndex}}")'
+					ng-model='data_fabric.fabricColorSelectedIndex'
+					fancy-select 
+					fancy-default-text='COLOUR CHOICE' 
+					fancy-list='data_fabric.fabricColorItems' 
+				></select>
 			</div>
 		</div>
-		<div class="cont_input override">
-			<div class="cont_name">
-				<div class="name">Override stretch values</div>
+		<div class="cont_list cont_list_input">
+			<div class="cont_input poll">
+				<div class="cont_name">
+					<div class="name">Roll width ({{reduction[id_unit]}})</div>
+				</div>
+				<div class="cont_val">
+					<input class="val input_text" disabled type="text" name="poll" ng-model='data_fabric.rollWidthText' valid-num>
+				</div>
 			</div>
-			<div class="cont_val cont_check">
-				<input class="val input_checkbox" type="checkbox" name="override" id="override" ng-checked='data_fabric.override' ng-model='data_fabric.override'>
-				<label class="label_checkbox" for="override"></label>
+			<div class="cont_input override">
+				<div class="cont_name">
+					<div class="name">Override stretch values</div>
+				</div>
+				<div class="cont_val cont_check">
+					<input class="val input_checkbox" type="checkbox" name="override" id="override" ng-checked='data_fabric.override' ng-model='data_fabric.override'>
+					<label class="label_checkbox" for="override"></label>
+				</div>
 			</div>
-		</div>
-		<div class="cont_input warp_str">
-			<div class="cont_name">
-				<div class="name">Warp Stretch %</div>
+			<div class="cont_input warp_str">
+				<div class="cont_name">
+					<div class="name">Warp Stretch %</div>
+				</div>
+				<div class="cont_val">
+					<input class="val input_text" type="text" name="warp_str" disabled ng-model='data_fabric.warpStretch' valid-num>
+				</div>
+				<div class="cont_val" ng-if='data_fabric.override'>
+					<div class="name">Override</div>
+					<input class="val input_text" type="text" name="warp_str" ng-model='data_fabric.warpStretchOverride' valid-num>
+				</div>
 			</div>
-			<div class="cont_val">
-				<input class="val input_text" type="text" name="warp_str" ng-model='data_fabric.warpStretch' valid-num>
-			</div>
-			<div class="cont_val" ng-if='data_fabric.override'>
-				<div class="name">Override</div>
-				<input class="val input_text" type="text" name="warp_str" ng-model='data_fabric.warpStretchOverride' valid-num>
-			</div>
-		</div>
-		<div class="cont_input waft_str">
-			<div class="cont_name">
-				<div class="name">Waft Stretch %</div>
-			</div>
-			<div class="cont_val">
-				<input class="val input_text" type="text" name="waft_str" ng-model='data_fabric.weftStretch' valid-num>
-			</div>
-			<div class="cont_val" ng-if='data_fabric.override'>
-				<input class="val input_text" type="text" name="waft_str" ng-model='data_fabric.weftStretchOverride' valid-num>
+			<div class="cont_input waft_str">
+				<div class="cont_name">
+					<div class="name">Waft Stretch %</div>
+				</div>
+				<div class="cont_val">
+					<input class="val input_text" type="text" name="waft_str" disabled ng-model='data_fabric.weftStretch' valid-num>
+				</div>
+				<div class="cont_val" ng-if='data_fabric.override'>
+					<input class="val input_text" type="text" name="waft_str" ng-model='data_fabric.weftStretchOverride' valid-num>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -167,8 +167,6 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 		if(obj){
 			updateItmPage(obj, -1)
 		}
-		
-		// $s.itm_page = $s.list_menu[$s.id_itm_page-1]
 	}
 	$s.nextPage = function(){
 		var obj
@@ -182,10 +180,7 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 		if(obj){
 			updateItmPage(obj, 1)
 		}
-		
-		// $s.itm_page = $s.list_menu[$s.id_itm_page+1]
 	}
-
 }])
 .service('navigation', ['$location', function($l) {
     return {
@@ -223,4 +218,13 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
         } 
         
     }
-}])
+}]);
+
+mpanelApp.directive('autoFocus',function(){
+  return {
+    restrict: 'A',
+    link: function(scope,element){
+      if(scope.$first) element[0].focus();
+    }
+  }
+})

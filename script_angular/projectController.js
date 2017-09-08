@@ -29,7 +29,7 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 
 	function initPage(){
 		if($s.id_project){
-			$s.$parent.load_data = true;
+			parent.load_data = true;
 			if(parent.all_data['project']){
 				$s.data_project = parent.all_data['project'];
 				pullDataPage()
@@ -109,6 +109,7 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 		$(date_entered).data('datepicker').destroy();
 	}
 	function postInfo(){
+		parent.load_data = true;
 		var id = $s.id_project;
 
 		var url =  $s.host
@@ -126,14 +127,14 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 				console.log('prev_unit')
 
 				for(var key in parent.all_data){
-					delete parent.all_data[key]
+					delete parent.all_data[key];
 				}
 
 				if($w.localStorage.getItem('mpanel_obj')){
-					$w.localStorage.removeItem('mpanel_obj')
+					$w.localStorage.removeItem('mpanel_obj');
 				}
 				if(parent.mpanel){
-					parent.mpanel = false
+					parent.mpanel = false;
 				}
 			}
 		}

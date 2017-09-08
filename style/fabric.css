@@ -21,16 +21,16 @@
 }
 
 .page_fabric .cont_img_texture .item_texture{
-    width: 100%;
-    height: 100%;
-    border-radius: 5px;
-    overflow: hidden;
-    background-repeat: no-repeat;
-    background-size: cover;
-    /*background-image: url(../image/texture_fabric.png);*/
-    background-color: #fff;
-    min-height: 150px;
-    min-width: 150px;
+	width: 100%;
+	height: 100%;
+	border-radius: 5px;
+	overflow: hidden;
+	background-repeat: no-repeat;
+	background-size: cover;
+	/*background-image: url(../image/texture_fabric.png);*/
+	background-color: #fff;
+	min-height: 150px;
+	min-width: 150px;
 }
 
 .page_fabric .right_path ,
@@ -44,8 +44,8 @@
 }
 
 .page_fabric .selectboxit-container span, .selectboxit-container .selectboxit-options a {
-    height: 31px !important;
-    line-height: 31px !important;
+	height: 31px !important;
+	line-height: 31px !important;
 }
 
 .page_fabric .selectboxit-container .selectboxit {
@@ -56,6 +56,18 @@
 	margin-bottom: 15px;
 	width: 295px;
 }
+.page_fabric .cont_list {
+/*	display: inline-block;
+	vertical-align: top;*/
+}
+.page_fabric .cont_list.cont_list_input {
+/*	padding: 20px 40px;
+	border-radius: 5px;
+	margin-left: 50px;
+	border: 1px solid #D9D9D9;
+	background-color: #DEDEDE;*/
+}
+
 .page_seams .cont_select .txt,
 .page_fabric .cont_select .txt,
 .page_fittings .cont_select .txt  {

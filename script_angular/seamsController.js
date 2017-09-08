@@ -69,10 +69,9 @@ mpanelApp.controller("seamsController", ['$http', '$window','$scope', function($
 			selectedWarp: $s.item_seams.tagIndex
 		}
 
-		console.log(data)
 		var url = $s.host + dataUrl.seams.post+id;
-		$s.load_pattern = true
-		// console.log('data',data)
+		$s.load_pattern = true;
+
 		return $h({
 			method : "post",
 			data: data,

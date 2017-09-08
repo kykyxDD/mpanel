@@ -39,7 +39,6 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 
 	function initInfo(){
 		if(parent.all_data['material']) {
-
 			$s.data_fabric = parent.all_data['material'];
 			$s.$parent.load_data = false;
 		} else {

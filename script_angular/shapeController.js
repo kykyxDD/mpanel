@@ -5,15 +5,13 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	$s.item_shape = {
 		arr_negative: []
 	}
-	// $s.$s.item_shape.arr_negative = [];
-	$s.$parent.load_data = true
-	// console.log('shapeController')
+	$s.$parent.load_data = true;
 	var canvas, exportRoot, stage, objectsDataCanvas, curentObject;
 	var defaultTriangle, defaultQuadrilateral, defaultPentagon, defaultHexagon;
 	$s.data_shape = [];
-	$s.item_num = false
+	$s.item_num = false;
 	$s.prev_num = false;
-	
+
 
 	var parent = $s.$parent;
 	parent.no_all_val = false;
@@ -23,7 +21,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		var num = $s.item_num - $s.min_edge;
 		var new_data = $s.default_data[num];
 		for(var key in new_data){
-			$s.item_shape[key] = cloneItem(new_data[key])			
+			$s.item_shape[key] = cloneItem(new_data[key])
 		}
 		$s.item_shape.arr_negative = []
 		chechAllVal();
