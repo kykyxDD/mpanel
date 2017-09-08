@@ -131,13 +131,15 @@ mpanelApp.controller("seamsController", ['$http', '$window','$scope', function($
 		parent.load_data = false
 
 		if(data.objModelName != mpanel_obj){
-			console.log(data.objModelName)
+			// console.log(data.objModelName)
 			var url = $s.host + $s.folder + data.objModelName;
 			mpanel.loadObj(url, false, true);
 			mpanel.viewTop(true);
 		}
 
-		// $s.getMake();
+		if(parent.all_data['pattern']){
+			$s.data_pattern = parent.all_data['pattern'];
+		}
 	}
 
 }]);
