@@ -1,6 +1,6 @@
 mpanelApp.controller("userController",['$http', '$window','$scope', function($h, $w, $s){
 	$s.message = "This page will be used to display all the students";
-	console.log('headerController')
+	// console.log('headerController')
 	$s.$parent.id_itm_page = -1;
 
 	$s.$parent.itm_page = undefined
@@ -30,4 +30,6 @@ mpanelApp.controller("userController",['$http', '$window','$scope', function($h,
 		return $s.$parent.user_page = false
 		// return postInfo();
 	});
+
+	$s.$parent.load_data = false
 }])

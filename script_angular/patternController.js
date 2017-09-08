@@ -64,4 +64,7 @@ mpanelApp.controller("patternController", ['$scope', '$sce', function($s, $sce){
 	} else {
 		parent.updatePage(parent.list_menu.indexOf(parent.searchListPage('seams')))
 	}
+
+	parent.load_data = false
+	
 }])

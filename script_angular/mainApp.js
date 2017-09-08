@@ -142,6 +142,8 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 		if(obj == $s.itm_page && !$s.user_page && !$s.home_page) return
 		if(obj.id == 'pattern' && !$s.all_data['pattern']) return
 
+		$s.load_data = true
+
 		if(index > 0){
 			if($s.$$childTail && $s.$$childTail.destroy) {
 				$s.load_data = true

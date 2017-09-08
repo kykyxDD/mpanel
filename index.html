@@ -81,7 +81,7 @@
 				</div>
 				<div class="cont_menu">
 					<div class="menu">
-						<div class="page" ng-repeat="itm in list_menu" ng-class="{prev: $index < id_itm_page, itm: $index == id_itm_page, disabled: (data_error && $index > id_itm_page) || load_data || preload_opacity}" ng-style="{'left': ($index*135 - 7)+'px' }">
+						<div class="page" ng-repeat="itm in list_menu" ng-class="{prev: $index < id_itm_page, itm: $index == id_itm_page, disabled: (data_error && $index > id_itm_page) || ((itm.id == 'pattern' && !all_data['pattern'] ) ||(load_data || preload_opacity))}" ng-style="{'left': ($index*135 - 7)+'px' }">
 							<!-- <a class="text" ng-click="updatePage($index)">{{ itm.text}}</a> -->
 							<a class="text" ng-click="updatePage($index)">{{ itm.text}}</a>
 							<div class="point"></div>
