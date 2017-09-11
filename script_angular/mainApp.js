@@ -4,6 +4,7 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 	$s.id_project = $w.localStorage.getItem('mpanel_id')
 	console.log($s.id_project)
 	$s.host = 'http://192.168.0.119:1234/';
+	$s.host_1 = 'http://192.168.0.119:1234';
 	$s.folder = 'api/mp/modelLoad?fileName=';
 	$s.load_data = false;
 	$s.all_data = {};

@@ -1,7 +1,7 @@
 <div class="cont_info page_seams">
 	 <div class="left_path">
 		<div class="cont_view" >
-			<div class="view" style="background-image:url(./api/mp/modelLoad?fileName={{data_seams.imageModelName}})"></div>
+			<div class="view" ng-if='item_seams.imageModelName' style="background-image:url({{host + folder + item_seams.imageModelName}})"></div>
 			<!--<div id="threejs" class="view threejs" ng-class='{error: pattern_error}'>
 				<div ng-if='pattern_error' class="text_error">
 					Error loading model

@@ -8,8 +8,7 @@ mpanelApp.controller("seamsController", ['$http', '$window','$scope', function($
 
 	parent.load_data = true
 
-	$s.data_seams = {		
-imageModelName: ''
+	$s.data_seams = {
 	}
 
 
