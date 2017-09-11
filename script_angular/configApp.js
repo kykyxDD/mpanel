@@ -1,51 +1,45 @@
 angular.module("mpanelApp").config(function($routeProvider, $locationProvider) {
-    // $locationProvider.html5Mode(true); 
     $routeProvider
         .when('/', {
-           templateUrl: './html/home.html',
-           // templateUrl:'viewStudents.htm',
+           templateUrl: 'home.html',
            controller: 'homeController'
        })
        .when('/user', {
-           templateUrl: './html/user.html',
-           // templateUrl:'viewStudents.htm',
+           templateUrl: 'user.html',
            controller: 'userController'
        })
        .when('/project', {
-           templateUrl: './html/project.html',
-           // templateUrl:'viewStudents.htm',
+           templateUrl: 'project.html',
            controller: 'projectController'
        })
        .when('/fabric', {
-           templateUrl: './html/fabric.html',
-           // templateUrl:'viewStudents.htm',
+           templateUrl: 'fabric.html',
            controller: 'fabricController'
        })
        .when('/fittings', {
-           templateUrl: './html/fitting.html',
-           // templateUrl:'viewStudents.htm',
+           templateUrl: 'fitting.html',
            controller: 'fittingController'
        })
        .when('/shape', {
-           templateUrl: './html/shape.html',
-           // templateUrl:'viewStudents.htm',
+           templateUrl: 'shape.html',
            controller: 'shapeController'
        })
        .when('/review', {
-           templateUrl: './html/review.html',
-           // templateUrl:'viewStudents.htm',
+           templateUrl: 'review.html',
            controller: 'reviewController'
        })
         .when('/seams', {
-           templateUrl: './html/seams.html',
-           // templateUrl:'viewStudents.htm',
+           templateUrl: 'seams.html',
            controller: 'seamsController'
        })
         .when('/pattern', {
-           templateUrl: './html/pattern.html',
-           // templateUrl:'viewStudents.htm',
+           templateUrl: 'pattern.html',
            controller: 'patternController'
        })
+        .otherwise({
+          redirectTo: '/'
+        });
+
 
     //$locationProvider.html5Mode(true);
-})
+});

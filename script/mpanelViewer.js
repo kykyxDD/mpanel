@@ -375,11 +375,11 @@ function MpanelViewer(parent){
 		var size = this.size_plane,
 		segments = 30;
 
-		var sphereGeometry = new THREE.SphereBufferGeometry( 5, 32, 32 );
-		var sphereMaterial = new THREE.MeshStandardMaterial( { color: 0xff0000 } );
-		var sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
-		sphere.castShadow = true; 
-		sphere.receiveShadow = false; 
+		// var sphereGeometry = new THREE.SphereBufferGeometry( 5, 32, 32 );
+		// var sphereMaterial = new THREE.MeshStandardMaterial( { color: 0xff0000 } );
+		// var sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
+		// sphere.castShadow = true; 
+		// sphere.receiveShadow = false; 
 
 		// var texture = this.createRoundTexture()
 
@@ -388,8 +388,8 @@ function MpanelViewer(parent){
 		planeMaterial.metalness = 0;
 
 		var plane = new THREE.Mesh( planeGeometry, planeMaterial );
-		plane.receiveShadow = true;
-		scene.add( plane );
+		// plane.receiveShadow = true;
+		// scene.add( plane );
 
 		plane.rotation.x = -Math.PI/2;
 		plane.receiveShadow = true;
@@ -559,9 +559,16 @@ function MpanelViewer(parent){
 			if(child instanceof THREE.Mesh){
 				if(self.checkNameMembrane(child.name)){
 					child.material.wireframe = basic
+				} else {
+					child.visible = !basic;// ? false : false;
 				}
+				child.castShadow = !basic;
 			}
 		});
+		this.viewTop(true);
+
+		// this.obj_plane.receiveShadow = !basic;
+		// this.obj_plane.needsUpdate = true
 	};
 	this.viewTop = function(no_duration){
 		if(controls.spherical.theta != 0){

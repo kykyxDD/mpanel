@@ -63,6 +63,10 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 	$s.topClick = function(){
 		mpanel.viewTop();
 	}
+
+	$s.getScreen = function(argument) {
+		mpanel.getScreen()
+	}
 	
 
 
@@ -86,7 +90,7 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 			}
 			
 		}, function myError(response) {
-			$s.review_error = response.data.message;
+			$s.review_error = response.data && response.data.message ? response.data.message : 'Error loading model';
 		});
 	};
 	function loadInfo(data){

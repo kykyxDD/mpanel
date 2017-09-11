@@ -29,10 +29,19 @@
 }
 .graphics .cont_button.bottom .my_btn.screen{
 	width: 165px;
-	height: 40px;
-	line-height: 40px;
-	color: white;
-	font-size: 14px;
+    height: 40px;
+    line-height: 40px;
+    color: white;
+    font-size: 14px;
+    padding: 0;
+    text-shadow: none;
+    font-weight: bold;
+}
+
+.graphics .cont_button.bottom .my_btn.screen ~ .btn_help .popup {
+	    width: 290px;
+    margin-left: -145px;
+    z-index: 10
 }
 .graphics .my_btn.isometric label {
 	display: block;
@@ -125,6 +134,9 @@
     /* color: #5C5C5C; */
     font-size: 12px;
     margin-bottom: 5px;
+}
+.info .cont_color_key .text:last-child {
+	margin-bottom: 0;
 }
 .info .cont_color_key .text.green:before {
 	content: '';

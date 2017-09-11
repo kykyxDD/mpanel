@@ -31,7 +31,7 @@ mpanelApp.controller("patternController", ['$scope', '$sce', function($s, $sce){
 	if(parent.all_data['pattern']){
 		$s.item_pattern = parent.all_data['pattern'];
 
-		$s.url_svg = $s.item_pattern.svgImage
+		$s.url_svg = $s.item_pattern.svgImage;
 		if($s.url_svg.indexOf('<?xml') >= 0){
 
 			var parser = new DOMParser();
@@ -40,6 +40,9 @@ mpanelApp.controller("patternController", ['$scope', '$sce', function($s, $sce){
 			var get_g = svg.querySelector('g');
 			if(get_g){
 				get_g.setAttribute('stroke-width', 1);
+
+				var size_g = get_g.getBBox();
+				console.log(size_g)
 			}
 			var rect = svg.querySelector('rect');
 			if(rect){
@@ -58,7 +61,6 @@ mpanelApp.controller("patternController", ['$scope', '$sce', function($s, $sce){
 				w: elem_view.offsetWidth,
 				h: elem_view.offsetHeight
 			}
-			// console.log(size_svg,size_view)
 			if($s.cont_svg && size_view.w < size_svg.w && size_view.h < size_svg.h){
 				fun_cont_svg = new iScroll($s.cont_svg);
 			} else {

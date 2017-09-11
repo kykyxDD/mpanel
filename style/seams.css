@@ -41,7 +41,11 @@
 	width: 550px;
 	height: 460px;
 	border-radius: 5px;
-	background-color: #7f7f7f;
+	background-color: #fff;
+	background-position: center;
+	background-repeat:no-repeat;
+    background-size: contain;
+    box-shadow: 0 0 5px #B3B3B3;
 }
 .cont_view .view.error {
 	background-color: #fff

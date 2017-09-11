@@ -64,8 +64,8 @@
 	<script type="text/javascript" src='./script_angular/seamsController.js'></script>
 	<script type="text/javascript" src='./script_angular/patternController.js'></script>
 
-	
 	<script type="text/javascript" src='./script_angular/configApp.js'></script>
+	<script type="text/javascript" src='./script_angular/templates.js'></script>
 
 	<script type="text/javascript" src='./script_angular/datepicker.js'></script>
 	<script type="text/javascript" src='./script_angular/customScroll.js'></script>
@@ -100,7 +100,7 @@
 
 						<div class="my_btn load_exam" ng-click='loadExample()' ng-show='itm_page.id == "shape"'>Load example</div>
 						<div class="grad_blue reset my_btn"  ng-click='resetData()' ng-show='itm_page.id == "shape"'>Reset</div>
-						<div class="set my_btn" ng-show='itm_page.id == "project" || user_page' ng-class='{disabled: user_page || load_data}'>
+						<div class="set my_btn" ng-show='itm_page.id == "project"' ng-class='{disabled: user_page || load_data}'>
 							<a class="link" href="#user">Settings</a>
 						</div>
 						<div class="my_btn btn_help" ng-hide="user_page">

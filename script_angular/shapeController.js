@@ -422,7 +422,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		if(parent.all_data['pattern']){
 			delete parent.all_data['pattern']
 		}
-		if(!parent.mpanel) {
+		if(parent.mpanel) {
 			parent.mpanel = false
 		}
 	}
@@ -432,6 +432,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		parent.all_data['shape'] = getDataParent()
 		var data = getNewData();
 		parent.no_all_val = false;
+		// console.log(JSON.stringify(data))
 		return $h({
 			method : "post",
 			data: data,
@@ -466,7 +467,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			res[i] = {
 				"index": itm.index,
 				'name': itm.name,
-				"pointToPointSize": +itm.pointToPointSize,  //"sample string 2",
+				"pointToPointSize": itm.pointToPointSize,  //"sample string 2",
 				"selectedHemType": hemItems[itm.selectedHemType],  //"sample string 3",
 				"selectedDip": dipItems[itm.selectedDip],//"sample string 4",
 				"isFixed": itm.isFixed,
@@ -482,7 +483,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			res[i] = {
 				"index" : itm.index,
 				"name": itm.name,
-				"value": +itm.value
+				"value": itm.value
 			}
 		}
 		return res
@@ -494,9 +495,9 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		for(var i = 0; i < arr.length; i++){
 			var itm = arr[i];
 			res[i]= {
-				"height" : +itm.height, //300,
+				"height" : itm.height, //300,
 				"index" : itm.index, //1,
-				"linkLength" : +itm.linkLength, //1,
+				"linkLength" : itm.linkLength, //1,
 				"name" : itm.name, //"A",
 				"selectedHardware" : hardwareItems[itm.selectedHardware], //"D ring",
 				"selectedLink" : linkItems[itm.selectedLink] //"Shackle",

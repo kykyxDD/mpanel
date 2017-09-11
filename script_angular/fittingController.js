@@ -31,7 +31,7 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 	}
 
 	$s.changeSelect = function(name, old_val) {
-		postInfo(name, old_val)
+		postInfoSelect(name, old_val)
 	}
 	function initPage(){
 		if($s.all_data['material']) {

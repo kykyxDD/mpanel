@@ -36,12 +36,10 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 		$s.preload_opacity = false;
 	}
 
-    $s.id_itm_page = 0;
+	$s.id_itm_page = 0;
 
-
-
-    $s.$watch('itm_page.id', on_page_change)
-    $s.list_menu = [
+	$s.$watch('itm_page.id', on_page_change)
+	$s.list_menu = [
 		{
 			text: 'project',
 			id: 'project',
@@ -75,7 +73,7 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 		},{
 			text: 'pattern',
 			id: 'pattern',
-			title: 'Pattern plane',
+			title: 'Pattern plan',
 			help: 'hs80.htm'
 		}	
 	];
@@ -89,10 +87,13 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 
 	function on_page_change(){
 		var itm = $s.itm_page;
+		var l_path = $l.path().replace('/', '')
 		if(itm){
 			$s.id_itm_page = itm.id ? $s.list_menu.indexOf(searchListPage(itm.id)) : 0;	
 			$w.document.title = itm.title
-			$l.path('/'+itm.id)
+			if(itm.id != l_path){
+				$l.path('/'+itm.id)
+			}
 		}
 	}
 	var search = nav.page();
@@ -143,12 +144,21 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 		}
 	})
 	function updateObj(obj){
-		// console.log('child_start')
 		if(!$s.data_error){
 			$s.itm_page = obj;
 			$s.load_data = false
 		}
 	}
+
+	$s.$on('$locationChangeSuccess', function() {
+		var path = $l.path().replace('/', '');
+		if($s.itm_page && path != $s.itm_page.id){
+			var obj = searchListPage(path)
+			if(obj){
+				updateObj(obj)
+			}
+		}
+	});
 
 
 	function updateItmPage(obj, index){
@@ -156,7 +166,7 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 		if(obj == $s.itm_page && !$s.user_page && !$s.home_page) return
 		if(obj.id == 'pattern' && !$s.all_data['pattern']) return
 
-		$s.load_data = true
+		$s.load_data = true;
 
 		// if(index > 0){
 			// $s.load_data = true
@@ -200,30 +210,29 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 	}
 }])
 .service('navigation', ['$location', function($l) {
-    return {
-        
-        page: function() {
-            var path = $l.path()
-            if (path == "") {
-                return ""
-            }
-            else {
-                var parts = path.split("?")[0].split("/")
-                parts.shift()
-                return parts[0]
-            }
-        },
-        
-        params: function(match) {
-            var parts = $l.path().split("?")[0].split("/")
-            parts.shift()
-            if (parts.length > 1) {
-                return parts.splice(1)
-            }
-            return ""
-        },
-        params1: function(queryString){
-        	queryString = queryString ? queryString : window.location.search;
+	return {
+
+		page: function() {
+			var path = $l.path()
+			if (path == "") {
+				return ""
+			} else {
+				var parts = path.split("?")[0].split("/")
+				parts.shift()
+				return parts[0]
+			}
+		},
+
+		params: function(match) {
+			var parts = $l.path().split("?")[0].split("/");
+			parts.shift();
+			if (parts.length > 1) {
+				return parts.splice(1)
+			}
+			return ""
+		},
+		params1: function(queryString){
+			queryString = queryString ? queryString : window.location.search;
 			queryString = queryString.substring(1);
 			var params = {}, queries, temp, i, l;
 			queries = queryString.split("&");
@@ -232,16 +241,15 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 				params[temp[0]] = temp[1];
 			}
 			return params;
-        } 
-        
-    }
+		}
+	}
 }]);
 
 mpanelApp.directive('autoFocus',function(){
-  return {
-    restrict: 'A',
-    link: function(scope,element){
-      if(scope.$first) element[0].focus();
-    }
-  }
+	return {
+		restrict: 'A',
+		link: function(scope,element){
+			if(scope.$first) element[0].focus();
+		}
+	}
 })

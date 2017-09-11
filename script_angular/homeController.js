@@ -1,4 +1,3 @@
-
 mpanelApp.controller("homeController",['$http', '$window','$scope', function($h, $w, $s){
     $s.message = "This page will be used to display all the students";
     $w.document.title = 'Mpanel';

@@ -1,20 +1,21 @@
 <div class="cont_info page_seams">
 	 <div class="left_path">
-		<div class="cont_view">
-			<div id="threejs" class="view threejs" ng-class='{error: pattern_error}'>
+		<div class="cont_view" >
+			<div class="view" style="background-image:url(./api/mp/modelLoad?fileName={{data_seams.imageModelName}})"></div>
+			<!--<div id="threejs" class="view threejs" ng-class='{error: pattern_error}'>
 				<div ng-if='pattern_error' class="text_error">
 					Error loading model
 				</div>
-			</div>
+			</div>-->
 		</div>
 		<div class="cont_num_panels">
 			<div class="cont_count">
 				<div class="text">number of panels
-					<div class="btn_help">?
+					<!--<div class="btn_help">?
 						<div class="popup">
 							<div class="cont_popup">Blue lines are guidelines representing the fabric width in the selected warp direction - right click on these allows movement</div>
 						</div>
-					</div>
+					</div>-->
 				</div>
 				<div class="elem_count">
 					<div class="btn_minus" ng-click='prevPanels()' ng-class='{off: item_seams.index_panel == 0 }'></div>

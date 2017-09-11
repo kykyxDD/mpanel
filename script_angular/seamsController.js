@@ -3,13 +3,13 @@ mpanelApp.controller("seamsController", ['$http', '$window','$scope', function($
 	var elem = document.getElementById('threejs');
 	var mpanel
 	// $s.$parent.load_data = true;
-	var mpanel_obj = $w.localStorage.getItem('mpanel_obj');
+	// var mpanel_obj = $w.localStorage.getItem('mpanel_obj');
 	var parent = $s.$parent;
 
 	parent.load_data = true
 
 	$s.data_seams = {		
-
+imageModelName: ''
 	}
 
 
@@ -32,14 +32,14 @@ mpanelApp.controller("seamsController", ['$http', '$window','$scope', function($
 	parent.noUpdateMpanel = true
 	var timeout
 
-	if(parent.mpanel){
+	/*if(parent.mpanel){
 		mpanel = $s.mpanel;
 		mpanel.parent = elem;
 		mpanel.preloadOpen()
 		elem.appendChild(mpanel.container);
 		mpanel.updateMaterial(true);
 		mpanel.onWindowResize();
-		mpanel.viewTop(true);
+		// mpanel.viewTop(true);
 		mpanel.preloadClose();
 	} else {
 		mpanel = new MpanelViewer(elem);
@@ -48,9 +48,9 @@ mpanelApp.controller("seamsController", ['$http', '$window','$scope', function($
 		if(mpanel_obj){
 			var url = $s.host + $s.folder + mpanel_obj;
 			mpanel.loadObj(url, false, true);
-			mpanel.viewTop(true);
+			// mpanel.viewTop(true);
 		}
-	}
+	}*/
 
 	
 	$s.prevPanels = function(){
@@ -70,9 +70,10 @@ mpanelApp.controller("seamsController", ['$http', '$window','$scope', function($
 		var data = {
 			objFileName: $s.item_seams.objModelName,
 			selectedPanel: $s.item_seams.index_panel,
-			selectedTag: $s.item_seams.warpIndex,
-			selectedWarp: $s.item_seams.tagIndex
+			selectedTag: $s.item_seams.tagIndex,
+			selectedWarp: $s.item_seams.warpIndex
 		}
+		// console.log(data)
 
 		var url = $s.host + dataUrl.seams.post+id;
 		$s.load_pattern = true;
@@ -128,7 +129,9 @@ mpanelApp.controller("seamsController", ['$http', '$window','$scope', function($
 			}
 			
 		}, function myError(response) {
-			$s.pattern_error = response.data.message;
+			//$s.pattern_error = response.data.message;
+			$s.pattern_error = response.data && response.data.message ? response.data.message : 'Error loading model';
+
 		});
 	};
 
@@ -154,12 +157,12 @@ mpanelApp.controller("seamsController", ['$http', '$window','$scope', function($
 			$s.item_seams.tagIndex = 0
 		}
 
-		if(data.objModelName != mpanel_obj){
+		// if(data.objModelName != mpanel_obj){
 			// console.log(data.objModelName)
-			var url = $s.host + $s.folder + data.objModelName;
-			mpanel.loadObj(url, false, true);
-			mpanel.viewTop(true);
-		}
+			// var url = $s.host + $s.folder + data.objModelName;
+			// mpanel.loadObj(url, false, true);
+			// mpanel.viewTop(true);
+		// }
 
 		if(parent.all_data['pattern']){
 			$s.data_pattern = parent.all_data['pattern'];

@@ -862,8 +862,6 @@ body {
 .body_home .main.home{
 /*	vertical-align: middle;
 	display: table-cell;*/
-	    /* vertical-align: middle; */
-    /* display: table-cell; */
     padding-top: 150px;
 }
 
@@ -884,6 +882,7 @@ body {
 	/*background-color: rgba(0,0,0,0.5);*/
 	margin: 0 auto;
 	background: url(../image/mpanel_logo_big.png) no-repeat center;
+	background-size: contain;
 }
 .home .body .cont .form {
 	width: 675px;
