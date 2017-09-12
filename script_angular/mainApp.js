@@ -22,7 +22,6 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 		"in"
 	];
 	$s.min_edge = 3;
-	// $s.item_num = 3
 	$s.max_edge = 6;
 	var unit = $w.localStorage.getItem('mpanel_unit');
 	$s.id_unit = +unit >= 0 ? +unit : 1; 

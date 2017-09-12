@@ -6,8 +6,7 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 
 	$s.$on('child_start', function(event,args){
 		$s.$emit('child_finish', args)
-	})
-	
+	});
 
 	if(!$s.id_project){
 		return $s.updatePage(0)
@@ -15,12 +14,9 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 
 	if(parent.mpanel){
 		mpanel = parent.mpanel;
+		// mpanel.viewTop(true);
 		mpanel.parent = elem;
 		elem.appendChild(mpanel.container);
-		// mpanel.parent = elem;
-		mpanel.onWindowResize()
-		mpanel.updateMaterial(false);
-		mpanel.viewTop(true);
 	} else {
 		mpanel = new MpanelViewer(elem);
 		parent.mpanel = mpanel;
@@ -75,7 +71,6 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 		if(!$s.id_project) return
 		var id = $s.id_project;
 		var url = $s.host + dataUrl.calculate.post+id;
-		// console.log('url', url)
 		return $h({
 			method : "post",
 			url : url
@@ -99,16 +94,18 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 		if(!parent.all_data['review']) {
 			parent.all_data['review'] = data;
 		}
-		
 
-		if(data.objModelName && !parent.noUpdateMpanel){
+		if(data.objModelName){
 			$s.arr_url[0] =  $s.host + $s.folder + data.objModelName;
-			$w.localStorage.setItem('mpanel_obj', data.objModelName)
+			$w.localStorage.setItem('mpanel_obj', data.objModelName);
+			var texturePath = false;
+			if(data.texturePath){
+				texturePath = $s.host_1  + data.texturePath;
+			}
 
-			mpanel.loadObj($s.arr_url[0]);
+			mpanel.loadObj($s.arr_url[0], texturePath);
+
 		}
-		parent.updateMpanel = false;
-		parent.noUpdateMpanel = false;
 
 		parent.load_data = false;
 
@@ -121,7 +118,7 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 	}
 
 	function initInfo(){
-		if(parent.all_data['review'] && !parent.updateMpanel){
+		if(parent.all_data['review']){
 			loadInfo(parent.all_data['review'])
 		} else {
 			getInfo()

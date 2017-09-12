@@ -162,7 +162,7 @@ function MpanelViewer(parent){
 
 		this.url_obj = url_obj;
 
-		this.basicMaterial = basic;
+		// this.basicMaterial = basic;
 
 		this.preloadOpen();
 		var self = this
@@ -170,9 +170,20 @@ function MpanelViewer(parent){
 
 		if(url_img){
 			var textureLoader = new THREE.TextureLoader();
+
+			// // img.crossOrigin = "anonymous";
+			// img.src = url_img//"https://graph.facebook.com/1387819034852828/picture?width=150&height=150"; 
+			// img.onload = function(argument) {
+
+			textureLoader.setCrossOrigin( 'Anonymous');
 			textureLoader.load(url_img, function(texture){
 				load_file_obj(texture)
+			}, function() {
+				
+			}, function ( xhr ) {
+				load_file_obj();
 			});
+
 		} else {
 			load_file_obj();
 		};
@@ -233,9 +244,9 @@ function MpanelViewer(parent){
 		if(this.input_color){
 			this.setInputColor();
 		}
-		if(this.basicMaterial){
-			this.createMeshMaterial();
-		}
+		// if(this.basicMaterial){
+		// 	this.createMeshMaterial();
+		// }
 
 		this.viewTop(true);
 	};
@@ -370,7 +381,6 @@ function MpanelViewer(parent){
 	};
 
 	this.createEnvironment = function(){
-		// console.log("createEnvironment")
 
 		var size = this.size_plane,
 		segments = 30;
@@ -412,8 +422,6 @@ function MpanelViewer(parent){
 
 		this.updateSizePlane(size);
 		this.updateSizeLight(n);
-
-		// console.log('plane',plane)
 	};
 	this.updateSizePlane = function(){
 		var plane = this.obj_plane;
@@ -573,7 +581,7 @@ function MpanelViewer(parent){
 	this.viewTop = function(no_duration){
 		if(controls.spherical.theta != 0){
 			var diff_left = valLeftFrontObj()
-			this.rotateLeft(diff_left, no_duration)
+			this.rotateLeft(diff_left, no_duration);
 		}
 
 		var diff = valUpTopObj();

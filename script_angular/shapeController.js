@@ -443,7 +443,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			if(!data.error){
 				parent.id_project = data.data;
 				$w.localStorage.setItem('mpanel_id', data.data);
-				parent.updateMpanel = true
+				// parent.updateMpanel = true
 				destroyAllData()
 				
 			} else {

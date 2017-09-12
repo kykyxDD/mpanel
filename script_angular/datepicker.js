@@ -68,11 +68,14 @@ mpanelApp.directive('calendar', function () {
             el.data_pikaday = fun;
             return scope.$watch(attr.ngModel, function(newValue){
                 if(newValue && !update){
-
+                    console.log(newValue)
                     var date = getObjDate(newValue) 
                     if(date){
                         fun.data('datepicker').selectDate(date);
                     }
+                } else if(!newValue){
+                    console.log('newValue', newValue)
+                    // fun.data('datepicker').selectDate(new Date());
                 }
             });
         }
