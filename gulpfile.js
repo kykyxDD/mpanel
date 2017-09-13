@@ -22,6 +22,22 @@ var paths = {
     './src/**/*.js',
     './src/**/**/*.js'
   ],
+  controller: [
+    // знаю что можно /controllers/*.js , а так они строят по очереди страницек )
+
+    './script_angular/controllers/homeController.js',
+    './script_angular/controllers/userController.js',
+    './script_angular/controllers/projectController.js',
+    './script_angular/controllers/fabricController.js',
+    './script_angular/controllers/fittingController.js',
+    './script_angular/controllers/shapeController.js',
+    './script_angular/controllers/reviewController.js',
+    './script_angular/controllers/seamsController.js',
+    './script_angular/controllers/patternController.js'
+  ],
+  directive: [
+    './script_angular/directive/*.js'
+  ],
   templates: [
     './html/*.html'
   ]
@@ -50,4 +66,18 @@ gulp.task('template_cache', function(){
     //put all those to our javascript file
     .pipe(concat('templates.js'))
     .pipe(gulp.dest('./script_angular'))
+});
+gulp.task('controllers',function(){
+  return gulp.src(paths.controller)
+    .pipe(concat('allControllers.js'))
+    .pipe(gulp.dest('./script_angular'))
+});
+gulp.task('directive',function(){
+  return gulp.src(paths.directive)
+    .pipe(concat('allDirective.js'))
+    .pipe(gulp.dest('./script_angular'))
+})
+
+gulp.task('watcher', function(){
+  gulp.watch(paths.templates, ['template_cache']);
 })

@@ -26,7 +26,8 @@
     "gulp-rename": "^1.2.2",
     "gulp-templatecache": "^0.1.0",
     "gulp-uglify": "^3.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "gulp-watch": "~4.3.11"
   },
   "dependencies": {
     "angular": "^1.4.4"

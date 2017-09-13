@@ -1,3 +1,5 @@
 psd
 *.zip
 node_modules/
+script_angular/allControllers.js
+script_angular/allDirective.js

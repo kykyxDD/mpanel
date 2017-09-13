@@ -2,11 +2,6 @@
 	 <div class="left_path">
 		<div class="cont_view" >
 			<div class="view" ng-if='item_seams.imageModelName' style="background-image:url({{api + folder + item_seams.imageModelName}})"></div>
-			<!--<div id="threejs" class="view threejs" ng-class='{error: pattern_error}'>
-				<div ng-if='pattern_error' class="text_error">
-					Error loading model
-				</div>
-			</div>-->
 			<div ng-if='seams_error'>{{seams_error}}</div>
 		</div>
 		<div class="cont_num_panels">
