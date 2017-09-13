@@ -60,6 +60,7 @@ mpanelApp.directive('calendar', function () {
                 },
                 onSelect: function (dateText) {
                     update = true
+                    var str_date = ''
 
                     var date = getObjDate(dateText);
                     if(date.getDay()){
