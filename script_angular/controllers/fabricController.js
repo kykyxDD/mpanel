@@ -68,7 +68,7 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 	}
 
 	function postInfoSelect(sel, index) {
-		var url = $s.host; //main.host + dataUrl.material.post.selectChange+id; 
+		var url = $s.api; //main.host + dataUrl.material.post.selectChange+id; 
 		var id = $s.id_project;
 		if(!id) return
 
@@ -103,7 +103,7 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 		});
 	}
 	function postInfo(start,args) {
-		var url = $s.host; //main.host + dataUrl.material.post.selectChange+id; 
+		var url = $s.api; //main.host + dataUrl.material.post.selectChange+id; 
 		var id = $s.id_project;
 		if(!id) return
 
@@ -143,7 +143,7 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 
 	function getInfo(){
 		var id = $s.id_project;
-		var url = $s.host + dataUrl.material.get+id;
+		var url = $s.api + dataUrl.material.get+id;
 		if(!id) return
 		return $h({
 			method : "get",

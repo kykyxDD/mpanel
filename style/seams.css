@@ -15,7 +15,13 @@
 	padding-right: 30px;
 }
 .cont_view {
-	padding: 5px;
+	/*padding: 5px;*/
+	width: 550px;
+	height: 460px;
+	border-radius: 5px;
+	background-color: #fff;
+	
+    box-shadow: 0 0 5px #B3B3B3;
 }
 .cont_view .cont_top_btn {
 	margin-bottom: 10px;
@@ -38,14 +44,11 @@
 	display: none;
 }
 .cont_view .view{
-	width: 550px;
-	height: 460px;
-	border-radius: 5px;
-	background-color: #fff;
+	width: 100%;
+	height: 100%;
 	background-position: center;
 	background-repeat:no-repeat;
     background-size: contain;
-    box-shadow: 0 0 5px #B3B3B3;
 }
 .cont_view .view.error {
 	background-color: #fff

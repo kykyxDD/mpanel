@@ -21,6 +21,7 @@ mpanelApp.controller("seamsController", ['$http', '$window', '$scope', function(
 	};
 	$s.index_panel = 0
 	$s.pattern_error = false;
+	$s.seams_error = false;
 	$s.data_pattern = {}
 
 	parent.noUpdateMpanel = true;
@@ -46,7 +47,7 @@ mpanelApp.controller("seamsController", ['$http', '$window', '$scope', function(
 			selectedWarp: $s.item_seams.warpIndex
 		}
 
-		var url = $s.host + dataUrl.seams.post+id;
+		var url = $s.api + dataUrl.seams.post+id;
 		$s.load_pattern = true;
 
 		return $h({
@@ -82,7 +83,7 @@ mpanelApp.controller("seamsController", ['$http', '$window', '$scope', function(
 		// console.log('getInfo')
 		if(!$s.id_project) return
 		var id = $s.id_project;
-		var url = $s.host + dataUrl.calculate.post+id;
+		var url = $s.api + dataUrl.calculate.post+id;
 		return $h({
 			method : "post",
 			url : url
@@ -91,12 +92,12 @@ mpanelApp.controller("seamsController", ['$http', '$window', '$scope', function(
 			if(!data.error){
 				loadInfo(data.data)
 			} else {
-				$s.pattern_error = data.error;
+				$s.seams_error = data.error;
 				parent.load_data = false
 			}
 			
 		}, function myError(response) {
-			$s.pattern_error = response.data && response.data.message ? response.data.message : 'Error loading model';
+			$s.seams_error = response.data && response.data.message ? response.data.message : 'Error loading model';
 
 		});
 	};

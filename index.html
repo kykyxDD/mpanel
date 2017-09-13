@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Mpanel</title>
 	<base href="./">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link rel="stylesheet" type="text/css" href="./style/libs/jquery.selectBoxIt.css">
 	<link rel="stylesheet" type="text/css" href="./style/libs/bootstrap-combined.min.css" />
-	<link rel="stylesheet" type="text/css" href="./style/style.css"> 
 	<link rel="stylesheet" type="text/css" href="./style/libs/jquery.mCustomScrollbar.css">
+	<link rel="stylesheet" type="text/css" href="./style/style.css"> 
 	<link rel="stylesheet" type="text/css" href="./style/libs/datepicker.css"> 
 	
 	<link rel="stylesheet" type="text/css" href="./style/user_settings.css"> 
@@ -19,12 +19,7 @@
 	<link rel="stylesheet" type="text/css" href="./style/seams.css"> 
 	<link rel="stylesheet" type="text/css" href="./style/pattern.css"> 
 	<link rel="stylesheet" type="text/css" href="./style/graphics.css"> 
-	<link rel="stylesheet" type="text/css" href="./style_angular/style.css"> 
-	
-	<!-- // <script src="./libs/angularjs/angular_1.2.min.js"></script> -->
-	<!-- // <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script> -->
 
-	
 	<script src="./libs/angularjs/angular_1.4.4.min.js"></script> 
 	<script src="./libs/angularjs/angular-route.js"></script>
 
@@ -32,17 +27,13 @@
 	<script src="./libs/movieclip-0.8.1.min.js"></script>
 	<script src="./libs/tweenjs-0.6.1.min.js"></script>
 	<script src="./script/Shapes.js"></script>
-	
-	<!-- // <script src="./libs/1.8.3_jquery.min.js"></script> -->
+
 	<script src="./libs/1.11.0_jquery.min.js"></script>
 	<script src="./libs/1.9.2_jquery-ui.min.js"></script>
 	<script src="./libs/jquery_mCustomScrollbar.js"></script>
 	<script src="./libs/jquery.selectBoxIt.js"></script>
 	<script src="./libs/datepicker.js"></script>
-	<script src="./libs/jquery-svgpan.js"></script>
-
-
-	
+	<script src="./libs/jquery-svgpan.js"></script>	
 
 
 	<script src="./script/mpanelViewer.js"></script>
@@ -56,26 +47,26 @@
 	
 	<script type="text/javascript" src="./script/dataUrl.js"></script>
 
-	<script type="text/javascript" src='./script_angular/mainApp.js'></script>
-	<script type="text/javascript" src='./script_angular/appState.js'></script>
-	<script type="text/javascript" src='./script_angular/homeController.js'></script>
-	<script type="text/javascript" src='./script_angular/userController.js'></script>
-	<script type="text/javascript" src='./script_angular/projectController.js'></script>
-	<script type="text/javascript" src='./script_angular/fabricController.js'></script>
-	<script type="text/javascript" src='./script_angular/fittingController.js'></script>
-	<script type="text/javascript" src='./script_angular/shapeController.js'></script>
-	<script type="text/javascript" src='./script_angular/reviewController.js'></script>
-	<script type="text/javascript" src='./script_angular/seamsController.js'></script>
-	<script type="text/javascript" src='./script_angular/patternController.js'></script>
+	<script type="text/javascript" src='./script_angular/controllers/mainApp.js'></script>
+	<script type="text/javascript" src='./script_angular/controllers/homeController.js'></script>
+	<script type="text/javascript" src='./script_angular/controllers/userController.js'></script>
+	<script type="text/javascript" src='./script_angular/controllers/projectController.js'></script>
+	<script type="text/javascript" src='./script_angular/controllers/fabricController.js'></script>
+	<script type="text/javascript" src='./script_angular/controllers/fittingController.js'></script>
+	<script type="text/javascript" src='./script_angular/controllers/shapeController.js'></script>
+	<script type="text/javascript" src='./script_angular/controllers/reviewController.js'></script>
+	<script type="text/javascript" src='./script_angular/controllers/seamsController.js'></script>
+	<script type="text/javascript" src='./script_angular/controllers/patternController.js'></script>
+
+	<script type="text/javascript" src='./script_angular/directive/calendar.js'></script>
+	<script type="text/javascript" src='./script_angular/directive/customScroll.js'></script>
+	<script type="text/javascript" src='./script_angular/directive/fancySelect.js'></script>
+	<script type="text/javascript" src='./script_angular/directive/validNum.js'></script>
+	<script type="text/javascript" src='./script_angular/directive/scrollSvg.js'></script>
+	<script type="text/javascript" src='./script_angular/directive/focusMe.js'></script>
 
 	<script type="text/javascript" src='./script_angular/configApp.js'></script>
 	<script type="text/javascript" src='./script_angular/templates.js'></script>
-
-	<script type="text/javascript" src='./script_angular/datepicker.js'></script>
-	<script type="text/javascript" src='./script_angular/customScroll.js'></script>
-	<script type="text/javascript" src='./script_angular/fancySelect.js'></script>
-	<script type="text/javascript" src='./script_angular/validNum.js'></script>
-	<script type="text/javascript" src='./script_angular/scrollSvg.js'></script>
 </head>
 <body ng-app='mpanelApp' ng-controller="mpanelController" ng-class='{body_home : home_page}'>
 	<div class='main' ng-class='{home : home_page}' >

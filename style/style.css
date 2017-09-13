@@ -44,6 +44,9 @@ body {
 	min-width: 1200px;
 	color: #000;
 }
+.page-header{
+	display: none;
+}
 
 
 

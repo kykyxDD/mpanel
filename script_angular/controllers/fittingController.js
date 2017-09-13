@@ -95,7 +95,7 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 	}*/
 
 	function postInfoSelect(sel, index) {
-		var url = $s.host; //main.host + dataUrl.material.post.selectChange+id; 
+		var url = $s.api;
 		var id = $s.id_project;
 		if(!id) return
 
@@ -130,7 +130,7 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 		});
 	}
 	function postInfo(start,args) {
-		var url = $s.host; //main.host + dataUrl.material.post.selectChange+id; 
+		var url = $s.api;
 		var id = $s.id_project;
 		if(!id) return
 
@@ -170,7 +170,7 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 
 	function getInfo(){
 		var id = $s.id_project;
-		var url = $s.host + dataUrl.material.get+id;//dataUrl.project.new_project;
+		var url = $s.api + dataUrl.material.get+id;//dataUrl.project.new_project;
 		return $h({
 			method : "get",
 			url : url

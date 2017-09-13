@@ -84,7 +84,7 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 
 	function getInfo(){
 		var id = $s.id_project;
-		var url = $s.host + dataUrl.project.get+id;//dataUrl.project.new_project;
+		var url = $s.api + dataUrl.project.get+id;//dataUrl.project.new_project;
 
 		return $h({
 			method : "get",
@@ -116,7 +116,7 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 		parent.load_data = true;
 		var id = $s.id_project;
 
-		var url =  $s.host
+		var url =  $s.api
 		if(id){
 			url += dataUrl.project.post + id;
 		} else {

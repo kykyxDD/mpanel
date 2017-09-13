@@ -63,7 +63,7 @@
 							<tr ng-repeat="side in item_shape.sideParameters">
 								<td class="td_side">{{side.name}}</td>
 								<td class="td_meas td_input_red">
-									<input class="input_meas" type="text" ng-model="side.pointToPointSize" valid-num ng-focus='focus(side.name)' ng-blur='blur(side, "size")'>
+									<input class="input_meas" type="text" ng-model="side.pointToPointSize" valid-num ng-focus='focus(side.name)' ng-blur='blur(side, "size")' focus-me="side.focus" >
 									<label class="label" ng-class='{error: side.negative}'></label>
 									<div class="val_red">{{reduction[id_unit]}}</div>
 								</td>
@@ -120,7 +120,7 @@
 							<tr ng-repeat="diagonal in item_shape.diagonalParameters">
 								<td class="td_diag">{{diagonal.name}}</td>
 								<td class="td_meas td_input_red">
-									<input class="input_meas_diag" type="text" ng-model='diagonal.value' ng-focus='focus(diagonal.name)' ng-blur='blur(diagonal, "diag")' valid-num>
+									<input class="input_meas_diag" type="text" ng-model='diagonal.value' ng-focus='focus(diagonal.name)' ng-blur='blur(diagonal, "diag")' valid-num focus-me="diagonal.focus">
 									<label class="label" ng-class='{error: diagonal.negative}'></label>
 									<div class="div_m_red val_red">{{reduction[id_unit]}}</div>
 								</td>
@@ -147,7 +147,7 @@
 						<tr ng-repeat="corner in item_shape.cornerParameters">
 							<td class="td_corner">{{corner.name}}</td>
 							<td class="td_height td_input_red">
-								<input class="input_h" type="text" ng-model='corner.height' ng-blur='blur(corner, "corn")' valid-num>
+								<input class="input_h" type="text" ng-model='corner.height' ng-blur='blur(corner, "corn")' valid-num focus-me="corner.focus">
 								<label class="label" ng-class='{error: corner.negative}' ></label>
 								<div class="div_h_red val_red">{{reduction[id_unit]}}</div>
 							</td>

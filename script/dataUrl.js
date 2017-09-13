@@ -1,31 +1,31 @@
 var dataUrl = {
 	project: {
-		get:  'api/mp/projectPagePopulate?id=',
-		post: 'api/mp/projectPagePopulate?id=',
-		new_project: 'api/mp/projectPagePopulate'
+		get:  '/mp/projectPagePopulate?id=',
+		post: '/mp/projectPagePopulate?id=',
+		new_project: '/mp/projectPagePopulate'
 	},
 	material: {
-		get: 'api/mp/materialPagePopulate?id=',
+		get: '/mp/materialPagePopulate?id=',
 		post: {
-			commit: 'api/mp/materialPageCommit?id=',
-			selectChange: 'api/mp/materialPageSelectChange?id=' //{id}&selectType={selectType}
+			commit: '/mp/materialPageCommit?id=',
+			selectChange: '/mp/materialPageSelectChange?id=' //{id}&selectType={selectType}
 		}
 	},
 	meas: {
-		get: 'api/mp/measPagePopulate?id=',
-		demo: 'api/mp/measPageLoadDefault?id=', //{id}&polyNum={polyNum}'
+		get: '/mp/measPagePopulate?id=',
+		demo: '/mp/measPageLoadDefault?id=', //{id}&polyNum={polyNum}'
 		post: {
-			newSide: 'api/mp/measPageNewSideNum?id=',//{id}&polyNum={polyNum}
-			commit: 'api/mp/measPageCommit?id='
+			newSide: '/mp/measPageNewSideNum?id=',//{id}&polyNum={polyNum}
+			commit: '/mp/measPageCommit?id='
 		}
 	},
 	calculate: {
-		post: 'api/mp/calculateModel?id='
+		post: '/mp/calculateModel?id='
 	},
 	modelLoad : {
-		get: 'api/mp/modelLoad?fileName='
+		get: '/mp/modelLoad?fileName='
 	},
 	seams: {
-		post: 'api/mp/calculatePanel?id='
+		post: '/mp/calculatePanel?id='
 	}
 }

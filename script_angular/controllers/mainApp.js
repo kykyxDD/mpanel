@@ -1,11 +1,12 @@
 var mpanelApp = angular.module("mpanelApp", ['ngRoute']);
 
-mpanelApp.controller("mpanelController", ["appState", '$route', '$routeParams', '$location', '$http', '$window','$document', '$scope', function (state, $r, $rp ,$l, $h, $w, $d, $s) {
+mpanelApp.controller("mpanelController", ['$route', '$routeParams', '$location', '$http', '$window','$document', '$scope', function ($r, $rp ,$l, $h, $w, $d, $s) {
 	$s.id_project = $w.localStorage.getItem('mpanel_id')
 	console.log($s.id_project)
+	$s.api = 'http://192.168.0.119:1234/api'
 	$s.host = 'http://192.168.0.119:1234/';
 	$s.host_1 = 'http://192.168.0.119:1234';
-	$s.folder = 'api/mp/modelLoad?fileName=';
+	$s.folder = '/mp/modelLoad?fileName=';
 	$s.load_data = false;
 	$s.all_data = {};
 	$s.data_error = false;
@@ -209,48 +210,4 @@ mpanelApp.controller("mpanelController", ["appState", '$route', '$routeParams', 
 			updateItmPage(obj, 1)
 		}
 	}
-}])
-/*.service('navigation', ['$location', function($l) {
-	return {
-
-		page: function() {
-			var path = $l.path()
-			if (path == "") {
-				return ""
-			} else {
-				var parts = path.split("?")[0].split("/")
-				parts.shift()
-				return parts[0]
-			}
-		},
-
-		params: function(match) {
-			var parts = $l.path().split("?")[0].split("/");
-			parts.shift();
-			if (parts.length > 1) {
-				return parts.splice(1)
-			}
-			return ""
-		},
-		params1: function(queryString){
-			queryString = queryString ? queryString : window.location.search;
-			queryString = queryString.substring(1);
-			var params = {}, queries, temp, i, l;
-			queries = queryString.split("&");
-			for ( i = 0, l = queries.length; i < l; i++ ) {
-				temp = queries[i].split('=');
-				params[temp[0]] = temp[1];
-			}
-			return params;
-		}
-	}
-}]);*/
-
-mpanelApp.directive('autoFocus',function(){
-	return {
-		restrict: 'A',
-		link: function(scope,element){
-			if(scope.$first) element[0].focus();
-		}
-	}
-})
+}]);

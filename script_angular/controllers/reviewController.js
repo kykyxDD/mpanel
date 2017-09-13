@@ -70,7 +70,7 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 		// load_file = false
 		if(!$s.id_project) return
 		var id = $s.id_project;
-		var url = $s.host + dataUrl.calculate.post+id;
+		var url = $s.api + dataUrl.calculate.post+id;
 		return $h({
 			method : "post",
 			url : url
@@ -96,7 +96,7 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 		}
 
 		if(data.objModelName){
-			$s.arr_url[0] =  $s.host + $s.folder + data.objModelName;
+			$s.arr_url[0] =  $s.api + $s.folder + data.objModelName;
 			$w.localStorage.setItem('mpanel_obj', data.objModelName);
 			var texturePath = false;
 			if(data.texturePath){

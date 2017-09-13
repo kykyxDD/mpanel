@@ -122,7 +122,7 @@
     var NONE = 0,
         PAN = 1,
         DRAG = 2,
-        init = function (root, svgRoot, enablePan, enableZoom, enableDrag, zoomScale) {
+        init = function (root, svgRoot, enablePan, enableZoom, enableDrag, zoomScale, params) {
 
             var state = NONE,
                 stateTarget,
@@ -137,8 +137,8 @@
                 // for SVGs.
                 offsetIsBroken = Math.abs($root.offset().left) > 1e5,
                 isMouseOverElem = false,
-                min_zoom = 0.1,
-                max_zoom = 1,
+                min_zoom = params && params.min_zoom ? params.min_zoom : 0.1,
+                max_zoom = params && params.max_zoom ? params.max_zoom :  1.5,
 
                 /**
                  * Dumps a matrix to a string (useful for debug).
@@ -218,7 +218,6 @@
 
                         // Compute new scale matrix in current mouse position
                         k = root.createSVGMatrix().translate(p.x, p.y).scale(z).translate(-p.x, -p.y);
-                        // console.log('k', k)
 
                         setCTM(g, g.getCTM().multiply(k));
 
@@ -227,8 +226,6 @@
                         }
 
                         stateTf = stateTf.multiply(k.inverse());
-                    // } else {
-                        // console.log('zoom big or little' )
                     }
                 },
 
@@ -366,7 +363,7 @@
        @param enableDrag Boolean enable or disable dragging (default disabled)
        @param zoomScale Float zoom sensitivity, defaults to .2
     **/
-    $.fn.svgPan = function (viewportId, enablePan, enableZoom, enableDrag, zoomScale) {
+    $.fn.svgPan = function (obj, enablePan, enableZoom, enableDrag, zoomScale) {
         enablePan = typeof enablePan !== 'undefined' ? enablePan : true;
         enableZoom = typeof enableZoom !== 'undefined' ? enableZoom : true;
         enableDrag = typeof enableDrag !== 'undefined' ? enableDrag : false;
@@ -378,9 +375,9 @@
                 viewport;
             // only call upon elements that are SVGs and haven't already been initialized.
             if ($el.is('svg') && $el.data('SVGPan') !== true) {
-                viewport = $el.find('#' + viewportId)[0];
+                viewport = $el.find('#' + obj.viewportId)[0];
                 if (viewport) {
-                    init($el[0], viewport, enablePan, enableZoom, enableDrag, zoomScale);
+                    init($el[0], viewport, enablePan, enableZoom, enableDrag, zoomScale, obj);
                 } else {
                     throw "Could not find viewport with id #" + viewport;
                 }

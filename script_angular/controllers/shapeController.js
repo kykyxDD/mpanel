@@ -27,6 +27,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			$s.item_shape[key] = cloneItem(new_data[key])
 		}
 		$s.item_shape.arr_negative = []
+		$s.item_shape.sideParameters[0].focus = true
 		chechAllVal();
 
 	}
@@ -62,16 +63,21 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			side.pointToPointSize = 0;
 			side.isFixed = false;
 			side.isMidSupport = false;
+			side.focus = false
 		}
 		for(var i = 0; i < shape.cornerParameters.length;i++){
 			var corner = shape.cornerParameters[i];
 			corner.height = 0;
 			corner.linkLength = 0;
+			corner.focus = false
 		}
 		for(var i = 0; i < shape.diagonalParameters.length; i++){
 			var dial =  shape.diagonalParameters[i];
 			dial.value = 0;
+			dial.focus = false
 		}
+
+		$s.item_shape.sideParameters[0].focus = true
 
 		$s.item_shape.arr_negative = [];
 		chechAllVal();
@@ -80,6 +86,67 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	$s.$watch('item_num', updateNumEdge);
 
 	$s.$watch('item_shape.arr_negative.length', updateNedative);
+
+	$s.blurSide = function(obj) {
+		var item_shape = $s.item_shape
+		var index = $s.item_shape.sideParameters.indexOf(obj)
+		// console.log(index)
+		if(index >= 0){
+			$s.item_shape.sideParameters[index].focus = false;
+			$s.blur();
+
+			if(index < item_shape.sideParameters.length-1){
+				$s.item_shape.sideParameters[index+1].focus = true;
+			} else {
+				if(item_shape.diagonalParameters && item_shape.diagonalParameters.length){
+					$s.item_shape.diagonalParameters[0].focus = true;
+				} else if(item_shape.cornerParameters && item_shape.cornerParameters.length){
+					$s.item_shape.cornerParameters[0].focus = true;
+				}
+			}
+		}
+		$s.$apply()
+	}
+
+	$s.blurDiagonal = function(obj) {
+		var item_shape = $s.item_shape
+		var index = item_shape.diagonalParameters.indexOf(obj)
+
+		if(index >= 0){
+			$s.item_shape.diagonalParameters[index].focus = false;
+
+			if(index < item_shape.diagonalParameters.length-1){
+				$s.item_shape.diagonalParameters[index+1].focus = true;
+			} else {
+				if(item_shape.cornerParameters && item_shape.cornerParameters.length){
+					$s.item_shape.cornerParameters[0].focus = true;
+				} else if(item_shape.sideParameters && item_shape.sideParameters.length){
+					$s.item_shape.sideParameters[0].focus = true;
+				}
+			}
+		}
+		$s.$apply()
+	}
+
+	$s.blurCorner = function(obj) {
+		var item_shape = $s.item_shape
+		var index = item_shape.cornerParameters.indexOf(obj)
+
+		if(index >= 0){
+			$s.item_shape.cornerParameters[index].focus = false;
+
+			if(index < item_shape.cornerParameters.length-1){
+				$s.item_shape.cornerParameters[index+1].focus = true
+			} else {
+				if(item_shape.sideParameters && item_shape.sideParameters.length){
+					$s.item_shape.sideParameters[0].focus = true
+				} else if(item_shape.cornerParameters && item_shape.cornerParameters.length){
+					$s.item_shape.cornerParameters[0].focus = true
+				}
+			}
+		}
+		$s.$apply()
+	}
 
 	$s.destroy = function(start){
 		if(start){
@@ -108,6 +175,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	};
 
 	$s.focus = function(name){
+		// console.log('focus')
 		if(name){
 			exportRoot.setSelection(name.replace('-',''));
 		}
@@ -374,6 +442,8 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 				}
 			}
 		}
+
+		$s.item_shape.sideParameters[0].focus = true
 		chechAllVal();
 		// console.timeEnd('pullDataPage')
 	}
@@ -388,7 +458,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 
 	function getInfo(){
 		var id = $s.id_project;
-		var url = $s.host + dataUrl.meas.get+id; 
+		var url = $s.api + dataUrl.meas.get+id; 
 		return $h({
 			method : "get",
 			url : url
@@ -428,7 +498,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	}
 	function postInfo(start,args){
 		var id = $s.id_project;
-		var url = $s.host + dataUrl.meas.post.commit+id;
+		var url = $s.api + dataUrl.meas.post.commit+id;
 		parent.all_data['shape'] = getDataParent()
 		var data = getNewData();
 		parent.no_all_val = false;

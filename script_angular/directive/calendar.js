@@ -27,6 +27,11 @@ mpanelApp.directive('calendar', function () {
         var date
         if(arr_data.length == 3){
             date = new Date(arr_data[2], +arr_data[1]-1, arr_data[0])   
+        } else if(str.indexOf('T')){
+            var arr_data = str.split("T")
+            var arr_day = arr_data[0].split("-");
+            var arr_time = arr_data[1].split(":");
+            date = new Date(arr_day[0], +arr_day[1]-1, arr_day[2], arr_time[0],  +arr_time[1] ,  +arr_time[2] ? arr_time[2] : 00);
         } else {
             date = new Date(str)
         }
