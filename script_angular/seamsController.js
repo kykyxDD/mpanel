@@ -1,28 +1,27 @@
-mpanelApp.controller("seamsController", ['$http', '$window','$scope', function($h, $w, $s){
+mpanelApp.controller("seamsController", ['$http', '$window', '$scope', function($h, $w, $s){
 
-	var parent = $s.$parent;
-
-	parent.load_data = true
-
-	$s.data_seams = {
+	if($w.location.hash.indexOf('seams') == -1) {
+		return false
 	}
 
+	var parent = $s.$parent;
+	parent.load_data = true;
+
+	$s.data_seams = {}
 
 	$s.$on('child_start', function(event,args){
 		$s.$emit('child_finish', args)
-	})
+	});
 
 	$s.item_seams = {
 		nPanels: [1],
 		index_panel: 0,
 		warpIndex: 0,
 		tagIndex: 0
-	}
+	};
 	$s.index_panel = 0
 	$s.pattern_error = false;
-	$s.data_pattern = {
-		
-	}
+	$s.data_pattern = {}
 
 	parent.noUpdateMpanel = true;
 	
@@ -80,6 +79,7 @@ mpanelApp.controller("seamsController", ['$http', '$window','$scope', function($
 	}
 
 	function getInfo(){
+		// console.log('getInfo')
 		if(!$s.id_project) return
 		var id = $s.id_project;
 		var url = $s.host + dataUrl.calculate.post+id;

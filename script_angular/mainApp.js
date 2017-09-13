@@ -1,6 +1,6 @@
 var mpanelApp = angular.module("mpanelApp", ['ngRoute']);
 
-mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$routeParams', '$location', '$http', '$window','$document', '$scope', function (state, nav, $r, $rp ,$l, $h, $w, $d, $s) {
+mpanelApp.controller("mpanelController", ["appState", '$route', '$routeParams', '$location', '$http', '$window','$document', '$scope', function (state, $r, $rp ,$l, $h, $w, $d, $s) {
 	$s.id_project = $w.localStorage.getItem('mpanel_id')
 	console.log($s.id_project)
 	$s.host = 'http://192.168.0.119:1234/';
@@ -12,7 +12,7 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 	$s.mpanel = false;
 	$s.updateMpanel = false;
 	$s.user_page = false;
-	$s.negative = false
+	$s.negative = false;
 	$s.reduction = [
 		"m",
 		"cm",
@@ -87,21 +87,21 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 
 	function on_page_change(){
 		var itm = $s.itm_page;
-		var l_path = $l.path().replace('/', '')
+		var l_path = $l.path().replace('/', '');
 		if(itm){
 			$s.id_itm_page = itm.id ? $s.list_menu.indexOf(searchListPage(itm.id)) : 0;	
-			$w.document.title = itm.title
+			$w.document.title = itm.title;
 			if(itm.id != l_path){
 				$l.path('/'+itm.id)
 			}
 		}
 	}
-	var search = nav.page();
+	var search = $l.path().replace('/', ''); //nav.page();
 
 	if(search != ''){
 		var obj = searchListPage(search);
 		if(obj){
-			var index = $s.list_menu.indexOf(obj) 
+			var index = $s.list_menu.indexOf(obj);
 			if(index > 0 && !$s.id_project){
 				obj = $s.list_menu[0];
 			} else if(index == $s.list_menu.length-1 && !$s.all_data['pattern']){
@@ -144,6 +144,7 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 		}
 	})
 	function updateObj(obj){
+		// console.log('updateObj',obj)
 		if(!$s.data_error){
 			$s.itm_page = obj;
 			$s.load_data = false
@@ -209,7 +210,7 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 		}
 	}
 }])
-.service('navigation', ['$location', function($l) {
+/*.service('navigation', ['$location', function($l) {
 	return {
 
 		page: function() {
@@ -243,7 +244,7 @@ mpanelApp.controller("mpanelController", ["appState",'navigation', '$route', '$r
 			return params;
 		}
 	}
-}]);
+}]);*/
 
 mpanelApp.directive('autoFocus',function(){
 	return {

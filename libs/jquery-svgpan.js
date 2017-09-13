@@ -137,6 +137,8 @@
                 // for SVGs.
                 offsetIsBroken = Math.abs($root.offset().left) > 1e5,
                 isMouseOverElem = false,
+                min_zoom = 0.1,
+                max_zoom = 1,
 
                 /**
                  * Dumps a matrix to a string (useful for debug).
@@ -175,6 +177,7 @@
                  */
                 setCTM = function (element, matrix) {
                     var s = "matrix(" + matrix.a + "," + matrix.b + "," + matrix.c + "," + matrix.d + "," + matrix.e + "," + matrix.f + ")";
+                    // console.log(matrix.a, matrix.d)
 
                     element.setAttribute("transform", s);
                 },
@@ -204,18 +207,29 @@
                         p = getEventPoint(evt),
                         k;
 
-                    p = p.matrixTransform(g.getCTM().inverse());
 
-                    // Compute new scale matrix in current mouse position
-                    k = root.createSVGMatrix().translate(p.x, p.y).scale(z).translate(-p.x, -p.y);
+                    var get_ctm = g.getCTM()
+                    var new_s = get_ctm.a * z;
 
-                    setCTM(g, g.getCTM().multiply(k));
 
-                    if (typeof stateTf === "undefined") {
-                        stateTf = g.getCTM().inverse();
+                    if(min_zoom < new_s && new_s < max_zoom){
+
+                        p = p.matrixTransform(g.getCTM().inverse());
+
+                        // Compute new scale matrix in current mouse position
+                        k = root.createSVGMatrix().translate(p.x, p.y).scale(z).translate(-p.x, -p.y);
+                        // console.log('k', k)
+
+                        setCTM(g, g.getCTM().multiply(k));
+
+                        if (typeof stateTf === "undefined") {
+                            stateTf = g.getCTM().inverse();
+                        }
+
+                        stateTf = stateTf.multiply(k.inverse());
+                    // } else {
+                        // console.log('zoom big or little' )
                     }
-
-                    stateTf = stateTf.multiply(k.inverse());
                 },
 
                 /**
