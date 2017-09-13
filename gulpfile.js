@@ -12,15 +12,7 @@ var p = require('path');
 
 var paths = {
   javascripts: [
-    './src/js/app.js',
-    /*
-     * this file should not be commited to git, you write HTML!
-     * it should also not beeing watched by gulp if it then triggers a change
-     * or gulp will be left in an infinite loop (see below)
-     */
-    './src/js/templates.js',
-    './src/**/*.js',
-    './src/**/**/*.js'
+
   ],
   controller: [
     // знаю что можно /controllers/*.js , а так они строят по очереди страницек )
@@ -63,7 +55,6 @@ gulp.task('template_cache', function(){
         return url.replace(p.extname(url), '.html')
       }
     }))
-    //put all those to our javascript file
     .pipe(concat('templates.js'))
     .pipe(gulp.dest('./script_angular'))
 });

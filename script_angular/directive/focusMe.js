@@ -6,7 +6,7 @@ mpanelApp.directive('focusMe', function () {
 			scope.$watch(attrs.focusMe, function(value) {
 				if(value === true) {
 					el[0].focus();
-					el[0].select();
+					// el[0].select();
 				} else {
 					el[0].blur();
 				}
