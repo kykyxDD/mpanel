@@ -169,7 +169,38 @@
 .page_pattern .table_edges .td_cable{
 	text-align: center;
 }
+.page_pattern .cont_table_edges ,
+.page_pattern .cont_btn {
+	display: inline-block;
+	vertical-align: top
+}
 
 .page_pattern .cont_btn {
-	
+	padding-top: 30px;
+	padding-left: 100px;
+}
+.page_pattern .cont_btn .my_btn {
+	display: block;
+	margin-bottom: 5px;
+	color: white;
+	font-weight: bold;
+	position: relative;
+	text-transform: capitalize;
+}
+.page_pattern .cont_btn .my_btn.make_pdf{
+	text-align: left;
+	text-indent: 45px;
+}
+.page_pattern .cont_btn .my_btn.make_pdf:before {
+	position: absolute;
+	content: '';
+	top: 50%;
+	left: 23px;
+	width: 23px;
+	height: 21px;
+	margin-top: -11px;
+	margin-left: -11px;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-image: url(../image/icon/pdf.png);
 }

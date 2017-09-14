@@ -7,6 +7,7 @@ mpanelApp.controller("mpanelController", ['$route', '$routeParams', '$location',
 	$s.host = 'http://192.168.0.119:1234/';
 	$s.host_1 = 'http://192.168.0.119:1234';
 	$s.folder = '/mp/modelLoad?fileName=';
+	$s.host_helper = 'http://dev.structureflex.com.au/public/helper';
 	$s.load_data = false;
 	$s.all_data = {};
 	$s.data_error = false;
