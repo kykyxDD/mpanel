@@ -4,6 +4,8 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 
 	$s.$on('child_start', postInfo)
 
+	//$s.material_db = {}
+
 	// $s.destroy = function(start){
 	// 	if(start){
 	// 		return postInfo();
@@ -41,14 +43,22 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 
 	function initInfo(){
 		if(parent.all_data['material']) {
+			getDataUnits(parent.material_db)
 			$s.data_fabric = parent.all_data['material'];
 			$s.$parent.load_data = false;
 		} else {
 			// getInfo().then(function(){
 			// 	parent.load_data = false
 			// })
-			getInfo()
+
+			getMaterial()
 		}
+	}
+
+	function getDataUnits(data){
+		$s.material_db = data.staticObj.staticMatlPage
+		$s.fabRelations = data.unitItems[$s.id_unit].fabRelations;
+		console.log($s.fabRelations)
 	}
 
 
@@ -59,8 +69,11 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 
 		for(var key in data_fabric){
 			if(del_key.indexOf(key) == -1){
+
 				data[key] = data_fabric[key]
 				parent.all_data['material'][key] = data_fabric[key]
+			
+
 			}
 		}
 
@@ -79,7 +92,6 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 		// 	url += dataUrl.material.post.commit+id;
 		// }
 		var data = getData();
-
 
 		return $h({
 			method : "post",
@@ -115,6 +127,14 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 		// }
 		var data = getData();
 
+		// console.log('data', args, data)
+		parent.all_data['material'] == data;
+
+		parent.update_texture = true
+		if(args.id == 'fittings'){
+			return $s.$emit('child_finish', args)
+		}
+
 
 		return $h({
 			method : "post",
@@ -124,7 +144,7 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 			var data = response.data
 			if(!data.error){
 				// if(typeof data.data == 'string'){
-					$w.localStorage.setItem('mpanel_id', data.data)
+				$w.localStorage.setItem('mpanel_id', data.data)
 				// } else {
 				// 	parent.all_data['material'] = data.data;
 				// 	$s.data_fabric = data.data;	
@@ -141,6 +161,34 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 	}
 
 
+	function getMaterial(){
+		var id = $s.id_project;
+		var url = $s.api_material_db + dataUrl.material_db //+ id;
+		console.log('url',url)
+		//var url = $s.api + dataUrl.material.get+id;
+		if(!id) return
+		return $h({
+			method : "get",
+			url : url
+		}).then(function mySuccess(response) {
+			var data = response.data
+			if(!data.error){
+				// parent.all_data['material_db'] = data;
+				parent.material_db = data
+				// console.log($s.material_db)
+				// $s.data_fabric = data.data;
+				// parent.load_data = false
+				getDataUnits(data)
+
+				getInfo()
+			} else {
+				parent.data_error = data.error;
+			}
+			
+		}, function myError(response) {
+			parent.data_error = response.data.message;
+		});
+	}
 	function getInfo(){
 		var id = $s.id_project;
 		var url = $s.api + dataUrl.material.get+id;

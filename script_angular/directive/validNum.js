@@ -7,7 +7,6 @@ mpanelApp.directive('validNum', function() {
         require: 'ngModel',
         restrict: 'A',
         link: function (scope, el, attr, ngModel) {
-            
             el[0].addEventListener('input', function(){
                 var str = checkValNum(this.value)
                 if(str != this.value){

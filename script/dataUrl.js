@@ -1,4 +1,6 @@
 var dataUrl = {
+	material_db: 'data/material_db.json',
+	// material_db: 'data/material_db_1.json',
 	project: {
 		get:  'mp/projectPagePopulate?id=',
 		post: 'mp/projectPagePopulate?id=',

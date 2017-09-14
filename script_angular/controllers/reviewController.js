@@ -100,12 +100,14 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 			$w.localStorage.setItem('mpanel_obj', data.objModelName);
 			var texturePath = false;
 			if(data.texturePath){
-				texturePath = $s.host_1  + data.texturePath;
+				var arr_url = data.texturePath.split('/');
+				texturePath = $s.folder_fabric  + arr_url[arr_url.length-1]; //data.texturePath.;
 			}
 			mpanel.loadObj($s.arr_url[0], texturePath);
 		}
 
 		parent.load_data = false;
+		parent.update_texture = false;
 
 	}
 
@@ -117,7 +119,11 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 
 	function initInfo(){
 		if(parent.all_data['review']){
-			loadInfo(parent.all_data['review'])
+			if(parent.update_texture){
+				getInfo()
+			} else {
+				loadInfo(parent.all_data['review'])
+			}
 		} else {
 			getInfo()
 		}

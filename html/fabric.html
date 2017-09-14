@@ -1,39 +1,46 @@
 <div class="cont_info page_fabric">
 	<div class="left_path">
 		<div class="cont_img_texture">
-			<img class="item_texture" ng-if='data_fabric.fabricImageBase64' ng-src="{{host_1 + data_fabric.fabricImageBase64}}">
+			<!-- <img class="item_texture" ng-if='data_fabric.fabricImageBase64' ng-src="{{host_1 + data_fabric.fabricImageBase64}}"> -->
+			<div class="item_texture" 
+			style="background-image: url({{folder_fabric + material_db.fabRelations[data_fabric.fabricSelectedIndex].fabTypeRelations[data_fabric.fabricTypeSelectedIndex].fabricColorItemsLinks[data_fabric.fabricColorSelectedIndex]}})"
+			ng-if='material_db'></div>
 		</div>
 	</div>
 	<div class="right_path">
 		<div class="cont_list cont_list_select">
 			<div class="cont_select cont_database">
 				<div class="txt">FABRIC DATABASE</div>
+				<!-- ng-change='changeSelect("FabricSupplier", "{{data_fabric.fabricSelectedIndex}}")'  -->
 				<select class="select_database" 
-					ng-change='changeSelect("FabricSupplier", "{{data_fabric.fabricSelectedIndex}}")' 
+					
 					ng-model='data_fabric.fabricSelectedIndex' 
 					fancy-select 
 					fancy-default-text='FABRIC DATABASE' 
-					fancy-list='data_fabric.fabricItems'  >
+					fancy-list='material_db.fabricItems'  >
 				</select>
 			</div>
 			<div class="cont_select cont_brand">
 				<div class="txt">BRAND SELECTOR</div>
-				<select class="select_brand" 
-					ng-change='changeSelect("FabricType", "{{data_fabric.fabricTypeSelectedIndex}}")' 
+				<!-- ng-change='changeSelect("FabricType", "{{data_fabric.fabricTypeSelectedIndex}}")'  -->
+				<select class="select_brand"
 					ng-model='data_fabric.fabricTypeSelectedIndex'
 					fancy-select 
 					fancy-default-text='BRAND SELECTOR' 
-					fancy-list='data_fabric.fabricTypeItems' 
+					fancy-dependence='true'
+					fancy-list='material_db.fabRelations[data_fabric.fabricSelectedIndex].fabricTypeItems' 
 				></select>
 			</div>
 			<div class="cont_select cont_colour">
 				<div class="txt">COLOUR CHOICE</div>
+				<!-- ng-change='changeSelect("Color", "{{data_fabric.fabricColorSelectedIndex}}")' //'data_fabric.fabricColorItems' -->
 				<select class="select_colour"
-					ng-change='changeSelect("Color", "{{data_fabric.fabricColorSelectedIndex}}")'
+					
 					ng-model='data_fabric.fabricColorSelectedIndex'
 					fancy-select 
 					fancy-default-text='COLOUR CHOICE' 
-					fancy-list='data_fabric.fabricColorItems' 
+					fancy-dependence='true'
+					fancy-list='material_db.fabRelations[data_fabric.fabricSelectedIndex].fabTypeRelations[data_fabric.fabricTypeSelectedIndex].fabricColorItems'   
 				></select>
 			</div>
 		</div>
@@ -43,7 +50,8 @@
 					<div class="name">Roll width ({{reduction[id_unit]}})</div>
 				</div>
 				<div class="cont_val">
-					<input class="val input_text" type="text" name="poll" ng-model='data_fabric.rollWidthText' valid-num>
+					<!-- <input class="val input_text" type="text" name="poll" ng-model='data_fabric.rollWidthText' valid-num> -->
+					<input class="val input_text" type="text" name="poll" ng-model='data_fabric.rollWidthText' valid-num watch-value="fabRelations[data_fabric.fabricSelectedIndex].fabTypeRelations[data_fabric.fabricTypeSelectedIndex].rollWidthText">
 				</div>
 			</div>
 			<div class="cont_input override">
@@ -60,7 +68,8 @@
 					<div class="name">Warp Stretch %</div>
 				</div>
 				<div class="cont_val">
-					<input class="val input_text" type="text" name="warp_str" disabled ng-model='data_fabric.warpStretch' valid-num>
+				<!-- warpStretch -->
+					<input class="val input_text" type="text" name="warp_str" disabled ng-model='data_fabric.warpStretch' valid-num watch-value="fabRelations[data_fabric.fabricSelectedIndex].fabTypeRelations[data_fabric.fabricTypeSelectedIndex].warpStretch">
 				</div>
 				<div class="cont_val" ng-if='data_fabric.override'>
 					<div class="name">Override</div>
@@ -72,7 +81,7 @@
 					<div class="name">Waft Stretch %</div>
 				</div>
 				<div class="cont_val">
-					<input class="val input_text" type="text" name="waft_str" disabled ng-model='data_fabric.weftStretch' valid-num>
+					<input class="val input_text" type="text" name="waft_str" disabled ng-model='data_fabric.weftStretch' valid-num watch-value="fabRelations[data_fabric.fabricSelectedIndex].fabTypeRelations[data_fabric.fabricTypeSelectedIndex].weftStretch">
 				</div>
 				<div class="cont_val" ng-if='data_fabric.override'>
 					<input class="val input_text" type="text" name="waft_str" ng-model='data_fabric.weftStretchOverride' valid-num>

@@ -102,12 +102,21 @@
 	margin-right: 45px;
 }
 .cont_view_corner .cont_img_corn{
-	width: 100%;
-	height: 234px;
+	width: 240px;
+	height: 215px;
 	border: 1px solid #DDDDDD;
 	background-color: #F6F6F6;
 	border-radius: 5px;
 	margin-bottom: 10px;
+	padding: 10px;
+}
+.cont_view_corner .cont_img_corn .img_corn {
+	/*background-image: url(./data/example/Webbing-D_ring.jpg);*/
+	width: 100%;
+	height: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 .cont_view_corner .cont_img_corn .cont_img_corn{

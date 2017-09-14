@@ -4,10 +4,10 @@ var templateCache = require('gulp-angular-templatecache');
 // var templateCache = require('gulp-templatecache');
 var minifyHtml = require('gulp-minify-html');
 var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
-var rename = require('gulp-rename');
-var ngannotate = require('gulp-ng-annotate');
-var closure = require('gulp-jsclosure');
+// var uglify = require('gulp-uglify');
+// var rename = require('gulp-rename');
+// var ngannotate = require('gulp-ng-annotate');
+// var closure = require('gulp-jsclosure');
 var p = require('path');
 
 var paths = {
@@ -69,6 +69,6 @@ gulp.task('directive',function(){
     .pipe(gulp.dest('./script_angular'))
 })
 
-gulp.task('watcher', function(){
+gulp.task('watch', function(){
   gulp.watch(paths.templates, ['template_cache']);
 })

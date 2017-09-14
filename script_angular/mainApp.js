@@ -3,10 +3,13 @@ var mpanelApp = angular.module("mpanelApp", ['ngRoute']);
 mpanelApp.controller("mpanelController", ['$route', '$routeParams', '$location', '$http', '$window','$document', '$scope', function ($r, $rp ,$l, $h, $w, $d, $s) {
 	$s.id_project = $w.localStorage.getItem('mpanel_id')
 	console.log($s.id_project)
-	$s.api = 'http://192.168.0.119:1234/api/'
+	$s.api = 'http://192.168.0.119:1234/api/';
 	$s.host = 'http://192.168.0.119:1234/';
 	$s.host_1 = 'http://192.168.0.119:1234';
 	$s.folder = '/mp/modelLoad?fileName=';
+	$s.folder_fabric = './data/images/'
+	$s.folder_fitting = './data/example/'
+	$s.api_material_db = './'
 	$s.host_helper = 'http://dev.structureflex.com.au/public/helper';
 	$s.load_data = false;
 	$s.all_data = {};
@@ -15,6 +18,7 @@ mpanelApp.controller("mpanelController", ['$route', '$routeParams', '$location',
 	$s.updateMpanel = false;
 	$s.user_page = false;
 	$s.negative = false;
+	$s.update_texture = false;
 	$s.reduction = [
 		"m",
 		"cm",
