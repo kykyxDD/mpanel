@@ -8,6 +8,12 @@ mpanelApp.controller("patternController", ['$scope', '$sce', function($s, $sce){
 	// 	parent.updatePage(id)
 	// 	return
 	// }
+
+	if(PDFObject.supportsPDFs){
+		console.log("Yay, this browser supports inline PDFs.");
+	} else {
+		console.log("Boo, inline PDFs are not supported by this browser");
+	}
 	$s.item_pattern = {};
 	$s.url_svg = '';
 	$s.dase_url_svg = false;
@@ -16,6 +22,32 @@ mpanelApp.controller("patternController", ['$scope', '$sce', function($s, $sce){
 	var fun_cont_svg = false
 	$s.openBig = function(){
 		$s.big_svg = !$s.big_svg;
+	}
+	$s.view_pdf = false;
+	var elem_view_pdf = document.querySelector('#view_pdf .view_pdf')
+
+	$s.openPDF = function(){
+		console.log('openPDF');
+		$s.view_pdf = true
+
+		var options = {
+			// page: 2,
+			pdfOpenParams: {
+				view: "FitV",
+				pagemode: "thumbs" //,
+				// search: "lorem ipsum"
+			}
+		}
+		// PDFObject.embed("/pdf/file.php?item=sample-3pp", elem_view_pdf, options);
+
+	}
+	$s.closePDF = function(){
+		console.log('closePDF');
+		$s.view_pdf = false;
+		//console.log(elem_view_pdf)
+		while(elem_view_pdf.children.length){
+			elem_view_pdf.removeChild(elem_view_pdf.children[0])
+		}
 	}
 
 	$s.$on('child_start', function(event,args){

@@ -56,8 +56,17 @@
 				</table>
 			</div>
 			<div class="cont_btn">
-				<div class="my_btn make_pdf grad_blue disabled">Make PDF</div>
+				<div class="my_btn make_pdf grad_blue disabled" ng-click='openPDF()'>Make PDF</div>
 				<div class="my_btn save_pattern grad_orange disabled">Save Pattern</div>
+			</div>
+
+		</div>
+	</div>
+	<div id="view_pdf" ng-class='{view: view_pdf}'>
+		<div class="cont_view">
+			<div class="itm_pdf">
+				<div class="close_pdf my_btn" ng-click='closePDF()'></div>
+				<div class="view_pdf"></div>
 			</div>
 		</div>
 	</div>

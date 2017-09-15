@@ -58,7 +58,7 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 	function getDataUnits(data){
 		$s.material_db = data.staticObj.staticMatlPage
 		$s.fabRelations = data.unitItems[$s.id_unit].fabRelations;
-		console.log($s.fabRelations)
+		// console.log($s.fabRelations)
 	}
 
 
