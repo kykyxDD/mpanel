@@ -51,7 +51,7 @@
 
 .client .cont_input input,
 .project .cont_input input{
-	width: 390px;
+	width: 370px;
 
 }
 .cont_val_input.project,
@@ -91,7 +91,7 @@
 	margin-top: 35px;
 }
 .cont_textarea textarea {
-	width: 642px;
+	width: 590px;
 	height: 153px;
 }
 
