@@ -17,6 +17,7 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 		// mpanel.viewTop(true);
 		mpanel.parent = elem;
 		elem.appendChild(mpanel.container);
+		mpanel.preloadOpen()
 	} else {
 		mpanel = new MpanelViewer(elem);
 		parent.mpanel = mpanel;
@@ -104,8 +105,9 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 				texturePath = $s.folder_fabric  + arr_url[arr_url.length-1]; //data.texturePath.;
 			}
 			mpanel.loadObj($s.arr_url[0], texturePath);
+		} else {
+			mpanel.preloadClose()
 		}
-
 		parent.load_data = false;
 		parent.update_texture = false;
 

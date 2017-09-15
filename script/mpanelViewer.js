@@ -207,6 +207,7 @@ function MpanelViewer(parent){
 		this.pole_color = false;
 
 		var box = new THREE.Box3().setFromObject(object);
+		console.log('box',box)
 
 		object.castShadow = true; 
 		object.receiveShadow = true;
@@ -215,9 +216,14 @@ function MpanelViewer(parent){
 				if(self.checkNameMembrane(child.name)){
 					var color = child.material.color.getHexString();
 					if(texture){
+						var repeat = {
+							x: Math.floor(texture.image.width/(box.max.x - box.min.x)),
+							y: Math.floor(texture.image.height/(box.max.z - box.min.z))
+						}
+						console.log(repeat)
 						child.material.map = texture;
 						child.material.map.wrapS = child.material.map.wrapT = THREE.RepeatWrapping; 
-						child.material.map.repeat.set( 15, 20 );
+						child.material.map.repeat.set(repeat.x, repeat.y)//( 15, 20 );
 						child.material.map.needsUpdate = true;
 						child.material.needsUpdate = true;
 					//} else {
