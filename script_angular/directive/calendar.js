@@ -37,7 +37,7 @@ mpanelApp.directive('calendar', function () {
         } else {
             date = new Date(str)
         }
-        console.log('date',date)
+        // console.log('date',date)
         return date
     }
     var minDate = new Date('01 01 2015');
@@ -71,7 +71,7 @@ mpanelApp.directive('calendar', function () {
                         str_date = getStrDate(date);
                         label.innerText = dateText;
 
-                        console.log('str_date', str_date, dateText)
+                        // console.log('str_date', str_date, dateText)
 
                         ngModel.$setViewValue(str_date);
                         ngModel.$render()
@@ -82,7 +82,7 @@ mpanelApp.directive('calendar', function () {
             el.data_pikaday = fun;
             return scope.$watch(attr.ngModel, function(newValue){
                 if(newValue && !update){
-                    console.log('newValue',newValue)
+                    // console.log('newValue',newValue)
                     var date = getObjDate(newValue);
                     if(date){
                         if(date < minDate){
@@ -92,7 +92,7 @@ mpanelApp.directive('calendar', function () {
                         }
                     }
                 } else if(!newValue){
-                    console.log('newValue', newValue)
+                    // console.log('newValue', newValue)
                     // fun.data('datepicker').selectDate(new Date());
                 }
             });
