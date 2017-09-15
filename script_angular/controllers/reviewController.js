@@ -62,6 +62,7 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 	}
 
 	$s.getScreen = function(argument) {
+		console.log('getScreen')
 		mpanel.getScreen()
 	}
 	

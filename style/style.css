@@ -178,7 +178,8 @@ body {
 	padding-bottom: 20px;
 }
 .body .cont {
-	min-height: 550px;
+	/*min-height: 550px;*/
+	min-height: 450px;
 	position: relative;
 }
 .body .cont > .preload {
@@ -852,14 +853,20 @@ body {
 }
 
 .body_home {
-	background: url(../image/home_bg.jpg) no-repeat;
+	/*background: url(../image/home_bg.jpg) no-repeat;
 	background-position: top center;
 	background-size: cover;
 	min-height: 100vh;
 	min-width: 780px;
     display: table;
     margin: 0 auto;
-    vertical-align: middle;
+    vertical-align: middle;*/
+
+    background: url(../image/home_bg.jpg) no-repeat;
+background-position: top center;
+background-size: cover;
+min-height: 100vh;
+min-width: 780px;
 }
 
 .body_home .main.home{

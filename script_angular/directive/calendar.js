@@ -4,23 +4,24 @@ mpanelApp.directive('calendar', function () {
         var y = d.getFullYear();
         var m = '' + (d.getMonth()+1);
         m = m.length == 1 ? '0'+m : m;
-        var day = d.getDate();
+        var day = '' + d.getDate();
         day = day.length == 1 ? '0'+day : day;
+        var num_hours = '' + d.getHours();
+        num_hours = num_hours.length == 1 ? '0'+num_hours : num_hours;
+
+        var num_min = '' + d.getMinutes();
+        num_min = num_min.length == 1 ? '0'+num_min : num_min;
+
+        var num_sec = '' + d.getSeconds();
+        num_sec = num_sec.length == 1 ? '0'+num_sec : num_sec;
+
         var arr = [
             [y,m,day].join('-'),
-            d.toLocaleTimeString(),//[d.getUTCHours(), d.getUTCMinutes(), d.getUTCSeconds()].join(':'),
-            d.getUTCMilliseconds(),
-            (-d.getTimezoneOffset()/60).toFixed(2)
-        ];
-        var t_1 = d.toTimeString()
-
-        var z = d.toTimeString().split(' ')[1].replace('GMT','')
-
-        var arr_z = z.split('');
-        var str_z = arr_z.slice(0, arr_z.length - 2).join('') + ':' + arr_z.slice(-2).join('');
-
-        //return arr[0]+ 'T'+arr[1] + '.'+arr[2] + str_z;
-        return d.toISOString()
+            [num_hours, num_min, num_sec].join(':') //,
+            // d.getUTCMilliseconds(),
+            // (-d.getTimezoneOffset()/60).toFixed(2)
+        ]
+        return arr[0]+ 'T'+arr[1] +'Z';
     }
     function getObjDate(str){
         var arr_data = str.split("/")
@@ -31,12 +32,15 @@ mpanelApp.directive('calendar', function () {
             var arr_data = str.split("T")
             var arr_day = arr_data[0].split("-");
             var arr_time = arr_data[1].split(":");
-            date = new Date(arr_day[0], +arr_day[1]-1, arr_day[2], arr_time[0],  +arr_time[1] ,  +arr_time[2] ? arr_time[2] : 00);
+            var sec = arr_time[2] ? arr_time[2].substr(0,2) : 00;
+            date = new Date(arr_day[0], +arr_day[1]-1, arr_day[2], arr_time[0],  arr_time[1] ,  sec);
         } else {
             date = new Date(str)
         }
+        console.log('date',date)
         return date
     }
+    var minDate = new Date('01 01 2015');
 
     return {
         require: 'ngModel',
@@ -60,24 +64,32 @@ mpanelApp.directive('calendar', function () {
                 },
                 onSelect: function (dateText) {
                     update = true
-                    var str_date = ''
+                    var str_date = '';
 
                     var date = getObjDate(dateText);
                     if(date.getDay()){
                         str_date = getStrDate(date);
-                    }
-                    label.innerText = dateText;
+                        label.innerText = dateText;
 
-                    ngModel.$setViewValue(str_date);
+                        console.log('str_date', str_date, dateText)
+
+                        ngModel.$setViewValue(str_date);
+                        ngModel.$render()
+                    }
+
                 }
             });
             el.data_pikaday = fun;
             return scope.$watch(attr.ngModel, function(newValue){
                 if(newValue && !update){
-                    console.log(newValue)
-                    var date = getObjDate(newValue) 
+                    console.log('newValue',newValue)
+                    var date = getObjDate(newValue);
                     if(date){
-                        fun.data('datepicker').selectDate(date);
+                        if(date < minDate){
+                            fun.data('datepicker').selectDate(minDate);
+                        } else {
+                            fun.data('datepicker').selectDate(date);
+                        }
                     }
                 } else if(!newValue){
                     console.log('newValue', newValue)

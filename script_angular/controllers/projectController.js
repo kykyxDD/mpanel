@@ -43,8 +43,11 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 				getInfo()
 			}
 		} else {
+			var date = new Date()
 			$s.data_project = {
 				unitIndex: 1,
+				enteredDate: date.toISOString(),
+				requestDate: date.toISOString(),
 	
 				units:  [
 					"Meters  ( 1.234 )",
@@ -130,7 +133,6 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 		var prev_unit = $w.localStorage.getItem('mpanel_unit');
 		if(prev_unit != undefined &&  +prev_unit >= 0 ){
 			if(+prev_unit != $s.data_project.unitIndex) {
-				// console.log('prev_unit')
 
 				for(var key in parent.all_data){
 					delete parent.all_data[key];

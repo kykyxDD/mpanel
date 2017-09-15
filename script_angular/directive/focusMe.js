@@ -4,6 +4,7 @@ mpanelApp.directive('focusMe', function () {
 			var parent = scope.$parent;
 
 			scope.$watch(attrs.focusMe, function(value) {
+				// console.log(value, attrs.class)
 				if(value === true) {
 					el[0].focus();
 					// el[0].select();

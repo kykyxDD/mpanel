@@ -1,128 +1,136 @@
 <div class="page_fittings">
 	<div class="left_path">
-		<div class="cont_layer layer_1">
-			<div class="cont_view_color">
-				<div class="cont_color">
-					<div class="color"></div>
-				</div>
-			</div>
-			<div class="cont_all_select">
-				<div class="cont_select cont_hardware">
-					<div class="txt">HARDWARE DATABASE</div>
-					<!-- ng-change='changeSelect("HardwareSupplier", "{{data_fitting.hardwareSelectedIndex}}")' -->
-					<select class="select_hardware" 
-
-						ng-model='data_fitting.hardwareSelectedIndex'
-						fancy-select 
-						fancy-default-text='HARDWARE DATABASE' 
-						fancy-list='material_db.hardwareItems' 
-					></select>
-				</div>
-				<div class="cont_select cont_webbing">
-					<div class="txt">EDGE TYPE</div>
-					<!-- ng-change='changeSelect("EdgeType", "{{data_fitting.hardEdgeTypeSelectedIndex}}")' -->
-					<select class="select_edge_type" 
-						
-						ng-model='data_fitting.hardEdgeTypeSelectedIndex'
-						fancy-select 
-						fancy-dependence='true'
-						fancy-default-text='EDGE TYPE' 
-						fancy-list='material_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeItems' 
-					></select>
-				</div>
-				<div class="cont_select cont_colour">
-					<div class="txt">COLOUR</div>
-					<!-- ng-change='changeSelect("EdgeColor", "{{data_fitting.hardColorSelectedIndex}}")' -->
-					<select class="select_colour"
-						
-						ng-model='data_fitting.hardColorSelectedIndex'
-						fancy-select 
-						fancy-dependence='true'
-						fancy-default-text='COLOUR' 
-						fancy-list='material_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeIRelations[data_fitting.hardEdgeTypeSelectedIndex].hardColorItems' 
-					></select>
-				</div>
-				<div class="cont_input cont_hem">
-					<div class="txt">Hem ({{reduction[id_unit]}})</div>
-					<div class="cont_val">
-						<input class="input_hem" type="text" disabled ng-model='data_fitting.hemText' valid-num watch-value="data_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeIRelations[data_fitting.hardEdgeTypeSelectedIndex].hemText">
+		<div class="cont_layer">
+			<div class="layer layer_1">
+				<div class="cont_view_color" style="display:none">
+					<div class="cont_color">
+						<div class="color"></div>
 					</div>
 				</div>
-			</div>
-		</div>
-		<div class="cont_layer layer_2">
-			<div class="cont_view_corner">
-				<div class="cont_img_corn">
-					<div class="img_corn" ng-if='material_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeIRelations[data_fitting.hardEdgeTypeSelectedIndex].hardCornerRelations[data_fitting.hardCornorSelectedIndex].exampleImageLinks[data_fitting.exampleImageSelectedIndex]' style="background-image: url({{folder_fitting + material_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeIRelations[data_fitting.hardEdgeTypeSelectedIndex].hardCornerRelations[data_fitting.hardCornorSelectedIndex].exampleImageLinks[data_fitting.exampleImageSelectedIndex]}})">
+				<div class="cont_all_select">
+					<div class="cont_select cont_hardware">
+						<div class="txt">HARDWARE DATABASE</div>
+						<!-- ng-change='changeSelect("HardwareSupplier", "{{data_fitting.hardwareSelectedIndex}}")' -->
+						<select class="select_hardware" 
+
+							ng-model='data_fitting.hardwareSelectedIndex'
+							fancy-select 
+							fancy-default-text='HARDWARE DATABASE' 
+							fancy-list='material_db.hardwareItems' 
+						></select>
 					</div>
-				</div>
-				<div class="cont_select cont_corner">
-					<div class="txt">EXAMPLE CORNER IMAGE</div>
-					<!-- ng-change='changeSelect("ExampleImage", "{{data_fitting.exampleImageSelectedIndex}}")' -->
-					<select class="select_corner"
-						
-						ng-model='data_fitting.exampleImageSelectedIndex'
-						fancy-select 
-						fancy-dependence='true'
-						fancy-default-text='EXAMPLE CORNER IMAGE' 
-						fancy-list='material_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeIRelations[data_fitting.hardEdgeTypeSelectedIndex].hardCornerRelations[data_fitting.hardCornorSelectedIndex].exampleImageItems' 
+					<div class="cont_select cont_webbing">
+						<div class="txt">EDGE TYPE</div>
+						<!-- ng-change='changeSelect("EdgeType", "{{data_fitting.hardEdgeTypeSelectedIndex}}")' -->
+						<select class="select_edge_type" 
+							
+							ng-model='data_fitting.hardEdgeTypeSelectedIndex'
+							fancy-select 
+							fancy-dependence='true'
+							fancy-default-text='EDGE TYPE' 
+							fancy-list='material_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeItems' 
+						></select>
+					</div>
+					<div class="cont_select cont_colour">
+						<div class="txt">COLOUR</div>
+						<!-- ng-change='changeSelect("EdgeColor", "{{data_fitting.hardColorSelectedIndex}}")' -->
+						<select class="select_colour"
+							
+							ng-model='data_fitting.hardColorSelectedIndex'
+							fancy-select 
+							fancy-dependence='true'
+							fancy-default-text='COLOUR' 
+							fancy-list='material_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeIRelations[data_fitting.hardEdgeTypeSelectedIndex].hardColorItems' 
+						></select>
+					</div>
+					<div class="cont_hem">
+						<div class="cont_color">
+							<div class="color"></div>
+						</div>
+						<div class="cont_input">
+							<div class="txt">Hem ({{reduction[id_unit]}})</div>
+							<div class="cont_val">
+								<input class="input_hem" type="text" disabled ng-model='data_fitting.hemText' valid-num watch-value="data_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeIRelations[data_fitting.hardEdgeTypeSelectedIndex].hemText">
+							</div>
+						</div>
+					</div>
+					<div class="cont_select cont_shackle">
+						<div class="txt">CORNER LINK</div>
+						<!-- ng-change='changeSelect("LinkType", "{{data_fitting.hardLinkSelectedIndex}}")' -->
+						<select class="select_corner_link" 
 
-					></select>
-				</div>
-			</div>
-			<div class="cont_all_select">
-				<div class="cont_select cont_finish">
-					<div class="txt">CORNER FINISH</div>
-					<!-- ng-change='changeSelect("CornerType", "{{data_fitting.hardCornorSelectedIndex}}")' -->
-					<select class="select_finish" 
-						
-						ng-model='data_fitting.hardCornorSelectedIndex'
-						fancy-select 
-						fancy-dependence='true'
-						fancy-default-text='CORNER FINISH' 
-						fancy-list='material_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeIRelations[data_fitting.hardEdgeTypeSelectedIndex].hardCornorItems' 
-
-
-					></select> 
-				</div>
-				<div class="cont_info_hardware">
-					<div class="cont_input cont_lenght">
-						<div class="txt">Hardware length ({{reduction[id_unit]}})</div>
+							ng-model='data_fitting.hardLinkSelectedIndex'
+							fancy-select 
+							fancy-dependence='true'
+							fancy-default-text='CORNER LINK' 
+							fancy-list='material_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardLinkItems' 
+						></select>
+					</div>
+					<div class="cont_input cont_link">
+						<div class="txt">Link length({{reduction[id_unit]}})</div>
 						<div class="cont_val">
-							<input class="input_lenght" disabled type="text" ng-model='data_fitting.cornerLengthText' valid-num watch-value="data_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeIRelations[data_fitting.hardEdgeTypeSelectedIndex].hardCornerRelations[data_fitting.hardCornorSelectedIndex].cornerLengthText">
-						</div>
-					</div>
-					<div class="cont_input cont_width">
-						<div class="txt">Hardware width ({{reduction[id_unit]}})</div>
-						<div class="cont_val">
-							<input class="input_width" disabled type="text" ng-model='data_fitting.cornerWidthText' valid-num watch-value="data_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeIRelations[data_fitting.hardEdgeTypeSelectedIndex].hardCornerRelations[data_fitting.hardCornorSelectedIndex].cornerWidthText">
-						</div>
-					</div>
-					<div class="cont_checkbox_circle">
-						<div class="txt">Fit hardware circle in corner</div>
-						<div class="cont_check">
-							<input class="checkbox_circle" type="checkbox" id="checkbox_circle" name="checkbox_circle" disabled>
-							<label class="label_circle" for="checkbox_circle"></label>
+							<input class="input_link" type="text" ng-model='data_fitting.linkLengthText' ng-class="{disabled: !data_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardLinkRelations[data_fitting.hardLinkSelectedIndex].linkLengthAllowToChange}" valid-num watch-value="data_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardLinkRelations[data_fitting.hardLinkSelectedIndex].linkLengthText">
 						</div>
 					</div>
 				</div>
-				<div class="cont_select cont_shackle">
-					<div class="txt">CORNER LINK</div>
-					<!-- ng-change='changeSelect("LinkType", "{{data_fitting.hardLinkSelectedIndex}}")' -->
-					<select class="select_corner_link" 
+			</div>
+			<div class="layer layer_2">
+				<div class="cont_view_corner">
+					<div class="cont_img_corn">
+						<div class="img_corn" ng-if='material_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeIRelations[data_fitting.hardEdgeTypeSelectedIndex].hardCornerRelations[data_fitting.hardCornorSelectedIndex].exampleImageLinks[data_fitting.exampleImageSelectedIndex]' style="background-image: url({{folder_fitting + material_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeIRelations[data_fitting.hardEdgeTypeSelectedIndex].hardCornerRelations[data_fitting.hardCornorSelectedIndex].exampleImageLinks[data_fitting.exampleImageSelectedIndex]}})">
+						</div>
+					</div>
+					<div class="cont_select cont_corner">
+						<div class="txt">EXAMPLE CORNER IMAGE</div>
+						<!-- ng-change='changeSelect("ExampleImage", "{{data_fitting.exampleImageSelectedIndex}}")' -->
+						<select class="select_corner"
+							
+							ng-model='data_fitting.exampleImageSelectedIndex'
+							fancy-select 
+							fancy-dependence='true'
+							fancy-default-text='EXAMPLE CORNER IMAGE' 
+							fancy-list='material_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeIRelations[data_fitting.hardEdgeTypeSelectedIndex].hardCornerRelations[data_fitting.hardCornorSelectedIndex].exampleImageItems' 
 
-						ng-model='data_fitting.hardLinkSelectedIndex'
-						fancy-select 
-						fancy-dependence='true'
-						fancy-default-text='CORNER LINK' 
-						fancy-list='material_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardLinkItems' 
-					></select>
-				</div>
-				<div class="cont_input cont_link">
-					<div class="txt">Link length({{reduction[id_unit]}})</div>
-					<div class="cont_val">
-						<input class="input_link" type="text" ng-model='data_fitting.linkLengthText' ng-class="{disabled: !data_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardLinkRelations[data_fitting.hardLinkSelectedIndex].linkLengthAllowToChange}" valid-num watch-value="data_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardLinkRelations[data_fitting.hardLinkSelectedIndex].linkLengthText">
+						></select>
 					</div>
+				</div>
+				<div class="cont_all_select">
+					<div class="cont_select cont_finish">
+						<div class="txt">CORNER FINISH</div>
+						<!-- ng-change='changeSelect("CornerType", "{{data_fitting.hardCornorSelectedIndex}}")' -->
+						<select class="select_finish" 
+							
+							ng-model='data_fitting.hardCornorSelectedIndex'
+							fancy-select 
+							fancy-dependence='true'
+							fancy-default-text='CORNER FINISH' 
+							fancy-list='material_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeIRelations[data_fitting.hardEdgeTypeSelectedIndex].hardCornorItems' 
+
+
+						></select> 
+					</div>
+					<div class="cont_info_hardware">
+						<div class="cont_input cont_lenght">
+							<div class="txt">Hardware length ({{reduction[id_unit]}})</div>
+							<div class="cont_val">
+								<input class="input_lenght" disabled type="text" ng-model='data_fitting.cornerLengthText' valid-num watch-value="data_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeIRelations[data_fitting.hardEdgeTypeSelectedIndex].hardCornerRelations[data_fitting.hardCornorSelectedIndex].cornerLengthText">
+							</div>
+						</div>
+						<div class="cont_input cont_width">
+							<div class="txt">Hardware width ({{reduction[id_unit]}})</div>
+							<div class="cont_val">
+								<input class="input_width" disabled type="text" ng-model='data_fitting.cornerWidthText' valid-num watch-value="data_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeIRelations[data_fitting.hardEdgeTypeSelectedIndex].hardCornerRelations[data_fitting.hardCornorSelectedIndex].cornerWidthText">
+							</div>
+						</div>
+						<div class="cont_checkbox_circle">
+							<div class="txt">Fit hardware circle in corner</div>
+							<div class="cont_check">
+								<input class="checkbox_circle" type="checkbox" id="checkbox_circle" name="checkbox_circle" disabled>
+								<label class="label_circle" for="checkbox_circle"></label>
+							</div>
+						</div>
+					</div>
+					
 				</div>
 			</div>
 		</div>

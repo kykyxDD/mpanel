@@ -11,6 +11,7 @@ mpanelApp.directive('validNum', function() {
                 var str = checkValNum(this.value)
                 if(str != this.value){
                     ngModel.$setViewValue(str);
+                    ngModel.$render()
                     this.value = str
                 };
             });

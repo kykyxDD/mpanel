@@ -95,13 +95,17 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			$s.item_shape.sideParameters[index].focus = false;
 			$s.blur();
 
+
 			if(index < item_shape.sideParameters.length-1){
 				$s.item_shape.sideParameters[index+1].focus = true;
+				// console.log($s.item_shape.sideParameters[index+1])
 			} else {
 				if(item_shape.diagonalParameters && item_shape.diagonalParameters.length){
 					$s.item_shape.diagonalParameters[0].focus = true;
+					// console.log($s.item_shape.diagonalParameters[0])
 				} else if(item_shape.cornerParameters && item_shape.cornerParameters.length){
 					$s.item_shape.cornerParameters[0].focus = true;
+					// console.log($s.item_shape.cornerParameters[0])
 				}
 			}
 		}
@@ -110,18 +114,22 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 
 	$s.blurDiagonal = function(obj) {
 		var item_shape = $s.item_shape
-		var index = item_shape.diagonalParameters.indexOf(obj)
+		var index = item_shape.diagonalParameters.indexOf(obj);
+		$s.blur();
 
 		if(index >= 0){
 			$s.item_shape.diagonalParameters[index].focus = false;
 
 			if(index < item_shape.diagonalParameters.length-1){
 				$s.item_shape.diagonalParameters[index+1].focus = true;
+				// console.log($s.item_shape.diagonalParameters[index+1])
 			} else {
 				if(item_shape.cornerParameters && item_shape.cornerParameters.length){
 					$s.item_shape.cornerParameters[0].focus = true;
+					// console.log($s.item_shape.cornerParameters[0])
 				} else if(item_shape.sideParameters && item_shape.sideParameters.length){
 					$s.item_shape.sideParameters[0].focus = true;
+					// console.log($s.item_shape.sideParameters[0])
 				}
 			}
 		}
@@ -131,17 +139,21 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	$s.blurCorner = function(obj) {
 		var item_shape = $s.item_shape
 		var index = item_shape.cornerParameters.indexOf(obj)
+		$s.blur();
 
 		if(index >= 0){
 			$s.item_shape.cornerParameters[index].focus = false;
 
 			if(index < item_shape.cornerParameters.length-1){
 				$s.item_shape.cornerParameters[index+1].focus = true
+				// console.log($s.item_shape.cornerParameters[index+1])
 			} else {
 				if(item_shape.sideParameters && item_shape.sideParameters.length){
 					$s.item_shape.sideParameters[0].focus = true
+					// console.log($s.item_shape.sideParameters[0])
 				} else if(item_shape.cornerParameters && item_shape.cornerParameters.length){
 					$s.item_shape.cornerParameters[0].focus = true
+					// console.log($s.item_shape.cornerParameters[0])
 				}
 			}
 		}
@@ -401,6 +413,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 					} 
 					for(var i = 0; i < sides.length; i++){
 						var itm = sides[i];
+						
 						if(!$s.item_shape.sideParameters[i]){
 							$s.item_shape.sideParameters[i] = itm
 						} else {
@@ -413,7 +426,9 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 							$s.item_shape.sideParameters[i].selectedHemType = itm.selectedHemType;
 							$s.item_shape.sideParameters[i].selectedDip = itm.selectedDip;
 							$s.item_shape.sideParameters[i].negative = itm.negative
+							$s.item_shape.sideParameters[i].negative = false
 						}
+						$s.item_shape.sideParameters[i].focus = false;
 					}
 				} else if(key == 'cornerParameters' && $s.item_shape[key]) {
 					var corner = new_shape['cornerParameters'];
@@ -424,6 +439,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 					}
 					for(var i = 0; i < corner.length; i++){
 						var itm = corner[i];
+						
 						if(!$s.item_shape.cornerParameters[i]){
 							$s.item_shape.cornerParameters[i] = corner[i]
 						} else {
@@ -435,10 +451,18 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 							$s.item_shape.cornerParameters[i].selectedHardware = itm.selectedHardware;
 							$s.item_shape.cornerParameters[i].selectedLink = itm.selectedLink;
 							$s.item_shape.cornerParameters[i].negative = itm.negative;
+							$s.item_shape.cornerParameters[i].negative = false
+						}
+						$s.item_shape.cornerParameters[i].focus = false;
+					}
+				} else{
+					$s.item_shape[key] = new_shape[key];
+
+					if(key == 'diagonalParameters'){
+						for(var i = 0; i < $s.item_shape[key].length; i++){
+							$s.item_shape[key][i].focus = false
 						}
 					}
-				} else {
-					$s.item_shape[key] = new_shape[key];
 				}
 			}
 		}

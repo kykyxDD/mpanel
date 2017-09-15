@@ -15,7 +15,7 @@ mpanelApp.directive('watchValue', function() {
                 // console.log(attr.class, newVal)
                 if(newVal){
                     ngModel.$setViewValue(newVal);
-                    ngModel.$render()    
+                    ngModel.$render()
                 }
             })
         }

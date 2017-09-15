@@ -85,18 +85,29 @@
 	color: #6B6B6B;
 	line-height: 33px;
 }
-
+.page_project .cont_form,
+.page_project .cont_form_bottom{
+	display: inline-block;
+	vertical-align: top;
+}
+.page_project .cont_form_bottom {
+	padding-left: 40px
+}
 .cont_form_bottom {
-	width: 660px;
-	margin-top: 35px;
+	/*width: 660px;*/
+	/*margin-top: 35px;*/
 }
 .cont_textarea textarea {
-	width: 590px;
-	height: 153px;
+	/*width: 590px;*/
+	/*height: 153px;*/
+	width: 500px;
+	height: 90px;
+	border-color: #E1E1E1;
 }
 
 .cont_val_textarea {
-	margin-bottom: 25px;
+	/*margin-bottom: 25px;*/
+	margin-bottom: 17px;
 }
 
 .select_units {

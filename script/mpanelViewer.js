@@ -450,9 +450,12 @@ function MpanelViewer(parent){
 		var format = "jpg";
 
 		var a = document.createElement('a');
+		document.body.appendChild(a);
 		a.href = canvas.toDataURL(format_image);//.replace("image/png", "image/octet-stream");
 		a.download = 'screen_mpanel.' + format;
 		a.click();
+		document.body.removeChild(a)
+
 	};
 
 	var step_up = maxPolarAngle/3; //Math.PI/6;
