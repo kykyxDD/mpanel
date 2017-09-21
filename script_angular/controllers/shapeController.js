@@ -490,7 +490,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			var data = response.data
 			if(!data.error){
 				parent.all_data['shape'] = data.data;
-				parent.all_data['default_shape'] = cloneItem(data.data.innerItems)//cloneItem(data.data.innerItems);
+				parent.all_data['default_shape'] = cloneItem(data.data.innerItems); //cloneItem(data.data.innerItems);
 				saveData()
 			} else {
 				parent.data_error = data.error
@@ -515,6 +515,9 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		}
 		if(parent.all_data['pattern']){
 			delete parent.all_data['pattern']
+		}
+		if($w.localStorage.getItem('mpanel_obj')){
+			$w.localStorage.removeItem('mpanel_obj');
 		}
 		if(parent.mpanel) {
 			parent.mpanel = false

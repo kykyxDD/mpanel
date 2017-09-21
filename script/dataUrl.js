@@ -2,9 +2,10 @@ var dataUrl = {
 	material_db: 'data/material_db.json',
 	// material_db: 'data/material_db_1.json',
 	project: {
+		//projectPageCommit?id={id}
 		get:  'mp/projectPagePopulate?id=',
-		post: 'mp/projectPagePopulate?id=',
-		new_project: 'mp/projectPagePopulate'
+		post: 'mp/projectPageCommit?id=',
+		new_project: 'mp/projectPageCommit'
 	},
 	material: {
 		get: 'mp/materialPagePopulate?id=',
@@ -22,12 +23,20 @@ var dataUrl = {
 		}
 	},
 	calculate: {
-		post: 'mp/calculateModel?id='
+		post: 'mp/calculateModel?id=',
+		update: 'mp/updateSeams?id='
 	},
 	modelLoad : {
 		get: 'mp/modelLoad?fileName='
 	},
 	seams: {
-		post: 'mp/calculatePanel?id='
+		post: 'mp/calculatePanel?id=',
+
+	},
+	getIsFileExist: {
+		get: 'mp/isFileExist?fileName='
+	},
+	pattern: {
+		post: 'mp/createPdf?id='
 	}
 }

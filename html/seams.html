@@ -1,7 +1,7 @@
 <div class="cont_info page_seams">
 	 <div class="left_path">
 		<div class="cont_view" >
-			<div class="view" ng-if='item_seams.imageModelName' style="background-image:url({{api + folder + item_seams.imageModelName}})"></div>
+			<div class="view" ng-if='src_imageModelName' style="background-image:url({{src_imageModelName}})"></div>
 			<div ng-if='seams_error'>{{seams_error}}</div>
 		</div>
 		<div class="cont_num_panels">
@@ -14,9 +14,9 @@
 					</div>-->
 				</div>
 				<div class="elem_count">
-					<div class="btn_minus" ng-click='prevPanels()' ng-class='{off: item_seams.index_panel == 0 }'></div>
-					<div class="val_num">{{item_seams.nPanels[item_seams.index_panel]}}</div>
-					<div class="btn_plus" ng-click='nextPanels()' ng-class='{off: item_seams.index_panel == item_seams.nPanels.length-1 }'></div>
+					<div class="btn_minus" ng-click='prevPanels()' ng-class='{off: item_seams.selectedNPanels == 0 }'></div>
+					<div class="val_num">{{item_seams.nPanels[item_seams.selectedNPanels]}}</div>
+					<div class="btn_plus" ng-click='nextPanels()' ng-class='{off: item_seams.selectedNPanels == item_seams.nPanels.length-1 }'></div>
 				</div>
 			</div>
 		</div>
@@ -30,7 +30,7 @@
 					<div ng-if='pattern_error || data_error' class='text_error_list'>{{data_error || pattern_error}}</div> 
 					<div ng-if='!pattern_error && data_pattern.messages.length'  class="mCustomScrollbar _mCS_1" id="content-3dtd" custom-scroll ng-model='data_pattern.messages'>
 						<div class="text">
-							<span ng-repeat='mess in data_pattern.messages' ng-class='arr_class[data_pattern.messageTypes[$index]]'>
+							<span ng-repeat='mess in data_pattern.messages track by $index' ng-class='arr_class[data_pattern.messageTypes[$index]]'>
 								{{mess}}
 							</span>
 						</div>
@@ -42,12 +42,12 @@
 			<div class="cont_select cont_warp">
 				<div class="txt">WARP DIRECTION</div>
 				<select  class="select_warp" 
+					ng-change='updateSeams()'
 					id="select_warp" 
 					fancy-select 
 					fancy-default-text='WARP DIRECTION' 
 					fancy-list='item_seams.warpDir' 
-					fancy-index="item_seams.warpIndex"
-					ng-model='item_seams.warpIndex' >
+					ng-model='item_seams.selectedWarpDir' >
 				</select>
 			</div>
 			<div class="btn_help">?
@@ -74,11 +74,11 @@
 				<div class="txt">TAG CORNER</div>
 				<select  class="select_tag" 
 					id="select_tag" 
+					ng-change='updateSeams()'
 					fancy-select 
 					fancy-default-text='TAG CORNER' 
 					fancy-list='item_seams.tagCorner' 
-					fancy-index="item_seams.tagIndex"
-					ng-model='item_seams.tagIndex' >
+					ng-model='item_seams.selectedTagCorner' >
 				</select>
 			</div>
 		</div>

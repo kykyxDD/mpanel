@@ -21,27 +21,37 @@
 .graphics .cont_button.top{
 	margin-bottom: 10px;
 } 
+.graphics .cont_button.top > div {
+	display: inline-block;
+	vertical-align: top;
+}
 .graphics .cont_button.top .my_btn {
 	margin-right: 5px;
 }
 .graphics .cont_button.bottom {
-	margin-top: 15px;
+	/*margin-top: 15px;*/
 }
-.graphics .cont_button.bottom .my_btn.screen{
-	width: 165px;
-    height: 40px;
-    line-height: 40px;
-    color: white;
-    font-size: 14px;
-    padding: 0;
-    text-shadow: none;
-    font-weight: bold;
+.graphics .my_btn.screen{
+	width: 140px;
+	height: 32px;
+	line-height: 32px;
+	color: white;
+	font-size: 12px;
+	padding: 0;
+	text-shadow: none;
+	font-weight: bold;
+	margin-right: 0 !important;
 }
 
-.graphics .cont_button.bottom .my_btn.screen ~ .btn_help .popup {
-	    width: 290px;
-    margin-left: -145px;
-    z-index: 10
+.graphics .my_btn.screen ~ .btn_help .popup {
+	width: 290px;
+	/*margin-left: -145px;*/
+	margin-left: -270px;
+	z-index: 10
+}
+.graphics .my_btn.screen ~ .btn_help .popup .cont_popup:before {
+	left: 100%;
+	margin-left: -19px;
 }
 .graphics .my_btn.isometric label {
 	display: block;
@@ -80,7 +90,8 @@
 }
 .page_review .info_text .cont_result {
 	width: 390px;
-	height: 430px;
+	/*height: 430px;*/
+	height: 375px;
 	border: 1px solid #EAEAEA;
 	border-radius: 5px;
 	margin-bottom: 41px;

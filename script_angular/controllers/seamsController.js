@@ -27,24 +27,25 @@ mpanelApp.controller("seamsController", ['$http', '$window', '$scope', function(
 	parent.noUpdateMpanel = true;
 	
 	$s.prevPanels = function(){
-		if($s.item_seams.index_panel == 0) return
+		if($s.item_seams.selectedNPanels == 0) return
 
-		$s.item_seams.index_panel--;
+		$s.item_seams.selectedNPanels--;
+		$s.updateSeams()
 	}
 	$s.nextPanels = function(){
-		if($s.item_seams.index_panel == $s.item_seams.nPanels.length-1) return
+		if($s.item_seams.selectedNPanels == $s.item_seams.nPanels.length-1) return
 
-		$s.item_seams.index_panel++;
+		$s.item_seams.selectedNPanels++;
+		$s.updateSeams()
 	}
 
 	$s.getMake = function(){
-
 		var id = $s.id_project;
 		var data = {
 			objFileName: $s.item_seams.objModelName,
-			selectedPanel: $s.item_seams.index_panel,
-			selectedTag: $s.item_seams.tagIndex,
-			selectedWarp: $s.item_seams.warpIndex
+			selectedPanel: $s.item_seams.selectedNPanels,
+			selectedTag: $s.item_seams.selectedTagCorner,
+			selectedWarp: $s.item_seams.selectedWarpDir
 		}
 
 		var url = $s.api + dataUrl.seams.post+id;
@@ -69,6 +70,14 @@ mpanelApp.controller("seamsController", ['$http', '$window', '$scope', function(
 		});
 	}
 
+	$s.updateSeams = function(){
+		console.log('updateSeams')
+		delete parent.all_data['pattern']
+		$s.data_pattern = false
+
+		updateInfo()
+	}
+
 	if(parent.all_data['review']){
 		loadInfo(parent.all_data['review'])
 	} else {
@@ -77,6 +86,8 @@ mpanelApp.controller("seamsController", ['$http', '$window', '$scope', function(
 	function loadPattern(data){
 		parent.all_data['pattern'] = data;
 		$s.data_pattern = data;
+		$s.load_pattern = false
+		$s.pattern_error = false
 	}
 
 	function getInfo(){
@@ -106,27 +117,89 @@ mpanelApp.controller("seamsController", ['$http', '$window', '$scope', function(
 		$s.item_seams = data;
 		parent.all_data['review'] = data;
 
+		if(data.objModelName){
+			//data.objModelName
+			$w.localStorage.setItem('mpanel_obj', data.objModelName);
+		}
+
 		parent.load_data = false;
-		if(data.index_panel >= 0){
-			$s.item_seams.index_panel = data.index_panel;
-		} else {
-			$s.item_seams.index_panel = 0;
-		} 
 
-		if(data.warpIndex>=0){
-
-		} else {
-			$s.item_seams.warpIndex = 0
-		}
-		if(data.tagIndex>=0){
-
-		} else {
-			$s.item_seams.tagIndex = 0
-		}
+		console.log(data)
+		
 
 		if(parent.all_data['pattern']){
 			$s.data_pattern = parent.all_data['pattern'];
 		}
+		
+		// img.load()
+		loadImage(data.imageModelName)
+		
 	}
 
+	function loadImage(src){
+		//var src = data.imageModelName;
+		var img = new Image();
+		img.crossOrigin = "anonymous";
+		img.src = $s.api + $s.folder + src
+		img.onload = function(){
+			$s.src_imageModelName = this.src//getBase64Image(this)
+			$s.$apply()
+		}
+	}
+
+	function updateInfo(argument) {
+		if(!$s.id_project) return
+		var id = $s.id_project;
+		var url = $s.api + dataUrl.calculate.update+id;
+		var data = {
+			objFileName: $s.item_seams.objModelName,
+			selectedPanel: $s.item_seams.selectedNPanels,
+			selectedTag: $s.item_seams.selectedTagCorner,
+			selectedWarp: $s.item_seams.selectedWarpDir
+		}
+		return $h({
+			method : "post",
+			data: data,
+			url : url
+		}).then(function mySuccess(response) {
+			var data = response.data
+			if(!data.error){
+				//loadInfo(data.data)
+				//$s.$apply()
+				// $s.item_seams.imageModelName = $s.item_seams.imageModelName
+				// angular.element('.cont_view .view').scope();
+				$s.src_imageModelName = '';
+				// setTimeout(function(argument) {
+					loadImage($s.item_seams.imageModelName)
+				// }, 1000)
+				
+				// img.load()
+
+			} else {
+				$s.seams_error = data.error;
+				parent.load_data = false
+			}
+			
+		}, function myError(response) {
+			$s.seams_error = response.data && response.data.message ? response.data.message : 'Error loading model';
+		});
+	}
+	function getBase64Image(img) {
+	    // Create an empty canvas element
+	    var canvas = document.createElement("canvas");
+	    canvas.width = img.width;
+	    canvas.height = img.height;
+
+	    // Copy the image contents to the canvas
+	    var ctx = canvas.getContext("2d");
+	    ctx.drawImage(img, 0, 0);
+
+	    // Get the data-URL formatted image
+	    // Firefox supports PNG and JPEG. You could check img.src to
+	    // guess the original format, but be aware the using "image/jpg"
+	    // will re-encode the image.
+	    var dataURL = canvas.toDataURL("image/png");
+
+	    return dataURL//.replace(/^data:image\/(png|jpg);base64,/, "");
+	}
 }]);

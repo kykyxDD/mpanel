@@ -237,6 +237,7 @@
 	vertical-align: middle;
 	width: 100%;
 	padding-top: 30px;
+	position: relative;
 }
 .close_pdf{
 	position: absolute;
@@ -261,4 +262,13 @@
 }
 .close_pdf:after{
 	transform: rotate(-45deg);
+}
+
+.itm_pdf .view_pdf {
+	position: absolute;
+	top: 50px;
+	left: 0;
+	right: 0;
+	bottom: 0; 
+
 }

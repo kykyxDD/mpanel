@@ -35,7 +35,15 @@
 	<script src="./libs/datepicker.js"></script>
 	<script src="./libs/jquery-svgpan.js"></script>	
 
-	<script src="./libs/pdfobject.js"></script>	
+
+
+	<script src="./script_angular/pdf/pdf.js"></script>
+	<link rel="stylesheet" href="./script_angular/pdf/viewer.css">
+
+	<!-- // <script src="./libs/pdfobject.js"></script>	 -->
+	<!-- // <script src="./libs/pdf.js"></script>	 -->
+	<!-- // <script src="./libs/l10n.js"></script>	 -->
+	
 
 	<script src="./script/mpanelViewer.js"></script>
 	<script src="./libs/iscroll.js"></script>
@@ -66,6 +74,10 @@
 	<script type="text/javascript" src='./script_angular/directive/watchValue.js'></script>
 	<script type="text/javascript" src='./script_angular/directive/scrollSvg.js'></script>
 	<script type="text/javascript" src='./script_angular/directive/focusMe.js'></script>
+	<!-- // <script type="text/javascript" src='./script_angular/directive/angular-pdfjs-viewer.js'></script> -->
+	
+	<!--  pdf  -->
+	<script type="text/javascript" src='./script_angular/pdf/angular-pdfjs-viewer.js'></script>
 
 	<script type="text/javascript" src='./script_angular/configApp.js'></script>
 	<script type="text/javascript" src='./script_angular/templates.js'></script>
@@ -79,12 +91,14 @@
 				</div>
 				<div class="cont_menu">
 					<div class="menu">
-						<div class="page" ng-repeat="itm in list_menu" ng-class="{prev: $index < id_itm_page, itm: $index == id_itm_page, disabled: (data_error && $index > id_itm_page) || ((itm.id == 'pattern' && !all_data['pattern'] ) ||(load_data || preload_opacity))}" ng-style="{'left': ($index*135 - 7)+'px' }">
+						<div class="page" ng-repeat="itm in list_menu track by $index" ng-class="{prev: $index < id_itm_page, itm: $index == id_itm_page, disabled: (data_error && $index > id_itm_page) || ((itm.id == 'pattern' && !all_data['pattern'] ) ||(load_data || preload_opacity))}" ng-style="{'left': (($index/(list_menu.length-1))*100)+'%' }">
+						<!-- <div class="page" ng-repeat="itm in list_menu" ng-class="{prev: $index < id_itm_page, itm: $index == id_itm_page, disabled: (data_error && $index > id_itm_page) || ((itm.id == 'pattern' && !all_data['pattern'] ) ||(load_data || preload_opacity))}" ng-style="{'left': ($index*135 - 7)+'px' }"> -->
 							<!-- <a class="text" ng-click="updatePage($index)">{{ itm.text}}</a> -->
 							<a class="text" ng-click="updatePage($index)">{{ itm.text}}</a>
 							<div class="point"></div>
 					  	</div>
-					  	<div class="line" ng-if='id_itm_page >= 0' ng-style="{'width': (id_itm_page/(list_menu.length-1))*810+'px' }"></div>
+					  	<div class="line" ng-if='id_itm_page > 0' ng-style="{'width': ((id_itm_page/(list_menu.length-1))*100)+'%' }"></div>
+					  	<!-- <div class="line" ng-if='id_itm_page >= 0' ng-style="{'width': (id_itm_page/(list_menu.length-1))*810+'px' }"></div> -->
 					</div>
 				</div>
 			</div>

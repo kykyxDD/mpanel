@@ -1,12 +1,13 @@
-var mpanelApp = angular.module("mpanelApp", ['ngRoute']);
+var mpanelApp = angular.module("mpanelApp", ['ngRoute', 'pdfjsViewer']);
 
 mpanelApp.controller("mpanelController", ['$route', '$routeParams', '$location', '$http', '$window','$document', '$scope', function ($r, $rp ,$l, $h, $w, $d, $s) {
 	$s.id_project = $w.localStorage.getItem('mpanel_id')
 	console.log($s.id_project)
-	$s.api = 'http://192.168.0.119:1234/api/';
+	$s.api = 'http://192.168.0.119:1234/api2/'; //api/';
 	$s.host = 'http://192.168.0.119:1234/';
 	$s.host_1 = 'http://192.168.0.119:1234';
 	$s.folder = '/mp/modelLoad?fileName=';
+	$s.folder_2 = 'mp/modelLoad?fileName=';
 	$s.folder_fabric = './data/images/'
 	$s.folder_fitting = './data/example/'
 	$s.api_material_db = './'
@@ -102,21 +103,7 @@ mpanelApp.controller("mpanelController", ['$route', '$routeParams', '$location',
 			}
 		}
 	}
-	var search = $l.path().replace('/', ''); //nav.page();
-
-	if(search != ''){
-		var obj = searchListPage(search);
-		if(obj){
-			var index = $s.list_menu.indexOf(obj);
-			if(index > 0 && !$s.id_project){
-				obj = $s.list_menu[0];
-			} else if(index == $s.list_menu.length-1 && !$s.all_data['pattern']){
-				obj = $s.list_menu[$s.list_menu.length-2];
-			}
-			$s.itm_page = obj;
-		}
-	}
-
+	
 	$s.loadExample = function(){
 		$s.$$childTail.loadExampleShape()
 	}
@@ -174,26 +161,8 @@ mpanelApp.controller("mpanelController", ['$route', '$routeParams', '$location',
 		if(obj.id == 'pattern' && !$s.all_data['pattern']) return
 
 		$s.load_data = true;
+		$s.$broadcast('child_start', obj );
 
-		// if(index > 0){
-			// $s.load_data = true
-			// if($s.$$childTail && $s.$$childTail.destroy) {
-			// 	$s.load_data = true
-			// 	$s.$$childTail.destroy(true).then(function(){
-			// 		if(!$s.data_error){
-			// 			$s.itm_page = obj;
-			// 			$s.load_data = false
-			// 		}
-			// 	});
-			// } else {
-			// 	$s.itm_page = obj;
-			// }
-			$s.$broadcast('child_start', obj );
-
-		// } else {
-		// 	$s.itm_page = obj;
-		// }
-		
 	}
 
 	$s.backPage = function(){
@@ -213,6 +182,57 @@ mpanelApp.controller("mpanelController", ['$route', '$routeParams', '$location',
 		
 		if(obj){
 			updateItmPage(obj, 1)
+		}
+	}
+
+	initMain()
+
+	function initMain(){
+		var mpanel_obj = true
+		if($s.id_project){
+			var mpanel_obj = $w.localStorage.getItem('mpanel_obj')
+
+			if(mpanel_obj){
+				var url =  $s.api + dataUrl.getIsFileExist.get + mpanel_obj;
+				$h({
+					method : "get",
+					url : url
+				}).then(function mySuccess(response) {
+					var data = response.data
+					if(!data.error){
+						loadStartPage(response.data.data);
+					} else {
+						loadStartPage(false);
+					}
+				}, function myError(response) {
+					loadStartPage(false);
+				});
+			} else {
+				loadStartPage(mpanel_obj);
+			}
+		} else {
+			loadStartPage(mpanel_obj);
+		}
+		
+	}
+	function loadStartPage(obj_files){
+		var search = $l.path().replace('/', '');
+
+		if(search != ''){
+			var obj = searchListPage(search);
+			if(obj){
+				var index = $s.list_menu.indexOf(obj);
+				if(index > 0 && !$s.id_project){
+					obj = $s.list_menu[0];
+				} else {
+					if(!obj_files && index > 3){
+						obj = $s.list_menu[3];
+					} else if(index == $s.list_menu.length-1 && !$s.all_data['pattern']){
+						obj = $s.list_menu[$s.list_menu.length-2];
+					}
+				}
+				$s.itm_page = obj;
+			}
 		}
 	}
 }]);

@@ -141,20 +141,26 @@ function MpanelViewer(parent){
 			self.rotateLeft(1);
 		});
 
+
+
 		var cont_div_color = createElem('div', par, 'elem_color');
 		var cont_input = createElem('div', cont_div_color, 'elem_cont_color')
 		var input = createElem('input', cont_input, 'set_color');
 		input.setAttribute('type', 'color');
 		this.input_color = false;
 
-		if(input.type == "color"){
-			input.addEventListener('input', function(){
-				self.setValColor(input.value)
-			});
-			this.input_color = input;
-		};
-		var text_color = createElem('div', cont_div_color, 'text');
-		text_color.innerHTML = 'Colour <br>of Poles';
+		if(input.type.toLowerCase() == 'color' ){
+			
+
+			if(input.type == "color"){
+				input.addEventListener('input', function(){
+					self.setValColor(input.value)
+				});
+				this.input_color = input;
+			};
+			var text_color = createElem('div', cont_div_color, 'text');
+			text_color.innerHTML = 'Colour <br>of Poles';
+		}
 		
 	};
 
@@ -223,7 +229,7 @@ function MpanelViewer(parent){
 						console.log(repeat)
 						child.material.map = texture;
 						child.material.map.wrapS = child.material.map.wrapT = THREE.RepeatWrapping; 
-						child.material.map.repeat.set(repeat.x, repeat.y)//( 15, 20 );
+						child.material.map.repeat.set(repeat.x*10, repeat.y*10)//( 15, 20 );
 						child.material.map.needsUpdate = true;
 						child.material.needsUpdate = true;
 					//} else {

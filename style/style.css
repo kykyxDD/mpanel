@@ -94,6 +94,7 @@ body {
 	background-color: #f67e03;
 	height: 100%;
 	transition: width 0.3s;
+	width: 0%
 }
 
 .header .logo {
