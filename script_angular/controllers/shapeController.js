@@ -148,14 +148,11 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 
 			if(index < item_shape.cornerParameters.length-1){
 				$s.item_shape.cornerParameters[index+1].focus = true
-				// console.log($s.item_shape.cornerParameters[index+1])
 			} else {
 				if(item_shape.sideParameters && item_shape.sideParameters.length){
 					$s.item_shape.sideParameters[0].focus = true
-					// console.log($s.item_shape.sideParameters[0])
 				} else if(item_shape.cornerParameters && item_shape.cornerParameters.length){
 					$s.item_shape.cornerParameters[0].focus = true
-					// console.log($s.item_shape.cornerParameters[0])
 				}
 			}
 		}
@@ -305,14 +302,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	function initInfo(){
 		if(parent.all_data['shape']){
 			saveData();
-			// $s.$parent.load_data = false
 		} else {
-			// getInfo().then(function(){
-			// 	if(!parent.data_error && parent.all_data['shape']){
-			// 		saveData()
-			// 		// parent.load_data = false
-			// 	}
-			// });
 			getInfo()
 		}
 		createSailPattern();
@@ -541,7 +531,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			var data = response.data
 			if(!data.error){
 				parent.id_project = data.data;
-				$w.localStorage.setItem('mpanel_id', data.data);
+				$w.localStorage.setItem($s.mpanel_id, data.data);
 				// parent.updateMpanel = true
 				destroyAllData()
 				

@@ -137,13 +137,19 @@ mpanelApp.controller("seamsController", ['$http', '$window', '$scope', function(
 	}
 
 	function loadImage(src){
+		$s.load_img = true
 		//var src = data.imageModelName;
 		var img = new Image();
 		img.crossOrigin = "anonymous";
 		img.src = $s.api + $s.folder + src
+		$s.src = img.src
 		img.onload = function(){
-			$s.src_imageModelName = this.src//getBase64Image(this)
-			$s.$apply()
+			// setTimeout(function(){
+				$s.src_imageModelName = $s.src//getBase64Image(this)
+				$s.load_img = false
+				$s.$apply()	
+			// },1000)
+			
 		}
 	}
 
@@ -164,17 +170,9 @@ mpanelApp.controller("seamsController", ['$http', '$window', '$scope', function(
 		}).then(function mySuccess(response) {
 			var data = response.data
 			if(!data.error){
-				//loadInfo(data.data)
-				//$s.$apply()
-				// $s.item_seams.imageModelName = $s.item_seams.imageModelName
-				// angular.element('.cont_view .view').scope();
+				$s.seams_error = false
 				$s.src_imageModelName = '';
-				// setTimeout(function(argument) {
-					loadImage($s.item_seams.imageModelName)
-				// }, 1000)
-				
-				// img.load()
-
+				loadImage($s.item_seams.imageModelName)
 			} else {
 				$s.seams_error = data.error;
 				parent.load_data = false
@@ -185,21 +183,15 @@ mpanelApp.controller("seamsController", ['$http', '$window', '$scope', function(
 		});
 	}
 	function getBase64Image(img) {
-	    // Create an empty canvas element
 	    var canvas = document.createElement("canvas");
 	    canvas.width = img.width;
 	    canvas.height = img.height;
 
-	    // Copy the image contents to the canvas
 	    var ctx = canvas.getContext("2d");
 	    ctx.drawImage(img, 0, 0);
 
-	    // Get the data-URL formatted image
-	    // Firefox supports PNG and JPEG. You could check img.src to
-	    // guess the original format, but be aware the using "image/jpg"
-	    // will re-encode the image.
 	    var dataURL = canvas.toDataURL("image/png");
 
-	    return dataURL//.replace(/^data:image\/(png|jpg);base64,/, "");
+	    return dataURL
 	}
 }]);

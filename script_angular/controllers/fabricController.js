@@ -110,13 +110,9 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 		}).then(function mySuccess(response) {
 			var data = response.data
 			if(!data.error){
-				// if(typeof data.data == 'string'){
-				// 	$w.localStorage.setItem('mpanel_id', data.data)
-				// } else {
 					parent.all_data['material'] = data.data;
 					$s.data_fabric = data.data;	
 					parent.preload_opacity = false;
-				// }
 			} else {
 				parent.data_error = data.error;
 			}
@@ -129,12 +125,8 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 		var id = $s.id_project;
 		if(!id) return
 
-		// if(typeof sel == 'string'){
-		// 	parent.preload_opacity = true
-		// 	url += dataUrl.material.post.selectChange+id+ '&selectType='+sel+'&oldVal='+index;
-		// } else {
-			url += dataUrl.material.post.commit+id;
-		// }
+		url += dataUrl.material.post.commit+id;
+
 		var data = getData();
 
 		// console.log('data', args, data)
@@ -155,13 +147,7 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 		}).then(function mySuccess(response) {
 			var data = response.data
 			if(!data.error){
-				// if(typeof data.data == 'string'){
-				$w.localStorage.setItem('mpanel_id', data.data)
-				// } else {
-				// 	parent.all_data['material'] = data.data;
-				// 	$s.data_fabric = data.data;	
-				// 	parent.preload_opacity = false;
-				// }
+				$w.localStorage.setItem($s.mpanel_id, data.data)
 			} else {
 				parent.data_error = data.error;
 			}

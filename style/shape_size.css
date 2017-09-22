@@ -153,9 +153,13 @@
 }
 .cont_info .cont_count .elem_count .btn_minus {
 	float: left;
+	 border-radius: 5px 0 0 5px;
+
 }
 .cont_info .cont_count .elem_count .btn_plus  {
 	float: right;
+	 border-radius: 0 5px 5px 0;
+
 }
 .cont_info .cont_count .elem_count .btn_minus,
 .cont_info .cont_count .elem_count .btn_plus {

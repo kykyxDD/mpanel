@@ -20,8 +20,48 @@
 	height: 460px;
 	border-radius: 5px;
 	background-color: #fff;
-	
-    box-shadow: 0 0 5px #B3B3B3;
+
+	box-shadow: 0 0 5px #B3B3B3;
+	position: relative;
+}
+
+.cont_view .seams_error {
+	text-align: center;
+	color: red;
+	padding-top: 30px;
+	font-size: 20px;
+}
+
+.cont_view .load_img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #fff;
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+.cont_view .load_img.show{
+	opacity: 1;
+}
+.cont_view .load_img:before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	/*width: 66px;*/
+	width: 100px;
+	/*height: 66px;*/
+	height: 100px;
+	background-image: url(../image/spinner.svg);
+	/*margin-top: 15px;*/
+	margin-top: -50px;
+	margin-left: -50px;
+	-moz-animation: animaciya 1s infinite linear;
+	-webkit-animation: animaciya 1s infinite linear;
+	-ms-animation: animaciya 1s infinite linear;
+	background-size: contain;
 }
 .cont_view .cont_top_btn {
 	margin-bottom: 10px;
@@ -310,6 +350,11 @@
 	right: 0;
 	background-color: rgba(241,241,241,0.7);
 	z-index: 10;
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+.page_seams .info .preload.show{
+	opacity: 1;
 }
 .page_seams .info .preload:after {
 	content: '';

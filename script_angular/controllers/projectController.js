@@ -201,7 +201,7 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 			var data = response.data
 			if(!data.error){
 				parent.id_project = data.data
-				$w.localStorage.setItem('mpanel_id', data.data);
+				$w.localStorage.setItem($s.mpanel_id, data.data);
 				$s.desplayPikaday()
 			} else {
 				parent.data_error = data.error
