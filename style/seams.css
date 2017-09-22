@@ -41,9 +41,11 @@
 	background-color: #fff;
 	opacity: 0;
 	transition: opacity 0.3s;
+	pointer-events: none;
 }
 .cont_view .load_img.show{
 	opacity: 1;
+	pointer-events: auto;
 }
 .cont_view .load_img:before {
 	content: '';
@@ -352,9 +354,11 @@
 	z-index: 10;
 	opacity: 0;
 	transition: opacity 0.3s;
+	pointer-events: none;
 }
 .page_seams .info .preload.show{
 	opacity: 1;
+	pointer-events: auto;
 }
 .page_seams .info .preload:after {
 	content: '';
