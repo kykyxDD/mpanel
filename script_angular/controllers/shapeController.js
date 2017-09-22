@@ -95,8 +95,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 
 	$s.blurSide = function(obj) {
 		var item_shape = $s.item_shape
-		var index = $s.item_shape.sideParameters.indexOf(obj)
-		// console.log(index)
+		var index = $s.item_shape.sideParameters.indexOf(obj);
 		if(index >= 0){
 			$s.item_shape.sideParameters[index].focus = false;
 			$s.blur();
@@ -347,7 +346,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			var num = prev - $s.min_edge;
 			$s.data_shape[num] = cloneItem($s.item_shape);
 		}
-		pullDataPage()
+		pullDataPage(true)
 	}
 
 	
@@ -378,19 +377,18 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 
 	}
 
-	function pullDataPage(){
+	function pullDataPage(reset){
+		console.log('pullDataPage', reset)
 		var data = $s.data_shape;
 		if(!data.length) return
 		// console.time('pullDataPage')
 
 		var index = $s.item_num - $s.min_edge;
-		// $s.item_shape = data[index];
 
 		var new_shape = data[index];
 
 		var res_type = сompareArr(new_shape.hemItems, $s.item_shape.hemItems);
 		var res_dip = сompareArr(new_shape.dipItems, $s.item_shape.dipItems);
-
 
 		var res_finish = сompareArr(new_shape.hardwareItems, $s.item_shape.hardwareItems);
 		var res_link = сompareArr(new_shape.linkItems, $s.item_shape.linkItems);
@@ -470,9 +468,12 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			}
 		}
 
+		if(reset === true){
+			$s.resetDataShape()
+		}
+
 		$s.item_shape.sideParameters[0].focus = true
 		chechAllVal();
-		// console.timeEnd('pullDataPage')
 	}
 	function сompareArr(itm, prev){
 		var res = false
@@ -532,13 +533,11 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		parent.all_data['shape'] = getDataParent()
 		var data = getNewData();
 		parent.no_all_val = false;
-		// console.log(JSON.stringify(data))
 		return $h({
 			method : "post",
 			data: data,
 			url : url
 		}).then(function mySuccess(response) {
-			// console.log('getInfo', response)
 			var data = response.data
 			if(!data.error){
 				parent.id_project = data.data;
