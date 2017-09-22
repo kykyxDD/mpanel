@@ -1537,7 +1537,7 @@ var PDFViewerApplication = {
     if (this.isViewerEmbedded) {
       return;
     }
-    document.title = title;
+    // document.title = title;
   },
   close: function pdfViewClose() {
     var errorWrapper = this.appConfig.errorWrapper.container;

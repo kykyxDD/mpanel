@@ -4,13 +4,13 @@
 			<div class="cont_val_input client">
 				<div class="txt">client</div>
 				<div class="cont_input">
-					<input type="text" name="client" ng-model='data_project.clientName'>
+					<input type="text" name="client" ng-class='{error: data_error.clientName}' ng-model='data_project.clientName' ng-focus='focusText("clientName")' ng-blur='blurText("clientName", data_project.clientName)' >
 				</div>
 			</div>
 			<div class="cont_val_input project">
 				<div class="txt">project name</div>
 				<div class="cont_input">
-					<input type="text" name="project" ng-model='data_project.projectName' >
+					<input type="text" name="project" ng-class='{error: data_error.projectName}' ng-model='data_project.projectName' ng-focus='focusText("projectName")' ng-blur='blurText("projectName", data_project.projectName)' >
 				</div>
 			</div>
 			<div class="cont_list_input">

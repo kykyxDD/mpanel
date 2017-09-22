@@ -270,5 +270,35 @@
 	left: 0;
 	right: 0;
 	bottom: 0; 
+	background-color: #484848;
+}
 
+
+.page_pattern .cont_btn .text_error{
+	width: 200px;
+	margin-bottom: 15px;
+	margin-top: 15px;
+
+}
+
+.page_pattern .cont_btn .text_error .text {
+	padding: 10px 10px 10px 10px;
+	background-color: #F67E03;
+	border-radius: 5px;
+	color: #fff;
+}
+.page_pattern .cont_btn .text_error .next_page {
+	margin-top: 10px;
+}
+
+.page_pattern .cont_btn .text_error .page {
+	display: inline-block;
+    border-radius: 3px;
+    background-color: #1189d5;
+    color: white;
+    margin-left: 10px;
+	font-weight: bold;
+	padding: 5px 10px;
+	text-transform: uppercase;
+	cursor: pointer;
 }

@@ -107,6 +107,7 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 			}
 			mpanel.loadObj($s.arr_url[0], texturePath);
 		} else {
+			console.log('data.objModelName == null',data.objModelName)
 			mpanel.preloadClose()
 		}
 		parent.load_data = false;

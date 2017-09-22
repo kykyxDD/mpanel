@@ -13,7 +13,13 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 	$s.prev_num = false;
 
 
-	$s.$on('child_start', postInfo)
+	$s.$on('child_start', function(start, args){
+		if(!parent.negative && !parent.no_all_val){
+			postInfo(start, args);
+		} else {
+			parent.load_data = false;
+		}
+	})
 
 
 	var parent = $s.$parent;
@@ -98,14 +104,11 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 
 			if(index < item_shape.sideParameters.length-1){
 				$s.item_shape.sideParameters[index+1].focus = true;
-				// console.log($s.item_shape.sideParameters[index+1])
 			} else {
 				if(item_shape.diagonalParameters && item_shape.diagonalParameters.length){
 					$s.item_shape.diagonalParameters[0].focus = true;
-					// console.log($s.item_shape.diagonalParameters[0])
 				} else if(item_shape.cornerParameters && item_shape.cornerParameters.length){
 					$s.item_shape.cornerParameters[0].focus = true;
-					// console.log($s.item_shape.cornerParameters[0])
 				}
 			}
 		}
@@ -636,8 +639,8 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 
 
 		defaultTriangle = [{name:"AB",val:100,fin:false,indexes:[0,1],curved:0.3},
-					   {name:"BC",val:100,fin:false,indexes:[1,2],curved:0.3},
-					   {name:"CA",val:100,fin:false,indexes:[2,0],curved:0.3}];
+						   {name:"BC",val:100,fin:false,indexes:[1,2],curved:0.3},
+						   {name:"CA",val:100,fin:false,indexes:[2,0],curved:0.3}];
 
 		defaultQuadrilateral = [{name:"AB",val:100,fin:false,indexes:[0,1],curved:0.3},
 								{name:"BC",val:100,fin:false,indexes:[1,2],curved:0.3},
@@ -648,30 +651,30 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 								];
 		var pentaK = (1+Math.sqrt(5))/2;
 		defaultPentagon = [{name:"AB",val:100,fin:false,indexes:[0,1],curved:0.3},
-							   {name:"BC",val:100,fin:false,indexes:[1,2],curved:0.3},
-							   {name:"CD",val:100,fin:false,indexes:[2,3],curved:0.3},
-							   {name:"DE",val:100,fin:false,indexes:[3,4],curved:0.3},
-							   {name:"EA",val:100,fin:false,indexes:[4,0],curved:0.3},
-							   {name:"AC",val:100*pentaK,fin:false,indexes:[0,2],diag:true},
-							   {name:"AD",val:100*pentaK,fin:false,indexes:[0,3],diag:true},
-							   {name:"BE",val:100*pentaK,fin:false,indexes:[1,4],diag:true},
-							   {name:"BD",val:100*pentaK,fin:false,indexes:[1,3],diag:true},
-							   {name:"CE",val:100*pentaK,fin:false,indexes:[2,4],diag:true}
-							];
+						   {name:"BC",val:100,fin:false,indexes:[1,2],curved:0.3},
+						   {name:"CD",val:100,fin:false,indexes:[2,3],curved:0.3},
+						   {name:"DE",val:100,fin:false,indexes:[3,4],curved:0.3},
+						   {name:"EA",val:100,fin:false,indexes:[4,0],curved:0.3},
+						   {name:"AC",val:100*pentaK,fin:false,indexes:[0,2],diag:true},
+						   {name:"AD",val:100*pentaK,fin:false,indexes:[0,3],diag:true},
+						   {name:"BE",val:100*pentaK,fin:false,indexes:[1,4],diag:true},
+						   {name:"BD",val:100*pentaK,fin:false,indexes:[1,3],diag:true},
+						   {name:"CE",val:100*pentaK,fin:false,indexes:[2,4],diag:true}
+						];
 		var side = 100;
 		var khex = Math.sqrt(2) ;///Math.sqrt(3/4)*2;
 		defaultHexagon = [{name:"AB",val:side,fin:false,indexes:[0,1],curved:0.3},
-							   {name:"BC",val:side,fin:false,indexes:[1,2],curved:0.3},
-							   {name:"CD",val:side,fin:false,indexes:[2,3],curved:0.3},
-							   {name:"DE",val:side,fin:false,indexes:[3,4],curved:0.3},
-							   {name:"EF",val:side,fin:false,indexes:[4,5],curved:0.3},
-							   {name:"FA",val:side,fin:false,indexes:[5,0],curved:0.3},
-							   {name:"AE",val:side*khex,fin:false,indexes:[0,4],diag:true},
-							   {name:"BD",val:side*khex,fin:false,indexes:[1,3],diag:true},
-							   {name:"BE",val:side,fin:false,indexes:[1,4],diag:true},
-							   {name:"BF",val:side*khex,fin:false,indexes:[1,5],diag:true},
-							   {name:"CE",val:side*khex,fin:false,indexes:[2,4],diag:true}
-							];
+						   {name:"BC",val:side,fin:false,indexes:[1,2],curved:0.3},
+						   {name:"CD",val:side,fin:false,indexes:[2,3],curved:0.3},
+						   {name:"DE",val:side,fin:false,indexes:[3,4],curved:0.3},
+						   {name:"EF",val:side,fin:false,indexes:[4,5],curved:0.3},
+						   {name:"FA",val:side,fin:false,indexes:[5,0],curved:0.3},
+						   {name:"AE",val:side*khex,fin:false,indexes:[0,4],diag:true},
+						   {name:"BD",val:side*khex,fin:false,indexes:[1,3],diag:true},
+						   {name:"BE",val:side,fin:false,indexes:[1,4],diag:true},
+						   {name:"BF",val:side*khex,fin:false,indexes:[1,5],diag:true},
+						   {name:"CE",val:side*khex,fin:false,indexes:[2,4],diag:true}
+						];
 
 		objectsDataCanvas =  [clone(defaultTriangle),  clone(defaultQuadrilateral), clone(defaultPentagon), clone(defaultHexagon)];
 

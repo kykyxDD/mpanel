@@ -40,6 +40,11 @@
     padding: 4px 0;
     text-indent: 6px;
 }
+.cont_input input.error {
+	box-shadow: 0 0 5px #F98181;
+    border-color: #FF9191;
+
+}
 .cont_input input[disabled] + label{
 	background-color: #DADADA;
 }

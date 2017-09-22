@@ -179,6 +179,18 @@
                         document.getElementById('secondaryPrint').setAttribute('hidden', 'true');
                     }
 
+                    if($attrs.viewBookmark === 'false'){
+                        document.getElementById('viewBookmark').setAttribute('hidden', 'true');
+                    }
+
+                    if($attrs.sidebarToggle === 'false'){
+                        document.getElementById('sidebarToggle').setAttribute('hidden', 'true');
+                    }
+
+                    if($attrs.viewFind === 'false'){
+                        document.getElementById('viewFind').setAttribute('hidden', 'true');
+                    }
+
                     if ($attrs.width) {
                         document.getElementById('outerContainer').style.width = $attrs.width;
                     }

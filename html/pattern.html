@@ -55,7 +55,11 @@
 				</table>
 			</div>
 			<div class="cont_btn">
-				<div class="my_btn make_pdf grad_blue" ng-click='getPDF()'>Make PDF</div>
+				<div class="my_btn make_pdf grad_blue" ng-click='getPDF()' ng-class='{disabled: pdf && pdf.error}'>Make PDF</div>
+				<div ng-if='pdf.error' class="text_error">
+					<div class="text">{{pdf.error.text || pdf.error}}</div>
+					<div ng-if='pdf.error.page' class="next_page">Go to the page <div class="page" ng-click="updatePage(pdf.error.index)">{{pdf.error.page}}</div></div>
+				</div>
 				<div class="my_btn save_pattern grad_orange disabled">Save Pattern</div>
 			</div>
 		</div>
@@ -65,7 +69,15 @@
 			<div class="itm_pdf">
 				<div class="close_pdf my_btn" ng-click='closePDF()'></div>
 				<div class="view_pdf" id='pdfRendered' ng-if='pdf && pdf.src'>
-					<pdfjs-viewer src="{{ pdf.src }}"></pdfjs-viewer>
+					<!-- <pdfjs-viewer src="{{ pdf.src }}"></pdfjs-viewer> -->
+					<pdfjs-viewer 
+						sidebar-toggle='false' 
+						view-bookmark='false' 
+						print="false" 
+						open='false' 
+						view-find='false'
+						data="pdf.data">
+					</pdfjs-viewer>
 				</div>
 			</div>
 		</div>

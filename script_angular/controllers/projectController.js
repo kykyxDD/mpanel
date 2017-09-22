@@ -12,11 +12,39 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 			"Feet, inches, fractions  ( 12\' 3 5/16\" )"
 		]*/
 	};
-	$s.$on('child_start', postInfo)
+	$s.$on('child_start', function(start, args){
+		checkError()
 
-	// $s.destroy = function(start){
-	// 	return postInfo();
-	// }
+		if(!parent.pageproject_error){
+			postInfo(start, args)
+		} else {
+			parent.load_data = false;
+		}
+	})
+
+	$s.data_error = {
+		clientName: false,
+		projectName: false
+	}
+
+	$s.focusText = function(name, text){
+
+		$s.data_error[name] = false;
+
+		// parent.pageproject_error = $s.data_error['clientName'] || $s.data_error['projectName'];
+
+	}
+	$s.blurText = function(name, text){
+
+		var replace = text ? valText(text) : false; 
+		$s.data_error[name] = !replace 
+
+		parent.pageproject_error = $s.data_error['clientName'] || $s.data_error['projectName'];
+	}
+	function valText(text){
+		var replace = text && text.replace(/\t\s/g,'')
+		return !replace ? replace : true 
+	}
 
 
 	$s.validNum = function(name){
@@ -35,11 +63,6 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 				$s.data_project = parent.all_data['project'];
 				pullDataPage()
 			} else {
-				// getInfo().then(function(){
-				// 	if(!$s.data_error){
-				// 		pullDataPage()
-				// 	}
-				// })
 				getInfo()
 			}
 		} else {
@@ -64,6 +87,11 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 
 	function pullDataPage(data){
 		$s.$parent.load_data = false;
+
+		// var client = $s.data_project['clientName'];
+		// var project = $s.data_project['projectName'];
+		// $s.blurText('clientName', client)
+		// $s.blurText('projectName', project)
 	}
 	function getData(){
 		var data = $s.data_project;
@@ -116,6 +144,12 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 		$(date_entered).data('datepicker').destroy();
 	}
 	function postInfo(start,args){
+
+		// checkError();
+
+		// if(parent.pageproject_error) return false
+
+
 		parent.load_data = true;
 		var id = $s.id_project;
 
@@ -153,6 +187,7 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 		parent.id_unit = $s.data_project.unitIndex;
 		$w.localStorage.setItem('mpanel_unit', parent.id_unit);
 
+
 		return $h({
 			method : "post",
 			data: data_1,
@@ -173,6 +208,14 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 			$s.$emit('child_finish', args)
 		});
 	}
+
+	function checkError(){
+		var client = $s.data_project['clientName'];
+		var project = $s.data_project['projectName'];
+		$s.blurText('clientName', client)
+		$s.blurText('projectName', project)
+	}
+
 	function checkValNum(str_num){
 		return str_num.replace(/[^0-9.\-\'\"\,\/]/gi, '');
 	}

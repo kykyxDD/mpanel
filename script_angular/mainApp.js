@@ -20,6 +20,7 @@ mpanelApp.controller("mpanelController", ['$route', '$routeParams', '$location',
 	$s.user_page = false;
 	$s.negative = false;
 	$s.update_texture = false;
+	$s.pageproject_error = false
 	$s.reduction = [
 		"m",
 		"cm",

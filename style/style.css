@@ -72,6 +72,7 @@ body {
 	box-shadow: 0 0 10px grey;
 	margin-bottom: 5px;	
 	background-color: white;
+	overflow: hidden;
 }
 .header .cont {
 	height: 100%;
@@ -152,15 +153,16 @@ body {
 .menu .page .text {
 	position: absolute;
 	top: -5px;
+	left: 0;
 	white-space: nowrap;
 	text-transform: uppercase;
 	font-size: 12px;
-	width: 100px;
+	width: 80px;
 	height: 40px;
 	line-height: 60px;
 	text-align: center;
 	color: #212121;
-	margin-left: -44px;
+	margin-left: -35px;
 	/*letter-spacing: -0.3px;*/
 	text-decoration: blink;
 	transition: color 0.2s;

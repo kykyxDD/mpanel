@@ -2,18 +2,24 @@ mpanelApp.controller("patternController", ['$http', '$window','$scope', function
 
 	var parent = $s.$parent;
 
-	// if(!parent.all_data['pattern']) {
-	// 	var obj = parent.searchListPage('seams');
-	// 	var id = parent.list_menu.indexOf(obj)
-	// 	parent.updatePage(id)
-	// 	return
-	// }
 
-	// if(PDFObject.supportsPDFs){
-	// 	console.log("Yay, this browser supports inline PDFs.");
-	// } else {
-	// 	console.log("Boo, inline PDFs are not supported by this browser");
-	// }
+
+	$s.pdf = {
+	src: false,  // get pdf source from a URL that points to a pdf
+	data: false, // get pdf source from raw data of a pdf
+	error: false
+	};
+
+	$s.info_error = [
+		{
+			text: 'Value cannot be null. Parameter name: text',
+			page: {
+				name: 'Project', 
+				index: 0
+			}
+		}
+	]
+
 	$s.item_pattern = {};
 	$s.url_svg = '';
 	$s.dase_url_svg = false;
@@ -33,7 +39,7 @@ mpanelApp.controller("patternController", ['$http', '$window','$scope', function
 		var data = {
 			'objFileName': $w.localStorage.getItem('mpanel_obj')
 		}
-		console.log('data', data)
+
 		return $h({
 			method : "post",
 			data: data,
@@ -41,49 +47,55 @@ mpanelApp.controller("patternController", ['$http', '$window','$scope', function
 		}).then(function mySuccess(response) {
 			var data = response.data
 			if(!data.error){
-				
 				openPDF(data.data)
 			} else {
-				// $s.review_error = data.error;
-				// parent.load_data = false
-				console.log(data.error)
+				var error = data.error
+				if(error.code){
+					$s.pdf.error = {
+						code: error.code,
+						text: error.message ? error.message : $s.info_error[error.code].text,
+						page: $s.info_error[error.code].page.name,
+						index: $s.info_error[error.code].page.index
+
+					}
+				} else {
+					$s.pdf.error = error
+				}
+
 			}
 			
 		}, function myError(response) {
 			var txt = response.data && response.data.message ? response.data.message : 'Error loading model';
-			// $s.review_error = response.data && response.data.message ? response.data.message : 'Error loading model';
-			console.log('txt', txt)
+
+			$s.pdf.error = txt
 		});
 	}
 
 	function openPDF(name_file){
-		console.log('openPDF', name_file);
 		$s.view_pdf = true
 
-		var url = $s.api + $s.folder_2 + name_file//'http://192.168.0.119:1234/api2/mp/modelLoad?fileName=2165babb-2992-4be8-97d6-956c68853876_20170919115759__report.pdf'//'example.pdf';
+		var url = $s.api + $s.folder_2 + name_file
 
-	    $s.pdf = {
-	        src: url,  // get pdf source from a URL that points to a pdf
-	        data: null // get pdf source from raw data of a pdf
-	    };
+		$s.pdf.src = url  // get pdf source from a URL that points to a pdf
+		$s.pdf.data = null // get pdf source from raw data of a pdf
+		$s.pdf.error = false
 
-	    getPdfAsArrayBuffer(url).then(function (response) {
-	        $s.pdf.data = new Uint8Array(response.data);
-	    }, function (err) {
-	        console.log('failed to get pdf as binary:', err);
-	    });
+		getPdfAsArrayBuffer(url).then(function (response) {
+			$s.pdf.data = new Uint8Array(response.data);
+		}, function (err) {
+			console.log('failed to get pdf as binary:', err);
+		});
 
-	    function getPdfAsArrayBuffer (url) {
-	        return $h.get(url, {
-	            responseType: 'arraybuffer',
-	            headers: {
-	                'foo': 'bar'
-	            }
-	        });
-	    }
+		function getPdfAsArrayBuffer (url) {
+			return $h.get(url, {
+				responseType: 'arraybuffer',
+				headers: {
+					'foo': 'bar'
+				}
+			});
+		}
 	}
 	$s.closePDF = function(){
-		console.log('closePDF');
 		$s.view_pdf = false;
 
 		if(elem_view_pdf){
