@@ -1220,11 +1220,11 @@ min-width: 780px;
 
 .cont_date input:focus + label {
 	border-color: rgba(82,168,236,0.8);
-    outline: 0;
-    outline: thin dotted \9;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6);
-    -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6);
+	outline: 0;
+	outline: thin dotted \9;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6);
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6);
 }
 .cont_date input ~ .label_date {
 	position: absolute;
@@ -1244,4 +1244,23 @@ min-width: 780px;
 .cont_date input:focus ~ .label_date{
 	opacity: 0;
 
+}
+
+.star {
+	display: inline-block;
+	width: 8px;
+	height: 14px;
+	position: relative;
+}
+.star:before {
+	position: absolute;
+	content: '';
+	top: 0;
+	left: 0;
+	width: 10px;
+	height: 10px;
+	background-image: url(../image/icon/star.svg);
+	background-repeat: no-repeat;
+	background-size: 11px;
+	background-position: 0px;
 }

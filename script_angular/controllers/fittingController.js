@@ -33,18 +33,19 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 	$s.changeSelect = function(name, old_val) {
 		postInfoSelect(name, old_val)
 	}
+
+	$s.objUpdateSel = {}
+
+	$s.updateSelect = function(name){
+		$s.objUpdateSel[name] = true
+	}
 	function initPage(){
 		if($s.all_data['material']) {
 			getDataUnits(parent.material_db)
 			$s.data_fitting = $s.all_data['material'];
 			$s.$parent.load_data = false;
-			// console.log
 		} else {
-			// getInfo().then(function(){
-			// 	parent.load_data = false;
-			// });
-			// getInfo()
-			getMaterial()
+			getMaterial();
 		}
 	}
 
@@ -116,7 +117,8 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 		// }
 		var data = getData();
 
-		parent.all_data['material'] == data;
+		parent.all_data['material'] = data;
+		parent.all_data['fittings'] = true
 
 		if(args.id == 'fabric'){
 			return $s.$emit('child_finish', args)

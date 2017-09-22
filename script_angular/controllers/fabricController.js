@@ -35,10 +35,20 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 		'fabricImageBase64'
 	]
 
+	$s.objUpdateSel = {
+
+	}
+
 	$s.changeSelect = function(name, old_val) {
 		// console.log('changeSelect',name, old_val)
 		postInfoSelect(name, old_val)
 	}
+
+	$s.updateSelect = function(name){
+		console.log('updateSelect', name)
+		$s.objUpdateSel[name] = true
+	}
+
 
 
 	function initInfo(){
@@ -128,7 +138,9 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 		var data = getData();
 
 		// console.log('data', args, data)
-		parent.all_data['material'] == data;
+		parent.all_data['material'] = data;
+
+		parent.all_data['fabric'] = true
 
 		parent.update_texture = true
 		if(args.id == 'fittings'){

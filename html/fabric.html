@@ -15,6 +15,7 @@
 				<select class="select_database" 
 					
 					ng-model='data_fabric.fabricSelectedIndex' 
+					ng-change='updateSelect("fabricSelectedIndex")'
 					fancy-select 
 					fancy-default-text='FABRIC DATABASE' 
 					fancy-list='material_db.fabricItems'  >
@@ -26,6 +27,7 @@
 				<select class="select_brand"
 					ng-model='data_fabric.fabricTypeSelectedIndex'
 					fancy-select 
+					ng-change='updateSelect("fabricTypeSelectedIndex")'
 					fancy-default-text='BRAND SELECTOR' 
 					fancy-dependence='true'
 					fancy-list='material_db.fabRelations[data_fabric.fabricSelectedIndex].fabricTypeItems' 
@@ -51,7 +53,7 @@
 				</div>
 				<div class="cont_val">
 					<!-- <input class="val input_text" type="text" name="poll" ng-model='data_fabric.rollWidthText' valid-num> -->
-					<input class="val input_text" type="text" name="poll" ng-model='data_fabric.rollWidthText' valid-num watch-value="fabRelations[data_fabric.fabricSelectedIndex].fabTypeRelations[data_fabric.fabricTypeSelectedIndex].rollWidthText">
+					<input class="val input_text" type="text" name="poll" ng-model='data_fabric.rollWidthText' valid-num watch-value="objUpdateSel.fabricSelectedIndex || objUpdateSel.fabricTypeSelectedIndex ? fabRelations[data_fabric.fabricSelectedIndex].fabTypeRelations[data_fabric.fabricTypeSelectedIndex].rollWidthText : null">
 				</div>
 			</div>
 			<div class="cont_input override">
@@ -69,7 +71,7 @@
 				</div>
 				<div class="cont_val">
 				<!-- warpStretch -->
-					<input class="val input_text" type="text" name="warp_str" disabled ng-model='data_fabric.warpStretch' valid-num watch-value="fabRelations[data_fabric.fabricSelectedIndex].fabTypeRelations[data_fabric.fabricTypeSelectedIndex].warpStretch">
+					<input class="val input_text" type="text" name="warp_str" disabled ng-model='data_fabric.warpStretch' valid-num watch-value="objUpdateSel.fabricSelectedIndex || objUpdateSel.fabricTypeSelectedIndex ? fabRelations[data_fabric.fabricSelectedIndex].fabTypeRelations[data_fabric.fabricTypeSelectedIndex].warpStretch : null">
 				</div>
 				<div class="cont_val" ng-if='data_fabric.override'>
 					<div class="name">Override</div>
@@ -81,7 +83,7 @@
 					<div class="name">Waft Stretch %</div>
 				</div>
 				<div class="cont_val">
-					<input class="val input_text" type="text" name="waft_str" disabled ng-model='data_fabric.weftStretch' valid-num watch-value="fabRelations[data_fabric.fabricSelectedIndex].fabTypeRelations[data_fabric.fabricTypeSelectedIndex].weftStretch">
+					<input class="val input_text" type="text" name="waft_str" disabled ng-model='data_fabric.weftStretch' valid-num watch-value="objUpdateSel.fabricSelectedIndex || objUpdateSel.fabricTypeSelectedIndex ? fabRelations[data_fabric.fabricSelectedIndex].fabTypeRelations[data_fabric.fabricTypeSelectedIndex].weftStretch : null">
 				</div>
 				<div class="cont_val" ng-if='data_fabric.override'>
 					<input class="val input_text" type="text" name="waft_str" ng-model='data_fabric.weftStretchOverride' valid-num>

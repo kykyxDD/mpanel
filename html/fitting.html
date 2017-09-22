@@ -17,6 +17,7 @@
 
 									ng-model='data_fitting.hardwareSelectedIndex'
 									fancy-select 
+									ng-change='updateSelect("hardwareSelectedIndex")'
 									fancy-default-text='HARDWARE DATABASE' 
 									fancy-list='material_db.hardwareItems' 
 								></select>
@@ -30,6 +31,7 @@
 									
 									ng-model='data_fitting.hardEdgeTypeSelectedIndex'
 									fancy-select 
+									ng-change='updateSelect("hardEdgeTypeSelectedIndex")'
 									fancy-dependence='true'
 									fancy-default-text='EDGE TYPE' 
 									fancy-list='material_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeItems' 
@@ -57,7 +59,7 @@
 							<div class="cont_input">
 								<div class="txt">Hem ({{reduction[id_unit]}})</div>
 								<div class="cont_val">
-									<input class="input_hem" type="text" disabled ng-model='data_fitting.hemText' valid-num watch-value="data_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeIRelations[data_fitting.hardEdgeTypeSelectedIndex].hemText">
+									<input class="input_hem" type="text" disabled ng-model='data_fitting.hemText' valid-num watch-value="objUpdateSel.hardwareSelectedIndex || objUpdateSel.hardEdgeTypeSelectedIndex ? data_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeIRelations[data_fitting.hardEdgeTypeSelectedIndex].hemText : null">
 								</div>
 							</div>
 						</div>
@@ -104,13 +106,13 @@
 							<div class="cont_input cont_lenght">
 								<div class="txt">Hardware length ({{reduction[id_unit]}})</div>
 								<div class="cont_val">
-									<input class="input_lenght" disabled type="text" ng-model='data_fitting.cornerLengthText' valid-num watch-value="data_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeIRelations[data_fitting.hardEdgeTypeSelectedIndex].hardCornerRelations[data_fitting.hardCornorSelectedIndex].cornerLengthText">
+									<input class="input_lenght" disabled type="text" ng-model='data_fitting.cornerLengthText' valid-num watch-value="objUpdateSel.hardwareSelectedIndex || objUpdateSel.hardEdgeTypeSelectedIndex || objUpdateSel.hardCornorSelectedIndex ? data_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeIRelations[data_fitting.hardEdgeTypeSelectedIndex].hardCornerRelations[data_fitting.hardCornorSelectedIndex].cornerLengthText : null">
 								</div>
 							</div>
 							<div class="cont_input cont_width">
 								<div class="txt">Hardware width ({{reduction[id_unit]}})</div>
 								<div class="cont_val">
-									<input class="input_width" disabled type="text" ng-model='data_fitting.cornerWidthText' valid-num watch-value="data_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeIRelations[data_fitting.hardEdgeTypeSelectedIndex].hardCornerRelations[data_fitting.hardCornorSelectedIndex].cornerWidthText">
+									<input class="input_width" disabled type="text" ng-model='data_fitting.cornerWidthText'   valid-num watch-value="objUpdateSel.hardwareSelectedIndex || objUpdateSel.hardEdgeTypeSelectedIndex || objUpdateSel.hardCornorSelectedIndex  ? data_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardEdgeTypeIRelations[data_fitting.hardEdgeTypeSelectedIndex].hardCornerRelations[data_fitting.hardCornorSelectedIndex].cornerWidthText : null">
 								</div>
 							</div>
 							<div class="cont_checkbox_circle">
@@ -129,6 +131,7 @@
 
 									ng-model='data_fitting.hardLinkSelectedIndex'
 									fancy-select 
+									ng-change='updateSelect("hardLinkSelectedIndex")'
 									fancy-dependence='true'
 									fancy-default-text='CORNER LINK' 
 									fancy-list='material_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardLinkItems' 
@@ -138,7 +141,11 @@
 						<div class="cont_input cont_link">
 							<div class="txt">Link length({{reduction[id_unit]}})</div>
 							<div class="cont_val">
-								<input class="input_link" type="text" ng-model='data_fitting.linkLengthText' ng-class="{disabled: !data_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardLinkRelations[data_fitting.hardLinkSelectedIndex].linkLengthAllowToChange}" valid-num watch-value="data_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardLinkRelations[data_fitting.hardLinkSelectedIndex].linkLengthText">
+								<input class="input_link" type="text" 
+								ng-model='data_fitting.linkLengthText' 
+								ng-class="{disabled: !data_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardLinkRelations[data_fitting.hardLinkSelectedIndex].linkLengthAllowToChange}" 
+								valid-num 
+								watch-value="objUpdateSel.hardwareSelectedIndex || objUpdateSel.hardLinkSelectedIndex ? data_db.hardwareRelations[data_fitting.hardwareSelectedIndex].hardLinkRelations[data_fitting.hardLinkSelectedIndex].linkLengthText : null">
 							</div>
 						</div>
 
@@ -154,19 +161,19 @@
 			<div class="cont_input cont_thread">
 				<div class="txt">Thread</div>
 				<div class="cont_val">
-					<input class="input_thread" type="text" ng-model='data_fitting.thread' watch-value='data_db.thread'>
+					<input class="input_thread" type="text" ng-model='data_fitting.thread'>
 				</div>
 			</div>
 			<div class="cont_input cont_accessories">
 				<div class="txt">Accessories</div>
 				<div class="cont_val">
-					<input class="input_accessories" type="text" ng-model='data_fitting.accessories' watch-value='data_db.accessories'>
+					<input class="input_accessories" type="text" ng-model='data_fitting.accessories'>
 				</div>
 			</div>
 			<div class="cont_input cont_internal">
 				<div class="txt">Internal seam width ({{reduction[id_unit]}})</div>
 				<div class="cont_val">
-					<input class="input_internal" type="text" ng-model='data_fitting.seamText' valid-num watch-value='data_db.seamText'>
+					<input class="input_internal" type="text" ng-model='data_fitting.seamText' valid-num>
 					<div class="btn_help">?
 						<div class="popup">
 							<div class="cont_popup">This allowance will be added to both sides of each seam</div>
@@ -177,24 +184,24 @@
 			<div class="cont_input cont_reinfo">
 				<div class="txt">Corner reinforcement size ({{reduction[id_unit]}})</div>
 				<div class="cont_val">
-					<input class="input_reinfo" type="text" ng-model='data_fitting.reoText' valid-num watch-value='data_db.reoText'>
+					<input class="input_reinfo" type="text" ng-model='data_fitting.reoText' valid-num>
 				</div>
 			</div>
 			<div class="cont_input cont_diameter">
 				<div class="txt">Pole diameter ({{reduction[id_unit]}})</div>
 				<div class="cont_val">
-				<input class="input_diameter" type="text" ng-model='data_fitting.poleDiameterText' valid-num watch-value='data_db.poleDiameterText'></div>
+				<input class="input_diameter" type="text" ng-model='data_fitting.poleDiameterText' valid-num></div>
 			</div>
 			<div class="cont_input cont_angle">
 				<div class="txt">Pole lean angle degress</div>
 				<div class="cont_val">
-					<input class="input_angle" type="text" ng-model='data_fitting.poleAngle' valid-num watch-value='data_db.poleAngle'>
+					<input class="input_angle" type="text" ng-model='data_fitting.poleAngle' valid-num>
 				</div>
 			</div>
 			<div class="cont_input cont_height">
 				<div class="txt">Pole added height ({{reduction[id_unit]}})</div>
 				<div class="cont_val">
-					<input class="input_height" type="text" ng-model='data_fitting.poleExtraHeight' valid-num watch-value='data_db.poleExtraHeight'>
+					<input class="input_height" type="text" ng-model='data_fitting.poleExtraHeight' valid-num>
 					<div class="btn_help">?
 						<div class="popup">
 							<div class="cont_popup">This wiil extend the post above the connection height for visualisation purposes only</div>

@@ -42,7 +42,8 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 		parent.pageproject_error = $s.data_error['clientName'] || $s.data_error['projectName'];
 	}
 	function valText(text){
-		var replace = text && text.replace(/\t\s/g,'')
+
+		var replace = text && text.replace(/\t\s/g,'');
 		return !replace ? replace : true 
 	}
 
@@ -81,15 +82,19 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 					"Feet, inches, fractions  ( 12\' 3 5/16\" )"
 				]
 			};
+			parent.pageproject_error = true
 			parent.load_data = false;
 		}
 	}
 
 	function pullDataPage(data){
 		$s.$parent.load_data = false;
+		var client = $s.data_project['clientName'];
+		var project = $s.data_project['projectName'];
 
-		// var client = $s.data_project['clientName'];
-		// var project = $s.data_project['projectName'];
+		parent.pageproject_error = !valText(client) || !valText(project)
+
+		
 		// $s.blurText('clientName', client)
 		// $s.blurText('projectName', project)
 	}
