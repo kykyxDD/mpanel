@@ -1,4 +1,4 @@
-mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($h, $w, $s){
+mpanelApp.controller("shapeController", ['conts','$http', '$window','$scope', function(conts,$h, $w, $s){
 	if(!$s.id_project){
 		return $s.updatePage(0)
 	}
@@ -510,8 +510,8 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 		if(parent.all_data['pattern']){
 			delete parent.all_data['pattern']
 		}
-		if($w.localStorage.getItem('mpanel_obj')){
-			$w.localStorage.removeItem('mpanel_obj');
+		if($w.localStorage.getItem(conts.obj)){
+			$w.localStorage.removeItem(conts.obj);
 		}
 		if(parent.mpanel) {
 			parent.mpanel = false
@@ -531,7 +531,7 @@ mpanelApp.controller("shapeController", ['$http', '$window','$scope', function($
 			var data = response.data
 			if(!data.error){
 				parent.id_project = data.data;
-				$w.localStorage.setItem($s.mpanel_id, data.data);
+				$w.localStorage.setItem(conts.id, data.data);
 				// parent.updateMpanel = true
 				destroyAllData()
 				

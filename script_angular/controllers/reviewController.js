@@ -1,4 +1,4 @@
-mpanelApp.controller("reviewController", ['$http', '$window','$scope', function($h, $w, $s){
+mpanelApp.controller("reviewController", ['conts','$http', '$window','$scope', function(conts,$h, $w, $s){
 	$s.index_model = 0;
 	var elem = document.getElementById('threejs');
 	var mpanel;
@@ -99,7 +99,7 @@ mpanelApp.controller("reviewController", ['$http', '$window','$scope', function(
 
 		if(data.objModelName){
 			$s.arr_url[0] =  $s.api + $s.folder + data.objModelName;
-			$w.localStorage.setItem('mpanel_obj', data.objModelName);
+			$w.localStorage.setItem(conts.obj, data.objModelName);
 			var texturePath = false;
 			if(data.texturePath){
 				var arr_url = data.texturePath.split('/');

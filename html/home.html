@@ -7,8 +7,9 @@
 				<div class="my_btn btn_home grad_orange">
 					<a class="link" href="http://mpanel.com/"></a>
 				</div>
-				<div class="my_btn btn_open grad_blue">
-					<a class="link">Open</a>
+				<div class="my_btn btn_open grad_blue" >
+					<input id='input_file' type="file" onchange="angular.element(this).scope().openProject(this)"/>
+					<label class="link" for='input_file'>Open</label>
 				</div>
 			</div>
 		</div>

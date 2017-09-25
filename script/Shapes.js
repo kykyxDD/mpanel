@@ -349,8 +349,8 @@ lib.properties = {
 			
 			
 			var points = [pA,pB,pC,pD,pE];
-			
-			rotatePoints(points, Math.PI/5*4.5);
+
+			rotatePoints(points, Math.PI);
 			var bbox = getBoungingBox(points);
 			resetPivot(points,bbox);
 			var scale = getFitScale(bbox);

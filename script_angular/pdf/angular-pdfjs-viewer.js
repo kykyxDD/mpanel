@@ -142,7 +142,18 @@
                 }, 200);
 
                 $element.on('$destroy', function() {
+                    console.log('$destroy',$element)
                     $interval.cancel(poller);
+
+                    var pdfViewer = window.PDFViewerApplication.pdfViewer;
+                    pdfViewer.cleanup();
+                    window.PDFViewerApplication.pdfDocument.destroy()
+                    window.PDFViewerApplication.pdfLoadingTask.destroy()
+                    
+
+                    // var loadingTask = PDFJS.getDocument($scope.src || $scope.data);
+                    // loadingTask.destroy()
+
                 });
 
                 // watch pdf source

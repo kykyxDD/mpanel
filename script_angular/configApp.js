@@ -36,6 +36,10 @@ angular.module("mpanelApp").config(function($routeProvider, $locationProvider) {
            templateUrl: 'pattern.html',
            controller: 'patternController'
        })
+        .when('/pdf', {
+           templateUrl: 'pagepdf.html',
+           controller: 'pdfController'
+       })
         .otherwise({
           redirectTo: '/'
         });

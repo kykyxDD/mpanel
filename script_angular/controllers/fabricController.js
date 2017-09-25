@@ -1,19 +1,9 @@
-mpanelApp.controller("fabricController", ['$http', '$window','$scope', function($h, $w, $s){
+mpanelApp.controller("fabricController", ['conts','$http', '$window','$scope', function(conts,$h, $w, $s){
 	$s.$parent.load_data = true;
 	var parent = $s.$parent;
 
 	$s.$on('child_start', postInfo)
 
-	//$s.material_db = {}
-
-	// $s.destroy = function(start){
-	// 	if(start){
-	// 		return postInfo();
-	// 	} 
-	// 	return false
-	// }
-
-	// $s.destroy
 	$s.data_fabric = {};
 	// $s.str = $s.reduction[$s.id_unit];
 	$s.model_fabric = {
@@ -147,7 +137,7 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 		}).then(function mySuccess(response) {
 			var data = response.data
 			if(!data.error){
-				$w.localStorage.setItem($s.mpanel_id, data.data)
+				$w.localStorage.setItem(conts.id, data.data)
 			} else {
 				parent.data_error = data.error;
 			}
@@ -171,13 +161,8 @@ mpanelApp.controller("fabricController", ['$http', '$window','$scope', function(
 		}).then(function mySuccess(response) {
 			var data = response.data
 			if(!data.error){
-				// parent.all_data['material_db'] = data;
 				parent.material_db = data
-				// console.log($s.material_db)
-				// $s.data_fabric = data.data;
-				// parent.load_data = false
-				getDataUnits(data)
-
+				getDataUnits(data);
 				getInfo()
 			} else {
 				parent.data_error = data.error;

@@ -1,26 +1,29 @@
 var mpanelApp = angular.module("mpanelApp", ['ngRoute', 'pdfjsViewer']);
 
-mpanelApp.controller("mpanelController", ['$route', '$routeParams', '$location', '$http', '$window','$document', '$scope', function ($r, $rp ,$l, $h, $w, $d, $s) {
-	$s.mpanel_id = 'mpanel_id';
-	$s.id_project = $w.localStorage.getItem($s.mpanel_id)
-	$s.api = 'http://192.168.0.119:1234/api2/'; //api/';
-	$s.host = 'http://192.168.0.119:1234/';
-	$s.host_1 = 'http://192.168.0.119:1234';
+mpanelApp.controller("mpanelController", ['conts', '$route', '$routeParams', '$location', '$http', '$window','$document', '$scope', function (conts,$r, $rp ,$l, $h, $w, $d, $s) {
+	console.log('conts',conts)
+	// $s.mpanel_id = 'mpanel_id';
+	// $s.mpanel_ip = 'http://192.168.0.119:1234';
+	// $s.mpanel_pdf = 'mpanel_pdf';
+	$s.id_project = $w.localStorage.getItem(conts.id);
+	$s.api = conts.ip + '/api2/'; //api/';
+	$s.host = conts.ip + '/';
+	$s.host_1 = conts.ip; //'http://192.168.0.119:1234';
 	$s.folder = '/mp/modelLoad?fileName=';
 	$s.folder_2 = 'mp/modelLoad?fileName=';
-	$s.folder_fabric = './data/images/'
-	$s.folder_fitting = './data/example/'
-	$s.api_material_db = './'
-	$s.host_helper = 'http://dev.structureflex.com.au/public/helper';
+	$s.folder_fabric = './data/images/';
+	$s.folder_fitting = './data/example/';
+	$s.api_material_db = './';
 	$s.load_data = false;
 	$s.all_data = {};
 	$s.data_error = false;
 	$s.mpanel = false;
 	$s.updateMpanel = false;
 	$s.user_page = false;
+	$s.pdf_page = false;
 	$s.negative = false;
 	$s.update_texture = false;
-	$s.pageproject_error = false
+	$s.pageproject_error = false;
 	$s.reduction = [
 		"m",
 		"cm",
@@ -31,7 +34,7 @@ mpanelApp.controller("mpanelController", ['$route', '$routeParams', '$location',
 	];
 	$s.min_edge = 3;
 	$s.max_edge = 6;
-	var unit = $w.localStorage.getItem('mpanel_unit');
+	var unit = $w.localStorage.getItem(conts.unit);
 	$s.id_unit = +unit >= 0 ? +unit : 1; 
 
 	$s.$route = $r;
@@ -125,6 +128,51 @@ mpanelApp.controller("mpanelController", ['$route', '$routeParams', '$location',
 		}
 		return itm_page
 	}
+	$s.saveProject = function(){
+		console.log('saveProject')
+
+		if(!$s.id_project) return
+		var id = $s.id_project;
+		var url = $s.api + dataUrl.saveToFile+id;
+		
+
+		return $h({
+			method : "post",
+			url : url
+		}).then(function mySuccess(response) {
+			var data = response.data
+			if(!data.error){
+				downFile(data)
+			} else {
+
+			}
+		}, function myError(response) {
+			var txt = response.data && response.data.message ? response.data.message : 'Error loading model';
+
+			$s.pdf.error = txt
+		});
+	}
+
+	function downFile(text){
+		if(!text) return
+
+		console.log(text)
+		var type = "text/plain;charset=utf-8"
+
+		var file = new Blob([text], {type: type});
+		if (window.navigator.msSaveOrOpenBlob){ 
+			window.navigator.msSaveOrOpenBlob(file, filename);
+		} else { // Others
+			var a = document.createElement("a"),
+				url = URL.createObjectURL(file);
+			a.href = url;
+			a.download = conts.file;
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+			window.URL.revokeObjectURL(url);  
+		}
+	}
 
 	$s.updatePage = function(index){
 		var obj = $s.list_menu[index];
@@ -138,7 +186,6 @@ mpanelApp.controller("mpanelController", ['$route', '$routeParams', '$location',
 		}
 	})
 	function updateObj(obj){
-		// console.log('updateObj',obj)
 		if(!$s.data_error){
 			$s.itm_page = obj;
 			$s.load_data = false

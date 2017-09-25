@@ -1,17 +1,7 @@
-mpanelApp.controller("projectController", ['$http', '$window','$scope', function($h, $w, $s){
-	// console.log('project')
+mpanelApp.controller("projectController", ['conts','$http', '$window','$scope', function(conts,$h, $w, $s){
+
 	var parent = $s.$parent;
-	$s.data_project = {
-		/*unitIndex: 1,
-		units:  [
-			"Meters  ( 1.234 )",
-			"Centimeters  ( 123.4 )",
-			"Millimeters  ( 1234 )",
-			"Inches  ( 123.4\" )",
-			"Feet and inches  ( 12\' 3.4\" )",
-			"Feet, inches, fractions  ( 12\' 3 5/16\" )"
-		]*/
-	};
+	$s.data_project = {};
 	$s.$on('child_start', function(start, args){
 		checkError()
 
@@ -28,11 +18,7 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 	}
 
 	$s.focusText = function(name, text){
-
 		$s.data_error[name] = false;
-
-		// parent.pageproject_error = $s.data_error['clientName'] || $s.data_error['projectName'];
-
 	}
 	$s.blurText = function(name, text){
 
@@ -88,15 +74,11 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 	}
 
 	function pullDataPage(data){
-		$s.$parent.load_data = false;
+		parent.load_data = false;
 		var client = $s.data_project['clientName'];
 		var project = $s.data_project['projectName'];
 
 		parent.pageproject_error = !valText(client) || !valText(project)
-
-		
-		// $s.blurText('clientName', client)
-		// $s.blurText('projectName', project)
 	}
 	function getData(){
 		var data = $s.data_project;
@@ -131,7 +113,7 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 				parent.all_data['project'] = data.data;
 				$s.data_project = data.data;
 				parent.id_unit = $s.data_project.unitIndex; 
-				$w.localStorage.setItem('mpanel_unit', parent.id_unit);
+				$w.localStorage.setItem(conts.unit, parent.id_unit);
 				pullDataPage()
 			} else {
 				parent.data_error = data.error;
@@ -169,7 +151,7 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 
 		// console.log('postInfo')
 
-		var prev_unit = $w.localStorage.getItem('mpanel_unit');
+		var prev_unit = $w.localStorage.getItem(conts.unit);
 		if(prev_unit != undefined &&  +prev_unit >= 0 ){
 			if(+prev_unit != $s.data_project.unitIndex) {
 
@@ -177,8 +159,8 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 					delete parent.all_data[key];
 				}
 
-				if($w.localStorage.getItem('mpanel_obj')){
-					$w.localStorage.removeItem('mpanel_obj');
+				if($w.localStorage.getItem(conts.obj)){
+					$w.localStorage.removeItem(conts.obj);
 				}
 				if(parent.mpanel){
 					parent.mpanel = false;
@@ -190,7 +172,7 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 		parent.all_data['project'].units = $s.data_project.units;
 
 		parent.id_unit = $s.data_project.unitIndex;
-		$w.localStorage.setItem('mpanel_unit', parent.id_unit);
+		$w.localStorage.setItem(conts.unit, parent.id_unit);
 
 
 		return $h({
@@ -201,14 +183,14 @@ mpanelApp.controller("projectController", ['$http', '$window','$scope', function
 			var data = response.data
 			if(!data.error){
 				parent.id_project = data.data
-				$w.localStorage.setItem($s.mpanel_id, data.data);
+				$w.localStorage.setItem(conts.id, data.data);
 				$s.desplayPikaday()
 			} else {
 				parent.data_error = data.error
 			}
 			
 		}, function myError(response) {
-			parent.data_error = data.error
+			parent.data_error = response.data.message;
 		}).then(function(){
 			$s.$emit('child_finish', args)
 		});

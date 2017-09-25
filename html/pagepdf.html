@@ -1,0 +1,17 @@
+<div id="view_pdf" >
+	<div class="view_pdf" id='pdfRendered' ng-if='pdf && pdf.src && !pdf.error'>
+		<pdfjs-viewer 
+			sidebar-toggle='false' 
+			view-bookmark='false' 
+			print="false" 
+			open='false' 
+			view-find='false'
+			data="pdf.data">
+		</pdfjs-viewer>
+	</div>
+
+	<div ng-if='pdf.error' class="text_error_pdf">{{pdf.error}}</div>
+</div>
+<div class="logo">
+	<a class="link_home" href="#/"></a>
+</div>

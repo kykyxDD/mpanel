@@ -296,6 +296,13 @@ select {
   outline: none;
 }
 
+button{
+  margin-top: 5px;
+  border-radius: 3px;
+  border: none;
+  padding: 3px 5px;
+}
+
 .hidden {
   display: none !important;
 }
@@ -1602,6 +1609,13 @@ html[dir='rtl'] .outlineItemToggler::before {
 
 #errorMessageLeft {
   float: left;
+}
+
+#errorMessage{
+  display: block;
+    font-size: 16px;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 #errorMessageRight {

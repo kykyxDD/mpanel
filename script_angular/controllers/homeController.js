@@ -1,21 +1,62 @@
-mpanelApp.controller("homeController",['$http', '$window','$scope', function($h, $w, $s){
+mpanelApp.controller("homeController",['conts', '$http', '$window','$scope', function(conts, $h, $w, $s){
     $s.message = "This page will be used to display all the students";
     $w.document.title = 'Mpanel';
     console.log('homeController')
     var parent = $s.$parent
-    $s.$parent.id_itm_page = -1;
+    parent.id_itm_page = -1;
 
-    $s.$parent.itm_page = undefined;
-    $s.$parent.home_page = true;
+    parent.itm_page = undefined;
+    parent.home_page = true;
 
     $s.$on("$destroy", function() {
-        $s.$parent.home_page = false
+        parent.home_page = false
         return true
-        // return postInfo();
     });
     $s.$on('child_start', function(event,args){
         parent.home_page = false
         $s.$emit('child_finish', args)
-    })
-    
-}])
+    });
+    $s.dll_file = false;
+    function clearData(){
+        for(var key in parent.all_data){
+            delete parent.all_data[key];
+        }
+
+        if($w.localStorage.getItem(conts.obj)){
+            $w.localStorage.removeItem(conts.obj);
+        }
+        if(parent.mpanel){
+            parent.mpanel = false;
+        }
+        $w.localStorage.removeItem(conts.unit);
+    }
+
+    $s.openProject = function(event){
+
+        var url = $s.api + dataUrl.loadFile
+
+        var fd = new FormData();
+        fd.append('file', event.files[0]);
+
+        if(parent.id_project){
+            url += '?id='+parent.id_project
+        }
+        return $h({
+            method : "post",
+            url : url,
+            data: fd,
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        }).then(function mySuccess(response) {
+            var data = response.data;
+            console.log('data',data)
+            if(!data.error){
+                var id = data.data;
+                parent.id_project = id
+                $w.localStorage.setItem(conts.id, id);
+                clearData()
+                parent.updatePage(0);
+            }
+        })
+    }
+}]);

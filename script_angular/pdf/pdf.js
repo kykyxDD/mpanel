@@ -857,7 +857,7 @@ document.webL10n = (function(window, document, undefined) {
     // get the related l10n object
     var data = getL10nData(l10n.id, l10n.args);
     if (!data) {
-      console.warn('#' + l10n.id + ' is undefined.');
+      // console.warn('#' + l10n.id + ' is undefined.');
       return;
     }
 
@@ -12532,7 +12532,10 @@ var PDFLinkService = function PDFLinkServiceClosure() {
      if (this.pdfHistory) {
       this.pdfHistory.updateNextHashParam(dest);
      }
-     this.navigateTo(dest);
+     if(dest.indexOf('/pdf') == -1){
+      this.navigateTo(dest); 
+     }
+     
      return;
     }
     console.error('PDFLinkService_setHash: \'' + unescape(hash) + '\' is not a valid destination.');

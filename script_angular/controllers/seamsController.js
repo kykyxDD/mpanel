@@ -1,4 +1,4 @@
-mpanelApp.controller("seamsController", ['$http', '$window', '$scope', function($h, $w, $s){
+mpanelApp.controller("seamsController", ['conts','$http', '$window', '$scope', function(conts,$h, $w, $s){
 
 	if($w.location.hash.indexOf('seams') == -1) {
 		return false
@@ -119,7 +119,7 @@ mpanelApp.controller("seamsController", ['$http', '$window', '$scope', function(
 
 		if(data.objModelName){
 			//data.objModelName
-			$w.localStorage.setItem('mpanel_obj', data.objModelName);
+			$w.localStorage.setItem(conts.obj, data.objModelName);
 		}
 
 		parent.load_data = false;

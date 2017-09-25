@@ -1,4 +1,4 @@
-mpanelApp.controller("fittingController", ['$http', '$window','$scope', function($h, $w, $s){
+mpanelApp.controller("fittingController", ['conts', '$http', '$window','$scope', function(conts, $h, $w, $s){
 	$s.$parent.load_data = true;
 
 	$s.$on('child_start', postInfo)
@@ -126,9 +126,7 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 		}).then(function mySuccess(response) {
 			var data = response.data
 			if(!data.error){
-
-				$w.localStorage.setItem($s.mpanel_id, data.data)
-
+				$w.localStorage.setItem(conts.id, data.data)
 			} else {
 				parent.data_error = data.error;
 			}
@@ -163,28 +161,6 @@ mpanelApp.controller("fittingController", ['$http', '$window','$scope', function
 			parent.data_error = response.data.message;
 		});
 	}
-	// function getInfo(){
-	// 	var id = $s.id_project;
-	// 	var url = $s.api + dataUrl.material.get+id;
-	// 	if(!id) return
-	// 	return $h({
-	// 		method : "get",
-	// 		url : url
-	// 	}).then(function mySuccess(response) {
-	// 		var data = response.data
-	// 		if(!data.error){
-	// 			parent.all_data['material'] = data.data;
-	// 			$s.data_fabric = data.data;
-	// 			parent.load_data = false
-	// 		} else {
-	// 			parent.data_error = data.error;
-	// 		}
-			
-	// 	}, function myError(response) {
-	// 		parent.data_error = response.data.message;
-	// 	});
-	// }
-
 
 	function getInfo(){
 		var id = $s.id_project;

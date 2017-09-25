@@ -1,8 +1,8 @@
 var dataUrl = {
+	loadFile: 'mp/loadFromFile',
+	saveToFile: 'mp/saveToFile?id=',
 	material_db: 'data/material_db.json',
-	// material_db: 'data/material_db_1.json',
 	project: {
-		//projectPageCommit?id={id}
 		get:  'mp/projectPagePopulate?id=',
 		post: 'mp/projectPageCommit?id=',
 		new_project: 'mp/projectPageCommit'

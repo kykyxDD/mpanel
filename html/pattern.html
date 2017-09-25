@@ -64,22 +64,4 @@
 			</div>
 		</div>
 	</div>
-	<div id="view_pdf" ng-class='{view: view_pdf }'>
-		<div class="cont_view">
-			<div class="itm_pdf">
-				<div class="close_pdf my_btn" ng-click='closePDF()'></div>
-				<div class="view_pdf" id='pdfRendered' ng-if='pdf && pdf.src'>
-					<!-- <pdfjs-viewer src="{{ pdf.src }}"></pdfjs-viewer> -->
-					<pdfjs-viewer 
-						sidebar-toggle='false' 
-						view-bookmark='false' 
-						print="false" 
-						open='false' 
-						view-find='false'
-						data="pdf.data">
-					</pdfjs-viewer>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
