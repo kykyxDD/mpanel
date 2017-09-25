@@ -49,14 +49,30 @@ mpanelApp.controller("homeController",['conts', '$http', '$window','$scope', fun
             headers: {'Content-Type': undefined}
         }).then(function mySuccess(response) {
             var data = response.data;
-            console.log('data',data)
             if(!data.error){
                 var id = data.data;
                 parent.id_project = id
                 $w.localStorage.setItem(conts.id, id);
                 clearData()
                 parent.updatePage(0);
+            } else {
+                errorLoad(data.error) 
             }
+        }, function myError(response) {
+            var txt = response.data && response.data.message ? response.data.message : 'Error';
+            errorLoad(text) 
         })
+    };
+
+    function errorLoad(text) {
+        $s.error_file = text
+
+        setTimeout(function(){
+            if($s.error_file){
+                $s.error_file = false;
+                $s.$apply();
+            }
+        },2000)
     }
+
 }]);

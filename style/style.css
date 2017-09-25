@@ -1113,6 +1113,65 @@ body {
     margin-top: -8px;
     background: url(../image/icon/save.png) no-repeat center;
 }
+.save_prof .preload_save{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #e87a01;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.2s;
+}
+.save_prof .preload_save:before{
+	background-image: url(../image/spinner.svg);
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 26px;
+	height: 26px;
+	background-image: url(../image/spinner.svg);
+	margin-top: -13px;
+	margin-left: -13px;
+	-moz-animation: animaciya 1s infinite linear;
+	-webkit-animation: animaciya 1s infinite linear;
+	-ms-animation: animaciya 1s infinite linear;
+	background-size: contain;
+}
+.save_prof .preload_save.show{
+	pointer-events: auto;
+	opacity: 1;
+}
+.save_prof .error_save {
+	position: absolute;
+	background-color: rgba(255,0,0,0.7);
+	width: initial;
+	height: initial;
+	right: 0;
+	top: 40px;
+	z-index: 9;
+	text-align: center;
+	text-indent: initial;
+	line-height: 20px;
+	padding: 5px 10px;
+	border-radius: 4px;
+}
+
+.save_prof .error_save:before{
+	position: absolute;
+	content: '';
+	right: 10px;
+	top: -5px;
+	width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-bottom: 5px solid rgba(255,0,0,0.7);
+}
 
 .select_units {
 	width: 245px !important;
@@ -1270,4 +1329,35 @@ body {
 	background-repeat: no-repeat;
 	background-size: 11px;
 	background-position: 0px;
+}
+
+.body_home  .btn_open .error_file {
+	position: absolute;
+	background-color: rgba(255,0,0,0.7);
+	width: initial;
+	height: initial;
+	right: 0;
+	top: 63px;
+	z-index: 9;
+	text-align: center;
+	text-indent: initial;
+	line-height: 15px;
+	font-size: 13px;
+	padding: 5px 10px;
+	border-radius: 4px;
+	color: white;
+	text-transform: initial;
+}
+
+.btn_open .error_file:before{
+	position: absolute;
+	content: '';
+	right: 50%;
+	margin-right: -10px;
+	top: -5px;
+	width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-bottom: 5px solid rgba(255,0,0,0.7);
 }

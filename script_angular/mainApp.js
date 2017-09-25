@@ -2,9 +2,7 @@ var mpanelApp = angular.module("mpanelApp", ['ngRoute', 'pdfjsViewer']);
 
 mpanelApp.controller("mpanelController", ['conts', '$route', '$routeParams', '$location', '$http', '$window','$document', '$scope', function (conts,$r, $rp ,$l, $h, $w, $d, $s) {
 	console.log('conts',conts)
-	// $s.mpanel_id = 'mpanel_id';
-	// $s.mpanel_ip = 'http://192.168.0.119:1234';
-	// $s.mpanel_pdf = 'mpanel_pdf';
+
 	$s.id_project = $w.localStorage.getItem(conts.id);
 	$s.api = conts.ip + '/api2/'; //api/';
 	$s.host = conts.ip + '/';
@@ -134,7 +132,8 @@ mpanelApp.controller("mpanelController", ['conts', '$route', '$routeParams', '$l
 		if(!$s.id_project) return
 		var id = $s.id_project;
 		var url = $s.api + dataUrl.saveToFile+id;
-		
+
+		$s.load_saveproject = true;
 
 		return $h({
 			method : "post",
@@ -144,20 +143,31 @@ mpanelApp.controller("mpanelController", ['conts', '$route', '$routeParams', '$l
 			if(!data.error){
 				downFile(data)
 			} else {
-
+				errorSave(data.error)
 			}
 		}, function myError(response) {
-			var txt = response.data && response.data.message ? response.data.message : 'Error loading model';
-
-			$s.pdf.error = txt
+			var txt = response.data && response.data.message ? response.data.message : 'Error save project';
+			errorSave(txt)
 		});
+	}
+
+	function errorSave(txt){
+		$s.error_save = txt;//data.error;
+		$s.load_saveproject = false
+
+		setTimeout(function(){
+			if($s.error_save){
+				$s.error_save = false
+				$s.$apply()
+			}
+		},2000)
 	}
 
 	function downFile(text){
 		if(!text) return
-
-		console.log(text)
 		var type = "text/plain;charset=utf-8"
+		$s.load_saveproject = false
+		//$s.$apply()
 
 		var file = new Blob([text], {type: type});
 		if (window.navigator.msSaveOrOpenBlob){ 

@@ -111,7 +111,11 @@
 						<div class="my_btn btn_help" ng-hide="user_page">
 							<a class="link" ng-href='./helper/source/html/{{itm_page.help}}' target="_blank">Help</a>
 						</div>
-						<div class="my_btn active save_prof" ng-show="itm_page.id == 'pattern'" ng-click='saveProject()'>Save project</div>
+						<div class="my_btn active save_prof" ng-show="itm_page.id == 'pattern'" ng-click='saveProject()'>
+							Save project
+							<div class="preload_save" ng-class='{show: load_saveproject}'></div>
+							<div ng-if='error_save' class="error_save" >{{error_save}}</div>
+						</div>
 					</div>
 				</div>
 
