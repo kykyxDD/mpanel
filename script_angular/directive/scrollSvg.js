@@ -5,20 +5,19 @@ mpanelApp.directive('scrollSvg', function() {
         link: function (scope, el, attr, ngModel) {
             var size_svg = {};
             var size_view = {};
-            var get_g;
+            var get_g, svg, fun_svg;
 
             function startScroll(url_svg){
 
                 var parser = new DOMParser();
                 var doc = parser.parseFromString(url_svg, "image/svg+xml");
-                var svg = doc.querySelector('svg');
+                svg = doc.querySelector('svg');
 
                 el[0].appendChild(svg);
 
                 get_g = svg.querySelector('g');
                 rect = svg.querySelector('rect');
                 if(rect){
-                    // rect.setAttribute('fill', '');
                     rect.parentNode.removeChild(rect)
                 }
                 if(get_g){
@@ -41,7 +40,7 @@ mpanelApp.directive('scrollSvg', function() {
 
                 var max_zoom = Math.max(size_svg.w/size_g.width, size_svg.h/size_g.height)/2
 
-                $(svg).svgPan({
+                fun_svg = $(svg).svgPan({
                     'viewportId': 'viewport',
                     'max_zoom': max_zoom
                 });
@@ -71,10 +70,14 @@ mpanelApp.directive('scrollSvg', function() {
             }
             scope.$watch(attr.ngModel, function(newValue){
                 if(newValue){
-                    //setTimeout(startScroll, 50)
                     startScroll(newValue)
                 }
             });
+            scope.$on('$destroy', function(){
+                if(svg && svg.destroy){
+                    svg.destroy()
+                }
+            })
         }
     };
 

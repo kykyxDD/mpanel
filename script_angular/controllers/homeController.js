@@ -26,6 +26,10 @@ mpanelApp.controller("homeController",['conts', '$http', '$window','$scope', fun
             $w.localStorage.removeItem(conts.obj);
         }
         if(parent.mpanel){
+
+            if(parent.mpanel && parent.mpanel.requestAnimation){
+                parent.mpanel.destroy()
+            }
             parent.mpanel = false;
         }
         $w.localStorage.removeItem(conts.unit);

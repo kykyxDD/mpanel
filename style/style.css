@@ -871,19 +871,21 @@ body {
 }
 
 .body_home .main.home {
-    vertical-align: middle;
-    display: table-cell;
+	vertical-align: middle;
+	display: table-cell;
 }
 
 .home .body {
 	background-color: inherit;
 	text-align: center;
+	padding-bottom: 0;
 }
 .home .body .cont {
 	width: 780px;
 }
 .home .body .cont > div {
-	margin: 0 auto
+	margin: 0 auto;
+	padding: 0;
 }
 .home .body .logo{
 	width: 465px;
@@ -933,17 +935,17 @@ body {
 
 .home .form .title{
 	font-size: 28px;
-    padding: 0;
-    letter-spacing: -0.3px;
-    color: #686868;
-    text-align: left;
-    margin-bottom: 20px;
-    text-transform: inherit;
+	padding: 0;
+	letter-spacing: -0.3px;
+	color: #686868;
+	text-align: left;
+	margin-bottom: 20px;
+	text-transform: inherit;
 }
 .home .form .left{
 	width: 310px;
-    border-right: 1px solid #f0f0f0;
-    height: 160px;
+	border-right: 1px solid #f0f0f0;
+	height: 160px;
 }
 .home .form .right{
 	padding-left: 40px;
@@ -1014,15 +1016,15 @@ body {
 	height: 52px;
 }
 .home .form .cont_btn .link {
-    width: 100%;
-    height: 100%;
-    color: white;
-    font-weight: bold;
-    text-transform: capitalize;
-    line-height: 50px;
-    font-size: 20px;
-    display: block;
-    text-decoration: blink;
+	width: 100%;
+	height: 100%;
+	color: white;
+	font-weight: bold;
+	text-transform: capitalize;
+	line-height: 50px;
+	font-size: 20px;
+	display: block;
+	text-decoration: blink;
 }
 .btn_home,
 .btn_open {
@@ -1037,8 +1039,8 @@ body {
 
 .home .form .cont_btn .btn_open .link {
 	text-indent: 40px;
-    font-size: 18px;
-    line-height: 55px;
+	font-size: 18px;
+	line-height: 55px;
 }
 .btn_open:after {
 	position: absolute;
@@ -1062,13 +1064,13 @@ body {
 }
 
 .body .cont .my_btn.set{
-    /*float: right;*/
-    margin-right: 4px;
-    text-transform: capitalize;
-    letter-spacing: 0;
-    text-align: left;
-    text-indent: 52px;
-    position: relative;
+	/*float: right;*/
+	margin-right: 4px;
+	text-transform: capitalize;
+	letter-spacing: 0;
+	text-align: left;
+	text-indent: 52px;
+	position: relative;
 }
 .body .cont .my_btn.set:before {
 	position: absolute;
@@ -1088,10 +1090,9 @@ body {
 }
 
 .body .cont_left_btn {
-	
-    position: absolute;
-    top: 15px;
-    right: 5px;
+	position: absolute;
+	top: 15px;
+	right: 5px;
 }
 .body .cont_left_btn > div {
 	display: inline-block;
@@ -1101,17 +1102,17 @@ body {
 .save_prof {
 	position: relative;
 	text-align: left;
-    text-indent: 40px;
+	text-indent: 40px;
 }
 .save_prof:before {
 	position: absolute;
-    content: '';
-    top: 50%;
-    left: 15px;
-    width: 16px;
-    height: 16px;
-    margin-top: -8px;
-    background: url(../image/icon/save.png) no-repeat center;
+	content: '';
+	top: 50%;
+	left: 15px;
+	width: 16px;
+	height: 16px;
+	margin-top: -8px;
+	background: url(../image/icon/save.png) no-repeat center;
 }
 .save_prof .preload_save{
 	position: absolute;

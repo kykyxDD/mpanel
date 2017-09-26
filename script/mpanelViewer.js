@@ -20,6 +20,8 @@ function MpanelViewer(parent){
 	var maxPolarAngle = Math.PI/2;
 	var material
 
+	this.requestAnimation = false
+
 
 	this.init = function(div){
 		if(div) {
@@ -194,6 +196,8 @@ function MpanelViewer(parent){
 			load_file_obj();
 		};
 
+
+
 		function load_file_obj(texture){
 			loader_obj.load(url_obj, function(object){
 				self.createObj(object, texture);
@@ -259,6 +263,13 @@ function MpanelViewer(parent){
 		// if(this.basicMaterial){
 		// 	this.createMeshMaterial();
 		// }
+
+		if(!this.requestAnimation){
+			console.log('requestAnimation',false)
+			this.animate()
+		} else {
+			console.log('requestAnimation',true)
+		}
 
 		this.viewTop(true);
 	};
@@ -675,12 +686,16 @@ function MpanelViewer(parent){
 	};
 	this.onWindowResize = onWindowResize;
 
+	this.destroy = function(){
+		cancelAnimationFrame(self.requestAnimation)
+		self.requestAnimation = false;
+	}
+
 	this.animate = function() {
-		// stats.update();
 		controls.update();
 
 		self.render();
-		requestAnimationFrame( self.animate );
+		self.requestAnimation = requestAnimationFrame( self.animate );
 	};
 	this.render = function() {
 		TWEEN.update();
@@ -695,3 +710,8 @@ function MpanelViewer(parent){
 
 	this.init(parent);
 }
+
+var cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
+
+var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+                            window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;

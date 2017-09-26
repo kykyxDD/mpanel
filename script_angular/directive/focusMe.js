@@ -12,7 +12,7 @@ mpanelApp.directive('focusMe', function () {
 					el[0].blur();
 				}
 			});
-			angular.element(el[0]).on('keydown', function(e){
+			angular.element(el[0]).bind('keydown', function(e){
 				if(e.keyCode == 13 || e.keyCode == 9) {
 					e.preventDefault();
 					if(scope.side){

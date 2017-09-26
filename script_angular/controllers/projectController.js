@@ -120,7 +120,7 @@ mpanelApp.controller("projectController", ['conts','$http', '$window','$scope', 
 			}
 			
 		}, function myError(response) {
-			parent.data_error = response.data.message;
+			parent.data_error = response.data && response.data.message ? response.data.message : 'Error load info';
 		});
 	}
 	$s.desplayPikaday = function(){

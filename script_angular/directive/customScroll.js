@@ -31,6 +31,10 @@ mpanelApp.directive('customScroll', function() {
                     $("#content-3dtd").mCustomScrollbar('update');
                 }
             });
+            scope.$on('$destroy', function(){
+                console.log('destroy mCustomScrollbar')
+                $("#content-3dtd").mCustomScrollbar("destroy");
+            })
         }
     };
 })

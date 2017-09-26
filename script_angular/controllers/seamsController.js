@@ -124,8 +124,6 @@ mpanelApp.controller("seamsController", ['conts','$http', '$window', '$scope', f
 
 		parent.load_data = false;
 
-		console.log(data)
-		
 
 		if(parent.all_data['pattern']){
 			$s.data_pattern = parent.all_data['pattern'];
@@ -144,12 +142,9 @@ mpanelApp.controller("seamsController", ['conts','$http', '$window', '$scope', f
 		img.src = $s.api + $s.folder + src
 		$s.src = img.src
 		img.onload = function(){
-			// setTimeout(function(){
-				$s.src_imageModelName = $s.src//getBase64Image(this)
-				$s.load_img = false
-				$s.$apply()	
-			// },1000)
-			
+			$s.src_imageModelName = $s.src//getBase64Image(this)
+			$s.load_img = false
+			$s.$apply()
 		}
 	}
 

@@ -60,6 +60,13 @@ mpanelApp.directive('fancySelect', function() {
                     val = newValue;
                 }
             });
+
+            scope.$on('$destroy', function() {
+                // console.log("destroy");
+                if(fun && fun.destroy){
+                    fun.destroy()
+                }
+            });
         }
     };
 

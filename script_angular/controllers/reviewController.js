@@ -5,6 +5,10 @@ mpanelApp.controller("reviewController", ['conts','$http', '$window','$scope', f
 	var parent = $s.$parent;
 
 	$s.$on('child_start', function(event,args){
+
+		if(mpanel && mpanel.requestAnimation){
+			mpanel.destroy()
+		}
 		$s.$emit('child_finish', args)
 	});
 

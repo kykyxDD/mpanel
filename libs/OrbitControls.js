@@ -132,7 +132,6 @@ THREE.OrbitControls = function ( object, domElement ) {
 		var lastQuaternion = new THREE.Quaternion();
 
 		return function update() {
-
 			var position = scope.object.position;
 
 			offset.copy( position ).sub( scope.target );
