@@ -29,13 +29,13 @@ mpanelApp.controller("fabricController", ['conts','$http', '$window','$scope', f
 
 	}
 
-	$s.changeSelect = function(name, old_val) {
-		// console.log('changeSelect',name, old_val)
-		postInfoSelect(name, old_val)
-	}
+	// $s.changeSelect = function(name, old_val) {
+	// 	// console.log('changeSelect',name, old_val)
+	// 	// postInfoSelect(name, old_val)
+	// }
 
 	$s.updateSelect = function(name){
-		console.log('updateSelect', name)
+		// console.log('updateSelect', name)
 		$s.objUpdateSel[name] = true
 	}
 
@@ -80,7 +80,7 @@ mpanelApp.controller("fabricController", ['conts','$http', '$window','$scope', f
 		return data
 	}
 
-	function postInfoSelect(sel, index) {
+	/*function postInfoSelect(sel, index) {
 		var url = $s.api; //main.host + dataUrl.material.post.selectChange+id; 
 		var id = $s.id_project;
 		if(!id) return
@@ -109,7 +109,7 @@ mpanelApp.controller("fabricController", ['conts','$http', '$window','$scope', f
 		}, function myError(response) {
 			parent.data_error = response.data.message;
 		});
-	}
+	}*/
 	function postInfo(start,args) {
 		var url = $s.api; //main.host + dataUrl.material.post.selectChange+id; 
 		var id = $s.id_project;
@@ -119,7 +119,6 @@ mpanelApp.controller("fabricController", ['conts','$http', '$window','$scope', f
 
 		var data = getData();
 
-		// console.log('data', args, data)
 		parent.all_data['material'] = data;
 
 		parent.all_data['fabric'] = true
@@ -128,7 +127,6 @@ mpanelApp.controller("fabricController", ['conts','$http', '$window','$scope', f
 		if(args.id == 'fittings'){
 			return $s.$emit('child_finish', args)
 		}
-
 
 		return $h({
 			method : "post",
@@ -152,8 +150,8 @@ mpanelApp.controller("fabricController", ['conts','$http', '$window','$scope', f
 	function getMaterial(){
 		var id = $s.id_project;
 		var url = $s.api_material_db + dataUrl.material_db //+ id;
-		console.log('url',url)
-		//var url = $s.api + dataUrl.material.get+id;
+		// console.log('url',url)
+
 		if(!id) return
 		return $h({
 			method : "get",
@@ -167,7 +165,6 @@ mpanelApp.controller("fabricController", ['conts','$http', '$window','$scope', f
 			} else {
 				parent.data_error = data.error;
 			}
-			
 		}, function myError(response) {
 			parent.data_error = response.data.message;
 		});

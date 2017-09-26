@@ -9,7 +9,7 @@
 			<div class="my_btn btn_open grad_blue" >
 				<input id='input_file' type="file" onchange="angular.element(this).scope().openProject(this)"/>
 				<label class="link" for='input_file'>Open</label>
-				<div ng-if='error_file' class="error_file">
+				<div class="error_file" ng-class='{show: error_file}'>
 					{{error_file}}
 				</div>
 			</div>

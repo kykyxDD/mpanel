@@ -60,7 +60,8 @@ mpanelApp.controller("homeController",['conts', '$http', '$window','$scope', fun
                 clearData()
                 parent.updatePage(0);
             } else {
-                errorLoad(data.error) 
+                var text = data.error//'Error'
+                errorLoad(text) 
             }
         }, function myError(response) {
             var txt = response.data && response.data.message ? response.data.message : 'Error';
@@ -73,10 +74,10 @@ mpanelApp.controller("homeController",['conts', '$http', '$window','$scope', fun
 
         setTimeout(function(){
             if($s.error_file){
-                $s.error_file = false;
+                $s.error_file = '';
                 $s.$apply();
             }
-        },2000)
+        },3000)
     }
 
 }]);

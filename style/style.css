@@ -1348,13 +1348,19 @@ body {
 	border-radius: 4px;
 	color: white;
 	text-transform: initial;
+	opacity: 0;
+	transition: opacity 0s;
+}
+.body_home .btn_open .error_file.show {
+	opacity: 1;
+	transition: opacity 0.3s;
 }
 
 .btn_open .error_file:before{
 	position: absolute;
 	content: '';
 	right: 50%;
-	margin-right: -10px;
+	margin-right: -5px;
 	top: -5px;
 	width: 0;
 	height: 0;

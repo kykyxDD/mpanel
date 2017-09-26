@@ -86,6 +86,9 @@ mpanelApp.controller("mpanelController", ['conts', '$route', '$routeParams', '$l
 			help: 'hs80.htm'
 		}	
 	];
+	for(var i = 0; i < $s.list_menu.length; i++){
+		$s.list_menu[i].index = i
+	}
 
 	$s.arr_class = [
 		'text_green',

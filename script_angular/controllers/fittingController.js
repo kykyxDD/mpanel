@@ -30,9 +30,9 @@ mpanelApp.controller("fittingController", ['conts', '$http', '$window','$scope',
 		$s.data_fitting = $s.all_data['material']
 	}
 
-	$s.changeSelect = function(name, old_val) {
-		postInfoSelect(name, old_val)
-	}
+	// $s.changeSelect = function(name, old_val) {
+	// 	postInfoSelect(name, old_val)
+	// }
 
 	$s.objUpdateSel = {}
 
@@ -69,7 +69,7 @@ mpanelApp.controller("fittingController", ['conts', '$http', '$window','$scope',
 		return data
 	}
 
-	function postInfoSelect(sel, index) {
+	/*function postInfoSelect(sel, index) {
 		var url = $s.api;
 		var id = $s.id_project;
 		if(!id) return
@@ -101,7 +101,7 @@ mpanelApp.controller("fittingController", ['conts', '$http', '$window','$scope',
 		}, function myError(response) {
 			parent.data_error = response.data.message;
 		});
-	}
+	}*/
 	function postInfo(start,args) {
 		var url = $s.api;
 		var id = $s.id_project;
@@ -140,8 +140,8 @@ mpanelApp.controller("fittingController", ['conts', '$http', '$window','$scope',
 	function getMaterial(){
 		var id = $s.id_project;
 		var url = $s.api_material_db + dataUrl.material_db //+ id;
-		console.log('url',url)
-		//var url = $s.api + dataUrl.material.get+id;
+		// console.log('url',url)
+
 		if(!id) return
 		return $h({
 			method : "get",

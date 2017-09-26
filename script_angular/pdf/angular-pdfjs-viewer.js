@@ -149,6 +149,7 @@
                     pdfViewer.cleanup();
                     window.PDFViewerApplication.pdfDocument.destroy()
                     window.PDFViewerApplication.pdfLoadingTask.destroy()
+                    window.PDFViewerApplication.close()
                     
 
                     // var loadingTask = PDFJS.getDocument($scope.src || $scope.data);

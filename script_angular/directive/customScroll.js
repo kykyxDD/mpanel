@@ -32,7 +32,7 @@ mpanelApp.directive('customScroll', function() {
                 }
             });
             scope.$on('$destroy', function(){
-                console.log('destroy mCustomScrollbar')
+                // console.log('destroy mCustomScrollbar')
                 $("#content-3dtd").mCustomScrollbar("destroy");
             })
         }

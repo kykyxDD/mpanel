@@ -126,7 +126,7 @@
 	width: 100%;
 }
 .left_path .cont_layer .cont_all_select .cont_select {
-	margin-bottom: 11px;
+	margin-bottom: 10px;
 	text-align: right;
 }
 .page_fittings .cont_select .txt,
@@ -192,7 +192,6 @@
 
 .cont_select.cont_corner{
 	margin-bottom: 5px;
-	/*width: 250px;*/
 	width: 100%;
 }
 .cont_view_corner .cont_img_corn .img_corn {
@@ -235,7 +234,7 @@
 	margin-left: 10px;
 }
 .cont_select.cont_shackle {
-	margin-top: 30px;
+	margin-top: 25px;
 }
 
 
@@ -247,12 +246,9 @@
 }
 
 .cont_details{
-	/*margin-left: 164px;*/
-	/*margin-left: 30px;*/
 	border: 1px solid #D9D9D9;
 	border-radius: 5px;
-	padding: 20px 25px 65px 30px;
-	/*width: 330px;*/
+    padding: 20px 25px 55px 30px;
 	width: 300px;
 	background-color: #DEDEDE;
 }

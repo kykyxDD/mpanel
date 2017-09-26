@@ -14,7 +14,12 @@ mpanelApp.controller("shapeController", ['conts','$http', '$window','$scope', fu
 
 
 	$s.$on('child_start', function(start, args){
-		if(!parent.negative && !parent.no_all_val){
+
+		// console.log(args.index)
+		if(!args.index || args.index < parent.itm_page.index){
+			// parent.all_data['shape'] = getDataParent()
+			$s.$emit('child_finish', args)
+		} else if(!parent.negative && !parent.no_all_val){
 			postInfo(start, args);
 		} else {
 			parent.load_data = false;
@@ -35,7 +40,6 @@ mpanelApp.controller("shapeController", ['conts','$http', '$window','$scope', fu
 		$s.item_shape.arr_negative = []
 		$s.item_shape.sideParameters[0].focus = true
 		chechAllVal();
-
 	}
 
 	function cloneItem(data){
@@ -99,7 +103,6 @@ mpanelApp.controller("shapeController", ['conts','$http', '$window','$scope', fu
 		if(index >= 0){
 			$s.item_shape.sideParameters[index].focus = false;
 			$s.blur();
-
 
 			if(index < item_shape.sideParameters.length-1){
 				$s.item_shape.sideParameters[index+1].focus = true;
@@ -368,7 +371,7 @@ mpanelApp.controller("shapeController", ['conts','$http', '$window','$scope', fu
 	}
 
 	function pullDataPage(reset){
-		console.log('pullDataPage', reset)
+		// console.log('pullDataPage', reset)
 		var data = $s.data_shape;
 		if(!data.length) return
 		// console.time('pullDataPage')
@@ -460,9 +463,10 @@ mpanelApp.controller("shapeController", ['conts','$http', '$window','$scope', fu
 
 		if(reset === true){
 			$s.resetDataShape()
+		} else {
+			$s.item_shape.sideParameters[0].focus = true
 		}
 
-		$s.item_shape.sideParameters[0].focus = true
 		chechAllVal();
 	}
 	function сompareArr(itm, prev){
