@@ -149,6 +149,8 @@ mpanelApp.controller("projectController", ['conts','$http', '$window','$scope', 
 		var data = $s.data_project;
 		var data_1 = getData();
 
+		$w.localStorage.setItem('mpanel_projname', data.projectName)
+
 		// console.log('postInfo')
 
 		var prev_unit = $w.localStorage.getItem(conts.unit);

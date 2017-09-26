@@ -68,40 +68,6 @@ mpanelApp.controller("fittingController", ['conts', '$http', '$window','$scope',
 		}
 		return data
 	}
-
-	/*function postInfoSelect(sel, index) {
-		var url = $s.api;
-		var id = $s.id_project;
-		if(!id) return
-
-		// if(typeof sel == 'string'){
-			parent.preload_opacity = true
-			url += dataUrl.material.post.selectChange+id+ '&selectType='+sel+'&oldVal='+index;
-		// } else {
-		// 	url += dataUrl.material.post.commit+id;
-		// }
-		var data = getData();
-
-
-		return $h({
-			method : "post",
-			data: data,
-			url : url
-		}).then(function mySuccess(response) {
-			var data = response.data
-			if(!data.error){
-
-				parent.all_data['material'] = data.data;
-				$s.data_fabric = data.data;	
-				parent.preload_opacity = false;
-
-			} else {
-				parent.data_error = data.error;
-			}
-		}, function myError(response) {
-			parent.data_error = response.data.message;
-		});
-	}*/
 	function postInfo(start,args) {
 		var url = $s.api;
 		var id = $s.id_project;

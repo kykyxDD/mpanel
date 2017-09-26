@@ -143,10 +143,6 @@
 }
 
 
-.page_fabric .cont_input.override{
-	/*margin-bottom: 27px;*/
-	margin-bottom: 15px;
-}
 .page_fabric .cont_input .name {
 	color: #212121 !important;
 }
@@ -167,6 +163,8 @@
 .page_fabric .cont_input .cont_val {
 	position: relative;
 }
+
+
 .page_fabric .cont_input .cont_val input {
 	width: 55px;
 	margin-bottom: 0;

@@ -179,7 +179,7 @@ mpanelApp.controller("mpanelController", ['conts', '$route', '$routeParams', '$l
 			var a = document.createElement("a"),
 				url = URL.createObjectURL(file);
 			a.href = url;
-			a.download = conts.file;
+			a.download = 'mpanel_'+$w.localStorage.getItem('mpanel_projname') + '.mnm'//conts.file;
 			document.body.appendChild(a);
 			a.click();
 			document.body.removeChild(a);
